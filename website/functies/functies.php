@@ -12,7 +12,7 @@ function onderhoudsModus() {
    echo $row["functiewaarde"];
    
    if ($row["functiewaarde"] == 1) {
-      header("Location: onderhoud.php");
+      header("Location: onderhoudsPagina.php");
    } else {
       $_SESSION['onderhoudsMode'] = FALSE;
    }

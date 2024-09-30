@@ -44,7 +44,32 @@
 include 'connect.php';
 session_start();
 onderhoudsModus();
+//register form
+if(isset($_POST['submit'])){
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $email = $_POST['email'];
+    $password = password_hash($password, PASSWORD_DEFAULT);
+    $sql = "INSERT INTO users (username, password, email) VALUES ('$username', '$password', '$email')";
+    $result = mysqli_query($conn, $sql);
+    if($result){
+        echo "User created";
+    }else{
+        echo "Error";
+    }
+}
+//register form
+?>
 
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Register</h2>
+                <form action="register.php" method="post">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" name="username" class="form-control">
+                    </div>
 
 ?>      
 </body>

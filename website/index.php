@@ -40,6 +40,7 @@
    <body>
       <?php
          include 'connect.php';
+         include 'functies/functies.php';
          onderhoudsModus();
       ?>
 

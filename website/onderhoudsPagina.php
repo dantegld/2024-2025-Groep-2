@@ -40,15 +40,11 @@
 <body>
     <!-- pagina in onderhoud -->
     <div class="onderhoudsPagina">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="onderhoudsPagina_text">
-                        <h1>De website is momenteel in onderhoud</h1>
-                        <p>Wij zijn momenteel bezig met het onderhouden van de website. Probeer het later nog eens.</p>
-                    </div>
-                </div>
-            </div>
+        <div class="onderhoudsPagina_text">
+                <img src="images/gears.jpeg" alt="ERROR" /><br><br>
+                <h1>De website is momenteel in onderhoud</h1>
+                <p>Wij zijn momenteel bezig met het onderhouden van de website.
+                    Klik <a href="onderhoudsPagina.php">hier</a> om opniew te proberen.</p>
         </div>
     </div>
 </html>

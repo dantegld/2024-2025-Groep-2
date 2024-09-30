@@ -955,3 +955,10 @@ input.mail_bt::placeholder {
 
 
 /* copyright section end */
+
+.onderhoudsPagina    {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
