@@ -41,58 +41,51 @@
 </head>
 
 <body>
+<div class="loginFormLocatie">
 <div class='loginForm'>
     <?php
     include 'connect.php';
+    include 'functies/functies.php';
     session_start();
 
-    //checkpoint voor onderhoudsmodus
-    onderhoudsModus();
+    //NOG TE MAKEN: if the user is already logged in, redirect to the my profile page
 
     
     if (isset($_POST["login"])) {
-        $username = $_POST["username"];
+        $usernameOrEmail = $_POST["username"];
         $password = $_POST["password"];
     
-        $sql="SELECT * FROM tblklant";
-        $result = $mysqli->query($sql);
+        $sql = "SELECT * FROM tblklant WHERE klantnaam = ? OR email = ?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("ss", $usernameOrEmail, $usernameOrEmail);
+        $stmt->execute();
+        $result = $stmt->get_result();
         
-    
-        while ($row = $result->fetch_assoc()) {
-            if($password==$row["wachtwoord"]&&$username==$row["klantnaam"]){
-                $_SESSION['klant_id']= $row['klant_id'];
-                $sql1= "SELECT type from tblklant where klantnaam='".$username."' AND wachtwoord='".$password."'";
-                print $sql1;
-                $result1= $mysqli->query($sql1);
-                while ($row1 = $result1->fetch_assoc()) {
-                    echo "<br>";
-                    $type=$row1["gebruikerstype"];
-                    echo $type;
-                    echo "<br>";
-                }
-                if($type=="admin"){
-                    $_SESSION["admin"]=true;
-                    $_SESSION["klant"]=true;
-                    $_SESSION["eigenaar"]=false;    
-                   //header("Location: ?.php");                  
-                   
-                }
-                else if($type=="klant"){
-                    $_SESSION["klant"]=true;
-                    $_SESSION["admin"]=false;
-                    $_SESSION["eigenaar"]=false;
-                    //header("Location: ?.php");
+        if ($row = $result->fetch_assoc()) {
+            if (password_verify($password, $row["wachtwoord"])) {
+                $_SESSION['klant_id'] = $row['klant_id'];
+                $type = $row["type"];
+                
+                if ($type == "admin") {
+                    $_SESSION["admin"] = true;
+                    $_SESSION["klant"] = true;
+                    $_SESSION["eigenaar"] = false;    
+                    header("Location: admin.php");
+
+                } else if ($type == "klant") {
+                    $_SESSION["klant"] = true;
+                    $_SESSION["admin"] = false;
+                    $_SESSION["eigenaar"] = false;
+                    header("Location: index.php");
                 }
                 else if ($type=="eigenaar"){
                     $_SESSION["eigenaar"]=true;
                     $_SESSION["klant"]=true;
                     $_SESSION["admin"]=true;
-                    //header("Location: ?.php");
+                    header("Location: admin.php");
                 }
                 else{
                     echo"error";
-                    
-    
                 }
             }
             
@@ -100,15 +93,14 @@
     }
     
     echo' <form action="login.php" method="post">
-    <label>username</label>
-    <input type="username" name="username">
-    <label>password</label>
-    <input type="password" name="password">
-    <input type="submit" name="login">
-    </form>';
-    echo "<div class = error> ERROR: Foute Gegevens";
-    echo "</div>";
-    echo '<div><a href="register.php">Nog geen account? Register</a></div>';
+    <label>Username or Email</label>
+    <input type="username"  class="form-control" name="username" required><br>
+    <label>Password</label>
+    <input type="password"  class="form-control" name="password" required><br>
+    <input class="btn btn-primary" type="submit" name="login"><br>
+    </form><br>';
+    echo '<div class = "error"> Het ingevoerde wachtwoord of gebruikersnaam is onjuist</div>';
+    echo '<div>Nog geen account? <a href="register.php">Register</a></div>';
 
     
     }
@@ -117,17 +109,21 @@
     
     else{
         echo' <form action="login.php" method="post">
-        <label>username</label>
-        <input type="username" name="username">
-        <label>password</label>
-        <input type="password" name="password">
-        <input type="submit" name="login">
-        </form>';
-        echo '<div><a href="register.php">Nog geen account? Register</a></div>';
+        <label>Username or Email</label>
+        <input type="username"  class="form-control" name="username" required><br>
+        <label>Password</label>
+        <input type="password"  class="form-control" name="password" required><br>
+        <input class="btn btn-primary" type="submit" name="login"><br>
+        </form><br>';
+        echo '<div>Nog geen account? <a href="register.php">Register</a></div>';
+
     }
     
     
     ?>
 </div>
+</div>
+
+
 </body>
 </html>

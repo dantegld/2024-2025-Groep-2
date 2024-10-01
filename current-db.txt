@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 30, 2024 at 12:55 PM
+-- Generation Time: Oct 01, 2024 at 09:03 PM
 -- Server version: 10.6.18-MariaDB-0ubuntu0.22.04.1
 -- PHP Version: 8.1.2-1ubuntu2.18
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `groep2`
 --
-CREATE DATABASE IF NOT EXISTS `groep2` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `groep2`;
 
 -- --------------------------------------------------------
 
@@ -126,6 +124,7 @@ INSERT INTO `tblcategorie` (`categorie_id`, `categorienaam`) VALUES
 CREATE TABLE `tblklant` (
   `klant_id` int(11) NOT NULL,
   `klantnaam` varchar(255) DEFAULT NULL,
+  `email` text NOT NULL,
   `wachtwoord` text NOT NULL,
   `schoenmaat` text NOT NULL,
   `type` text NOT NULL
@@ -135,13 +134,13 @@ CREATE TABLE `tblklant` (
 -- Dumping data for table `tblklant`
 --
 
-INSERT INTO `tblklant` (`klant_id`, `klantnaam`, `wachtwoord`, `schoenmaat`, `type`) VALUES
-(1, 'dante', 'dante', '42', 'eigenaar'),
-(2, 'tiago', 'tiago', '45', 'admin'),
-(3, 'yassine', 'yassine', '43', 'admin'),
-(4, 'victor', 'victor', '39', 'admin'),
-(5, 'kerem', 'kerem', '63', 'admin'),
-(6, 'wijns', 'wijns', '43', 'klant');
+INSERT INTO `tblklant` (`klant_id`, `klantnaam`, `email`, `wachtwoord`, `schoenmaat`, `type`) VALUES
+(1, 'dante', 'dante.gallardoledon@bazandpoort.be', 'dante', '42', 'eigenaar'),
+(2, 'tiago', 'tiago.nizferreira@bazandpoort.be', 'tiago', '45', 'admin'),
+(3, 'yassine', 'yassine.bibi@bazandpoort.be', 'yassine', '43', 'admin'),
+(4, 'victor', 'victor.coremans@bazandpoort.be', 'victor', '39', 'admin'),
+(5, 'kerem', 'mkerem.bicer@bazandpoort.be', 'kerem', '63', 'admin'),
+(6, 'wijns', 'gerrit.wijns@bazandpoort.be', 'wijns', '43', 'klant');
 
 -- --------------------------------------------------------
 

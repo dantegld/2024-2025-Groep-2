@@ -169,11 +169,6 @@ img {
     padding: 0;
 }
 
-.form-control:focus {
-    border-color: #ffffff !important;
-    box-shadow: 0 0 0 .2rem rgba(255, 255, 255, .25);
-}
-
 .navbar-form input {
     border: none !important;
 }
@@ -396,9 +391,6 @@ button {
 
 /* Bootstrap 4 text input with search icon */
 
-.has-search .form-control {
-    padding-left: 2.375rem;
-}
 
 .has-search .form-control-feedback {
     position: absolute;
@@ -962,3 +954,30 @@ input.mail_bt::placeholder {
     align-items: center;
     height: 100vh;
 }
+.loginForm {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.loginFormLocatie {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.error {
+    color: red;;
+    margin-top: 5px;
+}
+.alreadyExists {
+    color: red;
+    margin-top: 5px;
+}   

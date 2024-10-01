@@ -46,28 +46,29 @@
     <?php
     include 'connect.php';
     // check if the user is logged in
-
+    include 'functies/functies.php';
+    controleerAdmin();
 
     //knop that turns on the maintenance mode
 
-    echo "<form action='maintenance.php' method='post'>
-        <input type='submit' name='on' value='Turn on maintenance mode'>
-        <input type='submit' name='off' value='Turn on maintenance mode'>
+    echo "<form action='admin.php' method='post'>
+        <input type='submit' name='on' value='Turn on maintenance mode'><br>
+        <input type='submit' name='off' value='Turn off maintenance mode'>
     </form>";
 
     // check if the form is submitted
 
     if (isset($_POST['on'])) {
-        $sql = "UPDATE tbladmin SET value = 1 WHERE name = 'onderhoudmodus'";
-        $result = mysqli_query($conn, $sql);
+        $sql = "UPDATE tbladmin SET functiewaarde = 1 WHERE functienaam = 'onderhoudmodus'";
+        $result = $mysqli->query($sql);
         if ($result) {
             echo "Maintenance mode is on";
         } else {
             echo "Failed to turn on maintenance mode";
         }
     } elseif (isset($_POST['off'])) {
-        $sql = "UPDATE tbladmin SET value = 0 WHERE name = 'onderhoudmodus'";
-        $result = mysqli_query($conn, $sql);
+        $sql = "UPDATE tbladmin SET functiewaarde = 0 WHERE functienaam = 'onderhoudmodus'";
+        $result = $mysqli->query($sql);
         if ($result) {
             echo "Maintenance mode is off";
         } else {

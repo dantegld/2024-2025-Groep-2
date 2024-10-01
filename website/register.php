@@ -40,37 +40,80 @@
    <link rel="icon" href="images/ico.png">
 </head>
 <body>
+<div class="loginFormLocatie">
+<div class='loginForm'>
 <?php
 include 'connect.php';
 session_start();
-onderhoudsModus();
-//register form
-if(isset($_POST['submit'])){
+
+function displayForm($error = '') {
+    echo '<h2>Register</h2>';
+    echo '<form action="register.php" method="post">
+            <label>Username</label>
+            <input type="text" name="username" class="form-control" required><br>
+            <label>Password</label>
+            <input type="password" name="password" class="form-control" required><br>
+            <label>Email</label>
+            <input type="email" name="email" class="form-control" required><br>
+            <input class="btn btn-primary" type="submit" name="submit" value="Register"><br>';
+    if ($error) {
+        echo '<div class="alreadyExists" style="color: red; margin-top: 10px;">' . $error . '</div>';
+    }
+    echo '</form><br>';
+    echo '<div>Al een account? <a href="login.php">Log in</a></div>';
+}
+
+// Register form
+if (isset($_POST['submit'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
     $email = $_POST['email'];
-    $password = password_hash($password, PASSWORD_DEFAULT);
-    $sql = "INSERT INTO users (username, password, email) VALUES ('$username', '$password', '$email')";
-    $result = mysqli_query($conn, $sql);
-    if($result){
-        echo "User created";
-    }else{
-        echo "Error";
+    $passwordhash = password_hash($password, PASSWORD_DEFAULT);
+
+    // Basic email validation
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        displayForm('Invalid email format.');
+        exit();
     }
+
+    // Check if email domain has MX records
+    $domain = substr(strrchr($email, "@"), 1);
+    if (!checkdnsrr($domain, "MX")) {
+        displayForm('Email domain does not exist.');
+        exit();
+    }
+
+    // Check if username or email already exists
+    $sql = "SELECT * FROM tblklant WHERE klantnaam = ? OR email = ?";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("ss", $username, $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        // Username or email already exists
+        displayForm('Username or email already exists.');
+    } else {
+        // Insert new user
+        $sql = "INSERT INTO tblklant (klantnaam, wachtwoord, email, type) VALUES (?, ?, ?, 'klant')";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("sss", $username, $passwordhash, $email);
+        $result = $stmt->execute();
+
+        if ($result) {
+            header("Location: login.php");
+            exit(); // Ensure no further code is executed after the redirect
+        } else {
+            echo "Error: " . $stmt->error;
+        }
+    }
+    $stmt->close();
+} else {
+    displayForm();
 }
-//register form
 ?>
+</div>
+</div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <h2>Register</h2>
-                <form action="register.php" method="post">
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input type="text" name="username" class="form-control">
-                    </div>
-
-?>      
 </body>
 </html>
