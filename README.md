@@ -1,4 +1,4 @@
 MyShoes
 =======
 
-**Database sql staat in current-db.md**
+**Database sql staat in current-db.txt**
