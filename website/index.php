@@ -35,7 +35,7 @@
       <link rel="stylesheet" href="css/owl.carousel.min.css">
       <link rel="stylesoeet" href="css/owl.theme.default.min.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
-   <link rel="icon" href="images/ico.png">
+   <link rel="icon" href="images/icon/favicon.png">
    </head>
    <body>
       <?php
@@ -56,7 +56,7 @@
             <div class="container">
                <div class="row">
                   <div class="col-sm-12">
-                     <div class="logo"><a href="index.html"><img src="images/logo.svg"></a></div>
+                     <div class="logo"><a href="index.html"><img src="images/icon/logo.svg"></a></div>
                   </div>
                </div>
             </div>
@@ -73,7 +73,7 @@
                      <a href="electronic.html">Electronic</a>
                      <a href="jewellery.html">Jewellery</a>
                   </div>
-                  <span class="toggle_icon" onclick="openNav()"><img src="images/toggle-icon.png"></span>
+                  <span class="toggle_icon" onclick="openNav()"><img src="images/icon/toggle-icon.png"></span>
                  
                   <div class="main">
                      <!-- Another variation with a button -->
@@ -125,155 +125,52 @@
       <!-- banner bg main end -->
       <!-- fashion section start -->
       <div class="fashion_section">
-         <div id="main_slider" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-               <div class="carousel-item active">
-                  <div class="container">
-                     <br>
-                     <h1 class="fashion_taital">Shoes</h1>
-                     <div class="fashion_section_2">
-                        <div class="row">
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Jordan x Dior</h4>
-                                 <p class="price_text">Price  <span style="color: #262626;">$ 30</span></p>
-                                 <div class="tshirt_img"><img src="images/image.png"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Add to cart</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Nike Air Max Plus</h4>
-                                 <p class="price_text">Price  <span style="color: #262626;">$ 30</span></p>
-                                 <div class="tshirt_img"><img src="images/NIKE+AIR+MAX+PLUS.png"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Add to cart</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Jordan 11 Cool grey</h4>
-                                 <p class="price_text">Price  <span style="color: #262626;">$ 30</span></p>
-                                 <div class="tshirt_img"><img src="images/air-jordan-11-low-cement-grey-av2187-140-release-date.jpg"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Add to cart</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
+   <div id="main_slider" class="carousel slide" data-ride="carousel">
+      <div class="carousel-inner">
+         <div class="carousel-item active">
+            <div class="container">
+               <br>
+               <h1 class="fashion_taital">Shoes</h1>
+               <div class="fashion_section_2">
+                  <div class="row">
+                     <?php
+                     include 'connect.php';
+
+                     // Check connection
+                     if (!$mysqli) {
+                        die("Connection failed: " . mysqli_connect_error());
+                     }
+
+                     // Fetch shoe data
+                     $sql = "SELECT artikelnaam, prijs, directory FROM tblartikels"; /*image */ 
+                     $result = mysqli_query($mysqli, $sql);
+
+                     if (mysqli_num_rows($result) > 0) {
+                        // Output data of each row
+                        while($row = mysqli_fetch_assoc($result)) {
+                           echo '<div class="col-lg-4 col-sm-4">';
+                           echo '   <div class="box_main">';
+                           echo '      <h4 class="shirt_text">' . htmlspecialchars($row["artikelnaam"]) . '</h4>';
+                           echo '      <p class="price_text">Price  <span style="color: #262626;">$ ' . htmlspecialchars($row["prijs"]) . '</span></p>';
+                           echo '      <div class="tshirt_img"><img src="' . htmlspecialchars($row["directory"]) . '"></div>';
+                           echo '      <div class="btn_main">';
+                           echo '         <div class="buy_bt"><a href="#">Add to cart</a></div>';
+                           echo '         <div class="seemore_bt"><a href="#">See More</a></div>';
+                           echo '      </div>';
+                           echo '   </div>';
+                           echo '</div>';
+                        }
+                     } else {
+                        echo "0 results";
+                     }
+      
+                     mysqli_close($mysqli);
+                     ?>
                   </div>
                </div>
             </div>
          </div>
       </div>
-      <!-- fashion section end -->
-      <!-- electronic section start -->
-      <div class="fashion_section">
-         <div class="carousel slide">
-                  <div class="container">
-                     <div class="fashion_section_2">
-                        <div class="row">
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Adidas Campus</h4>
-                                 <p class="price_text">Start Price  <span style="color: #262626;">$ 100</span></p>
-                                 <div class="electronic_img"><img src="images/adidas-campus-00s-charcoal-black-if8770-side.jpg"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Add to cart</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Adidas Predator</h4>
-                                 <p class="price_text">Start Price  <span style="color: #262626;">$ 100</span></p>
-                                 <div class="electronic_img"><img src="images/Predator_24_League_Soft_Ground_Boots_Black_IG7737_01_standard_hover.avif"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Add to cart</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Adidas Terex</h4>
-                                 <p class="price_text">Start Price  <span style="color: #262626;">$ 100</span></p>
-                                 <div class="electronic_img"><img src="images/women-s-adidas-terrex-free-hiker-primeblue-core-black-grey-five-mint-ton-gw2806_0000_cat.jpg"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Add to cart</a></div>
-                                    <div class="seemore_bt"><a hxzref="#">See More</a></div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            </a>
-         </div>
-      </div>
-      <div class="jewellery_section"> 
-                  <div class="container">
-                     <div class="fashion_section_2">
-                        <div class="row">
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Newbalance MR530 Zwart</h4>
-                                 <p class="price_text">Start Price  <span style="color: #262626;">$ 100</span></p>
-                                 <div class="jewellery_img"><img src="images/0000226176_694507_09_504x690.jpg"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Add to cart</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Newbalance 550 Roze</h4>
-                                 <p class="price_text">Start Price  <span style="color: #262626;">$ 100</span></p>
-                                 <div class="jewellery_img"><img src="images/new-balance-mr530cf-shoes-pink-790x790.jpeg"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Add to cart</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="col-lg-4 col-sm-4">
-                              <div class="box_main">
-                                 <h4 class="shirt_text">Newbalance MR530 Wit</h4>
-                                 <p class="price_text">Start Price  <span style="color: #262626;">$ 100</span></p>
-                                 <div class="jewellery_img"><img src="images/0000226176_549245_09_504x690.jpg"></div>
-                                 <div class="btn_main">
-                                    <div class="buy_bt"><a href="#">Add to cart</a></div>
-                                    <div class="seemore_bt"><a href="#">See More</a></div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
             <!--
             <div class="loader_main"></div>
                <div class="loader"></div>
@@ -285,7 +182,7 @@
       <!-- footer section start -->
       <div class="footer_section layout_padding">
          <div class="container">
-            <div class="footer_logo"><a href="index.html"><img src="images/logo.svg"></a></div>
+            <div class="footer_logo"><a href="index.html"><img src="images/icon/logo.svg"></a></div>
 
             <div class="location_main">Help Line  Number : <a href="#">+1 1800 1200 1200</a></div>
          </div>

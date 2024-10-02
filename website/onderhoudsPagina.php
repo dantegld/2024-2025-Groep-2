@@ -41,7 +41,7 @@
     <!-- pagina in onderhoud -->
     <div class="onderhoudsPagina">
         <div class="onderhoudsPagina_text">
-                <img src="images/gears.jpeg" alt="ERROR" /><br><br>
+                <img src="images/icon/gears.jpeg" alt="ERROR" /><br><br>
                 <h1>De website is momenteel in onderhoud</h1>
                 <p>Wij zijn momenteel bezig met het onderhouden van de website.
                     Klik <a href="onderhoudsPagina.php">hier</a> om opniew te proberen.</p>

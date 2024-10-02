@@ -209,7 +209,7 @@ button {
 .banner_bg_main {
     width: 100%;
     float: left;
-    background-image: url(../images/output\ \(1\).jpg);
+    background-image: url(../images/bg/bg.jpg);
     height: auto;
     background-size: 100%;
     background-repeat: no-repeat;
@@ -980,4 +980,4 @@ input.mail_bt::placeholder {
 .alreadyExists {
     color: red;
     margin-top: 5px;
-}   
+}
