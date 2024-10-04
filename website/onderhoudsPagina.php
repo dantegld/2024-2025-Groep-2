@@ -38,6 +38,44 @@
    <link rel="icon" href="images/ico.png">
    </head>
 <body>
+         <!-- logo section end -->
+         <!-- header section start -->
+         <div class="header_section">
+            <div class="container">
+               <div class="containt_main">
+                  <div id="mySidenav" class="sidenav">
+                     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                     <a href="index.html">Home</a>
+                     <a href="fashion.html">My Profile</a>
+                     <a href="electronic.html">Electronic</a>
+                     <a href="jewellery.html">Jewellery</a>
+                  </div>
+                  <span class="toggle_icon" onclick="openNav()"><img width="44px" src="images/icon/Hamburger_icon.svg.png"></span>
+                  <div class="header_box">
+                     <div class="login_menu1">
+                        <ul>
+                           <li><a href="#">
+                              <i class="fa fa-heart" aria-hidden="true"></i>
+                              <span class="padding_5">Wishlist</span></a>
+                           </li>
+                           <li><a href="#">
+                              <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                              <span class="padding_5">Cart</span></a>
+                           </li>
+                           <li><a href="#">
+                              <i class="fa fa-user" aria-hidden="true"></i>
+                              <span class="padding_5">Log-In</span></a>
+                           </li>
+
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         <!-- header section end -->
+         <!-- banner section start -->
+                     </div>
+      <!-- banner bg main end -->
     <!-- pagina in onderhoud -->
     <div class="onderhoudsPagina">
         <div class="onderhoudsPagina_text">
@@ -47,4 +85,14 @@
                     Klik <a href="onderhoudsPagina.php">hier</a> om opniew te proberen.</p>
         </div>
     </div>
+    <script>
+         function openNav() {
+           document.getElementById("mySidenav").style.width = "250px";
+         }
+         
+         function closeNav() {
+           document.getElementById("mySidenav").style.width = "0";
+         }
+      </script>
+    </body>
 </html>

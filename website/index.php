@@ -19,8 +19,6 @@
       <link rel="stylesheet" type="text/css" href="css/style.css">
       <!-- Responsive-->
       <link rel="stylesheet" href="css/responsive.css">
-      <!-- fevicon -->
-      <link rel="icon" href="images/fevicon.png" type="image/gif" />
       <!-- Scrollbar Custom CSS -->
       <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
       <!-- Tweaks for older IEs-->
@@ -42,6 +40,10 @@
          include 'connect.php';
          include 'functies/functies.php';
          onderhoudsModus();
+         //initaliseerd de klant variabele zodat er verder geen errors komen voor bezoekers die niet zijn ingelogd.
+         if (!(isset($_SESSION["klant"]))) {
+            $_SESSION["klant"] = false;
+         }
       ?>
 
 
@@ -97,11 +99,20 @@
                               <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                               <span class="padding_5">Cart</span></a>
                            </li>
-                           <li><a href="#">
+                           <?php
+                           //Als de klant is ingelogd, laat de knop "My Profile" zien, anders laat de knop "Log-In" zien
+                           if ($_SESSION["klant"]){
+                              echo '<li><a href="myprofile.php">
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                    <span class="padding_5">My Profile</span></a>
+                                    </li>';
+                           }else{
+                              echo '<li><a href="login.php">
                               <i class="fa fa-user" aria-hidden="true"></i>
                               <span class="padding_5">Log-In</span></a>
-                           </li>
-
+                           </li>';
+                           }
+                           ?>
                         </ul>
                      </div>
                   </div>

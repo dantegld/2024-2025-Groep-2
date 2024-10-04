@@ -412,8 +412,17 @@ button {
     text-align: right;
     float: right;
 }
+.login_menu1 {
+    display: flex;
+    text-align: right;
+    float: right;
+}
 
 .login_menu ul {
+    margin: 0px;
+    padding: 0px;
+}
+.login_menu1 ul {
     margin: 0px;
     padding: 0px;
 }
@@ -426,12 +435,26 @@ button {
     padding-left: 10px;
     padding-top: 4px;
 }
+.login_menu1 li {
+    float: left;
+    font-size: 16px;
+    color: black;
+    text-transform: uppercase;
+    padding-left: 10px;
+    padding-top: 4px;
+}
 
 .login_menu li a {
     color: #ffffff;
 }
+.login_menu1 li a {
+    color: black;
+}
 
 .login_menu li a:hover {
+    color: #f26522;
+}
+.login_menu1 li a:hover {
     color: #f26522;
 }
 
@@ -506,34 +529,6 @@ a:hover {
 .buynow_bt a:hover {
     background-color: #f26522;
     color: #ffffff;
-}
-
-#my_slider a.carousel-control-next {
-    right: 0px;
-    top: 40px;
-}
-
-#my_slider a.carousel-control-prev {
-    left: 0px;
-    top: 40px;
-}
-
-#my_slider .carousel-control-next,
-#my_slider .carousel-control-prev {
-    width: 45px;
-    height: 45px;
-    background: rgb(242, 222, 172, 0.80);
-    opacity: 1;
-    font-size: 20px;
-    color: #000;
-    border-radius: 100px;
-}
-
-#my_slider .carousel-control-next:focus,
-#my_slider .carousel-control-next:hover,
-#my_slider .carousel-control-prev:focus,
-#my_slider .carousel-control-prev:hover {
-    color: #fff;
 }
 
 
@@ -637,35 +632,6 @@ a:hover {
     color: #f26522;
 }
 
-#main_slider a.carousel-control-next {
-    right: 615px;
-    top: 105%;
-}
-
-#main_slider a.carousel-control-prev {
-    left: 615px;
-    top: 105%;
-}
-
-#main_slider .carousel-control-next,
-#main_slider .carousel-control-prev {
-    width: 55px;
-    height: 55px;
-    background-color: #30302e;
-    opacity: 1;
-    font-size: 30px;
-    color: #ffffff;
-}
-
-#main_slider .carousel-control-next:focus,
-#main_slider .carousel-control-next:hover,
-#main_slider .carousel-control-prev:focus,
-#main_slider .carousel-control-prev:hover {
-    color: #fff;
-    background-color: #f26522;
-}
-
-
 /* fashion section end */
 
 
@@ -676,34 +642,6 @@ a:hover {
     text-align: center;
     margin: 50px 0px;
     min-height: 293px;
-}
-
-#electronic_main_slider a.carousel-control-next {
-    right: 615px;
-    top: 105%;
-}
-
-#electronic_main_slider a.carousel-control-prev {
-    left: 615px;
-    top: 105%;
-}
-
-#electronic_main_slider .carousel-control-next,
-#electronic_main_slider .carousel-control-prev {
-    width: 55px;
-    height: 55px;
-    background-color: #30302e;
-    opacity: 1;
-    font-size: 30px;
-    color: #ffffff;
-}
-
-#electronic_main_slider .carousel-control-next:focus,
-#electronic_main_slider .carousel-control-next:hover,
-#electronic_main_slider .carousel-control-prev:focus,
-#electronic_main_slider .carousel-control-prev:hover {
-    color: #fff;
-    background-color: #f26522;
 }
 
 
@@ -723,34 +661,6 @@ a:hover {
     text-align: center;
     margin: 50px 0px;
     min-height: 293px;
-}
-
-#jewellery_main_slider a.carousel-control-next {
-    right: 615px;
-    top: 75%;
-}
-
-#jewellery_main_slider a.carousel-control-prev {
-    left: 615px;
-    top: 75%;
-}
-
-#jewellery_main_slider .carousel-control-next,
-#jewellery_main_slider .carousel-control-prev {
-    width: 55px;
-    height: 55px;
-    background-color: #30302e;
-    opacity: 1;
-    font-size: 30px;
-    color: #ffffff;
-}
-
-#jewellery_main_slider .carousel-control-next:focus,
-#jewellery_main_slider .carousel-control-next:hover,
-#jewellery_main_slider .carousel-control-prev:focus,
-#jewellery_main_slider .carousel-control-prev:hover {
-    color: #fff;
-    background-color: #f26522;
 }
 
 
@@ -980,4 +890,7 @@ input.mail_bt::placeholder {
 .alreadyExists {
     color: red;
     margin-top: 5px;
+}
+.blacktxt {
+    color: black !important;
 }
