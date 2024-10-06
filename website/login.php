@@ -37,7 +37,7 @@
       <link rel="stylesheet" href="css/owl.carousel.min.css">
       <link rel="stylesoeet" href="css/owl.theme.default.min.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
-   <link rel="icon" href="images/ico.png">
+      <link rel="icon" href="images/icon/favicon.png">
 </head>
 
 <body>
@@ -49,6 +49,11 @@
     session_start();
 
     //NOG TE MAKEN: if the user is already logged in, redirect to the my profile page
+    if (isset($_SESSION["klant"])) {
+        if ($_SESSION["klant"] == true) {
+            header("Location: profile.php");
+        }
+    }
 
     
     if (isset($_POST["login"])) {

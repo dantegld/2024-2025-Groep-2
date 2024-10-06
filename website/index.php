@@ -44,6 +44,9 @@
          if (!(isset($_SESSION["klant"]))) {
             $_SESSION["klant"] = false;
          }
+         if (!(isset($_SESSION["admin"]))) {
+            $_SESSION["admin"] = false;
+         }
       ?>
 
 
@@ -58,7 +61,7 @@
             <div class="container">
                <div class="row">
                   <div class="col-sm-12">
-                     <div class="logo"><a href="index.html"><img src="images/icon/logo.svg"></a></div>
+                     <div class="logo"><a href="index.php"><img src="images/icon/logo.svg"></a></div>
                   </div>
                </div>
             </div>
@@ -70,10 +73,13 @@
                <div class="containt_main">
                   <div id="mySidenav" class="sidenav">
                      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                     <a href="index.html">Home</a>
-                     <a href="fashion.html">My Profile</a>
-                     <a href="electronic.html">Electronic</a>
-                     <a href="jewellery.html">Jewellery</a>
+                     <a href="index.php">Home</a>
+                     <a href="profile.php">My Profile</a>
+                     <?php
+                     if ($_SESSION["admin"]){
+                        echo '<a href="admin.php">Admin Pagina</a>';
+                     }
+                     ?>
                   </div>
                   <span class="toggle_icon" onclick="openNav()"><img src="images/icon/toggle-icon.png"></span>
                  
@@ -123,7 +129,7 @@
          <!-- banner section start -->
          <div class="banner_section layout_padding">
             <div class="container">
-                              <h1 class="banner_taital">Get Started <br>Your favriote store</h1>
+                              <h1 class="banner_taital">Get Started <br>Your favorite store</h1>
                            </div>
                         </div>
                      </div>
@@ -153,11 +159,12 @@
                      }
 
                      // Fetch shoe data
-                     $sql = "SELECT artikelnaam, prijs, directory FROM tblartikels"; /*image */ 
+                     $sql = "SELECT artikel_id,artikelnaam, prijs, directory FROM tblartikels";
                      $result = mysqli_query($mysqli, $sql);
 
                      if (mysqli_num_rows($result) > 0) {
                         // Output data of each row
+                        //WISHLIST BUTTON NOT WORKING
                         while($row = mysqli_fetch_assoc($result)) {
                            echo '<div class="col-lg-4 col-sm-4">';
                            echo '   <div class="box_main">';
@@ -165,7 +172,8 @@
                            echo '      <p class="price_text">Price  <span style="color: #262626;">$ ' . htmlspecialchars($row["prijs"]) . '</span></p>';
                            echo '      <div class="tshirt_img"><img src="' . htmlspecialchars($row["directory"]) . '"></div>';
                            echo '      <div class="btn_main">';
-                           echo '         <div class="buy_bt"><a href="#">Add to cart</a></div>';
+                           echo '         <div class="buy_bt"><a href="cartCalc.php?id='.$row['artikel_id'].'">Add to cart</a></div>';
+                           echo '         <div class="seemore_bt"><i class="fa fa-heart" aria-hidden="true"></i><a href="#">  Wishlist</a></div>';
                            echo '         <div class="seemore_bt"><a href="#">See More</a></div>';
                            echo '      </div>';
                            echo '   </div>';
@@ -193,7 +201,7 @@
       <!-- footer section start -->
       <div class="footer_section layout_padding">
          <div class="container">
-            <div class="footer_logo"><a href="index.html"><img src="images/icon/logo.svg"></a></div>
+            <div class="footer_logo"><a href="index.php"><img src="images/icon/logo.svg"></a></div>
 
             <div class="location_main">Help Line  Number : <a href="#">+1 1800 1200 1200</a></div>
          </div>

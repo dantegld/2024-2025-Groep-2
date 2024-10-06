@@ -37,7 +37,7 @@
       <link rel="stylesheet" href="css/owl.carousel.min.css">
       <link rel="stylesoeet" href="css/owl.theme.default.min.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
-   <link rel="icon" href="images/ico.png">
+      <link rel="icon" href="images/icon/favicon.png">
 </head>
 <body>
 <div class="loginFormLocatie">

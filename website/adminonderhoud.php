@@ -50,6 +50,7 @@
     controleerAdmin();
     ?>
 
+    <!-- side menu -->
     <div class="sidemenu">
                         <a href="index.php">Home</a>
                         <a href="admin.php">Admin Pagina</a>
@@ -57,14 +58,48 @@
                     </div>
     
     <div class="adminpage">
-        <?php
-        $sql = "SELECT * FROM tblklant WHERE klant_id = '$_SESSION[klant_id]'";
+    <h2 class="titel1">Onderhoudsmodus</h2><br>
+    <?php
+    //knop that turns on the maintenance mode
+
+    $sql1 = "SELECT * FROM tbladmin WHERE functienaam = 'onderhoudmodus' and functiewaarde = 1";
+    $result1 = $mysqli->query($sql1);
+    if ($result1->num_rows > 0) {
+        echo "Onderhoudsmodus is aan<br>";
+            echo "<form action='adminonderhoud.php' method='post'>
+        <input type='submit' name='off' value='Zet onderhoudsmodus uit'><br>
+            </form>";
+
+    } else {
+        echo "Onderhoudsmodus is uit<br>";
+        echo "<form action='adminonderhoud.php' method='post'>
+        <input type='submit' name='on' value='Zet onderhoudsmodus aan'><br>
+            </form>";
+    }
+
+    // check if the form is submitted
+
+    if (isset($_POST['on'])) {
+        $sql = "UPDATE tbladmin SET functiewaarde = 1 WHERE functienaam = 'onderhoudmodus'";
         $result = $mysqli->query($sql);
-        while ($row = $result->fetch_assoc()) {
-            echo '<h2>Adminpagina Myshoes</h2>';
-            echo '<h4>Welkom, ' . $row['klantnaam'] . '.</h4>';
+        if ($result) {
+            header("Refresh: 1; url=adminonderhoud.php");
+        } else {
+            echo "Failed to turn on maintenance mode";
         }
-        ?>
+    } elseif (isset($_POST['off'])) {
+        $sql = "UPDATE tbladmin SET functiewaarde = 0 WHERE functienaam = 'onderhoudmodus'";
+        $result = $mysqli->query($sql);
+        if ($result) {
+            header("Refresh: 1; url=adminonderhoud.php");
+        } else {
+            echo "Failed to turn off maintenance mode";
+        }
+    }
+
+
+
+    ?>
     </div>
 </body>
 
