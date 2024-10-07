@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Oct 02, 2024 at 08:54 PM
--- Server version: 10.6.18-MariaDB-0ubuntu0.22.04.1
--- PHP Version: 8.1.2-1ubuntu2.18
+-- Host: 127.0.0.1
+-- Generation Time: Oct 07, 2024 at 09:41 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -38,7 +38,7 @@ CREATE TABLE `tbladmin` (
 --
 
 INSERT INTO `tbladmin` (`functie_id`, `functienaam`, `functiewaarde`) VALUES
-(1, 'onderhoudmodus', 1);
+(1, 'onderhoudmodus', 0);
 
 -- --------------------------------------------------------
 
@@ -52,6 +52,14 @@ CREATE TABLE `tbladres` (
   `adres` text NOT NULL,
   `postcode_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbladres`
+--
+
+INSERT INTO `tbladres` (`klant_id`, `adres_id`, `adres`, `postcode_id`) VALUES
+(7, 1, 'melkstraat', 1),
+(8, 1, 'melkstraat', 1);
 
 -- --------------------------------------------------------
 
@@ -141,7 +149,9 @@ INSERT INTO `tblklant` (`klant_id`, `klantnaam`, `email`, `wachtwoord`, `schoenm
 (3, 'yassine', 'yassine.bibi@bazandpoort.be', 'yassine', '43', 'admin'),
 (4, 'victor', 'victor.coremans@bazandpoort.be', 'victor', '39', 'admin'),
 (5, 'kerem', 'mkerem.bicer@bazandpoort.be', 'kerem', '63', 'admin'),
-(6, 'wijns', 'gerrit.wijns@bazandpoort.be', 'wijns', '43', 'klant');
+(6, 'wijns', 'gerrit.wijns@bazandpoort.be', 'wijns', '43', 'klant'),
+(7, 'klant', 'klant@gmail.com', '$2y$10$UnVjz.g4T/IUDbccbKFAiut7G4c.09VopYNn31AEMnQ6cWWg47SdO', '43', 'admin'),
+(8, 'Bibi', 'yassine.b2007@hotmail.com', '$2y$10$gQyzSt.pk7ANnHT08TbYWeKqX2jny.ARJ43j0zppb9nf2G8Jq9KPG', '43', 'klant');
 
 -- --------------------------------------------------------
 
@@ -174,6 +184,13 @@ CREATE TABLE `tblpostcode` (
   `postcode` int(11) NOT NULL,
   `plaats` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tblpostcode`
+--
+
+INSERT INTO `tblpostcode` (`postcode_id`, `postcode`, `plaats`) VALUES
+(1, 2800, 'Mechelen');
 
 -- --------------------------------------------------------
 
@@ -280,7 +297,8 @@ ALTER TABLE `tblpostcode`
 -- Indexes for table `tblrecensies`
 --
 ALTER TABLE `tblrecensies`
-  ADD PRIMARY KEY (`recensie_id`);
+  ADD PRIMARY KEY (`recensie_id`),
+  ADD KEY `tblrecensies_ibfk_1` (`klantnummer`);
 
 --
 -- Indexes for table `tblsocialmedia`
@@ -327,7 +345,7 @@ ALTER TABLE `tblcategorie`
 -- AUTO_INCREMENT for table `tblklant`
 --
 ALTER TABLE `tblklant`
-  MODIFY `klant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `klant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tblmerk`
@@ -339,7 +357,7 @@ ALTER TABLE `tblmerk`
 -- AUTO_INCREMENT for table `tblpostcode`
 --
 ALTER TABLE `tblpostcode`
-  MODIFY `postcode_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `postcode_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblrecensies`

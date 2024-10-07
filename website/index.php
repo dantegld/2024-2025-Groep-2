@@ -173,7 +173,7 @@
                            echo '      <div class="tshirt_img"><img src="' . htmlspecialchars($row["directory"]) . '"></div>';
                            echo '      <div class="btn_main">';
                            echo '         <div class="buy_bt"><a href="cartCalc.php?id='.$row['artikel_id'].'">Add to cart</a></div>';
-                           echo '         <div class="seemore_bt"><i class="fa fa-heart" aria-hidden="true"></i><a href="#">  Wishlist</a></div>';
+                           echo '         <div class="seemore_bt"><a href="#"><i class="fa fa-heart" aria-hidden="true"></i>  Wishlist</a></div>';
                            echo '         <div class="seemore_bt"><a href="#">See More</a></div>';
                            echo '      </div>';
                            echo '   </div>';

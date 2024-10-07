@@ -70,7 +70,7 @@
                 if(isset($_POST['schoenmaat'])){
                     $schoenmaat = $_POST['schoenmaat'];
                     $sql2 = "UPDATE tblklant SET schoenmaat = '$schoenmaat' WHERE klant_id = '$_SESSION[klant_id]'";
-                    $mysqli2->query($sql2);
+                    $mysqli->query($sql2);
                     $sql1 = "SELECT * FROM tblklant WHERE klant_id = '$_SESSION[klant_id]'";
                     $result1 = $mysqli->query($sql1);
                     while ($row1 = $result1->fetch_assoc()) {
