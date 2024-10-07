@@ -976,6 +976,16 @@ display: flex;
     flex-direction: column;
     margin: 20px;
 }
+.tab3{
+    background-color: #D3D3D3;
+    width: 80%;
+    height: 500px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    margin: 20px;
+}
 .profilepage {
     display: flex;
     justify-content: center;

@@ -175,9 +175,103 @@
             }
         }
         ?>
+
         
         </div>
-                </div>
+                </div><br> 
+                <div class="tab3">
+            <?php
+
+            // Fetch existing user information
+            $sql = "SELECT email, telefoonnummer FROM tblklant WHERE klant_id = '$_SESSION[klant_id]'";
+            $result = $mysqli->query($sql);
+
+            // Check if the query was successful and returned a row
+            if ($result && $result->num_rows > 0) {
+                $user = $result->fetch_assoc();
+            } else {
+                // Handle the case where no user is found or query fails
+                echo "<p class='error-msg'>Fout: Gebruiker niet gevonden of databasefout!</p>";
+                $user = [
+                    'email' => '', 
+                    'telefoonnummer' => ''
+                ]; // Default empty values to avoid undefined index errors
+            }
+
+            // Handle updating email address
+            if (isset($_POST['update_email'])) {
+                $new_email = $_POST['email'] ?? null;
+                if ($new_email) {
+                    $sql = "UPDATE tblklant SET email = '$new_email' WHERE klant_id = '$_SESSION[klant_id]'";
+                    if ($mysqli->query($sql)) {
+                        echo "<p class='success-msg'>E-mailadres bijgewerkt!</p>";
+                        header("Refresh: 1; url=profile.php");
+                    } else {
+                        echo "<p class='error-msg'>Fout bij het bijwerken van het e-mailadres.</p>";
+                        header("Refresh: 1; url=profile.php");
+                    }
+                }
+            }
+
+            // Handle updating phone number
+            if (isset($_POST['update_telefoonnummer'])) {
+                $new_phone_number = $_POST['telefoonnummer'] ?? null;
+                if ($new_phone_number) {
+                    $sql = "UPDATE tblklant SET telefoonnummer = '$new_phone_number' WHERE klant_id = '$_SESSION[klant_id]'";
+                    if ($mysqli->query($sql)) {
+                        echo "<p class='success-msg'>Telefoonnummer bijgewerkt!</p>";
+                        header("Refresh: 1; url=profile.php");
+                    } else {
+                        echo "<p class='error-msg'>Fout bij het bijwerken van het telefoonnummer.</p>";
+                        header("Refresh: 1; url=profile.php");
+                    }
+                }
+            }
+
+            // Handle deleting phone number
+            if (isset($_POST['delete_telefoonnummer'])) {
+                $sql = "UPDATE tblklant SET telefoonnummer = NULL WHERE klant_id = '$_SESSION[klant_id]'";
+                if ($mysqli->query($sql)) {
+                    echo "<p class='success-msg'>Telefoonnummer verwijderd!</p>";
+                } else {
+                    echo "<p class='error-msg'>Fout bij het verwijderen van het telefoonnummer.</p>";
+                }
+            }
+
+            // Handle adding email and phone number
+            if (isset($_POST['add_fields'])) {
+                $new_email = $_POST['email'] ?? null;
+                $new_phone_number = $_POST['telefoonnummer'] ?? null;
+
+                if ($new_email) {
+                    $sql = "UPDATE tblklant SET email = '$new_email' WHERE klant_id = '$_SESSION[klant_id]'";
+                    $mysqli->query($sql);
+                }
+                if ($new_phone_number) {
+                    $sql = "UPDATE tblklant SET telefoonnummer = '$new_phone_number' WHERE klant_id = '$_SESSION[klant_id]'";
+                    $mysqli->query($sql);
+                }
+                echo "<p class='success-msg'>Velden toegevoegd!</p>";
+            }
+            ?>
+
+            <!-- Form for Updating/Adding Information -->
+            <div class="tab3">
+                <form action="profile.php" method="post">
+                    <label for="email">E-mailadres:</label><br>
+                    <input type="email" name="email" placeholder="Voer uw e-mailadres in" value="<?= isset($user['email']) ? $user['email'] : '' ?>" class="form-control"><br><br>
+
+                    <label for="telefoonnummer">Telefoonnummer:</label><br>
+                    <input type="text" name="telefoonnummer" placeholder="Voer uw telefoonnummer in" value="<?= isset($user['telefoonnummer']) ? $user['telefoonnummer'] : '' ?>" class="form-control"><br><br>
+
+                    <input type="submit" name="update_email" value="Update E-mailadres" class="btn btn-primary">
+                    <input type="submit" name="update_telefoonnummer" value="Update Telefoonnummer" class="btn btn-primary">
+                    <input type="submit" name="delete_telefoonnummer" value="Verwijder Telefoonnummer" class="btn btn-danger">
+                    
+                </form>
+            </div>
+</div>
+
                 </div>
 
 
