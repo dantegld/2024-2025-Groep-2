@@ -40,25 +40,26 @@
 <?php
 
 include("connect.php");
-include 'functies/functies.php';
-print "test";
-onderhoudsModus();
+session_start();
 $klant_id=$_SESSION["klant_id"];
-$sql = "SELECT * FROM tblwinkelwagen WHERE klant_id = '" . klant_id . "'";
-print_r($sql);
+$sql = "SELECT w.artikel_id,w.aantal,a.directory,a.artikelnaam,a.prijs FROM tblwinkelwagen w,tblartikels a WHERE klant_id = '" . $klant_id . "' AND w.artikel_id = a.artikel_id";
 $result = $mysqli->query($sql);
 if ($result->num_rows > 0) {
     $klant_id=$_SESSION["klant_id"];
 
     while ($row = $result->fetch_assoc()) {
         echo '<table>';
-        echo '$row["klant_id"]';
-        echo '$row["artikel_id"]';
-        echo '$row["aantal"]';
+        echo $row["artikel_id"];
+        echo $row["aantal"];
+        echo $row["directory"];
+        echo $row["artikelnaam"];
+        echo $row["prijs"];
+        echo '<tr>';
         echo '</table>';
     }
 
 } else {
+    echo "Winkelwagen is leeg.";
 
 
 }
