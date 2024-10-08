@@ -42,7 +42,7 @@ include 'connect.php';
 
 
 $query = "SELECT * FROM tblartikels WHERE stock = 0";
-$result = $conn->query($query);
+$result = $mysqli->query($query);
 
 if ($result->num_rows > 0) {
     echo "<table border='1'>";
@@ -71,9 +71,11 @@ if ($result->num_rows > 0) {
 if (isset($_POST['delete'])) {
     $artikel_id = $_POST['artikel_id'];
 
+    $deleteQuery1 = "DELETE FROM tblwinkelwagen WHERE artikel_id = '". $artikel_id ."'";
+    $deleteResult1 = $mysqli->query($deleteQuery1); 
 
-    $deleteQuery = "DELETE FROM tblartikels WHERE artikel_id = $artikel_id";
-    $deleteResult = $conn->query($deleteQuery);
+    $deleteQuery = "DELETE FROM tblartikels WHERE artikel_id = '". $artikel_id ."'";
+    $deleteResult = $mysqli->query($deleteQuery);
 
     if ($deleteResult) {
         echo "Het product met ID $artikel_id is succesvol verwijderd.";
