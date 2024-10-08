@@ -101,7 +101,7 @@
                               <i class="fa fa-heart" aria-hidden="true"></i>
                               <span class="padding_5">Wishlist</span></a>
                            </li>
-                           <li><a href="#">
+                           <li><a href="winkelwagen.php">
                               <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                               <span class="padding_5">Cart</span></a>
                            </li>
