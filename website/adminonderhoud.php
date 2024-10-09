@@ -47,15 +47,9 @@
     include 'connect.php';
     // check if the user is logged in
     include 'functies/functies.php';
+    include 'functies/adminSideMenu.php';
     controleerAdmin();
     ?>
-
-    <!-- side menu -->
-    <div class="sidemenu">
-                        <a href="index.php">Home</a>
-                        <a href="admin.php">Admin Pagina</a>
-                        <a href="adminonderhoud.php">Onderhoudsmodus</a>
-                    </div>
     
     <div class="adminpage">
     <h2 class="titel1">Onderhoudsmodus</h2><br>
@@ -91,7 +85,7 @@
         $sql = "UPDATE tbladmin SET functiewaarde = 0 WHERE functienaam = 'onderhoudmodus'";
         $result = $mysqli->query($sql);
         if ($result) {
-            header("Refresh: 1; url=adminonderhoud.php");
+            header("Refresh:0");
         } else {
             echo "Failed to turn off maintenance mode";
         }

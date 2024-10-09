@@ -48,13 +48,8 @@
     // check if the user is logged in
     include 'functies/functies.php';
     controleerAdmin();
+    include 'functies/adminSideMenu.php';
     ?>
-
-    <div class="sidemenu">
-                        <a href="index.php">Home</a>
-                        <a href="admin.php">Admin Pagina</a>
-                        <a href="adminonderhoud.php">Onderhoudsmodus</a>
-                    </div>
     
     <div class="adminpage">
         <?php
