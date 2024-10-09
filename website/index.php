@@ -71,16 +71,9 @@
          <div class="header_section">
             <div class="container">
                <div class="containt_main">
-                  <div id="mySidenav" class="sidenav">
-                     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                     <a href="index.php">Home</a>
-                     <a href="profile.php">My Profile</a>
-                     <?php
-                     if ($_SESSION["admin"]){
-                        echo '<a href="admin.php">Admin Pagina</a>';
-                     }
-                     ?>
-                  </div>
+                  <?php
+                  include 'functies/MySideNav.php';
+                  ?>
                   <span class="toggle_icon" onclick="openNav()"><img src="images/icon/toggle-icon.png"></span>
                  
                   <div class="main">
@@ -108,7 +101,7 @@
                            <?php
                            //Als de klant is ingelogd, laat de knop "My Profile" zien, anders laat de knop "Log-In" zien
                            if ($_SESSION["klant"]){
-                              echo '<li><a href="myprofile.php">
+                              echo '<li><a href="profile.php">
                                     <i class="fa fa-user" aria-hidden="true"></i>
                                     <span class="padding_5">My Profile</span></a>
                                     </li>';

@@ -949,6 +949,8 @@ display: flex;
 }
 .tab {
     background-color: #D3D3D3;
+    border: 2px solid #ccc;
+    border-radius: 5px;
     width: 80%;
     height: 100px;
     display: flex;
@@ -958,6 +960,8 @@ display: flex;
 }
 .tab1 {
     background-color: #D3D3D3;
+    border: 2px solid #ccc;
+    border-radius: 5px;
     width: 80%;
     height: 300px;
     display: flex;
@@ -978,6 +982,8 @@ display: flex;
 }
 .tab3{
     background-color: #D3D3D3;
+    border: 2px solid #ccc;
+    border-radius: 5px;
     width: 80%;
     height: 500px;
     display: flex;
@@ -1008,4 +1014,34 @@ display: flex;
     justify-content: space-around;
     align-items: center;
     
+}
+btn-danger a:hover {
+    color: white;
+}
+.tab4 {
+    background-color: white;
+    width: 80%;
+    height: 500px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    margin: 20px;
+}
+
+.tab4 a {
+    color: black;
+}
+.tab4 a:hover {
+    color: black;
+} 
+.tab5{
+    background-color: #D3D3D3;
+    width: 80%;
+    height: 500px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    margin: 20px;
 }

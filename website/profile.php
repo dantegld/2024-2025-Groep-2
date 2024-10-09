@@ -42,16 +42,9 @@
     session_start();
     ?>
 
-                    <div id="mySidenav" class="sidenav">
-                     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                     <a href="index.php">Home</a>
-                     <a href="profile.php">My Profile</a>
-                     <?php
-                     if ($_SESSION["admin"]){
-                        echo '<a href="admin.php">Admin Pagina</a>';
-                     }
-                     ?>
-                  </div>
+<?php
+                  include 'functies/MySideNav.php';
+                  ?>
                   <span class="toggle_icon1" onclick="openNav()"><img  width="44px" src="images/icon/Hamburger_icon.svg.png"></span>
 
 
@@ -233,7 +226,7 @@
     ?>
 
     <!-- Form for Updating/Adding Information -->
-    <div class="tab3">
+    <div class="tab5">
         <form action="profile.php" method="post">
             <label for="email">E-mailadres:</label><br>
             <input type="email" name="email" placeholder="Voer uw e-mailadres in" value="<?= isset($user['email']) ? $user['email'] : '' ?>" class="form-control"><br><br>
@@ -247,9 +240,8 @@
         </form>
     </div>
 </div>
-
-
-                </div>
+<div class="tab4"><a class="btn btn-danger" href="logout.php">Log uit</a></div><br>
+</div>
 
 
 
