@@ -108,77 +108,50 @@
             <?php
             $sql = "SELECT * FROM tbladres WHERE klant_id = '$_SESSION[klant_id]'";
             $result = $mysqli->query($sql);
-            ?>
-            <div class="tabadres">
-        <p>Adres 1:</p>
-        <?php
-        if ($result->num_rows == 0) {
 
+            if ($result->num_rows == 0) {
+                echo '  <div class="tabadres">
+                        <p>Adres: </p>';
                 echo '<a href= "adrestoevoegen.php">Voeg uw adres toe</a>';
-            
-        } else {
-            $klant_id = $_SESSION['klant_id'];
-            $sql3 = "SELECT tbladres.adres, tbladres.postcode_id, tblpostcode.postcode_id,tblpostcode.postcode,tblpostcode.plaats 
-            FROM tbladres,tblpostcode WHERE klant_id = '$klant_id' and adres_id = 1";
-            $result3 = $mysqli->query($sql3);
-            while ($row3 = $result3->fetch_assoc()) {
-                echo $row3['adres'];
-                echo " ";
-                echo $row3['postcode'];
-                echo " ";
-                echo $row3['plaats'];
-            }
-        }
-        ?>
-</div><br>
-<div class="tabadres">
-        <p>Adres 2:</p>
-        <?php
-        if ($result->num_rows == 1 || $result->num_rows == 0) {
-
-                echo '<a href= "adrestoevoegen.php">Voeg uw adres toe</a>';
-
-        } else {
-            $klant_id = $_SESSION['klant_id'];
-            $sql3 = "SELECT tbladres.adres, tbladres.postcode_id, tblpostcode.postcode_id,tblpostcode.postcode,tblpostcode.plaats 
-            FROM tbladres,tblpostcode WHERE klant_id = '$klant_id' and adres_id = 2";
-            $result3 = $mysqli->query($sql3);
-            while ($row3 = $result3->fetch_assoc()) {
-                echo $row3['adres'];
-                echo " ";
-                echo $row3['postcode'];
-                echo " ";
-                echo $row3['plaats'];
-            }
-        }
-        ?>
-</div><br>
-<div class="tabadres">
+                echo '</div>';
+            } else {
+                $klant_id = $_SESSION['klant_id'];
+                $sql3 = "SELECT tbladres.adres, tbladres.postcode_id, tblpostcode.postcode_id, tblpostcode.postcode, tblpostcode.plaats 
+                         FROM tbladres 
+                         JOIN tblpostcode ON tbladres.postcode_id = tblpostcode.postcode_id 
+                         WHERE klant_id = '$klant_id'";
+                $result3 = $mysqli->query($sql3);
                 
-        <p>Adres 3:</p>
-        <?php
-        if ($result->num_rows == 1|| $result->num_rows == 2 || $result->num_rows == 0) {
-
-                echo '<a href= "adrestoevoegen.php">Voeg uw adres toe</a>';
             
-        } else {
-            $klant_id = $_SESSION['klant_id'];
-            $sql3 = "SELECT tbladres.adres, tbladres.postcode_id, tblpostcode.postcode_id,tblpostcode.postcode,tblpostcode.plaats 
-            FROM tbladres,tblpostcode WHERE klant_id = '$klant_id' and adres_id = 2";
-            $result3 = $mysqli->query($sql3);
-            while ($row3 = $result3->fetch_assoc()) {
-                echo $row3['adres'];
-                echo " ";
-                echo $row3['postcode'];
-                echo " ";
-                echo $row3['plaats'];
-            }
-        }
-        ?>
+                $adres_count = 1;
+                while ($row3 = $result3->fetch_assoc()) {
+                    echo '<div class="tabadres">';
+                    echo '<p>Adres ' . $adres_count . ':</p>';
+                    echo $row3['adres'] . " " . $row3['postcode'] . " " . $row3['plaats'];
+                    echo '</div>';
+                    if ($adres_count == $result3->num_rows) {
+                        $adres_count++;
+                        echo '<div class="tabadres">';
+                        echo '<p>Adres ' . $adres_count .':</p>';
+                        echo '<a href="adrestoevoegen.php">Voeg uw adres toe</a>';
+                        echo '</div>';
+                    }
+                    $adres_count++;
+                    
 
-        
+                }
+            
+                if ($adres_count == 1) {
+                    echo '<div class="tabadres">';
+                    echo '<p>Adres 2:</p>';
+                    echo '<a href="adrestoevoegen.php">Voeg uw adres toe</a>';
+                    echo '</div>';
+                }
+            }
+            ?>
         </div>
-                </div><br> 
+
+
                 <div class="tab3">
     <?php
     // Fetch existing user information
