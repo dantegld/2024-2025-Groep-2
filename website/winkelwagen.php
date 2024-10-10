@@ -98,6 +98,17 @@
           color: #888;
       }
 
+      /* Quantity buttons */
+      .quantity-btn {
+          padding: 5px 10px;
+          font-size: 16px;
+          margin: 0 5px;
+          cursor: pointer;
+          background-color: #f8f9fa;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+      }
+
       /* Responsive design adjustments */
       @media (max-width: 768px) {
           table th, table td {
@@ -135,6 +146,7 @@ if (isset($_SESSION["klant_id"])) {
         echo '<th>Artikelnaam</th>';
         echo '<th>Aantal</th>';
         echo '<th>Prijs per item</th>'; 
+        echo '<th>Totaal per item</th>';
         echo '</tr>';
         echo '</thead>';
         echo '<tbody>';
@@ -143,18 +155,23 @@ if (isset($_SESSION["klant_id"])) {
             $itemPrijs = $row["prijs"] * $row["aantal"]; 
             $totalePrijs += $itemPrijs; 
             
-            echo '<tr>';
+            echo '<tr id="product-' . $row['artikel_id'] . '">';
             echo '<td><img src="' . $row["directory"] . '" alt="' . $row["artikelnaam"] . '"></td>';
             echo '<td>' . $row["artikelnaam"] . '</td>';
-            echo '<td>' . $row["aantal"] . '</td>';
-            echo '<td>&euro;' . $row["prijs"] . '</td>'; 
+            echo '<td>
+                    <button class="quantity-btn" onclick="updateQuantity(' . $row['artikel_id'] . ', \'decrease\')">-</button>
+                    <span id="quantity-' . $row['artikel_id'] . '">' . $row["aantal"] . '</span>
+                    <button class="quantity-btn" onclick="updateQuantity(' . $row['artikel_id'] . ', \'increase\')">+</button>
+                  </td>';
+            echo '<td>&euro;<span id="price-' . $row['artikel_id'] . '">' . number_format($row["prijs"], 2) . '</span></td>';
+            echo '<td>&euro;<span id="total-' . $row['artikel_id'] . '">' . number_format($itemPrijs, 2) . '</span></td>';
             echo '</tr>';
         }
 
         echo '</tbody>';
         echo '</table>';
 
-        echo '<div class="cart-total">Totale Prijs: &euro;' . $totalePrijs . '</div>';
+        echo '<div class="cart-total">Totale Prijs: &euro;<span id="total-price">' . number_format($totalePrijs, 2) . '</span></div>';
         echo '</div>'; 
     } else {
         echo '<div class="empty-cart">Winkelwagen is leeg.</div>';
@@ -163,6 +180,29 @@ if (isset($_SESSION["klant_id"])) {
     echo '<div class="empty-cart">U bent niet ingelogd. Log eerst in om de winkelwagen te bekijken.</div>';
 }
 ?>
+
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   <script>
+   function updateQuantity(artikel_id, action) {
+       $.ajax({
+           url: 'update_winkelwagen.php',
+           type: 'POST',
+           data: {
+               artikel_id: artikel_id,
+               action: action
+           },
+           success: function(response) {
+               // Parse the JSON response
+               var data = JSON.parse(response);
+
+               // Update the quantity, price and total price dynamically
+               $('#quantity-' + artikel_id).text(data.new_quantity);
+               $('#total-' + artikel_id).text(data.new_total_price);
+               $('#total-price').text(data.new_total_cart_price);
+           }
+       });
+   }
+   </script>
 
    </body>
 </html>

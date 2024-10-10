@@ -203,7 +203,8 @@
       <!-- copyright section start -->
       <div class="copyright_section">
          <div class="container">
-            <p class="copyright_text">© 2024 Myshoes All Rights Reserved.</p>
+            <p class="copyright_text">© 2024 Myshoes All Rights Reserved. <br> <a href="retourbeleid.html">Retourbeleid</a> </p>
+            
          </div>
       </div>
       <!-- copyright section end -->
