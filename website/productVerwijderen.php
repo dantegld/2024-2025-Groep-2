@@ -41,7 +41,7 @@
 include 'connect.php'; 
 
 
-$query = "SELECT * FROM tblartikels WHERE stock = 0";
+$query = "SELECT * FROM tblartikels";
 $result = $mysqli->query($query);
 
 if ($result->num_rows > 0) {
