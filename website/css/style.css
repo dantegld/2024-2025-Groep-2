@@ -1045,3 +1045,6 @@ btn-danger a:hover {
     flex-direction: column;
     margin: 20px;
 }
+.logout:hover {
+    color: red !important;
+}   

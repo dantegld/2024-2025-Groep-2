@@ -12,7 +12,7 @@
                      echo '<a href="admin.php">Admin Pagina</a>';
                   }
                   if ($_SESSION["klant"]){
-                     echo '<a href="logout.php">Log Uit</a>';
+                     echo '<a class="logout" href="logout.php">Log Uit</a>';
                   }
                echo '</div>';
 
