@@ -3,10 +3,10 @@ include 'connect.php';
 session_start();
 
 //checkpoint voor onderhoudsmodus
+include 'functies/functies.php';
 onderhoudsModus();
+controleerAdmin();
 
-//check of de gebruiker is ingelogd en is een admin
-if($_SESSION["admin"] == true){
 
     //Klantenlijst weergeven
     $sql = "SELECT * FROM tblklant";
@@ -93,10 +93,7 @@ if($_SESSION["admin"] == true){
             Klant ID: <input type="text" name="klant_id"><br>
             <input type="submit" name="delete" value="Verwijderen"><br><br>
           </form>';
-}else{
-    echo "U bent niet ingelogd als admin";
-    
-}
+
 ?>
 
 
