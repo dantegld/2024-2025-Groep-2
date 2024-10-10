@@ -994,14 +994,10 @@ display: flex;
 }
 .profilepage {
     display: flex;
-    justify-content: center;
     align-items: center;
     height: 100vh;
     width: 100vw;
     flex-direction: column;
-}
-.title2{
-    top: -200px; 
 }
 .title3{
     top: -250px; 
@@ -1027,6 +1023,7 @@ btn-danger a:hover {
     align-items: center;
     flex-direction: column;
     margin: 20px;
+    padding-bottom: 20px;
 }
 
 .tab4 a {

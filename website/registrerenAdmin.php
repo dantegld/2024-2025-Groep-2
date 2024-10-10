@@ -31,7 +31,6 @@
       <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
       <!-- font awesome -->
       <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-      <!--  -->
       <!-- owl stylesheets -->
       <link href="https://fonts.googleapis.com/css?family=Great+Vibes|Poppins:400,700&display=swap&subset=latin-ext" rel="stylesheet">
       <link rel="stylesheet" href="css/owl.carousel.min.css">
@@ -40,15 +39,15 @@
       <link rel="icon" href="images/icon/favicon.png">
 </head>
 <body>
-<div class="loginFormLocatie">
-<div class='loginForm'>
 <?php
 include 'connect.php';
 session_start();
 include 'functies/adminSideMenu.php';
 ?>
 
-
+<div class="adminpage">
+<div class="loginFormLocatie">
+<div class='loginForm'>
 <?php
 
 

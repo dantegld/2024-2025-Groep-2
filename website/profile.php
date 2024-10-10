@@ -240,7 +240,7 @@
         </form>
     </div>
 </div>
-<div class="tab4"><a class="btn btn-danger" href="logout.php">Log uit</a></div><br>
+<div class="tab4"><a class="btn btn-danger" href="logout.php">Log uit</a></div><br><br><br>
 </div>
 
 
