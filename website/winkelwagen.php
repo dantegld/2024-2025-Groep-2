@@ -112,53 +112,57 @@
    </head>
    <body>
 
-<?php
-
+   <?php
 include("connect.php");
 session_start();
-$klant_id = $_SESSION["klant_id"];
-$sql = "SELECT w.artikel_id, w.aantal, a.directory, a.artikelnaam, a.prijs 
-        FROM tblwinkelwagen w, tblartikels a 
-        WHERE klant_id = '" . $klant_id . "' 
-        AND w.artikel_id = a.artikel_id";
-$result = $mysqli->query($sql);
 
-if ($result->num_rows > 0) {
-    $totalePrijs = 0; 
+if (isset($_SESSION["klant_id"])) {
+    $klant_id = $_SESSION["klant_id"];
+    $sql = "SELECT w.artikel_id, w.aantal, a.directory, a.artikelnaam, a.prijs 
+            FROM tblwinkelwagen w, tblartikels a 
+            WHERE klant_id = '" . $klant_id . "' 
+            AND w.artikel_id = a.artikel_id";
+    $result = $mysqli->query($sql);
 
-    echo '<div class="cart-container">';
-    echo '<table class="cart-table">';
-    echo '<thead>'; 
-    echo '<tr>';
-    echo '<th>Product</th>';
-    echo '<th>Artikelnaam</th>';
-    echo '<th>Aantal</th>';
-    echo '<th>Prijs per item</th>'; 
-    echo '</tr>';
-    echo '</thead>';
-    echo '<tbody>';
+    if ($result->num_rows > 0) {
+        $totalePrijs = 0; 
 
-    while ($row = $result->fetch_assoc()) {
-        $itemPrijs = $row["prijs"] * $row["aantal"]; 
-        $totalePrijs += $itemPrijs; 
-        
+        echo '<div class="cart-container">';
+        echo '<table class="cart-table">';
+        echo '<thead>'; 
         echo '<tr>';
-        echo '<td><img src="' . $row["directory"] . '" alt="' . $row["artikelnaam"] . '"></td>';
-        echo '<td>' . $row["artikelnaam"] . '</td>';
-        echo '<td>' . $row["aantal"] . '</td>';
-        echo '<td>&euro;' . $row["prijs"] . '</td>'; 
+        echo '<th>Product</th>';
+        echo '<th>Artikelnaam</th>';
+        echo '<th>Aantal</th>';
+        echo '<th>Prijs per item</th>'; 
         echo '</tr>';
+        echo '</thead>';
+        echo '<tbody>';
+
+        while ($row = $result->fetch_assoc()) {
+            $itemPrijs = $row["prijs"] * $row["aantal"]; 
+            $totalePrijs += $itemPrijs; 
+            
+            echo '<tr>';
+            echo '<td><img src="' . $row["directory"] . '" alt="' . $row["artikelnaam"] . '"></td>';
+            echo '<td>' . $row["artikelnaam"] . '</td>';
+            echo '<td>' . $row["aantal"] . '</td>';
+            echo '<td>&euro;' . $row["prijs"] . '</td>'; 
+            echo '</tr>';
+        }
+
+        echo '</tbody>';
+        echo '</table>';
+
+        echo '<div class="cart-total">Totale Prijs: &euro;' . $totalePrijs . '</div>';
+        echo '</div>'; 
+    } else {
+        echo '<div class="empty-cart">Winkelwagen is leeg.</div>';
     }
-
-    echo '</tbody>';
-    echo '</table>';
-
-
-    echo '<div class="cart-total">Totale Prijs: &euro;' . $totalePrijs . '</div>';
-    echo '</div>'; 
 } else {
-    echo '<div class="empty-cart">Winkelwagen is leeg.</div>';
+    echo '<div class="empty-cart">U bent niet ingelogd. Log eerst in om de winkelwagen te bekijken.</div>';
 }
 ?>
+
    </body>
 </html>
