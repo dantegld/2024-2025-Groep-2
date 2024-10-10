@@ -33,35 +33,132 @@
       <link rel="stylesheet" href="css/owl.carousel.min.css">
       <link rel="stylesoeet" href="css/owl.theme.default.min.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
-   <link rel="icon" href="images/icon/favicon.png">
+      <link rel="icon" href="images/icon/favicon.png">
+      <style>
+      /* General table styles */
+      table {
+          width: 100%;
+          margin-top: 50px;
+          border-collapse: collapse;
+      }
+
+      table th, table td {
+          padding: 15px;
+          text-align: center;
+          border: 1px solid #ddd;
+      }
+
+      table th {
+          background-color: #f8f9fa; 
+          color: #333;
+          font-weight: bold;
+          text-transform: uppercase;
+      }
+
+      table td img {
+          width: 100px;
+          height: auto;
+          border-radius: 5px; 
+      }
+
+      table td {
+          vertical-align: middle;
+          font-size: 1.1em;
+          color: #555; 
+      }
+
+      table tr:nth-child(even) {
+          background-color: #f2f2f2; 
+      }
+
+      /* Cart container styles */
+      .cart-container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 20px;
+      }
+
+      /* Total price display */
+      .cart-total {
+          margin-top: 20px;
+          padding: 10px;
+          background-color: #f8f9fa;
+          font-size: 1.5em;
+          font-weight: bold;
+          color: #333;
+          text-align: right;
+          border-top: 2px solid #ddd;
+      }
+
+      /* Empty cart message */
+      .empty-cart {
+          text-align: center;
+          font-size: 1.5em;
+          margin-top: 50px;
+          color: #888;
+      }
+
+      /* Responsive design adjustments */
+      @media (max-width: 768px) {
+          table th, table td {
+              font-size: 14px;
+          }
+
+          table td img {
+              width: 60px;
+          }
+      }
+      </style>
    </head>
    <body>
-</body>
+
 <?php
 
 include("connect.php");
 session_start();
-$klant_id=$_SESSION["klant_id"];
-$sql = "SELECT w.artikel_id,w.aantal,a.directory,a.artikelnaam,a.prijs FROM tblwinkelwagen w,tblartikels a WHERE klant_id = '" . $klant_id . "' AND w.artikel_id = a.artikel_id";
+$klant_id = $_SESSION["klant_id"];
+$sql = "SELECT w.artikel_id, w.aantal, a.directory, a.artikelnaam, a.prijs 
+        FROM tblwinkelwagen w, tblartikels a 
+        WHERE klant_id = '" . $klant_id . "' 
+        AND w.artikel_id = a.artikel_id";
 $result = $mysqli->query($sql);
+
 if ($result->num_rows > 0) {
-    $klant_id=$_SESSION["klant_id"];
+    $totalePrijs = 0; 
+
+    echo '<div class="cart-container">';
+    echo '<table class="cart-table">';
+    echo '<thead>'; 
+    echo '<tr>';
+    echo '<th>Product</th>';
+    echo '<th>Artikelnaam</th>';
+    echo '<th>Aantal</th>';
+    echo '<th>Prijs per item</th>'; 
+    echo '</tr>';
+    echo '</thead>';
+    echo '<tbody>';
 
     while ($row = $result->fetch_assoc()) {
-        echo '<table>';
-        echo $row["artikel_id"];
-        echo $row["aantal"];
-        echo $row["directory"];
-        echo $row["artikelnaam"];
-        echo $row["prijs"];
+        $itemPrijs = $row["prijs"] * $row["aantal"]; 
+        $totalePrijs += $itemPrijs; 
+        
         echo '<tr>';
-        echo '</table>';
+        echo '<td><img src="' . $row["directory"] . '" alt="' . $row["artikelnaam"] . '"></td>';
+        echo '<td>' . $row["artikelnaam"] . '</td>';
+        echo '<td>' . $row["aantal"] . '</td>';
+        echo '<td>&euro;' . $row["prijs"] . '</td>'; 
+        echo '</tr>';
     }
 
+    echo '</tbody>';
+    echo '</table>';
+
+
+    echo '<div class="cart-total">Totale Prijs: &euro;' . $totalePrijs . '</div>';
+    echo '</div>'; 
 } else {
-    echo "Winkelwagen is leeg.";
-
-
+    echo '<div class="empty-cart">Winkelwagen is leeg.</div>';
 }
-
 ?>
+   </body>
+</html>
