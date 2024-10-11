@@ -36,6 +36,7 @@
       <link rel="icon" href="images/icon/favicon.png">
       <style>
       /* General table styles */
+
       table {
           width: 100%;
           margin-top: 50px;
@@ -71,15 +72,15 @@
           background-color: #f2f2f2; 
       }
 
-      /* Cart container styles */
-      .cart-container {
+      /* Wishlist container styles */
+      .wishlist-container {
           max-width: 1200px;
           margin: 0 auto;
           padding: 20px;
       }
 
       /* Total price display */
-      .cart-total {
+      .wishlist-total {
           margin-top: 20px;
           padding: 10px;
           background-color: #f8f9fa;
@@ -90,8 +91,8 @@
           border-top: 2px solid #ddd;
       }
 
-      /* Empty cart message */
-      .empty-cart {
+      /* Empty wishlist message */
+      .empty-wishlist {
           text-align: center;
           font-size: 1.5em;
           margin-top: 50px;
@@ -132,8 +133,8 @@ echo '<br><span class="toggle_icon1" onclick="openNav()"><img width="44px" src="
 
 if (isset($_SESSION["klant_id"])) {
     $klant_id = $_SESSION["klant_id"];
-    $sql = "SELECT w.artikel_id, w.aantal, a.directory, a.artikelnaam, a.prijs 
-            FROM tblwinkelwagen w, tblartikels a 
+    $sql = "SELECT w.artikel_id, a.directory, a.artikelnaam, a.prijs 
+            FROM tblwishlist w, tblartikels a 
             WHERE klant_id = '" . $klant_id . "' 
             AND w.artikel_id = a.artikel_id";
     $result = $mysqli->query($sql);
@@ -141,70 +142,42 @@ if (isset($_SESSION["klant_id"])) {
     if ($result->num_rows > 0) {
         $totalePrijs = 0; 
 
-        echo '<div class="cart-container">';
-        echo '<table class="cart-table">';
+        echo '<div class="wishlist-container">';
+        echo '<table class="wishlist-table">';
         echo '<thead>'; 
         echo '<tr>';
         echo '<th>Product</th>';
         echo '<th>Artikelnaam</th>';
-        echo '<th>Aantal</th>';
         echo '<th>Prijs per item</th>'; 
-        echo '<th>Totaal per item</th>';
         echo '</tr>';
         echo '</thead>';
         echo '<tbody>';
 
         while ($row = $result->fetch_assoc()) {
-            $itemPrijs = $row["prijs"] * $row["aantal"]; 
-            $totalePrijs += $itemPrijs; 
+            $itemPrijs = $row["prijs"]; 
             
             echo '<tr id="product-' . $row['artikel_id'] . '">';
             echo '<td><img src="' . $row["directory"] . '" alt="' . $row["artikelnaam"] . '"></td>';
             echo '<td>' . $row["artikelnaam"] . '</td>';
-            echo '<td>
-                    <button class="quantity-btn" onclick="updateQuantity(' . $row['artikel_id'] . ', \'decrease\')">-</button>
-                    <span id="quantity-' . $row['artikel_id'] . '">' . $row["aantal"] . '</span>
-                    <button class="quantity-btn" onclick="updateQuantity(' . $row['artikel_id'] . ', \'increase\')">+</button>
-                  </td>';
             echo '<td>&euro;<span id="price-' . $row['artikel_id'] . '">' . number_format($row["prijs"], 2) . '</span></td>';
-            echo '<td>&euro;<span id="total-' . $row['artikel_id'] . '">' . number_format($itemPrijs, 2) . '</span></td>';
             echo '</tr>';
         }
 
         echo '</tbody>';
         echo '</table>';
 
-        echo '<div class="cart-total">Totale Prijs: &euro;<span id="total-price">' . number_format($totalePrijs, 2) . '</span></div>';
+        echo '<div class="wishlist-total">Totale Prijs: &euro;<span id="total-price">' . number_format($totalePrijs, 2) . '</span></div>';
         echo '</div>'; 
     } else {
-        echo '<div class="empty-cart">Winkelwagen is leeg.</div>';
+        echo '<div class="empty-wishlist">Wishlist is leeg.</div>';
     }
 } else {
-    echo '<div class="empty-cart">U bent niet ingelogd. Log eerst in om de winkelwagen te bekijken.</div>';
+    echo '<div class="empty-wishlist">U bent niet ingelogd. Log eerst in om de winkelwagen te bekijken.</div>';
 }
 ?>
 
    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
    <script>
-   function updateQuantity(artikel_id, action) {
-       $.ajax({
-           url: 'update_winkelwagen.php',
-           type: 'POST',
-           data: {
-               artikel_id: artikel_id,
-               action: action
-           },
-           success: function(response) {
-               // Parse the JSON response
-               var data = JSON.parse(response);
-
-               // Update the quantity, price and total price dynamically
-               $('#quantity-' + artikel_id).text(data.new_quantity);
-               $('#total-' + artikel_id).text(data.new_total_price);
-               $('#total-price').text(data.new_total_cart_price);
-           }
-       });
-   }
    function openNav() {
            document.getElementById("mySidenav").style.width = "250px";
          }

@@ -90,7 +90,7 @@
                   <div class="header_box">
                      <div class="login_menu">
                         <ul>
-                           <li><a href="#">
+                           <li><a href="wishlist.php">
                               <i class="fa fa-heart" aria-hidden="true"></i>
                               <span class="padding_5">Wishlist</span></a>
                            </li>
@@ -159,6 +159,13 @@
                         // Output data of each row
                         //WISHLIST BUTTON NOT WORKING
                         while($row = mysqli_fetch_assoc($result)) {
+                           $sql = "SELECT artikel_id FROM tblwishlist WHERE artikel_id = " . $row['artikel_id'] . " AND klant_id = " . $_SESSION['klant_id'];
+                           $result2 = mysqli_query($mysqli, $sql);
+                           if (mysqli_num_rows($result2) > 0) {
+                              $wishlist = true;
+                           } else {
+                              $wishlist = false;
+                           }
                            echo '<div class="col-lg-4 col-sm-4">';
                            echo '   <div class="box_main">';
                            echo '      <h4 class="shirt_text">' . htmlspecialchars($row["artikelnaam"]) . '</h4>';
@@ -166,7 +173,11 @@
                            echo '      <div class="tshirt_img"><img src="' . htmlspecialchars($row["directory"]) . '"></div>';
                            echo '      <div class="btn_main">';
                            echo '         <div class="buy_bt"><a href="cartCalc.php?id='.$row['artikel_id'].'">Add to cart</a></div>';
-                           echo '         <div class="seemore_bt"><a href="#"><i class="fa fa-heart" aria-hidden="true"></i>  Wishlist</a></div>';
+                           if ($wishlist) {
+                              echo '         <div class="seemore_bt"><a href="wishlistCalc.php?id='. $row['artikel_id'].'"><i class="fa fa-heart" aria-hidden="true"></i>  Wishlist</a></div>';
+                           } else {
+                              echo '         <div class="seemore_bt"><a href="wishlistCalc.php?id='. $row['artikel_id'].'"><i class="fa fa-heart-o" aria-hidden="true"></i>  Wishlist</a></div>';
+                           }
                            echo '         <div class="seemore_bt"><a href="#">See More</a></div>';
                            echo '      </div>';
                            echo '   </div>';
