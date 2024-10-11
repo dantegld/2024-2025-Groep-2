@@ -8,7 +8,6 @@ if (!isset($_GET["id"])) {
 }
 
 $artikel_id = $_GET["id"];
-$_SESSION["artikel_id"] = $artikel_id;
 
 if (!isset($_SESSION["klant_id"])) {
     header("Location: login.php");
