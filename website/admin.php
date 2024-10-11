@@ -60,7 +60,33 @@
             echo '<h4>Welkom, ' . $row['klantnaam'] . '.</h4>';
         }
         ?>
+        <h3>Betaalmethodes</h3>
+        <table>
+            <tr>
+                <th>Betaalmethode</th>
+                <th>Actief</th>
+                <th>Verwijderen</th>
+            </tr>
+            <?php
+            $sql = "SELECT * FROM tblbetaalmethodes";
+            $result = $mysqli->query($sql);
+            while ($row = $result->fetch_assoc()) {
+                echo '<tr>';
+                echo '<td>' . $row['betaalmethode'] . '</td>';
+                echo '<td>'; 
+                if ($row['actief'] == 1) {
+                    echo 'Ja';
+                } else {
+                    echo 'Nee';
+                }
+                echo '</td>';
+                echo '<td><a href="functies/deleteBetaalmethode.php?id=' . $row['betaalmethode_id'] . '">Verwijderen</a></td>';
+                echo '</tr>';
+            }
+            ?>
     </div>
+
+
 </body>
 
 </html>

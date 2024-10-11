@@ -172,6 +172,8 @@ if (isset($_SESSION["klant_id"])) {
         echo '</table>';
 
         echo '<div class="cart-total">Totale Prijs: &euro;<span id="total-price">' . number_format($totalePrijs, 2) . '</span></div>';
+        $_SESSION['total_price'] = number_format($totalePrijs, 2);
+        echo '<a href="betalen.php" class="btn btn-primary">Afrekenen</a>';
         echo '</div>'; 
     } else {
         echo '<div class="empty-cart">Winkelwagen is leeg.</div>';
