@@ -122,10 +122,13 @@
       </style>
    </head>
    <body>
-
+   <div>
    <?php
 include("connect.php");
 session_start();
+include 'functies/functies.php';
+include 'functies/mySideNav.php';
+echo '<br><span class="toggle_icon" onclick="openNav()"><img width="44px" src="images/icon/Hamburger_icon.svg.png"></span>';
 
 if (isset($_SESSION["klant_id"])) {
     $klant_id = $_SESSION["klant_id"];
@@ -202,7 +205,14 @@ if (isset($_SESSION["klant_id"])) {
            }
        });
    }
+   function openNav() {
+           document.getElementById("mySidenav").style.width = "250px";
+         }
+         
+         function closeNav() {
+           document.getElementById("mySidenav").style.width = "0";
+         }
    </script>
-
+</div>
    </body>
 </html>
