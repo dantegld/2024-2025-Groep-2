@@ -38,16 +38,6 @@
    <link rel="icon" href="images/icon/favicon.png">
    </head>
 <body>
-   <?php
-   include 'connect.php';
-   if (!(isset($_SESSION["klant"]))) {
-      $_SESSION["klant"] = false;
-   }
-   if (!(isset($_SESSION["admin"]))) {
-      $_SESSION["admin"] = false;
-   }
-
-?>
     <div class="onderhoudsPagina">
         <div class="onderhoudsPagina_text">
                 <img src="images/icon/gears.jpeg" alt="ERROR" /><br><br>
