@@ -1045,3 +1045,6 @@ btn-danger a:hover {
 .logout:hover {
     color: red !important;
 }
+.fa-cogs {
+    width: 50px;
+}
