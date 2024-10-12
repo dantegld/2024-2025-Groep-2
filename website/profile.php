@@ -43,13 +43,13 @@
     ?>
 
 <?php
-                  include 'functies/MySideNav.php';
-                  ?>
-                  <span class="toggle_icon1" onclick="openNav()"><img  width="44px" src="images/icon/Hamburger_icon.svg.png"></span>
+include 'functies/MySideNav.php';
+?>
+<span class="toggle_icon1" onclick="openNav()"><img  width="44px" src="images/icon/Hamburger_icon.svg.png"></span>
 
 
-                <div class="profilepage"><br><br>
-                <?php
+        <div class="profilepage"><br><br>
+        <?php
         $sql = "SELECT * FROM tblklant WHERE klant_id = '$_SESSION[klant_id]'";
         $result = $mysqli->query($sql);
         while ($row = $result->fetch_assoc()) {
@@ -73,7 +73,7 @@
                             $vorigeschoenmaat = $row1['schoenmaat'];
                         }
                         echo' <form action="profile.php" method="post">
-                        <input type="number" name="schoenmaat" placeholder = "' . $vorigeschoenmaat. '" >
+                        <input type="number" name="schoenmaat" value = "' . $vorigeschoenmaat. '" >
                         <input type="submit" name="Pas aan">
                         </form>';
                     }
@@ -87,7 +87,7 @@
                             $vorigeschoenmaat = $row1['schoenmaat'];
                         }
                     echo' <form action="profile.php" method="post">
-                    <input type="number" name="schoenmaat" placeholder = "' . $vorigeschoenmaat. '" >
+                    <input type="number" name="schoenmaat" value = "' . $vorigeschoenmaat. '" >
                     <input type="submit" name="Pas aan">
                     </form>';
                 }
@@ -99,7 +99,8 @@
         </div>
         <div class="tab1">
             <?php
-            $sql = "SELECT * FROM tbladres WHERE klant_id = '$_SESSION[klant_id]'";
+            $klant_id = $_SESSION['klant_id'];
+            $sql = "SELECT * FROM tbladres WHERE klant_id = '" . $klant_id . "'";
             $result = $mysqli->query($sql);
 
             if ($result->num_rows == 0) {
