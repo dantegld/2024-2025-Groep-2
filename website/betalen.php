@@ -54,7 +54,6 @@
     $totaal = $_SESSION['total_price'];
 
 
-
     if (isset($_POST['betalen'])) {
         $payment_method = $_POST['payment_method'];
         $payment_method = strtolower($payment_method);
@@ -68,7 +67,12 @@
 
         } else if ($payment_method == 'razorpay') {
             echo "You have selected Razorpay as your payment method.";
+            die;
+        } else {
+            echo "Invalid payment method selected.";
+            die;
         }
+
     } else {
         echo "
         <form action='betalen.php' method='post'>

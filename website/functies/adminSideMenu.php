@@ -7,6 +7,7 @@ echo '
 <a href="admin.php">Admin Pagina</a>
 <a href="adminonderhoud.php">Onderhoudsmodus</a>
 <a href="registrerenAdmin.php">Klant Registreren</a>
+<a href="betaalmethodes.php">Betaalmethodes</a>
 </div>';
 
 ?>

@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Pagina</title>
     <!-- basic -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <!-- site metas -->
-    <title>Admin Pagina</title>
+    <title>Betaalmethodes</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -50,19 +46,32 @@
     controleerAdmin();
     include 'functies/adminSideMenu.php';
     ?>
-    
-    <div class="adminpage">
+
+    <h3>Betaalmethodes</h3>
+    <table>
+        <tr>
+            <th>Betaalmethode</th>
+            <th>Actief</th>
+            <th>Verwijderen</th>
+        </tr>
         <?php
-        $sql = "SELECT * FROM tblklant WHERE klant_id = '$_SESSION[klant_id]'";
+        $sql = "SELECT * FROM tblbetaalmethodes";
         $result = $mysqli->query($sql);
         while ($row = $result->fetch_assoc()) {
-            echo '<h2>Adminpagina Myshoes</h2>';
-            echo '<h4>Welkom, ' . $row['klantnaam'] . '.</h4>';
+            echo '<tr>';
+            echo '<td>' . $row['methodenaam'] . '</td>';
+            echo '<td>';
+            if ($row['actief'] == 1) {
+                echo 'Ja';
+            } else {
+                echo 'Nee';
+            }
+            echo '</td>';
+            if ($row['actief'] == 1) {
+                echo '<td><a href="funties/deleteBetaalmethode.php?id=' . $row['methode_id'] . '">Deactiveren</a></td>c';
+            } else {
+                echo '<td><a href="functies/deleteBetaalmethode.php?id=' . $row['methode_id'] . '">Activeren</a></td>';;
+            }
+            echo '</tr>';
         }
         ?>
-    </div>
-
-
-</body>
-
-</html>

@@ -71,22 +71,23 @@ function processPayPalPayment($amount)
 
 // Functie om de Stripe betaling te verwerken
 
-function processStripePayment($amount)
-{
+function processStripePayment($amount){
    require_once('stripe-php/init.php');
 
-   $amount = $amount * 100;
    $amount = str_replace(',', '', $amount);
    $amount = preg_replace('/\s+/', '', $amount);
+   $amount = intval($amount);
+   $amount = $amount * 100;
 
    $success_url = "http://localhost/tiago/2024-2025-Groep-2/2024-2025-Groep-2/website/successBetalen.php";
    $cancel_url = "http://localhost/tiago/2024-2025-Groep-2/2024-2025-Groep-2/website/cancelBetalen.php";
 
    $stripe_secret_key = 'sk_test_51Q8kjWPPG2zVDYrhIRAkxlWQJ2pOwUHLLBctHjfbVJvnxZM9CqGmnD455lWASCk2IaaDqmiETmGxZA9PlNozsnAd00whdJmWl0';
 
-   \Stripe\Stripe::setApiKey($stripe_secret_key);
-   $checkout_session = \Stripe\Checkout\Session::create([
-      'payment_method_types' => "payment",
+   try {
+      \Stripe\Stripe::setApiKey($stripe_secret_key);
+      $checkout_session = \Stripe\Checkout\Session::create([
+      'mode' => "payment",
       'success_url' => $success_url,
       'cancel_url' => $cancel_url,
       'line_items' => [
@@ -101,12 +102,15 @@ function processStripePayment($amount)
             ],
          ],
       ],
-      
    ]);
 
+   http_response_code(303);
+   header('Location: ' . $checkout_session->url);
+  } catch (Exception $e) {
+      echo 'Caught exception: ',  $e->getMessage(), "\n";
+  }
 
-
-
+   
 }
 
 
