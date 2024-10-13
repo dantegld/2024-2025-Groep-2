@@ -38,23 +38,23 @@
    <link rel="icon" href="images/icon/favicon.png">
    </head>
 <body>
-   <?php
-   include 'connect.php';
-   if (!(isset($_SESSION["klant"]))) {
-      $_SESSION["klant"] = false;
-   }
-   if (!(isset($_SESSION["admin"]))) {
-      $_SESSION["admin"] = false;
-   }
-
-?>
     <div class="onderhoudsPagina">
         <div class="onderhoudsPagina_text">
-                <img src="images/icon/gears.jpeg" alt="ERROR" /><br><br>
+                <i class="fa fa-cogs fa-5x" aria-hidden="true"></i><br><br>
                 <h1>De website is momenteel in onderhoud</h1>
                 <p>Wij zijn momenteel bezig met het onderhouden van de website.
                   Klik <a href="index.php">hier</a> om opniew te proberen.</p>
-                  <p>Klik <a href="login.php">hier</a> om toch in te loggen</p>
+                  <?php
+                  include 'connect.php';
+                  include 'functies/functies.php';
+                  session_start();
+                  if (($_SESSION["klant_id"])) {
+
+                  }else{
+                     echo 'U bent niet ingelogd<p>Klik <a href="login.php">hier</a> om toch in te loggen</p>';
+                  }
+                  
+                  ?>
         </div>
     </div>
     </body>

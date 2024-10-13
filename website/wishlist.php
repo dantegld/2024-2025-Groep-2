@@ -33,9 +33,10 @@
       <link rel="stylesheet" href="css/owl.carousel.min.css">
       <link rel="stylesoeet" href="css/owl.theme.default.min.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
-   <link rel="icon" href="images/icon/favicon.png">
+      <link rel="icon" href="images/icon/favicon.png">
       <style>
       /* General table styles */
+
       table {
           width: 100%;
           margin-top: 50px;
@@ -71,15 +72,15 @@
           background-color: #f2f2f2; 
       }
 
-      /* Cart container styles */
-      .cart-container {
+      /* Wishlist container styles */
+      .wishlist-container {
           max-width: 1200px;
           margin: 0 auto;
           padding: 20px;
       }
 
       /* Total price display */
-      .cart-total {
+      .wishlist-total {
           margin-top: 20px;
           padding: 10px;
           background-color: #f8f9fa;
@@ -90,8 +91,8 @@
           border-top: 2px solid #ddd;
       }
 
-      /* Empty cart message */
-      .empty-cart {
+      /* Empty wishlist message */
+      .empty-wishlist {
           text-align: center;
           font-size: 1.5em;
           margin-top: 50px;
@@ -108,8 +109,6 @@
           border: 1px solid #ddd;
           border-radius: 5px;
       }
-
-      .header-section
 
       /* Responsive design adjustments */
       @media (max-width: 768px) {
@@ -134,8 +133,8 @@ echo '<br><span class="toggle_icon1" onclick="openNav()"><img width="44px" src="
 
 if (isset($_SESSION["klant_id"])) {
     $klant_id = $_SESSION["klant_id"];
-    $sql = "SELECT w.id, w.schoenmaat, w.artikel_id, w.aantal, a.directory, a.artikelnaam, a.prijs 
-            FROM tblwinkelwagen w, tblartikels a 
+    $sql = "SELECT w.artikel_id, a.directory, a.artikelnaam, a.prijs 
+            FROM tblwishlist w, tblartikels a 
             WHERE klant_id = '" . $klant_id . "' 
             AND w.artikel_id = a.artikel_id";
     $result = $mysqli->query($sql);
@@ -143,96 +142,42 @@ if (isset($_SESSION["klant_id"])) {
     if ($result->num_rows > 0) {
         $totalePrijs = 0; 
 
-        echo '<div class="cart-container">';
-        echo '<table class="cart-table">';
+        echo '<div class="wishlist-container">';
+        echo '<table class="wishlist-table">';
         echo '<thead>'; 
         echo '<tr>';
         echo '<th>Product</th>';
         echo '<th>Artikelnaam</th>';
-        echo '<th>Aantal</th>';
         echo '<th>Prijs per item</th>'; 
-        echo '<th>Totaal per item</th>';
-        echo '<th>Schoenmaat</th>';
         echo '</tr>';
         echo '</thead>';
         echo '<tbody>';
 
         while ($row = $result->fetch_assoc()) {
-            $itemPrijs = $row["prijs"] * $row["aantal"]; 
-            $totalePrijs += $itemPrijs; 
+            $itemPrijs = $row["prijs"]; 
             
             echo '<tr id="product-' . $row['artikel_id'] . '">';
             echo '<td><img src="' . $row["directory"] . '" alt="' . $row["artikelnaam"] . '"></td>';
             echo '<td>' . $row["artikelnaam"] . '</td>';
-            echo '<td>
-                    <button class="quantity-btn" onclick="updateQuantity(' . $row['artikel_id'] . ', \'decrease\')">-</button>
-                    <span id="quantity-' . $row['artikel_id'] . '">' . $row["aantal"] . '</span>
-                    <button class="quantity-btn" onclick="updateQuantity(' . $row['artikel_id'] . ', \'increase\')">+</button>
-                  </td>';
             echo '<td>&euro;<span id="price-' . $row['artikel_id'] . '">' . number_format($row["prijs"], 2) . '</span></td>';
-            echo '<td>&euro;<span id="total-' . $row['artikel_id'] . '">' . number_format($itemPrijs, 2) . '</span></td>';
-            echo '<td>
-        <select onchange="updateSchoenmaat(' . $row['id'] . ', this.value)">
-            <option value="30"' . ($row["schoenmaat"] == 30 ? ' selected' : '') . '>30</option>
-            <option value="31"' . ($row["schoenmaat"] == 31 ? ' selected' : '') . '>31</option>
-            <option value="32"' . ($row["schoenmaat"] == 32 ? ' selected' : '') . '>32</option>
-            <option value="33"' . ($row["schoenmaat"] == 33 ? ' selected' : '') . '>33</option>
-            <option value="34"' . ($row["schoenmaat"] == 34 ? ' selected' : '') . '>34</option>
-            <option value="35"' . ($row["schoenmaat"] == 35 ? ' selected' : '') . '>35</option>
-            <option value="36"' . ($row["schoenmaat"] == 36 ? ' selected' : '') . '>36</option>
-            <option value="37"' . ($row["schoenmaat"] == 37 ? ' selected' : '') . '>37</option>
-            <option value="38"' . ($row["schoenmaat"] == 38 ? ' selected' : '') . '>38</option>
-            <option value="39"' . ($row["schoenmaat"] == 39 ? ' selected' : '') . '>39</option>
-            <option value="40"' . ($row["schoenmaat"] == 40 ? ' selected' : '') . '>40</option>
-            <option value="41"' . ($row["schoenmaat"] == 41 ? ' selected' : '') . '>41</option>
-            <option value="42"' . ($row["schoenmaat"] == 42 ? ' selected' : '') . '>42</option>
-            <option value="43"' . ($row["schoenmaat"] == 43 ? ' selected' : '') . '>43</option>
-            <option value="44"' . ($row["schoenmaat"] == 44 ? ' selected' : '') . '>44</option>
-            <option value="45"' . ($row["schoenmaat"] == 45 ? ' selected' : '') . '>45</option>
-            <option value="46"' . ($row["schoenmaat"] == 46 ? ' selected' : '') . '>46</option>
-            <option value="47"' . ($row["schoenmaat"] == 47 ? ' selected' : '') . '>47</option>
-            <option value="48"' . ($row["schoenmaat"] == 48 ? ' selected' : '') . '>48</option>
-            <option value="49"' . ($row["schoenmaat"] == 49 ? ' selected' : '') . '>49</option>
-            <option value="50"' . ($row["schoenmaat"] == 50 ? ' selected' : '') . '>50</option>
-        </select>
-          </td>';
             echo '</tr>';
         }
 
         echo '</tbody>';
         echo '</table>';
 
-        echo '<div class="cart-total">Totale Prijs: &euro;<span id="total-price">' . number_format($totalePrijs, 2) . '</span></div>';
+        echo '<div class="wishlist-total">Totale Prijs: &euro;<span id="total-price">' . number_format($totalePrijs, 2) . '</span></div>';
         echo '</div>'; 
     } else {
-        echo '<div class="empty-cart">Winkelwagen is leeg.</div>';
+        echo '<div class="empty-wishlist">Wishlist is leeg.</div>';
     }
 } else {
-    echo '<div class="empty-cart">U bent niet ingelogd. Log eerst in om de winkelwagen te bekijken.</div>';
+    echo '<div class="empty-wishlist">U bent niet ingelogd. Log eerst in om de winkelwagen te bekijken.</div>';
 }
 ?>
 
    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
    <script>
-   function updateQuantity(artikel_id, action) {
-       $.ajax({
-           url: 'update_winkelwagen.php',
-           type: 'POST',
-           data: {
-               artikel_id: artikel_id,
-               action: action
-           },
-           success: function(response) {
-               // Parse the JSON response
-               var data = JSON.parse(response);
-
-               // Update the quantity, price and total price dynamically
-               $('#quantity-' + artikel_id).text(data.new_quantity);
-               $('#total-' + artikel_id).text(data.new_total_price);
-               $('#total-price').text(data.new_total_cart_price);
-           }
-       });
-   }
    function openNav() {
            document.getElementById("mySidenav").style.width = "250px";
          }
@@ -240,22 +185,6 @@ if (isset($_SESSION["klant_id"])) {
          function closeNav() {
            document.getElementById("mySidenav").style.width = "0";
          }
-
-         function updateSchoenmaat(id, schoenmaat) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "update_schoenmaat.php", true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                console.log("Schoenmaat updated successfully: " + xhr.responseText);
-            } else {
-                console.error("Error updating schoenmaat: " + xhr.responseText);
-            }
-        }
-    };
-    xhr.send("id=" + encodeURIComponent(id) + "&schoenmaat=" + encodeURIComponent(schoenmaat));
-}
    </script>
 </div>
    </body>

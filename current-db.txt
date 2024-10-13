@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Oct 10, 2024 at 01:16 PM
--- Server version: 10.6.18-MariaDB-0ubuntu0.22.04.1
--- PHP Version: 8.1.2-1ubuntu2.18
+-- Host: 127.0.0.1
+-- Generation Time: Oct 13, 2024 at 12:45 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -38,7 +38,7 @@ CREATE TABLE `tbladmin` (
 --
 
 INSERT INTO `tbladmin` (`functie_id`, `functienaam`, `functiewaarde`) VALUES
-(1, 'onderhoudmodus', 1);
+(1, 'onderhoudmodus', 0);
 
 -- --------------------------------------------------------
 
@@ -52,6 +52,13 @@ CREATE TABLE `tbladres` (
   `adres` text NOT NULL,
   `postcode_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbladres`
+--
+
+INSERT INTO `tbladres` (`klant_id`, `adres_id`, `adres`, `postcode_id`) VALUES
+(7, 1, 'melkstraat', 1);
 
 -- --------------------------------------------------------
 
@@ -142,7 +149,9 @@ INSERT INTO `tblklant` (`klant_id`, `klantnaam`, `email`, `telefoonnummer`, `wac
 (3, 'yassine', 'yassine.bibi@bazandpoort.be', '', 'yassine', '43', 'admin'),
 (4, 'victor', 'victor.coremans@bazandpoort.be', '', 'victor', '39', 'admin'),
 (5, 'kerem', 'mkerem.bicer@bazandpoort.be', '', 'kerem', '63', 'admin'),
-(6, 'wijns', 'gerrit.wijns@bazandpoort.be', '', 'wijns', '43', 'klant');
+(6, 'wijns', 'gerrit.wijns@bazandpoort.be', '', 'wijns', '43', 'klant'),
+(7, 'klant', 'klant@gmail.com', '0495920666', '$2y$10$b/jted7DqYi7KBrk6HaSK.VV5i5PD2FwwyLTG2giq2Db5a5YXYumO', '42', 'klant'),
+(8, 'admin', 'admin@gmail.com', '', '$2y$10$UBV2Ar6q1jDfNVd1j0zP3ef4V1N6Vrmevl20DL6Q.KG7tYJeZgNlS', '43', 'admin');
 
 -- --------------------------------------------------------
 
@@ -176,6 +185,13 @@ CREATE TABLE `tblpostcode` (
   `plaats` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tblpostcode`
+--
+
+INSERT INTO `tblpostcode` (`postcode_id`, `postcode`, `plaats`) VALUES
+(1, 2800, 'Mechelen');
+
 -- --------------------------------------------------------
 
 --
@@ -205,14 +221,41 @@ CREATE TABLE `tblsocialmedia` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tblvariatie`
+--
+
+CREATE TABLE `tblvariatie` (
+  `artikel_id` int(11) NOT NULL,
+  `variatie_id` int(11) NOT NULL,
+  `kleur` text NOT NULL,
+  `directory` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tblwinkelwagen`
 --
 
 CREATE TABLE `tblwinkelwagen` (
+  `id` int(11) NOT NULL,
   `klant_id` int(11) NOT NULL,
   `artikel_id` int(11) NOT NULL,
+  `schoenmaat` int(11) NOT NULL,
   `aantal` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tblwinkelwagen`
+--
+
+INSERT INTO `tblwinkelwagen` (`id`, `klant_id`, `artikel_id`, `schoenmaat`, `aantal`) VALUES
+(1, 8, 1, 33, 1),
+(2, 8, 1, 32, 1),
+(3, 8, 3, 43, 1),
+(4, 8, 7, 42, 1),
+(5, 8, 4, 43, 1),
+(6, 7, 1, 42, 1);
 
 -- --------------------------------------------------------
 
@@ -281,7 +324,8 @@ ALTER TABLE `tblpostcode`
 -- Indexes for table `tblrecensies`
 --
 ALTER TABLE `tblrecensies`
-  ADD PRIMARY KEY (`recensie_id`);
+  ADD PRIMARY KEY (`recensie_id`),
+  ADD KEY `tblrecensies_ibfk_1` (`klant_id`);
 
 --
 -- Indexes for table `tblsocialmedia`
@@ -293,8 +337,7 @@ ALTER TABLE `tblsocialmedia`
 -- Indexes for table `tblwinkelwagen`
 --
 ALTER TABLE `tblwinkelwagen`
-  ADD PRIMARY KEY (`klant_id`,`artikel_id`),
-  ADD KEY `artikel_id` (`artikel_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `tblwishlist`
@@ -328,7 +371,7 @@ ALTER TABLE `tblcategorie`
 -- AUTO_INCREMENT for table `tblklant`
 --
 ALTER TABLE `tblklant`
-  MODIFY `klant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `klant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tblmerk`
@@ -340,7 +383,7 @@ ALTER TABLE `tblmerk`
 -- AUTO_INCREMENT for table `tblpostcode`
 --
 ALTER TABLE `tblpostcode`
-  MODIFY `postcode_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `postcode_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblrecensies`
@@ -355,6 +398,12 @@ ALTER TABLE `tblsocialmedia`
   MODIFY `socialmedia_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `tblwinkelwagen`
+--
+ALTER TABLE `tblwinkelwagen`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -363,13 +412,6 @@ ALTER TABLE `tblsocialmedia`
 --
 ALTER TABLE `tblrecensies`
   ADD CONSTRAINT `tblrecensies_ibfk_1` FOREIGN KEY (`klant_id`) REFERENCES `tblklant` (`klant_id`);
-
---
--- Constraints for table `tblwinkelwagen`
---
-ALTER TABLE `tblwinkelwagen`
-  ADD CONSTRAINT `tblwinkelwagen_ibfk_1` FOREIGN KEY (`klant_id`) REFERENCES `tblklant` (`klant_id`),
-  ADD CONSTRAINT `tblwinkelwagen_ibfk_2` FOREIGN KEY (`artikel_id`) REFERENCES `tblartikels` (`artikel_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
