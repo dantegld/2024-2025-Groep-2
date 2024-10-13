@@ -8,6 +8,7 @@ echo '
 <a href="adminonderhoud.php">Onderhoudsmodus</a>
 <a href="registrerenAdmin.php">Klant Registreren</a>
 <a href="productVerwijderen.php">Product Verwijderen</a>
+<a href="schoenenToevoegen.php">Product Toevoegen</a>
 </div>';
 
 ?>

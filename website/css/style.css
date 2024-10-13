@@ -1065,4 +1065,11 @@ text-align: right;
     background-color: transparent;
     color: #f26522;
 }
-
+.adminpage1 {
+    width: 100vw;
+    height: 100vh;
+    padding-left: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

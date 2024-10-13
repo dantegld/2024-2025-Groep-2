@@ -46,7 +46,6 @@
 
          table {
             width: 60%;
-            margin-left: 20%;
              border-collapse: collapse;
              background-color: #fff;
              box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -61,7 +60,7 @@
          th {
              background-color: #007BFF;
              color: white;
-             font-weight: bold;
+             font-weight: normal;
          }
 
          td {
@@ -119,6 +118,9 @@
       controleerAdmin();
 
       include 'functies/adminSideMenu.php';
+        ?>
+        <div class="adminpage">
+            <?php
 
       $query = "SELECT * FROM tblartikels";
       $result = $mysqli->query($query);
@@ -161,5 +163,6 @@
           }
       }
       ?>
+      </div>
    </body>
 </html>
