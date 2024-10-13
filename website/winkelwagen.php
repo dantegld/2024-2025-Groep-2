@@ -33,7 +33,7 @@
       <link rel="stylesheet" href="css/owl.carousel.min.css">
       <link rel="stylesoeet" href="css/owl.theme.default.min.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
-      <link rel="icon" href="images/icon/favicon.png">
+   <link rel="icon" href="images/icon/favicon.png">
       <style>
       /* General table styles */
       table {
@@ -109,6 +109,8 @@
           border-radius: 5px;
       }
 
+      .header-section
+
       /* Responsive design adjustments */
       @media (max-width: 768px) {
           table th, table td {
@@ -126,6 +128,68 @@
    <?php
 include("connect.php");
 session_start();
+?>
+<div class="logo_section">
+            <div class="container">
+               <div class="row">
+                  <div class="col-sm-12">
+                     <div class="logo"><a href="index.php"><img src="images/icon/logo.svg"></a></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+<div class="header_section">
+            <div class="container">
+               <div class="containt_main">
+                  <?php
+                  include 'functies/MySideNav.php';
+                  ?>
+                  <span class="toggle_icon" onclick="openNav()"><img src="images/icon/toggle-icon.png"></span>
+                 
+                  <div class="main">
+                     <!-- Another variation with a button -->
+                     <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search the store">
+                        <div class="input-group-append">
+                           <button class="btn btn-secondary" type="button" style="background-color: #f26522; border-color:#f26522 ">
+                           <i class="fa fa-search"></i>
+                           </button>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="header_box">
+                     <div class="login_menu">
+                        <ul>
+                           <li><a href="#">
+                              <i class="fa fa-heart" aria-hidden="true"></i>
+                              <span class="padding_5">Wishlist</span></a>
+                           </li>
+                           <li><a href="winkelwagen.php">
+                              <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                              <span class="padding_5">Cart</span></a>
+                           </li>
+                           <?php
+                           //Als de klant is ingelogd, laat de knop "My Profile" zien, anders laat de knop "Log-In" zien
+                           if ($_SESSION["klant"]){
+                              echo '<li><a href="profile.php">
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                    <span class="padding_5">My Profile</span></a>
+                                    </li>';
+                           }else{
+                              echo '<li><a href="login.php">
+                              <i class="fa fa-user" aria-hidden="true"></i>
+                              <span class="padding_5">Log-In</span></a>
+                           </li>';
+                           }
+                           ?>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <?php
+
 
 if (isset($_SESSION["klant_id"])) {
     $klant_id = $_SESSION["klant_id"];

@@ -41,7 +41,6 @@
 <body>
 <?php
 include 'connect.php';
-session_start();
 include 'functies/adminSideMenu.php';
 include 'functies/functies.php';
 controleerAdmin();
