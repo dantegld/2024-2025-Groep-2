@@ -157,32 +157,39 @@
 
                      if (mysqli_num_rows($result) > 0) {
                         // Output data of each row
-                        //WISHLIST BUTTON NOT WORKING
                         while($row = mysqli_fetch_assoc($result)) {
-                           $sql = "SELECT artikel_id FROM tblwishlist WHERE artikel_id = " . $row['artikel_id'] . " AND klant_id = " . $_SESSION['klant_id'];
-                           $result2 = mysqli_query($mysqli, $sql);
+                           if($_SESSION['klant']) {
+                           $sql2 = "SELECT artikel_id FROM tblwishlist WHERE artikel_id = " . $row['artikel_id'] . " AND klant_id = " . $_SESSION['klant_id'];
+                           $result2 = mysqli_query($mysqli, $sql2);
                            if (mysqli_num_rows($result2) > 0) {
                               $wishlist = true;
                            } else {
                               $wishlist = false;
                            }
+                        }
+                        
                            echo '<div class="col-lg-4 col-sm-4">';
                            echo '   <div class="box_main">';
                            echo '      <h4 class="shirt_text">' . htmlspecialchars($row["artikelnaam"]) . '</h4>';
                            echo '      <p class="price_text">Price  <span style="color: #262626;">$ ' . htmlspecialchars($row["prijs"]) . '</span></p>';
                            echo '      <div class="tshirt_img"><img src="' . htmlspecialchars($row["directory"]) . '"></div>';
                            echo '      <div class="btn_main">';
+                           if(!($_SESSION['klant'])) {
+                              echo '         <div class="wishlist_bt"><a href="login.php"><i class="fa fa-heart-o" aria-hidden="true"></i></a></div>';
+                           } else {
                            if ($wishlist) {
                               echo '         <div class="wishlist_bt"><a href="wishlistCalc.php?id='. $row['artikel_id'].'"><i class="fa fa-heart" aria-hidden="true"></i></a></div>';
                            } else {
                               echo '         <div class="wishlist_bt"><a href="wishlistCalc.php?id='. $row['artikel_id'].'"><i class="fa fa-heart-o" aria-hidden="true"></i></a></div>';
                            }
+                        }
+                        
                            echo '         <div class="buy_bt"><a href="cartCalc.php?id='.$row['artikel_id'].'">Add to cart</a></div>';
                            echo '         <div class="seemore_bt"><a href="#">See More</a></div>';
                            echo '      </div>';
                            echo '   </div>';
                            echo '</div>';
-                        }
+                     } 
                      } else {
                         echo "0 results";
                      }
