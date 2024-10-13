@@ -624,7 +624,6 @@ a:hover {
 }
 
 .seemore_bt a {
-    width: 100%;
     font-size: 16px;
     color: #262626;
     background-color: transparent;
@@ -1048,3 +1047,22 @@ btn-danger a:hover {
 .fa-cogs {
     width: 50px;
 }
+.wishlist_bt {
+display: flex;
+justify-content: flex-start;
+align-items: center;
+width: 100%;
+float: right;
+text-align: right;
+}
+.wihslist_bt a {
+    font-size: 16px;
+    color: #262626;
+    background-color: transparent;
+    text-align: right;
+}
+.wishlist_bt a:hover {
+    background-color: transparent;
+    color: #f26522;
+}
+
