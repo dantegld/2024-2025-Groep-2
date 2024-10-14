@@ -47,38 +47,21 @@
     include 'functies/adminSideMenu.php';
     ?>
     <div class="adminpage">
-        <h3>Betaalmethodes</h3>
-            <?php
-                echo '
-                <table>
-            <tr>
-                <th>Betaalmethode</th>
-                <th>Actief</th>
-                <th>Verwijderen</th>
-            </tr>';
-            
-                $sql = "SELECT * FROM tblbetaalmethodes";
-                $result = $mysqli->query($sql);
-                while ($row = $result->fetch_assoc()) {
-                    echo '<tr>';
-                    echo '<td>' . $row['methodenaam'] . '</td>';
-                    echo '<td>';
-                    if ($row['actief'] == 1) {
-                        echo 'Ja';
-                    } else {
-                        echo 'Nee';
-                    }
-                    echo '</td>';
+        <h3>Betaalmethode Deactiveren</h3>
+        <?php
+        if (isset($_GET['deactiveren'])) {
+            $id = $_GET['deactiveren'];
+            $sql = "UPDATE tblbetaalmethodes SET actief = 0 WHERE methode_id = '. $id .'";
+            $mysqli->query($sql);
 
-                    $methode_id = $row['methode_id'];
-                    if ($row['actief'] == 1) {
-                        echo '<td><a href="betaalmethodeDeactiveren.php?id=' . $methode_id . '">Deactiveren</a></td>';
-                    } else {
-                        echo '<td><a href="betaalmethodeActiveren.php?id=' . $methode_id . '">Activeren</a></td>';
-                    }
-                    echo '</tr>';
-                }
-                echo '</table>';
-            ?>
-    </div>
-</body>
+            $sql = 'SELECT * FROM tblbetaalmethodes WHERE methode_id = ' . $id . '';
+            $result = $mysqli->query($sql);
+            $row = $result->fetch_assoc();
+            $naam = $row('methodenaam');
+
+            echo '<h4>' . $naam . ' is gedeactiveert</h4> <br>
+            <a href="betaalmethodes.php">Terug naar betaalmethodes</a>';
+        } else {
+            echo '<h4>Er is iets fout gegaan</h4>';
+            echo '<a href="betaalmethodes.php">Terug naar betaalmethodes</a>';
+        }

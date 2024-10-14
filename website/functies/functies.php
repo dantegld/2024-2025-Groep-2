@@ -72,6 +72,7 @@ function processPayPalPayment($amount)
 // Functie om de Stripe betaling te verwerken
 
 function processStripePayment($amount){
+   include 'connect.php';
    require_once('stripe-php/init.php');
 
    $amount = str_replace(',', '', $amount);
@@ -82,7 +83,12 @@ function processStripePayment($amount){
    $success_url = "http://localhost/tiago/2024-2025-Groep-2/2024-2025-Groep-2/website/successBetalen.php";
    $cancel_url = "http://localhost/tiago/2024-2025-Groep-2/2024-2025-Groep-2/website/cancelBetalen.php";
 
-   $stripe_secret_key = 'sk_test_51Q8kjWPPG2zVDYrhIRAkxlWQJ2pOwUHLLBctHjfbVJvnxZM9CqGmnD455lWASCk2IaaDqmiETmGxZA9PlNozsnAd00whdJmWl0';
+
+   //get from database
+   $sql = "SELECT * FROM tblbetaalmethodes where methodenaam = 'Stripe'";
+   $result = $mysqli->query($sql);
+   $row = $result->fetch_assoc();
+   $stripe_secret_key = $row['sleutel'];
 
    try {
       \Stripe\Stripe::setApiKey($stripe_secret_key);
@@ -106,12 +112,11 @@ function processStripePayment($amount){
 
    http_response_code(303);
    header('Location: ' . $checkout_session->url);
+
   } catch (Exception $e) {
+
       echo 'Caught exception: ',  $e->getMessage(), "\n";
   }
-
-   
 }
-
 
 
