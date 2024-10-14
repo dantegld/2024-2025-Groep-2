@@ -109,7 +109,6 @@
           border-radius: 5px;
       }
 
-      .header-section
 
       /* Responsive design adjustments */
       @media (max-width: 768px) {
@@ -132,11 +131,13 @@ include 'functies/functies.php';
 include 'functies/mySideNav.php';
 echo '<br><span class="toggle_icon1" onclick="openNav()"><img width="44px" src="images/icon/Hamburger_icon.svg.png"></span>';
 
+
 if (isset($_SESSION["klant_id"])) {
     $klant_id = $_SESSION["klant_id"];
-    $sql = "SELECT w.id, w.schoenmaat, w.artikel_id, w.aantal, a.directory, a.artikelnaam, a.prijs 
-            FROM tblwinkelwagen w, tblartikels a 
-            WHERE klant_id = '" . $klant_id . "' 
+    $sql = "SELECT w.id, w.artikel_id, w.aantal, w.schoenmaat,a.prijs,a.artikelnaam, w.variatie_id, v.variatie_id, v.kleur, v.directory 
+            FROM tblwinkelwagen w, tblvariatie v, tblartikels a
+            WHERE klant_id =  $klant_id
+            AND w.artikel_id = v.artikel_id
             AND w.artikel_id = a.artikel_id";
     $result = $mysqli->query($sql);
 
@@ -163,7 +164,7 @@ if (isset($_SESSION["klant_id"])) {
             
             echo '<tr id="product-' . $row['artikel_id'] . '">';
             echo '<td><img src="' . $row["directory"] . '" alt="' . $row["artikelnaam"] . '"></td>';
-            echo '<td>' . $row["artikelnaam"] . '</td>';
+            echo '<td>' . $row["artikelnaam"] . '<br>'. $row["kleur"] . '</td>';
             echo '<td>
                     <button class="quantity-btn" onclick="updateQuantity(' . $row['artikel_id'] . ', \'decrease\')">-</button>
                     <span id="quantity-' . $row['artikel_id'] . '">' . $row["aantal"] . '</span>
