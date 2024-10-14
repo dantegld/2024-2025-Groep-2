@@ -23,13 +23,8 @@ if ($result1->num_rows > 0) {
         header("Location: index.php");
         exit();
     }
-    $sql = "INSERT INTO tblwishlist (klant_id, artikel_id) VALUES ($klant_id, $artikel_id)";
-    if ($mysqli->query($sql) === TRUE) {
-        header("Location: index.php");
-        exit();
-    }
 } else {
-    $sql = "INSERT INTO tblwishlist (klant_id, artikel_id) VALUES ($klant_id, $artikel_id)";
+    $sql = "INSERT INTO tblwishlist (klant_id, artikel_id,variatie_id) VALUES ($klant_id, $artikel_id, '1')";
     if ($mysqli->query($sql) === TRUE) {
         header("Location: index.php");
         exit();

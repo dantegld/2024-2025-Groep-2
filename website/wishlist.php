@@ -133,14 +133,15 @@ echo '<br><span class="toggle_icon1" onclick="openNav()"><img width="44px" src="
 
 if (isset($_SESSION["klant_id"])) {
     $klant_id = $_SESSION["klant_id"];
-    $sql = "SELECT w.artikel_id, a.directory, a.artikelnaam, a.prijs 
-            FROM tblwishlist w, tblartikels a 
+    $sql = "SELECT w.artikel_id, v.directory,v.kleur, a.artikelnaam, a.prijs 
+            FROM tblwishlist w, tblartikels a, tblvariatie v
             WHERE klant_id = '" . $klant_id . "' 
-            AND w.artikel_id = a.artikel_id";
+            AND w.artikel_id = a.artikel_id
+            AND a.artikel_id = v.artikel_id
+            AND w.variatie_id = 1";
     $result = $mysqli->query($sql);
 
     if ($result->num_rows > 0) {
-        $totalePrijs = 0; 
 
         echo '<div class="wishlist-container">';
         echo '<table class="wishlist-table">';
@@ -148,7 +149,7 @@ if (isset($_SESSION["klant_id"])) {
         echo '<tr>';
         echo '<th>Product</th>';
         echo '<th>Artikelnaam</th>';
-        echo '<th>Prijs per item</th>'; 
+        echo '<th>Prijs</th>';
         echo '</tr>';
         echo '</thead>';
         echo '<tbody>';
@@ -158,7 +159,7 @@ if (isset($_SESSION["klant_id"])) {
             
             echo '<tr id="product-' . $row['artikel_id'] . '">';
             echo '<td><img src="' . $row["directory"] . '" alt="' . $row["artikelnaam"] . '"></td>';
-            echo '<td>' . $row["artikelnaam"] . '</td>';
+            echo '<td>' . $row["artikelnaam"] . '<br>'. $row["kleur"] . '</td>';
             echo '<td>&euro;<span id="price-' . $row['artikel_id'] . '">' . number_format($row["prijs"], 2) . '</span></td>';
             echo '</tr>';
         }
@@ -166,7 +167,7 @@ if (isset($_SESSION["klant_id"])) {
         echo '</tbody>';
         echo '</table>';
 
-        echo '<div class="wishlist-total">Totale Prijs: &euro;<span id="total-price">' . number_format($totalePrijs, 2) . '</span></div>';
+        
         echo '</div>'; 
     } else {
         echo '<div class="empty-wishlist">Wishlist is leeg.</div>';
