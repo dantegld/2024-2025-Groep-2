@@ -166,11 +166,12 @@
                            } else {
                               $wishlist = false;
                            }
-                           $sql3 = "SELECT v.directory from tblartikels a, tblvariatie v where a.artikel_id = v.artikel_id and a.artikel_id = '" . $row['artikel_id'] . "'  AND v.variatie_id = '1'";
-                           $result3 = mysqli_query($mysqli, $sql3);
-                           $row3 = mysqli_fetch_assoc($result3);
-                           $row['directory'] = $row3['directory'];
+
                         }
+                        $sql3 = "SELECT v.directory from tblartikels a, tblvariatie v where a.artikel_id = v.artikel_id and a.artikel_id = '" . $row['artikel_id'] . "'  AND v.variatie_id = '1'";
+                        $result3 = mysqli_query($mysqli, $sql3);
+                        $row3 = mysqli_fetch_assoc($result3);
+                        $row['directory'] = $row3['directory'];
                         
                            echo '<div class="col-lg-4 col-sm-4">';
                            echo '   <div class="box_main">';
