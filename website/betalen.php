@@ -65,9 +65,8 @@
         } else if ($payment_method == 'stripe') {
             processStripePayment($totaal);
 
-        } else if ($payment_method == 'razorpay') {
-            echo "You have selected Razorpay as your payment method.";
-            die;
+        } else if ($payment_method == 'square') {
+            header("Location: square.php?amount=$totaal");
         } else {
             echo "Invalid payment method selected.";
             die;
