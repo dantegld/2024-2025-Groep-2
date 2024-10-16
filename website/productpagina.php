@@ -57,6 +57,43 @@
 html {
     scroll-behavior: auto;
 }
+.dropdown {
+    position: relative;
+    width: 200px;
+}
+
+select {
+    appearance: none; /* Remove default styling */
+    -webkit-appearance: none; /* Remove default styling in Safari */
+    -moz-appearance: none; /* Remove default styling in Firefox */
+    
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="%23999"><path d="M5 8l5 5 5-5H5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 1em;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+select:focus {
+    border-color: #007bff; /* Change border color on focus */
+    outline: none; /* Remove outline */
+}
+
+select:hover {
+    border-color: #0056b3; /* Darker border color on hover */
+}
+
+select:disabled {
+    color: #6c757d; /* Grey color for disabled select */
+    background-color: #e9ecef; /* Light grey background for disabled select */
+    cursor: not-allowed;
+}
 </style>
          <div class="logo_section">
             <div class="container">
@@ -134,25 +171,24 @@ html {
             $result = mysqli_query($mysqli, $sql);
             $row = mysqli_fetch_assoc($result);
             $afbeelding = $row['directory'];
+            $artikel_id = $row['artikel_id'];
             echo '<img width="300px" src="' . $afbeelding . '" alt="' . $row['artikelnaam'] . ' Image">';
             ?>
         </div>
         <div class="product-details" id="product-details">
             <?php
             if($_SESSION['klant']){
-                $sql = "SELECT * FROM tblwishlist WHERE artikel_id = $id and klant_id = " . $_SESSION['klant_id'];
+                $sql = "SELECT * FROM tblwishlist WHERE artikel_id = $id and klant_id = '" . $_SESSION['klant_id'] . "' and variatie_id = $variatie_id";
                 $result = mysqli_query($mysqli, $sql);
                 if(mysqli_num_rows($result) > 0){
-                    echo '<div class="wishlist_bt"><a href="wishlistCalc1.php?id='. $row['artikel_id'].'"><i class="fa fa-heart" aria-hidden="true"></i></a></div>';
+                    echo '<div class="wishlist_bt"><a href="wishlistCalc1.php?variatie_id='.$variatie_id .'&'. 'id='. $artikel_id.'"><i class="fa fa-heart" aria-hidden="true"></i></a></div>';
                 }else{
-                    echo '<div class="wishlist_bt"><a href="wishlistCalc1.php?id='. $row['artikel_id'].'"><i class="fa fa-heart-o" aria-hidden="true"></i></a></div>';
+                    echo '<div class="wishlist_bt"><a href="wishlistCalc1.php?variatie_id='.$variatie_id .'&'. 'id='. $artikel_id.'"><i class="fa fa-heart-o" aria-hidden="true"></i></a></div>';
                 }
 
             }else{
                 echo '<div class="wishlist_bt"><a href="login.php"><i class="fa fa-heart-o" aria-hidden="true"></i></a></div>';
             }
-            
-            $sql = "SELECT * FROM tblwishlist WHERE artikel_id = $id and klant_id = " . $_SESSION['klant_id'];
             ?>
             <br>
             <br>
@@ -160,28 +196,41 @@ html {
     <p class="product-price">&euro; <?php echo $row['prijs']; ?></p>
     <form id="colorForm" action="" method="GET">
         <div class="color-selector">
-            <h3>Select Color:</h3>
-            <div class="colors">
-                <?php
-                $sql = "SELECT * FROM tblvariatie WHERE artikel_id = $id";
-                $result = mysqli_query($mysqli, $sql);
-                while ($row = mysqli_fetch_assoc($result)) {
-                    echo '<div class="color" style="background-color:' . $row['HEX'] . '" data-color="' . $row['kleur'] . '" onclick="selectColor(' . $row['variatie_id'] . ')"></div>';
-                }
-                ?>
-            </div>
-        </div>
-        <input type="hidden" name="variatie_id" id="variatie_id" value="<?php echo $variatie_id; ?>">
-        <?php
-        // Preserve existing GET parameters
-        foreach ($_GET as $key => $value) {
-            if ($key != 'variatie_id') {
-                echo '<input type="hidden" name="' . htmlspecialchars($key) . '" value="' . htmlspecialchars($value) . '">';
-            }
-        }
-        ?>
-    </form>
-    <button class="add-to-cart">Add to Cart</button>
+        <h3>Select Color:</h3>
+<div class="colors">
+    <?php
+    $sql = "SELECT * FROM tblvariatie WHERE artikel_id = $id";
+    $result = mysqli_query($mysqli, $sql);
+    while ($row = mysqli_fetch_assoc($result)) {
+        echo '<div class="color" style="background-color:' . $row['HEX'] . '" data-color="' . $row['kleur'] . '" onclick="selectColor(' . $row['variatie_id'] . ')"></div>';
+    }
+    ?>
+</div>
+</div>
+<input type="hidden" name="variatie_id" id="variatie_id" value="<?php echo $variatie_id; ?>">
+<?php
+// Preserve existing GET parameters
+foreach ($_GET as $key => $value) {
+    if ($key != 'variatie_id') {
+        echo '<input type="hidden" name="' . htmlspecialchars($key) . '" value="' . htmlspecialchars($value) . '">';
+    }
+}
+?>
+</form>
+<div class="dropdown">
+    <?php
+    echo '<select class="mySelect" name="schoenmaat" id="schoenmaat" onchange="updateCartLink()">';
+    for ($i = 30; $i <= 50; $i++) {
+        echo '<option value="' . $i . '">' . $i . '</option>';
+    }
+    echo '</select>';
+    echo '<br>';
+    echo '<br>';
+    ?>
+    <div class="buy_bt">
+        <a id="addToCartLink" href="cartCalc.php?variatie_id=<?php echo $variatie_id; ?>&id=<?php echo $artikel_id; ?>&schoenmaat=">Add to cart</a>
+    </div>
+</div>
 </div>
 </div>
 </div>
@@ -192,6 +241,14 @@ function selectColor(variatie_id) {
     // Append the fragment to the form action URL
     document.getElementById('colorForm').action = window.location.pathname + window.location.search + '#product-details';
     document.getElementById('colorForm').submit();
+}
+
+function updateCartLink() {
+    var schoenmaat = document.getElementById('schoenmaat').value;
+    var variatie_id = document.getElementById('variatie_id').value;
+    var artikel_id = <?php echo $artikel_id; ?>;
+    var addToCartLink = document.getElementById('addToCartLink');
+    addToCartLink.href = 'cartCalc.php?variatie_id=' + variatie_id + '&id=' + artikel_id + '&schoenmaat=' + schoenmaat;
 }
 </script>
 </body>
