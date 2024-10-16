@@ -190,7 +190,7 @@
                         }
                         
                            echo '         <div class="buy_bt"><a href="cartCalc.php?id='.$row['artikel_id'].'">Add to cart</a></div>';
-                           echo '         <div class="seemore_bt"><a href="#">See More</a></div>';
+                           echo '         <div class="seemore_bt"><a href="productpagina.php?id='.$row['artikel_id'].'">See More</a></div>';
                            echo '      </div>';
                            echo '   </div>';
                            echo '</div>';

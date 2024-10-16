@@ -138,7 +138,8 @@ if (isset($_SESSION["klant_id"])) {
             FROM tblwinkelwagen w, tblvariatie v, tblartikels a
             WHERE klant_id =  $klant_id
             AND w.artikel_id = v.artikel_id
-            AND w.artikel_id = a.artikel_id";
+            AND w.artikel_id = a.artikel_id
+            AND w.variatie_id = v.variatie_id";
     $result = $mysqli->query($sql);
 
     if ($result->num_rows > 0) {
