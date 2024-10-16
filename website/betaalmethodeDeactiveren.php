@@ -49,15 +49,15 @@
     <div class="adminpage">
         <h3>Betaalmethode Deactiveren</h3>
         <?php
-        if (isset($_GET['deactiveren'])) {
-            $id = $_GET['deactiveren'];
-            $sql = "UPDATE tblbetaalmethodes SET actief = 0 WHERE methode_id = '. $id .'";
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $sql = "UPDATE tblbetaalmethodes SET actief = 0 WHERE methode_id = " . $id . "";
             $mysqli->query($sql);
 
-            $sql = 'SELECT * FROM tblbetaalmethodes WHERE methode_id = ' . $id . '';
-            $result = $mysqli->query($sql);
-            $row = $result->fetch_assoc();
-            $naam = $row('methodenaam');
+            $sql2 = 'SELECT * FROM tblbetaalmethodes WHERE methode_id = ' . $id . '';
+            $result = $mysqli->query($sql2);
+            $row2 = $result->fetch_assoc();
+            $naam = $row2['methodenaam'];
 
             echo '<h4>' . $naam . ' is gedeactiveert</h4> <br>
             <a href="betaalmethodes.php">Terug naar betaalmethodes</a>';

@@ -50,15 +50,16 @@
         <h3>Betaalmethodes Activeren</h3>
         <?php
         //deactivet the one from the id that you get from $_GET
-        if (isset($_GET['activeren'])) {
-            $id = $_GET['activeren'];
-            $sql = "UPDATE tblbetaalmethodes SET actief = 1 WHERE methode_id = '. $id .'";
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $sql = "UPDATE tblbetaalmethodes SET actief = 1 WHERE methode_id = " . $id . "";
             $mysqli->query($sql);
 
-            $sql = 'SELECT * FROM tblbetaalmethodes WHERE methode_id = ' . $id . '';
-            $result = $mysqli->query($sql);
-            $row = $result->fetch_assoc();
-            $naam = $row('methodenaam');
+
+            $sql2 = 'SELECT * FROM tblbetaalmethodes WHERE methode_id = ' . $id . '';
+            $result = $mysqli->query($sql2);
+            $row2 = $result->fetch_assoc();
+            $naam = $row2['methodenaam'];
 
             echo '<h4>' . $naam . ' is geactiveert</h4> <br>
             <a href="betaalmethodes.php">Terug naar betaalmethodes</a>';
