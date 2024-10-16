@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 14, 2024 at 11:24 AM
+-- Generation Time: Oct 16, 2024 at 10:33 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -91,7 +91,7 @@ INSERT INTO `tblartikels` (`artikel_id`, `artikelnaam`, `stock`, `prijs`, `merk_
 (6, 'Adidas terex', 200, 85, 2, 3),
 (7, 'Newbalance MR530 Zwart', 200, 150, 3, 1),
 (9, 'Newbalance 550 Roze', 200, 150, 3, 1),
-(24, 'New Balance 574', 200, 85, 3, 1);
+(25, 'New Balance 574', 200, 200, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -239,24 +239,25 @@ CREATE TABLE `tblvariatie` (
   `artikel_id` int(11) NOT NULL,
   `variatie_id` int(11) NOT NULL,
   `kleur` text NOT NULL,
-  `directory` text NOT NULL
+  `directory` text NOT NULL,
+  `HEX` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tblvariatie`
 --
 
-INSERT INTO `tblvariatie` (`artikel_id`, `variatie_id`, `kleur`, `directory`) VALUES
-(1, 1, 'Grijs', 'images/shoes/nike2.png'),
-(2, 1, 'Zwart', 'images/shoes/nike3.png'),
-(3, 1, 'Grijs', 'images/shoes/nike1.jpg'),
-(4, 1, 'Grijs', 'images/shoes/adidas1.jpg'),
-(5, 1, 'Zwart', 'images/shoes/adidas2.avif'),
-(6, 1, 'Zwart', 'images/shoes/adidas3.jpg'),
-(7, 1, 'Zwart', 'images/shoes/newbalance2.jpg'),
-(9, 1, 'Roze', 'images/shoes/newbalance3.jpeg'),
-(24, 1, 'Zwart', 'images/shoes/New Balance 574_Zwart670cdc0aa58f16.25794668.jpg'),
-(24, 2, 'Grijs', 'images/shoes/New Balance 574_Grijs670cdc0aa5a859.75290303.jpg');
+INSERT INTO `tblvariatie` (`artikel_id`, `variatie_id`, `kleur`, `directory`, `HEX`) VALUES
+(1, 1, 'Grijs', 'images/shoes/nike2.png', '#D3D3D3'),
+(2, 1, 'Zwart', 'images/shoes/nike3.png', '#343434'),
+(3, 1, 'Grijs', 'images/shoes/nike1.jpg', '#D3D3D3'),
+(4, 1, 'Grijs', 'images/shoes/adidas1.jpg', ''),
+(5, 1, 'Zwart', 'images/shoes/adidas2.avif', '#343434'),
+(6, 1, 'Zwart', 'images/shoes/adidas3.jpg', '#343434'),
+(7, 1, 'Zwart', 'images/shoes/newbalance2.jpg', '#343434'),
+(9, 1, 'Roze', 'images/shoes/newbalance3.jpeg', '#FFC0CB'),
+(25, 1, 'Zwart', 'images/shoes/New Balance 574_Zwart670edf39301b09.64805555.jpg', '#343434'),
+(25, 2, 'Grijs', 'images/shoes/New Balance 574_Grijs670edf39306275.44502940.jpg', '#D3D3D3');
 
 -- --------------------------------------------------------
 
@@ -278,13 +279,15 @@ CREATE TABLE `tblwinkelwagen` (
 --
 
 INSERT INTO `tblwinkelwagen` (`id`, `klant_id`, `artikel_id`, `schoenmaat`, `aantal`, `variatie_id`) VALUES
-(1, 8, 1, 32, 2, 1),
-(2, 8, 1, 32, 2, 1),
-(3, 8, 3, 43, 1, 1),
-(4, 8, 7, 42, 1, 1),
-(5, 8, 4, 43, 1, 1),
-(6, 7, 1, 42, 1, 1),
-(7, 8, 1, 43, 2, 1);
+(43, 8, 25, 43, 1, 2),
+(44, 8, 25, 43, 1, 1),
+(45, 8, 25, 43, 1, 2),
+(46, 8, 25, 43, 1, 2),
+(47, 8, 25, 43, 1, 2),
+(48, 8, 25, 43, 1, 2),
+(49, 8, 25, 43, 1, 2),
+(50, 8, 25, 49, 1, 2),
+(51, 8, 25, 43, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -297,13 +300,6 @@ CREATE TABLE `tblwishlist` (
   `artikel_id` int(11) NOT NULL,
   `variatie_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tblwishlist`
---
-
-INSERT INTO `tblwishlist` (`klant_id`, `artikel_id`, `variatie_id`) VALUES
-(8, 1, 1);
 
 --
 -- Indexes for dumped tables
@@ -386,7 +382,7 @@ ALTER TABLE `tblwinkelwagen`
 -- Indexes for table `tblwishlist`
 --
 ALTER TABLE `tblwishlist`
-  ADD PRIMARY KEY (`klant_id`,`artikel_id`);
+  ADD PRIMARY KEY (`klant_id`,`artikel_id`,`variatie_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -402,7 +398,7 @@ ALTER TABLE `tbladmin`
 -- AUTO_INCREMENT for table `tblartikels`
 --
 ALTER TABLE `tblartikels`
-  MODIFY `artikel_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `artikel_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `tblcategorie`
@@ -444,7 +440,7 @@ ALTER TABLE `tblsocialmedia`
 -- AUTO_INCREMENT for table `tblwinkelwagen`
 --
 ALTER TABLE `tblwinkelwagen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- Constraints for dumped tables
