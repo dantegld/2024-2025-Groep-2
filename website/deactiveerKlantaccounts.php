@@ -122,11 +122,13 @@ include 'functies/adminSideMenu.php';
     $result = $mysqli->query($query);
     if ($result->num_rows > 0) {
         echo "<table border='1'>";
-        echo "<tr><th>Klant ID</th><th>klantnaam</th><th>Email</th><th>Wachtwoord</th><th>Telefoonnummer</th><th>Schoenmaat</th><th>Type</th><th>Actie</th></tr>";
+        echo "<tr><th>Klant ID</th><th>Klantnaam</th><th>Email</th><th>Wachtwoord</th><th>Telefoonnummer</th><th>Schoenmaat</th><th>Type</th><th>Actie</th></tr>";
         while ($row = $result->fetch_assoc()) {
             // Start the form here
             echo "<tr>";
-            echo "<form method='POST' action=''>";
+            echo "<form method='POST' action=''>"; // Make sure action is set correctly
+
+         
             echo "<td>" . $row['klant_id'] . "</td>";
             echo "<td>" . $row['klantnaam'] . "</td>";
             echo "<td>" . $row['email'] . "</td>";
@@ -136,6 +138,13 @@ include 'functies/adminSideMenu.php';
             echo "<td>" . $row['type'] . "</td>";
             echo "<td>
                       <input type='hidden' name='klant_id' value='" . $row['klant_id'] . "' />
+                      <input type='hidden' name='klantnaam' value='" . $row['klantnaam'] . "' /> <!-- Added hidden fields -->
+                      <input type='hidden' name='email' value='" . $row['email'] . "' />
+                      <input type='hidden' name='wachtwoord' value='" . $row['wachtwoord'] . "' />
+                      <input type='hidden' name='telefoonnummer' value='" . $row['telefoonnummer'] . "' />
+                      <input type='hidden' name='schoenmaat' value='" . $row['schoenmaat'] . "' />
+                      <input type='hidden' name='type' value='" . $row['type'] . "' />
+
                       <input type='submit' name='verwijderen' value='Verwijderen' />
                   </td>";
             echo "</form>"; // End the form here
@@ -145,16 +154,13 @@ include 'functies/adminSideMenu.php';
     } else {
         echo "Geen oude of niet-beschikbare producten gevonden.";
     }
+
+    
     if (isset($_POST['verwijderen'])) {
-        if (!empty($_POST['klant_id']) && !empty($_POST['klantnaam']) && !empty($_POST['email']) && !empty($_POST['wachtwoord']) && !empty($_POST['schoenmaat']) && !empty($_POST['type'])) {
+        if (!empty($_POST['klant_id'])) { // Only check for klant_id
             $klant_id = $_POST['klant_id'];
-            $klantnaam = $_POST['klantnaam'];
-            $email = $_POST['email'];
-            $wachtwoord = $_POST['wachtwoord'];
-            $schoenmaat = $_POST['schoenmaat'];
-            $type = $_POST['type'];
-            $telefoonnummer = $_POST['telefoonnummer'];
-            
+
+
             // Verwijder query uitvoeren
             $deleteQuery = "DELETE FROM tblklant WHERE klant_id = '$klant_id'";
             $deleteResult = $mysqli->query($deleteQuery);
@@ -168,7 +174,7 @@ include 'functies/adminSideMenu.php';
             echo "<div class='message error'>Niet alle gegevens zijn verstrekt.</div>";
         }
     }
-    
+
     ?>
 </div>
    </body>
