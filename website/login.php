@@ -106,6 +106,8 @@
     </form><br>';
     echo '<div class = "error"> Het ingevoerde wachtwoord of gebruikersnaam is onjuist</div>';
     echo '<div>Nog geen account? <a href="register.php">Register</a></div>';
+    echo ' <br><div>Wachtwoord vergeten? <a href="reset.php">Forgot password?</a></div>';
+    
 
     
     }
@@ -121,7 +123,7 @@
         <input class="btn btn-primary" type="submit" name="login"><br>
         </form><br>';
         echo '<div>Nog geen account? <a href="register.php">Register</a></div>';
-
+        echo ' <br><div>Wachtwoord vergeten? <a href="reset.php">Forgot password?</a></div>';
     }
     
     
