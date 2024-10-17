@@ -10,6 +10,7 @@ echo '
 <a href="productVerwijderen.php">Product Verwijderen</a>
 <a href="schoenenToevoegen.php">Product Toevoegen</a>
 <a href="voorraad.php">Voorraad Beheren</a>
+<a href="deactiveerKlantaccounts.php">Deactiveer Klantaccounts</a>
 </div>';
 
 ?>

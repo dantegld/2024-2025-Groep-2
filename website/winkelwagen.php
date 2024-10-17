@@ -155,6 +155,7 @@ if (isset($_SESSION["klant_id"])) {
         echo '<th>Prijs per item</th>'; 
         echo '<th>Totaal per item</th>';
         echo '<th>Schoenmaat</th>';
+        echo '<th>Verwijderen</th>';
         echo '</tr>';
         echo '</thead>';
         echo '<tbody>';
@@ -198,6 +199,7 @@ if (isset($_SESSION["klant_id"])) {
             <option value="50"' . ($row["schoenmaat"] == 50 ? ' selected' : '') . '>50</option>
         </select>
           </td>';
+          echo '<td><a href="verwijderenWinkelwagen.php?id=' . $row['id'] . '"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a></td>';
             echo '</tr>';
         }
 

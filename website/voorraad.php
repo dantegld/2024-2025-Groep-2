@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -43,35 +42,29 @@
              margin: 0;
              padding: 0;
          }
-
          table {
             width: 60%;
              border-collapse: collapse;
              background-color: #fff;
              box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
          }
-
          th, td {
              padding: 10px;
              text-align: center;
              border: 1px solid #ddd;
          }
-
          th {
              background-color: #007BFF;
              color: white;
              font-weight: normal;
          }
-
          td {
              color: #333;
          }
-
          tr:nth-child(even) {
              background-color: #f2f2f2;
          }
-
-         input[type="submit"], input[name="artikelnaam"] {
+         input[type="submit"] {
              background-color: #ff4d4d;
              color: white;
              border: none;
@@ -81,41 +74,33 @@
              font-size: 14px;
              transition: background-color 0.3s ease;
          }
-
          input:hover {
              background-color: #e60000;
          }
-
          .message {
              text-align: center;
              font-size: 18px;
              color: #333;
              margin-top: 20px;
          }
-
          .message.success {
              color: #28a745;
          }
-
          .message.error {
              color: #dc3545;
          }
-
          form {
              display: inline;
          }
-
          .container {
              text-align: center;
              padding: 20px;
          }
-         input[type="number"] {
+         input[type="number"],input[name="artikelnaam"] {
              border: none;
              background-color: transparent;
              text-align: center;
          }
-
-
       </style>
    </head>
    <body>
@@ -123,19 +108,15 @@
 include 'connect.php'; 
 include 'functies/functies.php';
 controleerAdmin();
-
 include 'functies/adminSideMenu.php';
 ?>
 <div class="adminpage">
     <?php
-
     $query = "SELECT * FROM tblartikels";
     $result = $mysqli->query($query);
-
     if ($result->num_rows > 0) {
         echo "<table border='1'>";
         echo "<tr><th>Artikel ID</th><th>Artikelnaam</th><th>Prijs</th><th>Actie</th></tr>";
-
         while ($row = $result->fetch_assoc()) {
             // Start the form here
             echo "<tr>";
@@ -154,7 +135,6 @@ include 'functies/adminSideMenu.php';
     } else {
         echo "Geen oude of niet-beschikbare producten gevonden.";
     }
-
     // Handle form submission
     if (isset($_POST['aanpassen'])) {
         // Ensure the keys exist in the POST array before accessing them
@@ -162,10 +142,8 @@ include 'functies/adminSideMenu.php';
             $artikel_id = $_POST['artikel_id'];
             $artikelnaam = $_POST['artikelnaam'];
             $prijs = $_POST['prijs'];
-
             $updateQuery = "UPDATE tblartikels SET artikelnaam = '$artikelnaam', prijs = '$prijs' WHERE artikel_id = '$artikel_id'";
             $updateResult = $mysqli->query($updateQuery);
-
             if ($updateResult) {
                 echo "<div class='message success'>Het product met ID $artikel_id is succesvol bijgewerkt.</div>";
             } else {
@@ -176,7 +154,6 @@ include 'functies/adminSideMenu.php';
         }
     }
     ?>
-
 </div>
    </body>
 </html>

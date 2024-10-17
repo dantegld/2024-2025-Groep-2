@@ -127,6 +127,8 @@ include 'functies/adminSideMenu.php';
             // Start the form here
             echo "<tr>";
             echo "<form method='POST' action=''>"; // Make sure action is set correctly
+
+         
             echo "<td>" . $row['klant_id'] . "</td>";
             echo "<td>" . $row['klantnaam'] . "</td>";
             echo "<td>" . $row['email'] . "</td>";
@@ -142,6 +144,7 @@ include 'functies/adminSideMenu.php';
                       <input type='hidden' name='telefoonnummer' value='" . $row['telefoonnummer'] . "' />
                       <input type='hidden' name='schoenmaat' value='" . $row['schoenmaat'] . "' />
                       <input type='hidden' name='type' value='" . $row['type'] . "' />
+
                       <input type='submit' name='verwijderen' value='Verwijderen' />
                   </td>";
             echo "</form>"; // End the form here
@@ -151,10 +154,12 @@ include 'functies/adminSideMenu.php';
     } else {
         echo "Geen oude of niet-beschikbare producten gevonden.";
     }
+
     
     if (isset($_POST['verwijderen'])) {
         if (!empty($_POST['klant_id'])) { // Only check for klant_id
             $klant_id = $_POST['klant_id'];
+
 
             // Verwijder query uitvoeren
             $deleteQuery = "DELETE FROM tblklant WHERE klant_id = '$klant_id'";
@@ -169,6 +174,7 @@ include 'functies/adminSideMenu.php';
             echo "<div class='message error'>Niet alle gegevens zijn verstrekt.</div>";
         }
     }
+
     ?>
 </div>
    </body>
