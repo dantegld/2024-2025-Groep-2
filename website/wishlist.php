@@ -138,7 +138,7 @@ if (isset($_SESSION["klant_id"])) {
             WHERE klant_id = '" . $klant_id . "' 
             AND w.artikel_id = a.artikel_id
             AND a.artikel_id = v.artikel_id
-            AND w.variatie_id = 1";
+            AND w.variatie_id = v.variatie_id";
     $result = $mysqli->query($sql);
 
     if ($result->num_rows > 0) {

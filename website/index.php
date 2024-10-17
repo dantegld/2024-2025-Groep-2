@@ -159,7 +159,8 @@
                         // Output data of each row
                         while($row = mysqli_fetch_assoc($result)) {
                            if($_SESSION['klant']) {
-                           $sql2 = "SELECT artikel_id FROM tblwishlist WHERE artikel_id = " . $row['artikel_id'] . " AND klant_id = " . $_SESSION['klant_id'];
+                           $sql2 = "SELECT artikel_id FROM tblwishlist 
+                           WHERE artikel_id = " . $row['artikel_id'] . " AND klant_id = " . $_SESSION['klant_id'] . " AND variatie_id = 1";
                            $result2 = mysqli_query($mysqli, $sql2);
                            if (mysqli_num_rows($result2) > 0) {
                               $wishlist = true;
@@ -190,7 +191,7 @@
                         }
                         
                            echo '         <div class="buy_bt"><a href="cartCalc.php?id='.$row['artikel_id'].'">Add to cart</a></div>';
-                           echo '         <div class="seemore_bt"><a href="#">See More</a></div>';
+                           echo '         <div class="seemore_bt"><a href="productpagina.php?id='.$row['artikel_id'].'">See More</a></div>';
                            echo '      </div>';
                            echo '   </div>';
                            echo '</div>';
