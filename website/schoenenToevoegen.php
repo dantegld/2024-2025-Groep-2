@@ -41,8 +41,10 @@
       controleerAdmin();
       include 'functies/adminSideMenu.php';
         ?>
-        <div class="adminpage1">
-        <form action="upload.php" method="POST" enctype="multipart/form-data">
+        <div class="adminpage">
+      <div class="schoenenForm">
+        <form class="formFlex" action="upload.php" method="POST" enctype="multipart/form-data">
+         <div>
             <label>Naam</label>
             <input type="text" name="naam" class="form-control" required><br>
             <label>Stock</label>
@@ -55,6 +57,8 @@
             <input type="text" name="kleur2" class="form-control"><br>
             <label>Kleur 3</label>
             <input type="text" name="kleur3" class="form-control"><br>
+            </div>
+            <div>
             <label>Categorie</label>
             <input type="text" name="categorie" class="form-control" required><br>
             <label>Merk</label>
@@ -67,7 +71,8 @@
             <input type="file" name="image3" class="form-control" ><br>
 
             <input type="submit" name="submit" value="Toevoegen" class="btn btn-primary">
-
+         </div>
+         </div>
 
         </form>
 
