@@ -7,7 +7,6 @@
 -- Serverversie: 10.4.32-MariaDB
 -- PHP-versie: 8.2.12
 
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -60,6 +59,7 @@ CREATE TABLE `tbladres` (
 
 INSERT INTO `tbladres` (`klant_id`, `adres_id`, `adres`, `postcode_id`) VALUES
 (7, 1, 'melkstraat', 1),
+
 (8, 1, 'melkstraat', 1),
 (8, 2, 'molstraat', 1),
 (8, 3, 'ejfsk', 1);
@@ -103,8 +103,18 @@ INSERT INTO `tblartikels` (`artikel_id`, `artikelnaam`, `stock`, `prijs`, `merk_
 CREATE TABLE `tblbetaalmethodes` (
   `methode_id` int(11) NOT NULL,
   `methodenaam` varchar(255) DEFAULT NULL,
-  `icoon` text NOT NULL
+  `icoon` text NOT NULL,
+  `actief` tinyint(4) NOT NULL,
+  `sleutel` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `tblbetaalmethodes`
+--
+
+INSERT INTO `tblbetaalmethodes` (`methode_id`, `methodenaam`, `icoon`, `actief`, `sleutel`) VALUES
+(1, 'Paypal', '', 1, ''),
+(2, 'Stripe', '', 0, 'sk_test_51Q8kjWPPG2zVDYrhIRAkxlWQJ2pOwUHLLBctHjfbVJvnxZM9CqGmnD455lWASCk2IaaDqmiETmGxZA9PlNozsnAd00whdJmWl0');
 
 -- --------------------------------------------------------
 
@@ -156,6 +166,7 @@ CREATE TABLE `tblklant` (
 -- Gegevens worden geëxporteerd voor tabel `tblklant`
 --
 
+
 INSERT INTO `tblklant` (`klant_id`, `klantnaam`, `email`, `uniekwoord`, `telefoonnummer`, `wachtwoord`, `schoenmaat`, `type`) VALUES
 (1, 'dante', 'dante.gallardoledon@bazandpoort.be', '', '', 'dante', '42', 'eigenaar'),
 (2, 'tiago', 'tiago.nizferreira@bazandpoort.be', '', '', 'tiago', '45', 'admin'),
@@ -167,6 +178,7 @@ INSERT INTO `tblklant` (`klant_id`, `klantnaam`, `email`, `uniekwoord`, `telefoo
 (8, 'admin', 'admin@gmail.com', '', '', '$2y$10$UBV2Ar6q1jDfNVd1j0zP3ef4V1N6Vrmevl20DL6Q.KG7tYJeZgNlS', '43', 'admin'),
 (15, 'nelson', 'nelson@gmail.com', 'nelson', '', '$2y$10$0KI6UVMsmknZ/l7JCYUth.ckz7dYfqNxEosuXkSseDkhvk1jvof8C', '43', 'admin'),
 (17, 'rolando', 'rolando@hotmail.com', 'cr7', '', '$2y$10$rNVvhP2nWNCFvGBpDUs58uW84V7pLp3oRM4UgmqX/Wh30mkHgUlsq', '', 'klant');
+
 
 -- --------------------------------------------------------
 
@@ -215,7 +227,7 @@ INSERT INTO `tblpostcode` (`postcode_id`, `postcode`, `plaats`) VALUES
 
 CREATE TABLE `tblrecensies` (
   `recensie_id` int(11) NOT NULL,
-  `klant_id` int(11) NOT NULL,
+  `klantnummer` int(11) NOT NULL,
   `rating` int(11) NOT NULL,
   `text` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -223,6 +235,7 @@ CREATE TABLE `tblrecensies` (
 -- --------------------------------------------------------
 
 --
+
 -- Tabelstructuur voor tabel `tblreset`
 --
 
@@ -294,16 +307,9 @@ CREATE TABLE `tblwinkelwagen` (
 -- Gegevens worden geëxporteerd voor tabel `tblwinkelwagen`
 --
 
-INSERT INTO `tblwinkelwagen` (`id`, `klant_id`, `artikel_id`, `schoenmaat`, `aantal`, `variatie_id`) VALUES
-(43, 8, 25, 43, 1, 2),
-(44, 8, 25, 43, 1, 1),
-(45, 8, 25, 43, 1, 2),
-(46, 8, 25, 43, 1, 2),
-(47, 8, 25, 43, 1, 2),
-(48, 8, 25, 43, 1, 2),
-(49, 8, 25, 43, 1, 2),
-(50, 8, 25, 49, 1, 2),
-(51, 8, 25, 43, 1, 1);
+INSERT INTO `tblwinkelwagen` (`klant_id`, `artikel_id`, `aantal`) VALUES
+(9, 1, 1);
+
 
 -- --------------------------------------------------------
 
@@ -433,7 +439,7 @@ ALTER TABLE `tblcategorie`
 --
 -- AUTO_INCREMENT voor een tabel `tblklant`
 --
-ALTER TABLE `tblklant`
+ALTER TABLE `tblklant`=
   MODIFY `klant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
@@ -462,6 +468,7 @@ ALTER TABLE `tblsocialmedia`
 
 --
 -- AUTO_INCREMENT voor een tabel `tblwinkelwagen`
+
 --
 ALTER TABLE `tblwinkelwagen`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
