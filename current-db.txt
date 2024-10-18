@@ -3,10 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 17 okt 2024 om 08:33
--- Serverversie: 10.4.32-MariaDB
--- PHP-versie: 8.2.12
-
+-- Generation Time: Oct 18, 2024 at 04:01 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -24,7 +23,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `tbladmin`
+-- Table structure for table `tbladmin`
 --
 
 CREATE TABLE `tbladmin` (
@@ -34,7 +33,7 @@ CREATE TABLE `tbladmin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Gegevens worden geëxporteerd voor tabel `tbladmin`
+-- Dumping data for table `tbladmin`
 --
 
 INSERT INTO `tbladmin` (`functie_id`, `functienaam`, `functiewaarde`) VALUES
@@ -43,7 +42,7 @@ INSERT INTO `tbladmin` (`functie_id`, `functienaam`, `functiewaarde`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `tbladres`
+-- Table structure for table `tbladres`
 --
 
 CREATE TABLE `tbladres` (
@@ -54,7 +53,7 @@ CREATE TABLE `tbladres` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Gegevens worden geëxporteerd voor tabel `tbladres`
+-- Dumping data for table `tbladres`
 --
 
 INSERT INTO `tbladres` (`klant_id`, `adres_id`, `adres`, `postcode_id`) VALUES
@@ -67,7 +66,7 @@ INSERT INTO `tbladres` (`klant_id`, `adres_id`, `adres`, `postcode_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `tblartikels`
+-- Table structure for table `tblartikels`
 --
 
 CREATE TABLE `tblartikels` (
@@ -80,7 +79,7 @@ CREATE TABLE `tblartikels` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Gegevens worden geëxporteerd voor tabel `tblartikels`
+-- Dumping data for table `tblartikels`
 --
 
 INSERT INTO `tblartikels` (`artikel_id`, `artikelnaam`, `stock`, `prijs`, `merk_id`, `categorie_id`) VALUES
@@ -97,7 +96,7 @@ INSERT INTO `tblartikels` (`artikel_id`, `artikelnaam`, `stock`, `prijs`, `merk_
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `tblbetaalmethodes`
+-- Table structure for table `tblbetaalmethodes`
 --
 
 CREATE TABLE `tblbetaalmethodes` (
@@ -119,7 +118,7 @@ INSERT INTO `tblbetaalmethodes` (`methode_id`, `methodenaam`, `icoon`, `actief`,
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `tblcategorie`
+-- Table structure for table `tblcategorie`
 --
 
 CREATE TABLE `tblcategorie` (
@@ -128,7 +127,7 @@ CREATE TABLE `tblcategorie` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Gegevens worden geëxporteerd voor tabel `tblcategorie`
+-- Dumping data for table `tblcategorie`
 --
 
 INSERT INTO `tblcategorie` (`categorie_id`, `categorienaam`) VALUES
@@ -148,14 +147,13 @@ INSERT INTO `tblcategorie` (`categorie_id`, `categorienaam`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `tblklant`
+-- Table structure for table `tblklant`
 --
 
 CREATE TABLE `tblklant` (
   `klant_id` int(11) NOT NULL,
   `klantnaam` varchar(255) DEFAULT NULL,
   `email` text NOT NULL,
-  `uniekwoord` text NOT NULL,
   `telefoonnummer` text NOT NULL,
   `wachtwoord` text NOT NULL,
   `schoenmaat` text NOT NULL,
@@ -163,27 +161,47 @@ CREATE TABLE `tblklant` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Gegevens worden geëxporteerd voor tabel `tblklant`
+-- Dumping data for table `tblklant`
 --
 
 
-INSERT INTO `tblklant` (`klant_id`, `klantnaam`, `email`, `uniekwoord`, `telefoonnummer`, `wachtwoord`, `schoenmaat`, `type`) VALUES
-(1, 'dante', 'dante.gallardoledon@bazandpoort.be', '', '', 'dante', '42', 'eigenaar'),
-(2, 'tiago', 'tiago.nizferreira@bazandpoort.be', '', '', 'tiago', '45', 'admin'),
-(3, 'yassine', 'yassine.bibi@bazandpoort.be', '', '', 'yassine', '43', 'admin'),
-(4, 'victor', 'victor.coremans@bazandpoort.be', '', '', 'victor', '39', 'admin'),
-(5, 'kerem', 'mkerem.bicer@bazandpoort.be', '', '', 'kerem', '63', 'admin'),
-(6, 'wijns', 'gerrit.wijns@bazandpoort.be', '', '', 'wijns', '43', 'klant'),
-(7, 'klant', 'klant@gmail.com', '', '0495920666', '$2y$10$b/jted7DqYi7KBrk6HaSK.VV5i5PD2FwwyLTG2giq2Db5a5YXYumO', '42', 'klant'),
-(8, 'admin', 'admin@gmail.com', '', '', '$2y$10$UBV2Ar6q1jDfNVd1j0zP3ef4V1N6Vrmevl20DL6Q.KG7tYJeZgNlS', '43', 'admin'),
-(15, 'nelson', 'nelson@gmail.com', 'nelson', '', '$2y$10$0KI6UVMsmknZ/l7JCYUth.ckz7dYfqNxEosuXkSseDkhvk1jvof8C', '43', 'admin'),
-(17, 'rolando', 'rolando@hotmail.com', 'cr7', '', '$2y$10$rNVvhP2nWNCFvGBpDUs58uW84V7pLp3oRM4UgmqX/Wh30mkHgUlsq', '', 'klant');
+INSERT INTO `tblklant` (`klant_id`, `klantnaam`, `email`, `telefoonnummer`, `wachtwoord`, `schoenmaat`, `type`) VALUES
+(1, 'dante', 'dante.gallardoledon@bazandpoort.be', '', 'dante', '42', 'eigenaar'),
+(2, 'tiago', 'tiago.nizferreira@bazandpoort.be', '', 'tiago', '45', 'admin'),
+(3, 'yassine', 'yassine.bibi@bazandpoort.be', '', 'yassine', '43', 'admin'),
+(4, 'victor', 'victor.coremans@bazandpoort.be', '', 'victor', '39', 'admin'),
+(5, 'kerem', 'mkerem.bicer@bazandpoort.be', '', 'kerem', '63', 'admin'),
+(6, 'wijns', 'gerrit.wijns@bazandpoort.be', '', 'wijns', '43', 'klant'),
+(7, 'klant', 'klant@gmail.com', '0495920666', '$2y$10$b/jted7DqYi7KBrk6HaSK.VV5i5PD2FwwyLTG2giq2Db5a5YXYumO', '42', 'klant'),
+(8, 'admin', 'admin@gmail.com', '', '$2y$10$UBV2Ar6q1jDfNVd1j0zP3ef4V1N6Vrmevl20DL6Q.KG7tYJeZgNlS', '43', 'admin');
+
 
 
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `tblmerk`
+-- Table structure for table `tblkleur`
+--
+
+CREATE TABLE `tblkleur` (
+  `kleur_id` int(11) NOT NULL,
+  `kleur` text NOT NULL,
+  `HEX` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tblkleur`
+--
+
+INSERT INTO `tblkleur` (`kleur_id`, `kleur`, `HEX`) VALUES
+(1, 'Grijs', '#D3D3D3'),
+(2, 'Zwart', '#343434'),
+(3, 'Roze', '#FFC0CB');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblmerk`
 --
 
 CREATE TABLE `tblmerk` (
@@ -192,7 +210,7 @@ CREATE TABLE `tblmerk` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Gegevens worden geëxporteerd voor tabel `tblmerk`
+-- Dumping data for table `tblmerk`
 --
 
 INSERT INTO `tblmerk` (`merk_id`, `merknaam`) VALUES
@@ -203,7 +221,7 @@ INSERT INTO `tblmerk` (`merk_id`, `merknaam`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `tblpostcode`
+-- Table structure for table `tblpostcode`
 --
 
 CREATE TABLE `tblpostcode` (
@@ -213,7 +231,7 @@ CREATE TABLE `tblpostcode` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Gegevens worden geëxporteerd voor tabel `tblpostcode`
+-- Dumping data for table `tblpostcode`
 --
 
 INSERT INTO `tblpostcode` (`postcode_id`, `postcode`, `plaats`) VALUES
@@ -222,7 +240,7 @@ INSERT INTO `tblpostcode` (`postcode_id`, `postcode`, `plaats`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `tblrecensies`
+-- Table structure for table `tblrecensies`
 --
 
 CREATE TABLE `tblrecensies` (
@@ -235,6 +253,7 @@ CREATE TABLE `tblrecensies` (
 -- --------------------------------------------------------
 
 --
+
 
 -- Tabelstructuur voor tabel `tblreset`
 --
@@ -261,37 +280,36 @@ CREATE TABLE `tblsocialmedia` (
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `tblvariatie`
+-- Table structure for table `tblvariatie`
 --
 
 CREATE TABLE `tblvariatie` (
   `artikel_id` int(11) NOT NULL,
   `variatie_id` int(11) NOT NULL,
-  `kleur` text NOT NULL,
-  `directory` text NOT NULL,
-  `HEX` text NOT NULL
+  `kleur_id` int(11) NOT NULL,
+  `directory` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Gegevens worden geëxporteerd voor tabel `tblvariatie`
+-- Dumping data for table `tblvariatie`
 --
 
-INSERT INTO `tblvariatie` (`artikel_id`, `variatie_id`, `kleur`, `directory`, `HEX`) VALUES
-(1, 1, 'Grijs', 'images/shoes/nike2.png', '#D3D3D3'),
-(2, 1, 'Zwart', 'images/shoes/nike3.png', '#343434'),
-(3, 1, 'Grijs', 'images/shoes/nike1.jpg', '#D3D3D3'),
-(4, 1, 'Grijs', 'images/shoes/adidas1.jpg', ''),
-(5, 1, 'Zwart', 'images/shoes/adidas2.avif', '#343434'),
-(6, 1, 'Zwart', 'images/shoes/adidas3.jpg', '#343434'),
-(7, 1, 'Zwart', 'images/shoes/newbalance2.jpg', '#343434'),
-(9, 1, 'Roze', 'images/shoes/newbalance3.jpeg', '#FFC0CB'),
-(25, 1, 'Zwart', 'images/shoes/New Balance 574_Zwart670edf39301b09.64805555.jpg', '#343434'),
-(25, 2, 'Grijs', 'images/shoes/New Balance 574_Grijs670edf39306275.44502940.jpg', '#D3D3D3');
+INSERT INTO `tblvariatie` (`artikel_id`, `variatie_id`, `kleur_id`, `directory`) VALUES
+(1, 1, 1, 'images/shoes/nike2.png'),
+(2, 1, 2, 'images/shoes/nike3.png'),
+(3, 1, 1, 'images/shoes/nike1.jpg'),
+(4, 1, 1, 'images/shoes/adidas1.jpg'),
+(5, 1, 2, 'images/shoes/adidas2.avif'),
+(6, 1, 2, 'images/shoes/adidas3.jpg'),
+(7, 1, 2, 'images/shoes/newbalance2.jpg'),
+(9, 1, 3, 'images/shoes/newbalance3.jpeg'),
+(25, 1, 2, 'images/shoes/New Balance 574_Zwart670edf39301b09.64805555.jpg'),
+(25, 2, 1, 'images/shoes/New Balance 574_Grijs670edf39306275.44502940.jpg');
 
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `tblwinkelwagen`
+-- Table structure for table `tblwinkelwagen`
 --
 
 CREATE TABLE `tblwinkelwagen` (
@@ -304,17 +322,14 @@ CREATE TABLE `tblwinkelwagen` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Gegevens worden geëxporteerd voor tabel `tblwinkelwagen`
+-- Dumping data for table `tblwinkelwagen`
 --
-
-INSERT INTO `tblwinkelwagen` (`klant_id`, `artikel_id`, `aantal`) VALUES
-(9, 1, 1);
 
 
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `tblwishlist`
+-- Table structure for table `tblwishlist`
 --
 
 CREATE TABLE `tblwishlist` (
@@ -324,161 +339,166 @@ CREATE TABLE `tblwishlist` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Gegevens worden geëxporteerd voor tabel `tblwishlist`
---
-
-INSERT INTO `tblwishlist` (`klant_id`, `artikel_id`, `variatie_id`) VALUES
-(8, 1, 1),
-(17, 2, 1);
-
---
--- Indexen voor geëxporteerde tabellen
+-- Indexes for dumped tables
 --
 
 --
--- Indexen voor tabel `tbladmin`
+-- Indexes for table `tbladmin`
 --
 ALTER TABLE `tbladmin`
   ADD PRIMARY KEY (`functie_id`);
 
 --
--- Indexen voor tabel `tbladres`
+-- Indexes for table `tbladres`
 --
 ALTER TABLE `tbladres`
   ADD PRIMARY KEY (`adres_id`,`klant_id`);
 
 --
--- Indexen voor tabel `tblartikels`
+-- Indexes for table `tblartikels`
 --
 ALTER TABLE `tblartikels`
   ADD PRIMARY KEY (`artikel_id`);
 
 --
--- Indexen voor tabel `tblbetaalmethodes`
+-- Indexes for table `tblbetaalmethodes`
 --
 ALTER TABLE `tblbetaalmethodes`
   ADD PRIMARY KEY (`methode_id`);
 
 --
--- Indexen voor tabel `tblcategorie`
+-- Indexes for table `tblcategorie`
 --
 ALTER TABLE `tblcategorie`
   ADD PRIMARY KEY (`categorie_id`);
 
 --
--- Indexen voor tabel `tblklant`
+-- Indexes for table `tblklant`
 --
 ALTER TABLE `tblklant`
   ADD PRIMARY KEY (`klant_id`);
 
 --
--- Indexen voor tabel `tblmerk`
+-- Indexes for table `tblkleur`
+--
+ALTER TABLE `tblkleur`
+  ADD PRIMARY KEY (`kleur_id`);
+
+--
+-- Indexes for table `tblmerk`
 --
 ALTER TABLE `tblmerk`
   ADD PRIMARY KEY (`merk_id`);
 
 --
--- Indexen voor tabel `tblpostcode`
+-- Indexes for table `tblpostcode`
 --
 ALTER TABLE `tblpostcode`
   ADD PRIMARY KEY (`postcode_id`);
 
 --
--- Indexen voor tabel `tblrecensies`
+-- Indexes for table `tblrecensies`
 --
 ALTER TABLE `tblrecensies`
   ADD PRIMARY KEY (`recensie_id`),
   ADD KEY `tblrecensies_ibfk_1` (`klant_id`);
 
 --
--- Indexen voor tabel `tblsocialmedia`
+-- Indexes for table `tblsocialmedia`
 --
 ALTER TABLE `tblsocialmedia`
   ADD PRIMARY KEY (`socialmedia_id`);
 
 --
--- Indexen voor tabel `tblvariatie`
+-- Indexes for table `tblvariatie`
 --
 ALTER TABLE `tblvariatie`
   ADD PRIMARY KEY (`artikel_id`,`variatie_id`);
 
 --
--- Indexen voor tabel `tblwinkelwagen`
+-- Indexes for table `tblwinkelwagen`
 --
 ALTER TABLE `tblwinkelwagen`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexen voor tabel `tblwishlist`
+-- Indexes for table `tblwishlist`
 --
 ALTER TABLE `tblwishlist`
   ADD PRIMARY KEY (`klant_id`,`artikel_id`,`variatie_id`);
 
 --
--- AUTO_INCREMENT voor geëxporteerde tabellen
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT voor een tabel `tbladmin`
+-- AUTO_INCREMENT for table `tbladmin`
 --
 ALTER TABLE `tbladmin`
   MODIFY `functie_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT voor een tabel `tblartikels`
+-- AUTO_INCREMENT for table `tblartikels`
 --
 ALTER TABLE `tblartikels`
   MODIFY `artikel_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
--- AUTO_INCREMENT voor een tabel `tblcategorie`
+-- AUTO_INCREMENT for table `tblcategorie`
 --
 ALTER TABLE `tblcategorie`
   MODIFY `categorie_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT voor een tabel `tblklant`
+-- AUTO_INCREMENT for table `tblklant`
 --
-ALTER TABLE `tblklant`=
-  MODIFY `klant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+ALTER TABLE `tblklant`
+  MODIFY `klant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT voor een tabel `tblmerk`
+-- AUTO_INCREMENT for table `tblkleur`
+--
+ALTER TABLE `tblkleur`
+  MODIFY `kleur_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+
+--
+-- AUTO_INCREMENT for table `tblmerk`
 --
 ALTER TABLE `tblmerk`
   MODIFY `merk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT voor een tabel `tblpostcode`
+-- AUTO_INCREMENT for table `tblpostcode`
 --
 ALTER TABLE `tblpostcode`
   MODIFY `postcode_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT voor een tabel `tblrecensies`
+-- AUTO_INCREMENT for table `tblrecensies`
 --
 ALTER TABLE `tblrecensies`
   MODIFY `recensie_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT voor een tabel `tblsocialmedia`
+-- AUTO_INCREMENT for table `tblsocialmedia`
 --
 ALTER TABLE `tblsocialmedia`
   MODIFY `socialmedia_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT voor een tabel `tblwinkelwagen`
 
+-- AUTO_INCREMENT for table `tblwinkelwagen`
 --
 ALTER TABLE `tblwinkelwagen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
--- Beperkingen voor geëxporteerde tabellen
+-- Constraints for dumped tables
 --
 
 --
--- Beperkingen voor tabel `tblrecensies`
+-- Constraints for table `tblrecensies`
 --
 ALTER TABLE `tblrecensies`
   ADD CONSTRAINT `tblrecensies_ibfk_1` FOREIGN KEY (`klant_id`) REFERENCES `tblklant` (`klant_id`);

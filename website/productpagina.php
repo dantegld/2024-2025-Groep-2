@@ -258,23 +258,97 @@
                </form>
             </div>
          </div>
-      </div>
+                <br>
+                <br>                      
+         <div class="productpagina">
+    <div class="product-container">
+        <div class="product-image">
+        <a href="index.php">&#8592; Back</a>
+            <?php
+            $variatie_id = isset($_GET['variatie_id']) ? intval($_GET['variatie_id']) : 1;
+            $sql = "SELECT * FROM tblartikels, tblvariatie WHERE tblvariatie.artikel_id = $id AND tblartikels.artikel_id = tblvariatie.artikel_id AND tblvariatie.variatie_id = $variatie_id";
+            $result = mysqli_query($mysqli, $sql);
+            $row = mysqli_fetch_assoc($result);
+            $afbeelding = $row['directory'];
+            $artikel_id = $row['artikel_id'];
+            echo '<img width="300px" src="' . $afbeelding . '" alt="' . $row['artikelnaam'] . ' Image">';
+            ?>
+        </div>
+        <div class="product-details" id="product-details">
+            <?php
+            if($_SESSION['klant']){
+                $sql = "SELECT * FROM tblwishlist WHERE artikel_id = $id and klant_id = '" . $_SESSION['klant_id'] . "' and variatie_id = $variatie_id";
+                $result = mysqli_query($mysqli, $sql);
+                if(mysqli_num_rows($result) > 0){
+                    echo '<div class="wishlist_bt"><a href="wishlistCalc1.php?variatie_id='.$variatie_id .'&'. 'id='. $artikel_id.'"><i class="fa fa-heart" aria-hidden="true"></i></a></div>';
+                }else{
+                    echo '<div class="wishlist_bt"><a href="wishlistCalc1.php?variatie_id='.$variatie_id .'&'. 'id='. $artikel_id.'"><i class="fa fa-heart-o" aria-hidden="true"></i></a></div>';
+                }
 
-      <!-- Footer Scripts -->
-      <script>
-         function selectColor(variatie_id) {
-            document.getElementById('variatie_id').value = variatie_id;
-            document.getElementById('colorForm').action = window.location.pathname + window.location.search + '#product-details';
-            document.getElementById('colorForm').submit();
-         }
+            }else{
+                echo '<div class="wishlist_bt"><a href="login.php"><i class="fa fa-heart-o" aria-hidden="true"></i></a></div>';
+            }
+            ?>
+            <br>
+            <br>
+    <h1 class="product-title"><?php echo $row['artikelnaam']; ?></h1>
+    <p class="product-price">&euro; <?php echo $row['prijs']; ?></p>
+    <form id="colorForm" action="" method="GET">
+        <div class="color-selector">
+        <h3>Select Color:</h3>
+<div class="colors">
+    <?php
+    $sql = "SELECT * FROM tblvariatie,tblkleur WHERE artikel_id = $id and tblvariatie.kleur_id = tblkleur.kleur_id";
+    $result = mysqli_query($mysqli, $sql);
+    while ($row = mysqli_fetch_assoc($result)) {
+        echo '<div class="color" style="background-color:' . $row['HEX'] . '" data-color="' . $row['kleur'] . '" onclick="selectColor(' . $row['variatie_id'] . ')"></div>';
+    }
+    ?>
+</div>
+</div>
+<input type="hidden" name="variatie_id" id="variatie_id" value="<?php echo $variatie_id; ?>">
+<?php
+// Preserve existing GET parameters
+foreach ($_GET as $key => $value) {
+    if ($key != 'variatie_id') {
+        echo '<input type="hidden" name="' . htmlspecialchars($key) . '" value="' . htmlspecialchars($value) . '">';
+    }
+}
+?>
+</form>
+<div class="dropdown">
+    <?php
+    echo '<select class="mySelect" name="schoenmaat" id="schoenmaat" onchange="updateCartLink()">';
+    for ($i = 30; $i <= 50; $i++) {
+        echo '<option value="' . $i . '">' . $i . '</option>';
+    }
+    echo '</select>';
+    echo '<br>';
+    echo '<br>';
+    ?>
+    <div class="buy_bt">
+        <a id="addToCartLink" href="cartCalc.php?variatie_id=<?php echo $variatie_id; ?>&id=<?php echo $artikel_id; ?>&schoenmaat=">Add to cart</a>
+    </div>
+</div>
+</div>
+</div>
+</div>
 
-         function updateCartLink() {
-            var schoenmaat = document.getElementById('schoenmaat').value;
-            var variatie_id = document.getElementById('variatie_id').value;
-            var artikel_id = <?php echo $artikel_id; ?>;
-            var addToCartLink = document.getElementById('addToCartLink');
-            addToCartLink.href = 'cartCalc.php?variatie_id=' + variatie_id + '&id=' + artikel_id + '&schoenmaat=' + schoenmaat;
-         }
-      </script>
-   </body>
+<script>
+function selectColor(variatie_id) {
+    document.getElementById('variatie_id').value = variatie_id;
+    // Append the fragment to the form action URL
+    document.getElementById('colorForm').action = window.location.pathname + window.location.search + '#product-details';
+    document.getElementById('colorForm').submit();
+}
+
+function updateCartLink() {
+    var schoenmaat = document.getElementById('schoenmaat').value;
+    var variatie_id = document.getElementById('variatie_id').value;
+    var artikel_id = <?php echo $artikel_id; ?>;
+    var addToCartLink = document.getElementById('addToCartLink');
+    addToCartLink.href = 'cartCalc.php?variatie_id=' + variatie_id + '&id=' + artikel_id + '&schoenmaat=' + schoenmaat;
+}
+</script>
+</body>
 </html>
