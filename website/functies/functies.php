@@ -118,3 +118,23 @@ function processStripePayment($amount){
       echo 'Caught exception: ',  $e->getMessage(), "\n";
   }
 }
+
+function footer() {
+    include 'connect.php';
+
+    $sql = "SELECT * FROM tblsocialmedia WHERE beschikbaar = 1";
+    if ($stmt = $mysqli->prepare($sql)) {
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            echo '<br><a href="' . htmlspecialchars($row['link'], ENT_QUOTES, 'UTF-8') . '"><img src="' . htmlspecialchars($row['icoon'], ENT_QUOTES, 'UTF-8') . '" alt="' . htmlspecialchars($row['socialmedianaam'], ENT_QUOTES, 'UTF-8') . '"></a><br>';
+        }
+
+        $stmt->close();
+    } else {
+        echo "Error: " . $mysqli->error;
+    }
+
+    $mysqli->close();
+}
