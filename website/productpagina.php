@@ -199,7 +199,7 @@ select:disabled {
         <h3>Select Color:</h3>
 <div class="colors">
     <?php
-    $sql = "SELECT * FROM tblvariatie WHERE artikel_id = $id";
+    $sql = "SELECT * FROM tblvariatie,tblkleur WHERE artikel_id = $id and tblvariatie.kleur_id = tblkleur.kleur_id";
     $result = mysqli_query($mysqli, $sql);
     while ($row = mysqli_fetch_assoc($result)) {
         echo '<div class="color" style="background-color:' . $row['HEX'] . '" data-color="' . $row['kleur'] . '" onclick="selectColor(' . $row['variatie_id'] . ')"></div>';
