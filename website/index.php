@@ -90,7 +90,7 @@
                   <div class="header_box">
                      <div class="login_menu">
                         <ul>
-                           <li><a href="#">
+                           <li><a href="wishlist.php">
                               <i class="fa fa-heart" aria-hidden="true"></i>
                               <span class="padding_5">Wishlist</span></a>
                            </li>
@@ -152,26 +152,50 @@
                      }
 
                      // Fetch shoe data
-                     $sql = "SELECT artikel_id,artikelnaam, prijs, directory FROM tblartikels";
+                     $sql = "SELECT artikel_id,artikelnaam, prijs FROM tblartikels";
                      $result = mysqli_query($mysqli, $sql);
 
                      if (mysqli_num_rows($result) > 0) {
                         // Output data of each row
-                        //WISHLIST BUTTON NOT WORKING
                         while($row = mysqli_fetch_assoc($result)) {
+                           if($_SESSION['klant']) {
+                           $sql2 = "SELECT artikel_id FROM tblwishlist 
+                           WHERE artikel_id = " . $row['artikel_id'] . " AND klant_id = " . $_SESSION['klant_id'] . " AND variatie_id = 1";
+                           $result2 = mysqli_query($mysqli, $sql2);
+                           if (mysqli_num_rows($result2) > 0) {
+                              $wishlist = true;
+                           } else {
+                              $wishlist = false;
+                           }
+
+                        }
+                        $sql3 = "SELECT v.directory from tblartikels a, tblvariatie v where a.artikel_id = v.artikel_id and a.artikel_id = '" . $row['artikel_id'] . "'  AND v.variatie_id = '1'";
+                        $result3 = mysqli_query($mysqli, $sql3);
+                        $row3 = mysqli_fetch_assoc($result3);
+                        $row['directory'] = $row3['directory'];
+                        
                            echo '<div class="col-lg-4 col-sm-4">';
                            echo '   <div class="box_main">';
                            echo '      <h4 class="shirt_text">' . htmlspecialchars($row["artikelnaam"]) . '</h4>';
                            echo '      <p class="price_text">Price  <span style="color: #262626;">$ ' . htmlspecialchars($row["prijs"]) . '</span></p>';
                            echo '      <div class="tshirt_img"><img src="' . htmlspecialchars($row["directory"]) . '"></div>';
                            echo '      <div class="btn_main">';
+                           if(!($_SESSION['klant'])) {
+                              echo '         <div class="wishlist_bt"><a href="login.php"><i class="fa fa-heart-o" aria-hidden="true"></i></a></div>';
+                           } else {
+                           if ($wishlist) {
+                              echo '         <div class="wishlist_bt"><a href="wishlistCalc.php?id='. $row['artikel_id'].'"><i class="fa fa-heart" aria-hidden="true"></i></a></div>';
+                           } else {
+                              echo '         <div class="wishlist_bt"><a href="wishlistCalc.php?id='. $row['artikel_id'].'"><i class="fa fa-heart-o" aria-hidden="true"></i></a></div>';
+                           }
+                        }
+                        
                            echo '         <div class="buy_bt"><a href="cartCalc.php?id='.$row['artikel_id'].'">Add to cart</a></div>';
-                           echo '         <div class="seemore_bt"><a href="#"><i class="fa fa-heart" aria-hidden="true"></i>  Wishlist</a></div>';
-                           echo '         <div class="seemore_bt"><a href="#">See More</a></div>';
+                           echo '         <div class="seemore_bt"><a href="productpagina.php?id='.$row['artikel_id'].'">See More</a></div>';
                            echo '      </div>';
                            echo '   </div>';
                            echo '</div>';
-                        }
+                     } 
                      } else {
                         echo "0 results";
                      }
@@ -208,14 +232,5 @@
          </div>
       </div>
       <!-- copyright section end -->
-      <script>
-         function openNav() {
-           document.getElementById("mySidenav").style.width = "250px";
-         }
-         
-         function closeNav() {
-           document.getElementById("mySidenav").style.width = "0";
-         }
-      </script>
    </body>
 </html>

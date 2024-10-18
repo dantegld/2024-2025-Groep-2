@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 14 okt 2024 om 18:24
+-- Gegenereerd op: 17 okt 2024 om 08:33
 -- Serverversie: 10.4.32-MariaDB
 -- PHP-versie: 8.2.12
 
@@ -59,7 +59,10 @@ CREATE TABLE `tbladres` (
 
 INSERT INTO `tbladres` (`klant_id`, `adres_id`, `adres`, `postcode_id`) VALUES
 (7, 1, 'melkstraat', 1),
-(8, 1, 'melkstraat', 1);
+
+(8, 1, 'melkstraat', 1),
+(8, 2, 'molstraat', 1),
+(8, 3, 'ejfsk', 1);
 
 -- --------------------------------------------------------
 
@@ -72,7 +75,6 @@ CREATE TABLE `tblartikels` (
   `artikelnaam` varchar(255) DEFAULT NULL,
   `stock` int(11) NOT NULL,
   `prijs` int(11) NOT NULL,
-  `directory` text NOT NULL,
   `merk_id` int(11) NOT NULL,
   `categorie_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -81,16 +83,16 @@ CREATE TABLE `tblartikels` (
 -- Gegevens worden geëxporteerd voor tabel `tblartikels`
 --
 
-INSERT INTO `tblartikels` (`artikel_id`, `artikelnaam`, `stock`, `prijs`, `directory`, `merk_id`, `categorie_id`) VALUES
-(1, 'Nike Jordan x Dior Low', 200, 1000, 'images/shoes/nike2.png', 1, 1),
-(2, 'Nike Air max Plus', 200, 250, 'images/shoes/nike3.png', 1, 1),
-(3, 'Jordan 11 Cool Grey', 200, 300, 'images/shoes/nike1.jpg', 1, 1),
-(4, 'Adidas Campus 00\'s', 200, 120, 'images/shoes/adidas1.jpg', 2, 1),
-(5, 'Adidas Predator', 200, 500, 'images/shoes/adidas2.avif\r\n', 2, 2),
-(6, 'Adidas terex', 200, 85, 'images/shoes/adidas3.jpg', 2, 3),
-(7, 'Newbalance MR530 Zwart', 200, 150, 'images/shoes/newbalance2.jpg\r\n', 3, 1),
-(8, 'Newbalance MR350 Wit', 200, 150, 'images/shoes/newbalance1.jpg', 3, 1),
-(9, 'Newbalance 550 Roze', 200, 150, 'images/shoes/newbalance3.jpeg\r\n', 3, 1);
+INSERT INTO `tblartikels` (`artikel_id`, `artikelnaam`, `stock`, `prijs`, `merk_id`, `categorie_id`) VALUES
+(1, 'Nike Jordan x Dior Low', 200, 1000, 1, 1),
+(2, 'Nike Air max Plus', 200, 250, 1, 1),
+(3, 'Jordan 11 Cool Grey', 200, 300, 1, 1),
+(4, 'Adidas Campus 00\'s', 200, 120, 2, 1),
+(5, 'Adidas Predator', 200, 500, 2, 2),
+(6, 'Adidas terex', 200, 85, 2, 3),
+(7, 'Newbalance MR530 Zwart', 200, 150, 3, 1),
+(9, 'Newbalance 550 Roze', 200, 150, 3, 1),
+(25, 'New Balance 574', 200, 200, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -132,7 +134,16 @@ CREATE TABLE `tblcategorie` (
 INSERT INTO `tblcategorie` (`categorie_id`, `categorienaam`) VALUES
 (1, 'Sneaker'),
 (2, 'Voetbalschoen'),
-(3, 'Wandelschoen');
+(3, 'Wandelschoen'),
+(4, 'Sneaker'),
+(5, 'Sneaker'),
+(6, 'Sneaker'),
+(7, 'Sneaker'),
+(8, 'Sneaker'),
+(9, 'Sneaker'),
+(10, 'Sneaker'),
+(11, 'Sneaker'),
+(12, 'Sneaker');
 
 -- --------------------------------------------------------
 
@@ -144,6 +155,8 @@ CREATE TABLE `tblklant` (
   `klant_id` int(11) NOT NULL,
   `klantnaam` varchar(255) DEFAULT NULL,
   `email` text NOT NULL,
+  `uniekwoord` text NOT NULL,
+  `telefoonnummer` text NOT NULL,
   `wachtwoord` text NOT NULL,
   `schoenmaat` text NOT NULL,
   `type` text NOT NULL
@@ -153,15 +166,19 @@ CREATE TABLE `tblklant` (
 -- Gegevens worden geëxporteerd voor tabel `tblklant`
 --
 
-INSERT INTO `tblklant` (`klant_id`, `klantnaam`, `email`, `wachtwoord`, `schoenmaat`, `type`) VALUES
-(1, 'dante', 'dante.gallardoledon@bazandpoort.be', 'dante', '42', 'eigenaar'),
-(3, 'yassine', 'yassine.bibi@bazandpoort.be', 'yassine', '43', 'admin'),
-(4, 'victor', 'victor.coremans@bazandpoort.be', 'victor', '39', 'admin'),
-(5, 'kerem', 'mkerem.bicer@bazandpoort.be', 'kerem', '63', 'admin'),
-(6, 'wijns', 'gerrit.wijns@bazandpoort.be', 'wijns', '43', 'klant'),
-(7, 'klant', 'klant@gmail.com', '$2y$10$UnVjz.g4T/IUDbccbKFAiut7G4c.09VopYNn31AEMnQ6cWWg47SdO', '43', 'admin'),
-(8, 'Bibi', 'yassine.b2007@hotmail.com', '$2y$10$gQyzSt.pk7ANnHT08TbYWeKqX2jny.ARJ43j0zppb9nf2G8Jq9KPG', '43', 'klant'),
-(9, 'tiago', 'tiago.nizferreira@bazandpoort.be', '$2y$10$5wtCa78dGxfeoPQNOgOvdu6ZL5VlLLWzU8W3D/XP3DeH2leVEGQ4e', '', 'admin');
+
+INSERT INTO `tblklant` (`klant_id`, `klantnaam`, `email`, `uniekwoord`, `telefoonnummer`, `wachtwoord`, `schoenmaat`, `type`) VALUES
+(1, 'dante', 'dante.gallardoledon@bazandpoort.be', '', '', 'dante', '42', 'eigenaar'),
+(2, 'tiago', 'tiago.nizferreira@bazandpoort.be', '', '', 'tiago', '45', 'admin'),
+(3, 'yassine', 'yassine.bibi@bazandpoort.be', '', '', 'yassine', '43', 'admin'),
+(4, 'victor', 'victor.coremans@bazandpoort.be', '', '', 'victor', '39', 'admin'),
+(5, 'kerem', 'mkerem.bicer@bazandpoort.be', '', '', 'kerem', '63', 'admin'),
+(6, 'wijns', 'gerrit.wijns@bazandpoort.be', '', '', 'wijns', '43', 'klant'),
+(7, 'klant', 'klant@gmail.com', '', '0495920666', '$2y$10$b/jted7DqYi7KBrk6HaSK.VV5i5PD2FwwyLTG2giq2Db5a5YXYumO', '42', 'klant'),
+(8, 'admin', 'admin@gmail.com', '', '', '$2y$10$UBV2Ar6q1jDfNVd1j0zP3ef4V1N6Vrmevl20DL6Q.KG7tYJeZgNlS', '43', 'admin'),
+(15, 'nelson', 'nelson@gmail.com', 'nelson', '', '$2y$10$0KI6UVMsmknZ/l7JCYUth.ckz7dYfqNxEosuXkSseDkhvk1jvof8C', '43', 'admin'),
+(17, 'rolando', 'rolando@hotmail.com', 'cr7', '', '$2y$10$rNVvhP2nWNCFvGBpDUs58uW84V7pLp3oRM4UgmqX/Wh30mkHgUlsq', '', 'klant');
+
 
 -- --------------------------------------------------------
 
@@ -218,6 +235,19 @@ CREATE TABLE `tblrecensies` (
 -- --------------------------------------------------------
 
 --
+
+-- Tabelstructuur voor tabel `tblreset`
+--
+
+CREATE TABLE `tblreset` (
+  `klant_id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Tabelstructuur voor tabel `tblsocialmedia`
 --
 
@@ -231,13 +261,46 @@ CREATE TABLE `tblsocialmedia` (
 -- --------------------------------------------------------
 
 --
+-- Tabelstructuur voor tabel `tblvariatie`
+--
+
+CREATE TABLE `tblvariatie` (
+  `artikel_id` int(11) NOT NULL,
+  `variatie_id` int(11) NOT NULL,
+  `kleur` text NOT NULL,
+  `directory` text NOT NULL,
+  `HEX` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `tblvariatie`
+--
+
+INSERT INTO `tblvariatie` (`artikel_id`, `variatie_id`, `kleur`, `directory`, `HEX`) VALUES
+(1, 1, 'Grijs', 'images/shoes/nike2.png', '#D3D3D3'),
+(2, 1, 'Zwart', 'images/shoes/nike3.png', '#343434'),
+(3, 1, 'Grijs', 'images/shoes/nike1.jpg', '#D3D3D3'),
+(4, 1, 'Grijs', 'images/shoes/adidas1.jpg', ''),
+(5, 1, 'Zwart', 'images/shoes/adidas2.avif', '#343434'),
+(6, 1, 'Zwart', 'images/shoes/adidas3.jpg', '#343434'),
+(7, 1, 'Zwart', 'images/shoes/newbalance2.jpg', '#343434'),
+(9, 1, 'Roze', 'images/shoes/newbalance3.jpeg', '#FFC0CB'),
+(25, 1, 'Zwart', 'images/shoes/New Balance 574_Zwart670edf39301b09.64805555.jpg', '#343434'),
+(25, 2, 'Grijs', 'images/shoes/New Balance 574_Grijs670edf39306275.44502940.jpg', '#D3D3D3');
+
+-- --------------------------------------------------------
+
+--
 -- Tabelstructuur voor tabel `tblwinkelwagen`
 --
 
 CREATE TABLE `tblwinkelwagen` (
+  `id` int(11) NOT NULL,
   `klant_id` int(11) NOT NULL,
   `artikel_id` int(11) NOT NULL,
-  `aantal` int(11) NOT NULL
+  `schoenmaat` int(11) NOT NULL,
+  `aantal` int(11) NOT NULL,
+  `variatie_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -247,6 +310,7 @@ CREATE TABLE `tblwinkelwagen` (
 INSERT INTO `tblwinkelwagen` (`klant_id`, `artikel_id`, `aantal`) VALUES
 (9, 1, 1);
 
+
 -- --------------------------------------------------------
 
 --
@@ -255,8 +319,17 @@ INSERT INTO `tblwinkelwagen` (`klant_id`, `artikel_id`, `aantal`) VALUES
 
 CREATE TABLE `tblwishlist` (
   `klant_id` int(11) NOT NULL,
-  `artikel_id` int(11) NOT NULL
+  `artikel_id` int(11) NOT NULL,
+  `variatie_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `tblwishlist`
+--
+
+INSERT INTO `tblwishlist` (`klant_id`, `artikel_id`, `variatie_id`) VALUES
+(8, 1, 1),
+(17, 2, 1);
 
 --
 -- Indexen voor geëxporteerde tabellen
@@ -315,7 +388,7 @@ ALTER TABLE `tblpostcode`
 --
 ALTER TABLE `tblrecensies`
   ADD PRIMARY KEY (`recensie_id`),
-  ADD KEY `tblrecensies_ibfk_1` (`klantnummer`);
+  ADD KEY `tblrecensies_ibfk_1` (`klant_id`);
 
 --
 -- Indexen voor tabel `tblsocialmedia`
@@ -324,17 +397,22 @@ ALTER TABLE `tblsocialmedia`
   ADD PRIMARY KEY (`socialmedia_id`);
 
 --
+-- Indexen voor tabel `tblvariatie`
+--
+ALTER TABLE `tblvariatie`
+  ADD PRIMARY KEY (`artikel_id`,`variatie_id`);
+
+--
 -- Indexen voor tabel `tblwinkelwagen`
 --
 ALTER TABLE `tblwinkelwagen`
-  ADD PRIMARY KEY (`klant_id`),
-  ADD KEY `artikel_id` (`artikel_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexen voor tabel `tblwishlist`
 --
 ALTER TABLE `tblwishlist`
-  ADD PRIMARY KEY (`klant_id`,`artikel_id`);
+  ADD PRIMARY KEY (`klant_id`,`artikel_id`,`variatie_id`);
 
 --
 -- AUTO_INCREMENT voor geëxporteerde tabellen
@@ -350,19 +428,19 @@ ALTER TABLE `tbladmin`
 -- AUTO_INCREMENT voor een tabel `tblartikels`
 --
 ALTER TABLE `tblartikels`
-  MODIFY `artikel_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `artikel_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT voor een tabel `tblcategorie`
 --
 ALTER TABLE `tblcategorie`
-  MODIFY `categorie_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `categorie_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT voor een tabel `tblklant`
 --
-ALTER TABLE `tblklant`
-  MODIFY `klant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+ALTER TABLE `tblklant`=
+  MODIFY `klant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT voor een tabel `tblmerk`
@@ -389,6 +467,13 @@ ALTER TABLE `tblsocialmedia`
   MODIFY `socialmedia_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT voor een tabel `tblwinkelwagen`
+
+--
+ALTER TABLE `tblwinkelwagen`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+
+--
 -- Beperkingen voor geëxporteerde tabellen
 --
 
@@ -396,14 +481,7 @@ ALTER TABLE `tblsocialmedia`
 -- Beperkingen voor tabel `tblrecensies`
 --
 ALTER TABLE `tblrecensies`
-  ADD CONSTRAINT `tblrecensies_ibfk_1` FOREIGN KEY (`klantnummer`) REFERENCES `tblklant` (`klant_id`);
-
---
--- Beperkingen voor tabel `tblwinkelwagen`
---
-ALTER TABLE `tblwinkelwagen`
-  ADD CONSTRAINT `tblwinkelwagen_ibfk_1` FOREIGN KEY (`klant_id`) REFERENCES `tblklant` (`klant_id`),
-  ADD CONSTRAINT `tblwinkelwagen_ibfk_2` FOREIGN KEY (`artikel_id`) REFERENCES `tblartikels` (`artikel_id`);
+  ADD CONSTRAINT `tblrecensies_ibfk_1` FOREIGN KEY (`klant_id`) REFERENCES `tblklant` (`klant_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

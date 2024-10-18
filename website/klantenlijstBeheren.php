@@ -11,6 +11,10 @@ controleerAdmin();
     //Klantenlijst weergeven
     $sql = "SELECT * FROM tblklant";
     $result = $conn->query($sql);
+        
+    if ($result === false) {
+        die("Error executing query: " . $conn->error);
+    }
     if ($result->num_rows > 0) {
         echo "<table border='1'>
                 <tr>

@@ -1,5 +1,4 @@
-
-      <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
    <head>
       <!-- basic -->
@@ -10,7 +9,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>Product Verwijderen</title>
+      <title>Voorraad Beheren</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -43,35 +42,29 @@
              margin: 0;
              padding: 0;
          }
-
          table {
             width: 60%;
              border-collapse: collapse;
              background-color: #fff;
              box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
          }
-
          th, td {
              padding: 10px;
              text-align: center;
              border: 1px solid #ddd;
          }
-
          th {
              background-color: #007BFF;
              color: white;
              font-weight: normal;
          }
-
          td {
              color: #333;
          }
-
          tr:nth-child(even) {
              background-color: #f2f2f2;
          }
-
-         input {
+         input[type="submit"] {
              background-color: #ff4d4d;
              color: white;
              border: none;
@@ -81,88 +74,86 @@
              font-size: 14px;
              transition: background-color 0.3s ease;
          }
-
          input:hover {
              background-color: #e60000;
          }
-
          .message {
              text-align: center;
              font-size: 18px;
              color: #333;
              margin-top: 20px;
          }
-
          .message.success {
              color: #28a745;
          }
-
          .message.error {
              color: #dc3545;
          }
-
          form {
              display: inline;
          }
-
          .container {
              text-align: center;
              padding: 20px;
          }
+         input[type="number"],input[name="artikelnaam"] {
+             border: none;
+             background-color: transparent;
+             text-align: center;
+         }
       </style>
    </head>
    <body>
-      <?php
-      include 'connect.php'; 
-      include 'functies/functies.php';
-      controleerAdmin();
-
-      include 'functies/adminSideMenu.php';
-        ?>
-        <div class="adminpage">
-            <?php
-
-      $query = "SELECT * FROM tblartikels";
-      $result = $mysqli->query($query);
-
-      if ($result->num_rows > 0) {
-          echo "<table border='1'>";
-          echo "<tr><th>Artikel ID</th><th>Artikelnaam</th><th>Prijs</th><th>Actie</th></tr>";
-
-          while ($row = $result->fetch_assoc()) {
-              echo "<tr>";
-              echo "<td>" . $row['artikel_id'] . "</td>";
-              echo "<td>" . $row['artikelnaam'] . "</td>";
-              echo "<td>" . $row['prijs'] . "</td>";
-              echo "<td>
-                      <form method='POST' action=''>
-                          <input type='hidden' name='artikel_id' value='" . $row['artikel_id'] . "' />
-                          <input type='submit' name='delete' value='Verwijderen' />
-                      </form>
-                    </td>";
-              echo "</tr>";
-          }
-          echo "</table>";
-      } else {
-          echo "Geen oude of niet-beschikbare producten gevonden.";
-      }
-
-      if (isset($_POST['delete'])) {
-          $artikel_id = $_POST['artikel_id'];
-
-          $deleteQuery1 = "DELETE FROM tblwinkelwagen WHERE artikel_id = '". $artikel_id ."'";
-          $deleteResult1 = $mysqli->query($deleteQuery1); 
-
-          $deleteQuery = "DELETE FROM tblartikels WHERE artikel_id = '". $artikel_id ."'";
-          $deleteResult = $mysqli->query($deleteQuery);
-
-          if ($deleteResult) {
-              echo "<div class='message success'>Het product met ID $artikel_id is succesvol verwijderd.</div>";
-          } else {
-              echo "<div class='message error'>Er is een fout opgetreden bij het verwijderen van het product.</div>";
-          }
-      }
-      ?>
-      </div>
+   <?php
+include 'connect.php'; 
+include 'functies/functies.php';
+controleerAdmin();
+include 'functies/adminSideMenu.php';
+?>
+<div class="adminpage">
+    <?php
+    $query = "SELECT * FROM tblartikels";
+    $result = $mysqli->query($query);
+    if ($result->num_rows > 0) {
+        echo "<table border='1'>";
+        echo "<tr><th>Artikel ID</th><th>Artikelnaam</th><th>Prijs</th><th>Actie</th></tr>";
+        while ($row = $result->fetch_assoc()) {
+            // Start the form here
+            echo "<tr>";
+            echo "<form method='POST' action=''>";
+            echo "<td>" . $row['artikel_id'] . "</td>";
+            echo "<td><input type='text' name='artikelnaam' value='" . $row['artikelnaam'] . "' /></td>";
+            echo "<td><input type='number' name='prijs' value='" . $row['prijs'] . "' /></td>";
+            echo "<td>
+                      <input type='hidden' name='artikel_id' value='" . $row['artikel_id'] . "' />
+                      <input type='submit' name='aanpassen' value='Aanpassen' />
+                  </td>";
+            echo "</form>"; // End the form here
+            echo "</tr>";
+        }
+        echo "</table>";
+    } else {
+        echo "Geen oude of niet-beschikbare producten gevonden.";
+    }
+    // Handle form submission
+    if (isset($_POST['aanpassen'])) {
+        // Ensure the keys exist in the POST array before accessing them
+        if (isset($_POST['artikel_id'], $_POST['artikelnaam'], $_POST['prijs'])) {
+            $artikel_id = $_POST['artikel_id'];
+            $artikelnaam = $_POST['artikelnaam'];
+            $prijs = $_POST['prijs'];
+            $updateQuery = "UPDATE tblartikels SET artikelnaam = '$artikelnaam', prijs = '$prijs' WHERE artikel_id = '$artikel_id'";
+            $updateResult = $mysqli->query($updateQuery);
+            if ($updateResult) {
+                echo "<div class='message success'>Het product met ID $artikel_id is succesvol bijgewerkt.</div>";
+            } else {
+                echo "<div class='message error'>Er is een fout opgetreden bij het bijwerken van het product.</div>";
+            }
+        } else {
+            echo "<div class='message error'>Niet alle gegevens zijn verstrekt.</div>";
+        }
+    }
+    ?>
+</div>
    </body>
 </html>
