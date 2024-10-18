@@ -116,7 +116,7 @@ include 'functies/adminSideMenu.php';
     $result = $mysqli->query($query);
     if ($result->num_rows > 0) {
         echo "<table border='1'>";
-        echo "<tr><th>Artikel ID</th><th>Artikelnaam</th><th>Prijs</th><th>Actie</th></tr>";
+        echo "<tr><th>Artikel ID</th><th>Artikelnaam</th><th>Prijs</th><th>In Stock</th><th>Actie</th></tr>";
         while ($row = $result->fetch_assoc()) {
             // Start the form here
             echo "<tr>";
@@ -124,6 +124,7 @@ include 'functies/adminSideMenu.php';
             echo "<td>" . $row['artikel_id'] . "</td>";
             echo "<td><input type='text' name='artikelnaam' value='" . $row['artikelnaam'] . "' /></td>";
             echo "<td><input type='number' name='prijs' value='" . $row['prijs'] . "' /></td>";
+            echo "<td><input type='number' name='stock' value='" . $row['stock'] . "' /></td>";
             echo "<td>
                       <input type='hidden' name='artikel_id' value='" . $row['artikel_id'] . "' />
                       <input type='submit' name='aanpassen' value='Aanpassen' />
@@ -142,7 +143,8 @@ include 'functies/adminSideMenu.php';
             $artikel_id = $_POST['artikel_id'];
             $artikelnaam = $_POST['artikelnaam'];
             $prijs = $_POST['prijs'];
-            $updateQuery = "UPDATE tblartikels SET artikelnaam = '$artikelnaam', prijs = '$prijs' WHERE artikel_id = '$artikel_id'";
+            $stock = $_POST['stock'];
+            $updateQuery = "UPDATE tblartikels SET artikelnaam = '$artikelnaam', prijs = '$prijs', stock = '$stock' WHERE artikel_id = '$artikel_id'";
             $updateResult = $mysqli->query($updateQuery);
             if ($updateResult) {
                 echo "<div class='message success'>Het product met ID $artikel_id is succesvol bijgewerkt.</div>";
