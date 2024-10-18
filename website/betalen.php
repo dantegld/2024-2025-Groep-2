@@ -52,49 +52,42 @@
 
 
     $totaal = $_SESSION['total_price'];
-
-
-    if (isset($_POST['betalen'])) {
-        $payment_method = $_POST['payment_method'];
-        $payment_method = strtolower($payment_method);
-        
-
-        if ($payment_method == 'paypal') {
-            processPayPalPayment($totaal);
-
-        } else if ($payment_method == 'stripe') {
-            processStripePayment($totaal);
-
-        } else if ($payment_method == 'square') {
-            header("Location: square.php?amount=$totaal");
-        } else {
-            echo "Invalid payment method selected.";
-            die;
-        }
-
-    } else {
-        echo "
-        <form action='betalen.php' method='post'>
-        <br>
-        <h3>Totaal bedraag: €$totaal</h3>
-        <input type='hidden' name='amount' value='$totaal'>
-
-        ";
-        $sql = "SELECT * FROM tblbetaalmethodes WHERE actief = 1";
-        $result = $mysqli->query($sql);
-        if ($result->num_rows == 0) {
-            echo "Geen betaalmethodes beschikbaar op dit moment. Probeer het later opnieuw of neem contact op met de klantenservice.";
-
-        } else {
-            echo "<h3>Selecteer een betaalmethode:</h3>";
-
-
-            while ($row = $result->fetch_assoc()) {
-                echo "<input type='radio' name='payment_method' value='" . $row['methodenaam'] . "'>" . $row['methodenaam'] . "<br>";
+echo '
+<div class="loginFormLocatie">
+        <div class="loginForm">';
+            if (isset($_POST['betalen'])) {
+                $payment_method = $_POST['payment_method'];
+                $payment_method = strtolower($payment_method);
+    
+                if ($payment_method == 'paypal') {
+                    processPayPalPayment($totaal);
+                } else if ($payment_method == 'stripe') {
+                    processStripePayment($totaal);
+                } else {
+                    echo "Invalid payment method selected.";
+                    die;
+                }
+            } else {
+                echo "
+                <form action='betalen.php' method='post'>
+                <br>
+                <h3>Totaal bedraag: €$totaal</h3>
+                <input type='hidden' name='amount' value='$totaal'>
+                ";
+                $sql = "SELECT * FROM tblbetaalmethodes WHERE actief = 1";
+                $result = $mysqli->query($sql);
+                if ($result->num_rows == 0) {
+                    echo "Geen betaalmethodes beschikbaar op dit moment. Probeer het later opnieuw of neem contact op met de klantenservice.";
+                } else {
+                    echo "<h3>Selecteer een betaalmethode:</h3>";
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<input type='radio' name='payment_method' value='" . $row['methodenaam'] . "'>" . ' ' . $row['methodenaam'] . "<br>";
+                    }
+                    echo "<br><input type='submit' value='Betalen' name='betalen' class='btn btn-primary'>";
+                    echo "</form>";
+                }
             }
-            echo "<br><input type='submit' value='Betalen' name='betalen'>";
-            echo "</form>";
-        }
-    }
+       echo ' </div>
+</div>';
     ?>
 </body>

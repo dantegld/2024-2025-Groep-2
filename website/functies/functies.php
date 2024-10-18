@@ -64,7 +64,7 @@ function processPayPalPayment($amount)
 
 
    // Redirect to PayPal with required fields NOG VERRANDEREN VOOR LIVE SERVER
-   header("Location: $paypalUrl?cmd=_xclick&business=$businessEmail&amount=$amount&currency_code=$currency&return=http://localhost/tiago/2024-2025-Groep-2/2024-2025-Groep-2/website/winkelwagen.php&cancel_return=http://localhost/tiago/2024-2025-Groep-2/2024-2025-Groep-2/website/cancelBetalen.php");
+   header("Location: $paypalUrl?cmd=_xclick&business=$businessEmail&amount=$amount&currency_code=$currency&return=http://localhost/tiago/2024-2025-Groep-2/website/winkelwagen.php&cancel_return=http://localhost/tiago/2024-2025-Groep-2/website/cancelBetalen.php");
    exit();
 }
 
@@ -80,8 +80,8 @@ function processStripePayment($amount){
    $amount = intval($amount);
    $amount = $amount * 100;
 
-   $success_url = "http://localhost/tiago/2024-2025-Groep-2/2024-2025-Groep-2/website/successBetalen.php";
-   $cancel_url = "http://localhost/tiago/2024-2025-Groep-2/2024-2025-Groep-2/website/cancelBetalen.php";
+   $success_url = "http://localhost/tiago/2024-2025-Groep-2/website/successBetalen.php";
+   $cancel_url = "http://localhost/tiago/2024-2025-Groep-2/website/cancelBetalen.php";
 
 
    //get from database
@@ -117,80 +117,4 @@ function processStripePayment($amount){
 
       echo 'Caught exception: ',  $e->getMessage(), "\n";
   }
-}
-
-//square payment
-use Square\SquareClient;
-use Square\Environment;
-use Square\Exceptions\ApiException;
-use Square\Models\Money;
-use Square\Models\CreatePaymentRequest;
-
-function processSquarePayment($amount, $nonce) {
-    // Include database connection and autoload dependencies
-    include 'connect.php';
-    require 'vendor/autoload.php';
-
-    // Clean up the amount and convert to cents
-    $amount = str_replace(',', '', $amount);
-    $amount = preg_replace('/\s+/', '', $amount);
-    $amount = intval($amount);
-    $amount = $amount * 100; // Convert to cents
-
-    // Get the Square access token from the database
-    $sql = "SELECT * FROM tblbetaalmethodes WHERE methodenaam = 'Square'";
-    $result = $mysqli->query($sql);
-    if (!$result) {
-        die('Database query failed: ' . $mysqli->error);
-    }
-    $row = $result->fetch_assoc();
-    if (!$row || !isset($row['sleutel'])) {
-        die('Square access token not found in the database.');
-    }
-    $accessToken = $row['sleutel']; // Get the access token
-
-    // Initialize the Square Client
-    $client = new SquareClient([
-        'accessToken' => $accessToken,
-        'environment' => Environment::SANDBOX, // Use sandbox for testing
-    ]);
-
-    // Check if the request method is POST and the nonce is provided
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nonce'])) {
-        $nonce = $_POST['nonce'];
-
-        // Set the amount to charge (in cents)
-        $amountMoney = new Money();
-        $amountMoney->setAmount($amount);
-        $amountMoney->setCurrency('EUR');
-
-        // Create a payment request
-        $createPaymentRequest = new CreatePaymentRequest(
-            $nonce,
-            uniqid(), // Unique identifier for this transaction
-            $amountMoney
-        );
-
-        // Try to make the payment
-        try {
-            $paymentsApi = $client->getPaymentsApi();
-            $response = $paymentsApi->createPayment($createPaymentRequest);
-
-            // Check if the payment was successful
-            if ($response->isSuccess()) {
-                echo 'Payment successful!';
-            } else {
-                $errors = $response->getErrors();
-                echo 'Payment failed: ' . $errors[0]->getDetail();
-            }
-        } catch (ApiException $e) {
-            echo 'Caught exception: ' . $e->getMessage();
-        }
-    } else {
-        echo 'Invalid request or payment nonce not provided.';
-    }
-}
-
-function processSquarePayment2() {
-
 }
