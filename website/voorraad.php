@@ -154,7 +154,25 @@ include 'functies/adminSideMenu.php';
     } else {
         echo "Geen oude of niet-beschikbare producten gevonden.";
     }
-  
+    // Handle form submission
+    if (isset($_POST['aanpassen'])) {
+        // Ensure the keys exist in the POST array before accessing them
+        if (isset($_POST['artikel_id'], $_POST['artikelnaam'], $_POST['prijs'])) {
+            $artikel_id = $_POST['artikel_id'];
+            $artikelnaam = $_POST['artikelnaam'];
+            $prijs = $_POST['prijs'];
+            $stock = $_POST['stock'];
+            $updateQuery = "UPDATE tblartikels SET artikelnaam = '$artikelnaam', prijs = '$prijs', stock = '$stock' WHERE artikel_id = '$artikel_id'";
+            $updateResult = $mysqli->query($updateQuery);
+            if ($updateResult) {
+                echo "<div class='message success'>Het product met ID $artikel_id is succesvol bijgewerkt.</div>";
+            } else {
+                echo "<div class='message error'>Er is een fout opgetreden bij het bijwerken van het product.</div>";
+            }
+        } else {
+            echo "<div class='message error'>Niet alle gegevens zijn verstrekt.</div>";
+        }
+    }
     ?>
 </div>
    </body>
