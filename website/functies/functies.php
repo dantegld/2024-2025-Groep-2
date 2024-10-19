@@ -20,7 +20,6 @@ function onderhoudsModus()
 // Functie om de gebruiker te controleren
 function controleerKlant()
 {
-   session_start();
 
    if ($_SESSION['klant'] == FALSE) {
       header("Location: logout.php");
