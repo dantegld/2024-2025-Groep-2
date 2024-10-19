@@ -118,6 +118,24 @@ include 'functies/adminSideMenu.php';
 ?>
 <div class="adminpage">
     <?php
+        if (isset($_POST['verwijderen'])) {
+            if (!empty($_POST['klant_id'])) { // Only check for klant_id
+                $klant_id = $_POST['klant_id'];
+    
+    
+                // Verwijder query uitvoeren
+                $deleteQuery = "DELETE FROM tblklant WHERE klant_id = '$klant_id'";
+                $deleteResult = $mysqli->query($deleteQuery);
+                
+                if ($deleteResult) {
+                    echo "<div class='message success'>De klant met ID $klant_id is succesvol verwijderd.</div>";
+                } else {
+                    echo "<div class='message error'>Er is een fout opgetreden bij het verwijderen van de klant.</div>";
+                }
+            } else {
+                echo "<div class='message error'>Niet alle gegevens zijn verstrekt.</div>";
+            }
+        }
     $query = "SELECT * FROM tblklant WHERE type = 'klant'";
     $result = $mysqli->query($query);
     if ($result->num_rows > 0) {
@@ -156,24 +174,6 @@ include 'functies/adminSideMenu.php';
     }
 
     
-    if (isset($_POST['verwijderen'])) {
-        if (!empty($_POST['klant_id'])) { // Only check for klant_id
-            $klant_id = $_POST['klant_id'];
-
-
-            // Verwijder query uitvoeren
-            $deleteQuery = "DELETE FROM tblklant WHERE klant_id = '$klant_id'";
-            $deleteResult = $mysqli->query($deleteQuery);
-            
-            if ($deleteResult) {
-                echo "<div class='message success'>De klant met ID $klant_id is succesvol verwijderd.</div>";
-            } else {
-                echo "<div class='message error'>Er is een fout opgetreden bij het verwijderen van de klant.</div>";
-            }
-        } else {
-            echo "<div class='message error'>Niet alle gegevens zijn verstrekt.</div>";
-        }
-    }
 
     ?>
 </div>
