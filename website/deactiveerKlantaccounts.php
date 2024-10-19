@@ -136,11 +136,15 @@ include 'functies/adminSideMenu.php';
                 echo "<div class='message error'>Niet alle gegevens zijn verstrekt.</div>";
             }
         }
-    $query = "SELECT * FROM tblklant WHERE type = 'klant'";
+        $myKlantID = $_SESSION['klant_id'];
+    $query = "SELECT * FROM tblklant WHERE NOT klant_id = '$myKlantID'";
     $result = $mysqli->query($query);
     if ($result->num_rows > 0) {
+        echo "<br>";
+        echo "<h2>Customers</h2>";
+        echo "<br>";  
         echo "<table border='1'>";
-        echo "<tr><th>Klant ID</th><th>Klantnaam</th><th>Email</th><th>Wachtwoord</th><th>Telefoonnummer</th><th>Schoenmaat</th><th>Type</th><th>Actie</th></tr>";
+        echo "<tr><th>Klant ID</th><th>Klantnaam</th><th>Email</th><th>Telefoonnummer</th><th>Schoenmaat</th><th>Type</th><th>Actie</th></tr>";
         while ($row = $result->fetch_assoc()) {
             // Start the form here
             echo "<tr>";
@@ -150,7 +154,6 @@ include 'functies/adminSideMenu.php';
             echo "<td>" . $row['klant_id'] . "</td>";
             echo "<td>" . $row['klantnaam'] . "</td>";
             echo "<td>" . $row['email'] . "</td>";
-            echo "<td class='wachtwoord-cell'>" . $row['wachtwoord'] . "</td>";
             echo "<td>" . $row['telefoonnummer'] . "</td>";
             echo "<td>" . $row['schoenmaat'] . "</td>";
             echo "<td>" . $row['type'] . "</td>";

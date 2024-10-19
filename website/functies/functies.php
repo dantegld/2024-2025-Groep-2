@@ -119,7 +119,7 @@ function processStripePayment($amount){
   }
 }
 
-function footer() {
+function socialmedia() {
     include 'connect.php';
 
     $sql = "SELECT * FROM tblsocialmedia WHERE beschikbaar = 1";
@@ -128,7 +128,9 @@ function footer() {
         $result = $stmt->get_result();
 
         while ($row = $result->fetch_assoc()) {
-            echo '<br><a href="' . htmlspecialchars($row['link'], ENT_QUOTES, 'UTF-8') . '"><img src="' . htmlspecialchars($row['icoon'], ENT_QUOTES, 'UTF-8') . '" alt="' . htmlspecialchars($row['socialmedianaam'], ENT_QUOTES, 'UTF-8') . '"></a><br>';
+            echo '<br><a href="' . htmlspecialchars($row['link'], ENT_QUOTES, 'UTF-8') . '">
+            <img width="22px" src="' . htmlspecialchars($row['icoon'], ENT_QUOTES, 'UTF-8') . '" alt="' . htmlspecialchars($row['socialmedianaam'], ENT_QUOTES, 'UTF-8') . '">
+            '. htmlspecialchars($row['socialmedianaam'], ENT_QUOTES, 'UTF-8') .  '</a><br>';
         }
 
         $stmt->close();

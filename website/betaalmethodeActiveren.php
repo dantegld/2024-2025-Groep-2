@@ -61,8 +61,7 @@
             $row2 = $result->fetch_assoc();
             $naam = $row2['methodenaam'];
 
-            echo '<h4>' . $naam . ' is geactiveert</h4> <br>
-            <a href="betaalmethodes.php">Terug naar betaalmethodes</a>';
+            header('Location: betaalmethodes.php');
         } else {
             echo '<h4>Er is iets fout gegaan</h4>';
             echo '<a href="betaalmethodes.php">Terug naar betaalmethodes</a>';

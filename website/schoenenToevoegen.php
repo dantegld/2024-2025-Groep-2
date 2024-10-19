@@ -41,7 +41,7 @@
       controleerAdmin();
       include 'functies/adminSideMenu.php';
         ?>
-        <div class="adminpage">
+        <div class="adminpageCenter">
       <div class="schoenenForm">
         <form class="formFlex" action="upload1.php" method="POST" enctype="multipart/form-data">
          <div>

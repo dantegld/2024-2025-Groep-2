@@ -927,7 +927,7 @@ input.mail_bt::placeholder {
     
 }
 
-.adminpage {
+.adminpageCenter {
     width: 100vw;
     height: 100vh;
     padding-left: 250px;
@@ -1079,9 +1079,8 @@ text-align: right;
     background-color: transparent;
     color: #f26522;
 }
-.adminpage1 {
+.adminpage {
     width: 100vw;
-    height: 100vh;
     padding-left: 250px;
     display: flex;
     flex-direction: column;
@@ -1183,7 +1182,8 @@ text-align: right;
     justify-content: space-around;
 }
 .schoenenForm {
-    width: 80%;
+    width: 40%;
+    height: 50%;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;

@@ -61,8 +61,7 @@
             $row2 = $result->fetch_assoc();
             $naam = $row2['socialmedianaam'];
 
-            echo '<h4>' . $naam . ' is geactiveert</h4> <br>
-            <a href="socials.php">Go back to socials</a>';
+            header('Location: socials.php');
         } else {
             echo '<h4>Er is iets fout gegaan</h4>';
             echo '<a href="socials.php">Go back to socials</a>';

@@ -219,9 +219,9 @@
          <div class="container">
             <div class="footer_logo"><a href="index.php"><img src="images/icon/logo.svg"></a></div>
 
-            <div class="location_main">Help Line  Number : <a href="#">+1 1800 1200 1200</a>
+            <div class="location_main">Help Line  Number : +32 41 23 45 97 8
             <?php
-            footer();
+            socialmedia();
             ?>
          </div>
          </div>

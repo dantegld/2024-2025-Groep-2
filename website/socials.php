@@ -39,6 +39,68 @@
 </head>
 
 <body>
+<style>
+         body {
+             font-family: 'Poppins', sans-serif;
+             background-color: #f5f5f5;
+             margin: 0;
+             padding: 0;
+         }
+         table {
+            width: 60%;
+             border-collapse: collapse;
+             background-color: #fff;
+             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+         }
+         th, td {
+             padding: 10px;
+             text-align: center;
+             border: 1px solid #ddd;
+         }
+         th {
+             background-color: #007BFF;
+             color: white;
+             font-weight: normal;
+         }
+         td {
+             color: #333;
+         }
+         tr:nth-child(even) {
+             background-color: #f2f2f2;
+         }
+         input[type="submit"] {
+             background-color: #ff4d4d;
+             color: white;
+             border: none;
+             padding: 10px 15px;
+             cursor: pointer;
+             border-radius: 5px;
+             font-size: 14px;
+             transition: background-color 0.3s ease;
+         }
+         input:hover {
+             background-color: #e60000;
+         }
+         .message {
+             text-align: center;
+             font-size: 18px;
+             color: #333;
+             margin-top: 20px;
+         }
+         .message.success {
+             color: #28a745;
+         }
+         .message.error {
+             color: #dc3545;
+         }
+         form {
+             display: inline;
+         }
+         .container {
+             text-align: center;
+             padding: 20px;
+         }
+      </style>
     <?php
     include 'connect.php';
     // check if the user is logged in
@@ -46,7 +108,7 @@
     controleerAdmin();
     include 'functies/adminSideMenu.php';
     ?>
-    <div class="adminpage">
+    <div class="adminpageCenter">
         <h3>Socials</h3>
             <?php
                 echo '

@@ -51,7 +51,7 @@
     controleerAdmin();
     ?>
     
-    <div class="adminpage">
+    <div class="adminpageCenter">
     <h2 class="titel1">Onderhoudsmodus</h2><br>
     <?php
     //knop that turns on the maintenance mode

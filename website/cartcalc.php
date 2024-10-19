@@ -3,7 +3,7 @@ include 'connect.php';
 include 'functies/functies.php';
 session_start();
 if (!isset($_GET["id"])) {
-    //header("Location: index.php");
+    header("Location: index.php");
     exit();
 }
 $klant_id = $_SESSION["klant_id"];
@@ -16,7 +16,7 @@ $variatie_id = $_GET["variatie_id"];
 }
 
 if (!isset($_SESSION["klant_id"])) {
-    //header("Location: login.php");
+    header("Location: login.php");
     exit();
 }
 if (!empty($_GET["schoenmaat"])) {
@@ -41,7 +41,7 @@ if ($result->num_rows == 0) {
     $sql = "INSERT INTO tblwinkelwagen (klant_id, artikel_id, aantal, variatie_id, schoenmaat) VALUES ($klant_id, $artikel_id, 1, $variatie_id, $schoenmaat)";
     print_r($sql);
     if ($mysqli->query($sql) === TRUE) {
-        //header("Location: index.php");
+        header("Location: winkelwagen.php");
         exit();
     } else {
         echo "Error: " . $sql . "<br>" . $mysqli->error; 
@@ -51,7 +51,7 @@ if ($result->num_rows == 0) {
     $sql = "INSERT INTO tblwinkelwagen (klant_id, artikel_id, aantal, variatie_id, schoenmaat) VALUES ($klant_id, $artikel_id, 1, $variatie_id, $schoenmaat)";
     print_r($sql);
     if ($mysqli->query($sql) === TRUE) {
-        //header("Location: index.php");
+        header("Location: winkelwagen.php");
         exit();
     } else {
         echo "Error: " . $sql . "<br>" . $mysqli->error; 
