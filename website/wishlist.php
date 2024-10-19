@@ -129,16 +129,18 @@ include("connect.php");
 session_start();
 include 'functies/functies.php';
 include 'functies/mySideNav.php';
+controleerKlant();
 echo '<br><span class="toggle_icon1" onclick="openNav()"><img width="44px" src="images/icon/Hamburger_icon.svg.png"></span>';
 
 if (isset($_SESSION["klant_id"])) {
     $klant_id = $_SESSION["klant_id"];
-    $sql = "SELECT w.artikel_id, v.directory,v.kleur, a.artikelnaam, a.prijs 
-            FROM tblwishlist w, tblartikels a, tblvariatie v
+    $sql = "SELECT v.variatie_id, w.artikel_id, v.directory,k.kleur, a.artikelnaam, a.prijs 
+            FROM tblwishlist w, tblartikels a, tblvariatie v,tblkleur k
             WHERE klant_id = '" . $klant_id . "' 
             AND w.artikel_id = a.artikel_id
             AND a.artikel_id = v.artikel_id
-            AND w.variatie_id = v.variatie_id";
+            AND w.variatie_id = v.variatie_id
+            AND v.kleur_id = k.kleur_id";
     $result = $mysqli->query($sql);
 
     if ($result->num_rows > 0) {
@@ -150,6 +152,7 @@ if (isset($_SESSION["klant_id"])) {
         echo '<th>Product</th>';
         echo '<th>Artikelnaam</th>';
         echo '<th>Prijs</th>';
+        echo '<th>Verwijderen</th>';
         echo '</tr>';
         echo '</thead>';
         echo '<tbody>';
@@ -159,8 +162,9 @@ if (isset($_SESSION["klant_id"])) {
             
             echo '<tr id="product-' . $row['artikel_id'] . '">';
             echo '<td><img src="' . $row["directory"] . '" alt="' . $row["artikelnaam"] . '"></td>';
-            echo '<td>' . $row["artikelnaam"] . '<br>'. $row["kleur"] . '</td>';
+            echo '<td><a href="productpagina.php?id=' . $row["artikel_id"] . '&variatie_id=' . $row["variatie_id"] . '">' . $row["artikelnaam"] . '<br>' . $row["kleur"] . '</a></td>';
             echo '<td>&euro;<span id="price-' . $row['artikel_id'] . '">' . number_format($row["prijs"], 2) . '</span></td>';
+            echo '<td><a href="verwijderWishlist.php?id=' . $row['artikel_id'] . '"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a></td>';
             echo '</tr>';
         }
 

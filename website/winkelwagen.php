@@ -167,7 +167,7 @@ if (isset($_SESSION["klant_id"])) {
             
             echo '<tr id="product-' . $row['artikel_id'] . '">';
             echo '<td><img src="' . $row["directory"] . '" alt="' . $row["artikelnaam"] . '"></td>';
-            echo '<td>' . $row["artikelnaam"] . '<br>'. $row["kleur"] . '</td>';
+            echo '<td><a href="productpagina.php?id=' . $row["artikel_id"] . '&variatie_id=' . $row["variatie_id"] . '">' . $row["artikelnaam"] . '<br>' . $row["kleur"] . '</a></td>';
             echo '<td>
                     <button class="quantity-btn" onclick="updateQuantity(' . $row['artikel_id'] . ', \'decrease\')">-</button>
                     <span id="quantity-' . $row['artikel_id'] . '">' . $row["aantal"] . '</span>
