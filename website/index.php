@@ -37,9 +37,8 @@
    </head>
    <body>
       <?php
-         include 'connect.php';
          include 'functies/functies.php';
-         onderhoudsModus();
+         include 'connect.php';
          //initaliseerd de klant variabele zodat er verder geen errors komen voor bezoekers die niet zijn ingelogd.
          if (!(isset($_SESSION["klant"]))) {
             $_SESSION["klant"] = false;
@@ -47,6 +46,7 @@
          if (!(isset($_SESSION["admin"]))) {
             $_SESSION["admin"] = false;
          }
+         onderhoudsModus();
       ?>
 
 
@@ -144,7 +144,6 @@
                <div class="fashion_section_2">
                   <div class="row">
                      <?php
-                     include 'connect.php';
 
                      // Check connection
                      if (!$mysqli) {
@@ -212,7 +211,7 @@
                <div class="loader"></div>
             </div>
             -->
-         </div>
+         </div> 
       </div>
       <!-- jewellery  section end -->
       <!-- footer section start -->
@@ -220,7 +219,11 @@
          <div class="container">
             <div class="footer_logo"><a href="index.php"><img src="images/icon/logo.svg"></a></div>
 
-            <div class="location_main">Help Line  Number : <a href="#">+1 1800 1200 1200</a></div>
+            <div class="location_main">Help Line  Number : <a href="#">+1 1800 1200 1200</a>
+            <?php
+            footer();
+            ?>
+         </div>
          </div>
       </div>
       <!-- footer section end -->
@@ -228,7 +231,6 @@
       <div class="copyright_section">
          <div class="container">
             <p class="copyright_text">© 2024 Myshoes All Rights Reserved. <br> <a href="retourbeleid.html">Retourbeleid</a> </p>
-            
          </div>
       </div>
       <!-- copyright section end -->

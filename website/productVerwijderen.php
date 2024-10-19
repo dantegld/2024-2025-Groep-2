@@ -122,6 +122,21 @@
         <div class="adminpage">
             <?php
 
+if (isset($_POST['delete'])) {
+    $artikel_id = $_POST['artikel_id'];
+
+    $deleteQuery1 = "DELETE FROM tblwinkelwagen WHERE artikel_id = '". $artikel_id ."'";
+    $deleteResult1 = $mysqli->query($deleteQuery1); 
+
+    $deleteQuery = "DELETE FROM tblartikels WHERE artikel_id = '". $artikel_id ."'";
+    $deleteResult = $mysqli->query($deleteQuery);
+
+    if ($deleteResult) {
+        echo "<div class='message success'>Het product met ID $artikel_id is succesvol verwijderd.</div>";
+    } else {
+        echo "<div class='message error'>Er is een fout opgetreden bij het verwijderen van het product.</div>";
+    }
+}
       $query = "SELECT * FROM tblartikels";
       $result = $mysqli->query($query);
 
@@ -147,21 +162,6 @@
           echo "Geen oude of niet-beschikbare producten gevonden.";
       }
 
-      if (isset($_POST['delete'])) {
-          $artikel_id = $_POST['artikel_id'];
-
-          $deleteQuery1 = "DELETE FROM tblwinkelwagen WHERE artikel_id = '". $artikel_id ."'";
-          $deleteResult1 = $mysqli->query($deleteQuery1); 
-
-          $deleteQuery = "DELETE FROM tblartikels WHERE artikel_id = '". $artikel_id ."'";
-          $deleteResult = $mysqli->query($deleteQuery);
-
-          if ($deleteResult) {
-              echo "<div class='message success'>Het product met ID $artikel_id is succesvol verwijderd.</div>";
-          } else {
-              echo "<div class='message error'>Er is een fout opgetreden bij het verwijderen van het product.</div>";
-          }
-      }
       ?>
       </div>
    </body>
