@@ -134,12 +134,13 @@ echo '<br><span class="toggle_icon1" onclick="openNav()"><img width="44px" src="
 
 if (isset($_SESSION["klant_id"])) {
     $klant_id = $_SESSION["klant_id"];
-    $sql = "SELECT w.id, w.artikel_id, w.aantal, w.schoenmaat,a.prijs,a.artikelnaam, w.variatie_id, v.variatie_id, v.kleur, v.directory 
-            FROM tblwinkelwagen w, tblvariatie v, tblartikels a
+    $sql = "SELECT w.id, w.artikel_id, w.aantal, w.schoenmaat,a.prijs,a.artikelnaam, w.variatie_id, v.variatie_id, k.kleur, v.directory 
+            FROM tblwinkelwagen w, tblvariatie v, tblartikels a,tblkleur k
             WHERE klant_id =  $klant_id
             AND w.artikel_id = v.artikel_id
             AND w.artikel_id = a.artikel_id
-            AND w.variatie_id = v.variatie_id";
+            AND w.variatie_id = v.variatie_id
+            AND v.kleur_id = k.kleur_id";
     $result = $mysqli->query($sql);
 
     if ($result->num_rows > 0) {

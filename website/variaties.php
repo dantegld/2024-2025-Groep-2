@@ -1,6 +1,10 @@
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Pagina</title>
     <!-- basic -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <!-- site metas -->
-    <title>Betaalmethodes</title>
+    <title>Admin Pagina</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -100,49 +104,35 @@
              text-align: center;
              padding: 20px;
          }
+         input[type="number"],input[name="artikelnaam"] {
+             border: none;
+             background-color: transparent;
+             text-align: center;
+         }
       </style>
     <?php
     include 'connect.php';
-    // check if the user is logged in
     include 'functies/functies.php';
     controleerAdmin();
     include 'functies/adminSideMenu.php';
-    ?>
-    <div class="adminpageCenter">
-        <br>
-        <h2>Payment Methods</h2>
-        <br>
-            <?php
-                echo '
-                <table>
-            <tr>
-                <th>Method</th>
-                <th>Active</th>
-                <th>Activate/Deactivate</th>
-            </tr>';
-            
-                $sql = "SELECT * FROM tblbetaalmethodes";
-                $result = $mysqli->query($sql);
-                while ($row = $result->fetch_assoc()) {
-                    echo '<tr>';
-                    echo '<td>' . $row['methodenaam'] . '</td>';
-                    echo '<td>';
-                    if ($row['actief'] == 1) {
-                        echo 'Ja';
-                    } else {
-                        echo 'Nee';
-                    }
-                    echo '</td>';
 
-                    $methode_id = $row['methode_id'];
-                    if ($row['actief'] == 1) {
-                        echo '<td><a href="betaalmethodeDeactiveren.php?id=' . $methode_id . '">Deactiveren</a></td>';
-                    } else {
-                        echo '<td><a href="betaalmethodeActiveren.php?id=' . $methode_id . '">Activeren</a></td>';
-                    }
-                    echo '</tr>';
-                }
-                echo '</table>';
-            ?>
-    </div>
-</body>
+    echo '<div class="adminpage">';
+    $artikel_id = $_GET['artikel_id'];
+    $sql = "SELECT * from tblvariatie,tblartikels,tblkleur where tblvariatie.artikel_id = tblartikels.artikel_id and tblvariatie.artikel_id = $artikel_id and tblvariatie.kleur_id = tblkleur.kleur_id group by tblvariatie.variatie_id";
+    $result = $mysqli->query($sql);
+    echo '<table border="1">';
+    echo '<tr><th>Variatie ID</th><th>Artikel</th><th>Foto</th><th>Stock</th><th>Delete</th></tr>';
+    while ($row = $result->fetch_assoc()) {
+        echo '<tr>';
+        echo '<td>' . $row['variatie_id'] . '</td>';
+        echo '<td>' . $row['artikelnaam'] . ' ' . $row['kleur'] . '</td>';
+        echo '<td><a class="btn btn-primary" href="fotos.php?artikel_id=' . $artikel_id . '&variatie_id='.$row['variatie_id']. '">Foto Aanpassen</td>';
+        echo '<td><a class="btn btn-primary" href="stock.php?artikel_id=' . $artikel_id . '&variatie_id='.$row['variatie_id']. '">Stock Aanpassen</td>';
+        echo '<td><a href="delete_variant.php?artikel_id=' . $artikel_id . '&variatie_id='.$row['variatie_id']. '"><i class="fa fa-trash lg" aria-hidden="true"></i></td>';
+        echo '</tr>';
+    }
+    echo '</table>';
+    echo '<br>';
+    echo '<a class="btn btn-primary" href="add_variant.php?artikel_id=' . $artikel_id . '">Add Variant</a>';
+    echo '</div>';
+    ?>

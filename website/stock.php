@@ -1,6 +1,10 @@
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Pagina</title>
     <!-- basic -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <!-- site metas -->
-    <title>Betaalmethodes</title>
+    <title>Admin Pagina</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -50,8 +54,10 @@
             width: 60%;
              border-collapse: collapse;
              background-color: #fff;
-             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-         }
+             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+            white-space: nowrap;
+            }
+         
          th, td {
              padding: 10px;
              text-align: center;
@@ -69,7 +75,6 @@
              background-color: #f2f2f2;
          }
          input[type="submit"] {
-             background-color: #ff4d4d;
              color: white;
              border: none;
              padding: 10px 15px;
@@ -100,49 +105,59 @@
              text-align: center;
              padding: 20px;
          }
+         input[type="number"],input[name="artikelnaam"] {
+             border: none;
+             background-color: transparent;
+             text-align: center;
+         }
       </style>
     <?php
     include 'connect.php';
-    // check if the user is logged in
     include 'functies/functies.php';
     controleerAdmin();
     include 'functies/adminSideMenu.php';
-    ?>
-    <div class="adminpageCenter">
-        <br>
-        <h2>Payment Methods</h2>
-        <br>
-            <?php
-                echo '
-                <table>
-            <tr>
-                <th>Method</th>
-                <th>Active</th>
-                <th>Activate/Deactivate</th>
-            </tr>';
-            
-                $sql = "SELECT * FROM tblbetaalmethodes";
-                $result = $mysqli->query($sql);
-                while ($row = $result->fetch_assoc()) {
-                    echo '<tr>';
-                    echo '<td>' . $row['methodenaam'] . '</td>';
-                    echo '<td>';
-                    if ($row['actief'] == 1) {
-                        echo 'Ja';
-                    } else {
-                        echo 'Nee';
-                    }
-                    echo '</td>';
 
-                    $methode_id = $row['methode_id'];
-                    if ($row['actief'] == 1) {
-                        echo '<td><a href="betaalmethodeDeactiveren.php?id=' . $methode_id . '">Deactiveren</a></td>';
-                    } else {
-                        echo '<td><a href="betaalmethodeActiveren.php?id=' . $methode_id . '">Activeren</a></td>';
-                    }
-                    echo '</tr>';
-                }
-                echo '</table>';
-            ?>
-    </div>
-</body>
+    echo '<div class="adminpage">';
+    $artikel_id = $_GET['artikel_id'];
+    $variatie_id = $_GET['variatie_id'];
+    $sql = "SELECT * FROM tblkleur k,tblvariatie v,tblstock s, tblartikels 
+    WHERE v.artikel_id = $artikel_id AND v.variatie_id = $variatie_id 
+    and v.variatie_id = s.variatie_id and v.artikel_id = s.artikel_id 
+    and v.artikel_id = tblartikels.artikel_id and k.kleur_id = v.kleur_id group by s.stock_id";
+    $result = $mysqli->query($sql);
+    echo '<table border="1">';
+    echo '<tr>';
+    echo '<th>Stock_id</th><th>Artikel</th><th>Schoenmaat</th><th>Stock</th><th>Actie</th>';
+    echo '</tr>';
+    while ($row = $result->fetch_assoc()) {
+        echo '<tr>';
+        echo "<form method='POST' action='stock.php?artikel_id=" . $artikel_id. '&variatie_id='. $variatie_id . "'>";
+        echo '<td>' . $row['stock_id'] . '</td>';
+        echo '<td>' . $row['artikelnaam'] . ' ' . $row['kleur'] . '</td>';
+        echo '<td>' . $row['schoenmaat'] . '</td>';
+        echo "<td><input type='number' name='stock' value='" . $row['stock'] . "' /></td>";
+        echo "<td>
+        <input class='btn btn-primary' type='hidden' name='artikel_id' value='" . $row['artikel_id'] . "' />
+        <input class='btn btn-primary' type='hidden' name='stock_id' value='" . $row['stock_id'] . "' />
+        <input class='btn btn-primary' type='submit' name='aanpassen' value='Stock Aanpassen' />
+    </td>";
+        echo '</form>';
+        echo '</tr>';
+    }
+    echo '</table>';
+    if (isset($_POST['aanpassen'])) {
+        // Ensure the keys exist in the POST array before accessing them
+        if (isset($_POST['stock'])) {
+            $stock = $_POST['stock'];
+            $stock_id = $_POST['stock_id'];
+            $sql = "UPDATE tblstock SET stock = '$stock' WHERE stock_id = '$stock_id'";
+            $result = $mysqli->query($sql);
+            if ($result) {
+                echo "<div class='message success'>Het product met ID $stock_id is succesvol bijgewerkt.</div>";
+            } else {
+                echo "<div class='message error'>Er is een fout opgetreden bij het bijwerken van het product.</div>";
+            }
+        } else {
+            echo "<div class='message error'>Niet alle gegevens zijn verstrekt.</div>";
+        }
+    }

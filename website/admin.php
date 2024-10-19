@@ -51,7 +51,7 @@
     include 'functies/adminSideMenu.php';
     ?>
     
-    <div class="adminpage">
+    <div class="adminpageCenter">
         <?php
         $sql = "SELECT * FROM tblklant WHERE klant_id = '$_SESSION[klant_id]'";
         $result = $mysqli->query($sql);
