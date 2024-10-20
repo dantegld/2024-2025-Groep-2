@@ -149,10 +149,10 @@ if (isset($_SESSION["klant_id"])) {
         echo '<table class="wishlist-table">';
         echo '<thead>'; 
         echo '<tr>';
-        echo '<th>Product</th>';
-        echo '<th>Artikelnaam</th>';
-        echo '<th>Prijs</th>';
-        echo '<th>Verwijderen</th>';
+        echo '<th>Article</th>';
+        echo '<th>Article name</th>';
+        echo '<th>Price</th>';
+        echo '<th>Delete</th>';
         echo '</tr>';
         echo '</thead>';
         echo '<tbody>';

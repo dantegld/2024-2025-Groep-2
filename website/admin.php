@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Pagina</title>
+    <title>Admin Page</title>
     <!-- basic -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <!-- site metas -->
-    <title>Admin Pagina</title>
+    <title>Admin Page</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -56,8 +56,8 @@
         $sql = "SELECT * FROM tblklant WHERE klant_id = '$_SESSION[klant_id]'";
         $result = $mysqli->query($sql);
         while ($row = $result->fetch_assoc()) {
-            echo '<h2>Adminpagina Myshoes</h2>';
-            echo '<h4>Welkom, ' . $row['klantnaam'] . '.</h4>';
+            echo '<h2>Adminpage Myshoes</h2>';
+            echo '<h4>Welcome, ' . $row['klantnaam'] . '.</h4>';
         }
         ?>
     </div>

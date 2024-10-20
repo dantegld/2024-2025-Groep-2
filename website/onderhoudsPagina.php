@@ -41,9 +41,9 @@
     <div class="onderhoudsPagina">
         <div class="onderhoudsPagina_text">
                 <i class="fa fa-cogs fa-5x" aria-hidden="true"></i><br><br>
-                <h1>De website is momenteel in onderhoud</h1>
-                <p>Wij zijn momenteel bezig met het onderhouden van de website.
-                  Klik <a href="index.php">hier</a> om opniew te proberen.</p>
+                <h1>The website is currently under maintenance</h1>
+                <p>We are currently maintaining the website.
+                Click <a href="index.php">here</a> to try it again.</p>
                   <?php
                   include 'connect.php';
                   include 'functies/functies.php';
@@ -51,7 +51,7 @@
                   if (($_SESSION["klant_id"])) {
 
                   }else{
-                     echo 'U bent niet ingelogd<p>Klik <a href="login.php">hier</a> om toch in te loggen</p>';
+                     echo 'You are not logged in<p>Click <a href="login.php">here</a> to log in anyway</p>';
                   }
                   
                   ?>

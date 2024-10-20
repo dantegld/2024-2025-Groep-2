@@ -34,6 +34,12 @@
       <link rel="stylesoeet" href="css/owl.theme.default.min.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
    <link rel="icon" href="images/icon/favicon.png">
+   <style>
+     h2{
+       text-align: center;
+       margin-top: 20px;
+     }
+   </style>
    </head>
    <body>
     <?php
@@ -53,11 +59,11 @@ include 'functies/MySideNav.php';
         $sql = "SELECT * FROM tblklant WHERE klant_id = '$_SESSION[klant_id]'";
         $result = $mysqli->query($sql);
         while ($row = $result->fetch_assoc()) {
-            echo '<h2 class= "title2">Welkom, ' . $row['klantnaam'] . '!</h2>';
+            echo '<h2 class= "title2">Welcome, ' . $row['klantnaam'] . '!</h2>';
         }
         ?>
         <div class="tab">
-            <p>Schoenmaat:</p> 
+            <p>Shoe size:</p> 
             <?php
 
                 if(isset($_POST['schoenmaat'])){
@@ -68,13 +74,13 @@ include 'functies/MySideNav.php';
                     $result1 = $mysqli->query($sql1);
                     while ($row1 = $result1->fetch_assoc()) {
                         if ($row1['schoenmaat'] == null) {
-                            $vorigeschoenmaat = "Voer uw schoenmaat in";
+                            $vorigeschoenmaat = "Enter your shoe size";
                         } else {
                             $vorigeschoenmaat = $row1['schoenmaat'];
                         }
                         echo' <form action="profile.php" method="post">
                         <input type="number" name="schoenmaat" value = "' . $vorigeschoenmaat. '" >
-                        <input type="submit" name="Pas aan">
+                        <input type="submit" name="Change">
                         </form>';
                     }
                 }else {
@@ -82,13 +88,13 @@ include 'functies/MySideNav.php';
                     $result1 = $mysqli->query($sql1);
                     while ($row1 = $result1->fetch_assoc()) {
                         if ($row1['schoenmaat'] == null) {
-                            $vorigeschoenmaat = "Voer uw schoenmaat in";
+                            $vorigeschoenmaat = "Enter your shoe size";
                         } else {
                             $vorigeschoenmaat = $row1['schoenmaat'];
                         }
                     echo' <form action="profile.php" method="post">
                     <input type="number" name="schoenmaat" value = "' . $vorigeschoenmaat. '" >
-                    <input type="submit" name="Pas aan">
+                    <input type="submit" name="Change">
                     </form>';
                 }
             }
@@ -105,8 +111,8 @@ include 'functies/MySideNav.php';
 
             if ($result->num_rows == 0) {
                 echo '  <div class="tabadres">
-                        <p>Adres: </p>';
-                echo '<a href= "adrestoevoegen.php">Voeg uw adres toe</a>';
+                        <p>Address: </p>';
+                echo '<a href= "adrestoevoegen.php">Add new address</a>';
                 echo '</div>';
             } else {
                 $klant_id = $_SESSION['klant_id'];
@@ -120,14 +126,14 @@ include 'functies/MySideNav.php';
                 $adres_count = 1;
                 while ($row3 = $result3->fetch_assoc()) {
                     echo '<div class="tabadres">';
-                    echo '<p>Adres ' . $adres_count . ':</p>';
+                    echo '<p>Address ' . $adres_count . ':</p>';
                     echo $row3['adres'] . " " . $row3['postcode'] . " " . $row3['plaats'];
                     echo '</div>';
                     if ($adres_count == $result3->num_rows) {
                         $adres_count++;
                         echo '<div class="tabadres">';
                         echo '<p>Adres ' . $adres_count .':</p>';
-                        echo '<a href="adrestoevoegen.php">Voeg uw adres toe</a>';
+                        echo '<a href="adrestoevoegen.php">Add new address</a>';
                         echo '</div>';
                     }
                     $adres_count++;
@@ -137,8 +143,8 @@ include 'functies/MySideNav.php';
             
                 if ($adres_count == 1) {
                     echo '<div class="tabadres">';
-                    echo '<p>Adres 2:</p>';
-                    echo '<a href="adrestoevoegen.php">Voeg uw adres toe</a>';
+                    echo '<p>Address 2:</p>';
+                    echo '<a href="adrestoevoegen.php">Add new address</a>';
                     echo '</div>';
                 }
             }
@@ -170,10 +176,10 @@ include 'functies/MySideNav.php';
         if ($new_email) {
             $sql = "UPDATE tblklant SET email = '$new_email' WHERE klant_id = '$_SESSION[klant_id]'";
             if ($mysqli->query($sql)) {
-                echo "<p class='success-msg'>E-mailadres bijgewerkt!</p>";
+                echo "<p class='success-msg'>Email address updated!</p>";
                 header("Refresh: 1; url=profile.php");
             } else {
-                echo "<p class='error-msg'>Fout bij het bijwerken van het e-mailadres.</p>";
+                echo "<p class='error-msg'>Error updating email address.</p>";
                 header("Refresh: 1; url=profile.php");
             }
         }
@@ -184,15 +190,15 @@ include 'functies/MySideNav.php';
         $new_phone_number = $_POST['telefoonnummer'] ?? null;
         if ($new_phone_number !== null && trim($new_phone_number) === '') {
             // Phone number is empty, but not using delete
-            echo "<p class='error-msg'>U heeft het telefoonnummer leeggelaten. Als u het wilt verwijderen, gebruik de knop 'Verwijder Telefoonnummer'.</p>";
+            echo "<p class='error-msg'>You have left the phone number blank. If you want to remove it, use the 'Remove Phone Number' button'.</p>";
         } elseif ($new_phone_number) {
             // Update the phone number
             $sql = "UPDATE tblklant SET telefoonnummer = '$new_phone_number' WHERE klant_id = '$_SESSION[klant_id]'";
             if ($mysqli->query($sql)) {
-                echo "<p class='success-msg'>Telefoonnummer bijgewerkt!</p>";
+                echo "<p class='success-msg'>Phone number updated!</p>";
                 header("Refresh: 1; url=profile.php");
             } else {
-                echo "<p class='error-msg'>Fout bij het bijwerken van het telefoonnummer.</p>";
+                echo "<p class='error-msg'>Error updating phone number.</p>";
                 header("Refresh: 1; url=profile.php");
             }
         }
@@ -202,10 +208,10 @@ include 'functies/MySideNav.php';
     if (isset($_POST['delete_telefoonnummer'])) {
         $sql = "UPDATE tblklant SET telefoonnummer = NULL WHERE klant_id = '$_SESSION[klant_id]'";
         if ($mysqli->query($sql)) {
-            echo "<p class='success-msg'>Telefoonnummer verwijderd!</p>";
+            echo "<p class='success-msg'>Phone number removed!</p>";
             header("Refresh: 1; url=profile.php");
         } else {
-            echo "<p class='error-msg'>Fout bij het verwijderen van het telefoonnummer.</p>";
+            echo "<p class='error-msg'>Error while deleting phone number.</p>";
         }
     }
 
@@ -222,26 +228,26 @@ include 'functies/MySideNav.php';
             $sql = "UPDATE tblklant SET telefoonnummer = '$new_phone_number' WHERE klant_id = '$_SESSION[klant_id]'";
             $mysqli->query($sql);
         }
-        echo "<p class='success-msg'>Velden toegevoegd!</p>";
+        echo "<p class='success-msg'>Fields added!</p>";
     }
     ?>
 
     <!-- Form for Updating/Adding Information -->
     <div class="tab5">
         <form action="profile.php" method="post">
-            <label for="email">E-mailadres:</label><br>
-            <input type="email" name="email" placeholder="Voer uw e-mailadres in" value="<?= isset($user['email']) ? $user['email'] : '' ?>" class="form-control"><br><br>
-            <input type="submit" name="update_email" value="Update E-mailadres" class="btn btn-primary"> <br><br>
+            <label for="email">Email address:</label><br>
+            <input type="email" name="email" placeholder="Enter your email address" value="<?= isset($user['email']) ? $user['email'] : '' ?>" class="form-control"><br><br>
+            <input type="submit" name="update_email" value="Update Email address" class="btn btn-primary"> <br><br>
             <br>
 
-            <label for="telefoonnummer">Telefoonnummer:</label><br>
-            <input type="text" name="telefoonnummer" placeholder="Voer uw telefoonnummer in" value="<?= isset($user['telefoonnummer']) ? $user['telefoonnummer'] : '' ?>" class="form-control"><br><br>
-            <input type="submit" name="update_telefoonnummer" value="Update Telefoonnummer" class="btn btn-primary">
-            <input type="submit" name="delete_telefoonnummer" value="Verwijder Telefoonnummer" class="btn btn-danger">
+            <label for="telefoonnummer">Phone number:</label><br>
+            <input type="text" name="telefoonnummer" placeholder="Enter your phone number" value="<?= isset($user['telefoonnummer']) ? $user['telefoonnummer'] : '' ?>" class="form-control"><br><br>
+            <input type="submit" name="update_telefoonnummer" value="Update Phone number" class="btn btn-primary">
+            <input type="submit" name="delete_telefoonnummer" value="Delete Phone number" class="btn btn-danger">
         </form>
     </div>
 </div>
-<div class="tab4"><a class="btn btn-danger" href="logout.php">Log uit</a></div><br><br><br>
+<div class="tab4"><a class="btn btn-danger" href="logout.php">Logout</a></div><br><br><br>
 </div>
 
 

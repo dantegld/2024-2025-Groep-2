@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Afrekenen</title>
+    <title>Checkout</title>
     <!-- basic -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -71,7 +71,7 @@ echo '
                 echo "
                 <form action='betalen.php' method='post'>
                 <br>
-                <h3>Totaal bedraag: €$totaal</h3>
+                <h3>Total price: €$totaal</h3>
                 <input type='hidden' name='amount' value='$totaal'>
                 ";
                 $sql = "SELECT * FROM tblbetaalmethodes WHERE actief = 1";
@@ -79,11 +79,11 @@ echo '
                 if ($result->num_rows == 0) {
                     echo "Geen betaalmethodes beschikbaar op dit moment. Probeer het later opnieuw of neem contact op met de klantenservice.";
                 } else {
-                    echo "<h3>Selecteer een betaalmethode:</h3>";
+                    echo "<h3>Select a payment method:</h3>";
                     while ($row = $result->fetch_assoc()) {
                         echo "<input type='radio' name='payment_method' value='" . $row['methodenaam'] . "'>" . ' ' . $row['methodenaam'] . "<br>";
                     }
-                    echo "<br><input type='submit' value='Betalen' name='betalen' class='btn btn-primary'>";
+                    echo "<br><input type='submit' value='Pay now' name='betalen' class='btn btn-primary'>";
                     echo "</form>";
                 }
             }
