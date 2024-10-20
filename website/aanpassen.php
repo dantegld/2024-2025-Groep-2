@@ -111,6 +111,7 @@
    <body>
    <?php
 include 'connect.php'; 
+session_start();
 include 'functies/functies.php';
 controleerAdmin();
 include 'functies/adminSideMenu.php';
@@ -126,8 +127,7 @@ include 'functies/adminSideMenu.php';
         $artikel_id = $_POST['artikel_id'];
         $artikelnaam = $_POST['artikelnaam'];
         $prijs = $_POST['prijs'];
-        $stock = $_POST['stock'];
-        $updateQuery = "UPDATE tblartikels SET artikelnaam = '$artikelnaam', prijs = '$prijs', stock = '$stock' WHERE artikel_id = '$artikel_id'";
+        $updateQuery = "UPDATE tblartikels SET artikelnaam = '$artikelnaam', prijs = '$prijs' WHERE artikel_id = '$artikel_id'";
         $updateResult = $mysqli->query($updateQuery);
         if ($updateResult) {
             echo "<div class='message success'>The product with ID $artikel_id has been updated successfully.</div>";
@@ -150,7 +150,7 @@ if (isset($_POST['delete'])) {
     $result = $mysqli->query($query);
     if ($result->num_rows > 0) {
         echo "<table border='1'>";
-        echo "<tr><th>Article ID</th><th>Article name</th><th>Price</th><th>Action</th><th>Variations</th><th>Delete</th></tr>";
+        echo "<tr><th>Poduct ID</th><th>Product name</th><th>Price</th><th>Action</th><th>Variations</th><th>Delete</th></tr>";
         while ($row = $result->fetch_assoc()) {
 
             echo "<tr>";

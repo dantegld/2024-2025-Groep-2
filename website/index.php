@@ -37,10 +37,13 @@
    </head>
    <body>
       <?php
+         session_start();
          include 'functies/functies.php';
          include 'connect.php';
+         
          //initaliseerd de klant variabele zodat er verder geen errors komen voor bezoekers die niet zijn ingelogd.
-         if (!(isset($_SESSION["klant"]))) {
+
+         if (!isset($_SESSION["klant"])) {
             $_SESSION["klant"] = false;
          }
          if (!(isset($_SESSION["admin"]))) {

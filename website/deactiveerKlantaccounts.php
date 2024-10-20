@@ -115,14 +115,16 @@
 
    </head>
    <body>
-    <h1>Customers</h1>
+
    <?php
 include 'connect.php'; 
+session_start();
 include 'functies/functies.php';
 controleerAdmin();
 include 'functies/adminSideMenu.php';
 ?>
 <div class="adminpage">
+<h1>Customers</h1>
     <?php
         if (isset($_POST['verwijderen'])) {
             if (!empty($_POST['klant_id'])) { // Only check for klant_id
@@ -146,9 +148,6 @@ include 'functies/adminSideMenu.php';
     $query = "SELECT * FROM tblklant WHERE NOT klant_id = '$myKlantID'";
     $result = $mysqli->query($query);
     if ($result->num_rows > 0) {
-        echo "<br>";
-
-        echo "<br>";  
         echo "<table border='1'>";
         echo "<tr><th>Customer ID</th><th>Customer name</th><th>E-mail</th><th>Phone number</th><th>Shoe size</th><th>Type</th><th>Action</th></tr>";
         while ($row = $result->fetch_assoc()) {
@@ -181,7 +180,7 @@ include 'functies/adminSideMenu.php';
     } else {
         echo "No old or unavailable products found.";
     }
-
+    echo "<br>";
     
 
     ?>
