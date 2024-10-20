@@ -1,16 +1,19 @@
 <?php
 
 // Functies van de website
-header("../website/index.php");
 // Functie om de onderhoudsmodus te controleren
 function onderhoudsModus()
 {
    include 'connect.php';
-   session_start();
+   
 
    $sql = "SELECT functiewaarde FROM tbladmin where functienaam = 'onderhoudmodus'";
    $result = $mysqli->query($sql);
    $row = $result->fetch_assoc();
+   if(!isset($_SESSION['klant'])){
+      $_SESSION['klant'] = FALSE;
+      $_SESSION['admin'] = FALSE;
+   }
 
    if ($row["functiewaarde"] == 1 && $_SESSION['admin'] == FALSE) {
       header("Location: onderhoudsPagina.php");
@@ -20,6 +23,10 @@ function onderhoudsModus()
 // Functie om de gebruiker te controleren
 function controleerKlant()
 {
+   if(!isset($_SESSION['klant'])){
+      $_SESSION['klant'] = FALSE;
+      $_SESSION['admin'] = FALSE;
+   }
 
    if ($_SESSION['klant'] == FALSE) {
       header("Location: logout.php");
@@ -28,25 +35,16 @@ function controleerKlant()
 
 function controleerAdmin()
 {
-   session_start();
+   
+   if(!isset($_SESSION['klant'])){
+      $_SESSION['klant'] = FALSE;
+      $_SESSION['admin'] = FALSE;
+   }
 
    if ($_SESSION['klant'] && $_SESSION['admin'] == FALSE) {
       header("Location: index.php");
    } else if ($_SESSION['klant'] == FALSE) {
       header("Location: logout.php");
-   }
-}
-
-function controleerEigenaar()
-{
-   session_start();
-
-   if ($_SESSION['eigenaar'] == FALSE && $_SESSION['klant'] && $_SESSION['admin'] == FALSE) {
-      header("Location: index.php");
-   } else if ($_SESSION['klant'] == FALSE) {
-      header("Location: logout.php");
-   } else if ($_SESSION['admin'] == FALSE) {
-      header("Location: admin.php");
    }
 }
 
@@ -129,7 +127,7 @@ function socialmedia() {
         while ($row = $result->fetch_assoc()) {
             echo '<br><a href="' . htmlspecialchars($row['link'], ENT_QUOTES, 'UTF-8') . '">
             <img width="22px" src="' . htmlspecialchars($row['icoon'], ENT_QUOTES, 'UTF-8') . '" alt="' . htmlspecialchars($row['socialmedianaam'], ENT_QUOTES, 'UTF-8') . '">
-            '. htmlspecialchars($row['socialmedianaam'], ENT_QUOTES, 'UTF-8') .  '</a><br>';
+            '. htmlspecialchars($row['socialmedianaam'], ENT_QUOTES, 'UTF-8') .  '</a>';
         }
 
         $stmt->close();

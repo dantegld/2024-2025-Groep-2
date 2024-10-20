@@ -113,11 +113,25 @@
       </style>
     <?php
     include 'connect.php';
+    session_start();
     include 'functies/functies.php';
     controleerAdmin();
     include 'functies/adminSideMenu.php';
 
+ 
+
     echo '<div class="adminpage">';
+    if (isset($_POST['aanpassen'])) {
+        $stock_id = $_POST['stock_id'];
+        $stock = $_POST['stock'];
+        $sql = "UPDATE tblstock SET stock = $stock WHERE stock_id = $stock_id";
+        if ($mysqli->query($sql)) {
+            echo '<div class="message success">Stock is aangepast</div>';
+        } else {
+            echo '<div class="message error">Er is iets fout gegaan</div>';
+        }
+    }
+
     $artikel_id = $_GET['artikel_id'];
     $variatie_id = $_GET['variatie_id'];
     $sql = "SELECT * FROM tblkleur k,tblvariatie v,tblstock s, tblartikels 
@@ -145,19 +159,3 @@
         echo '</tr>';
     }
     echo '</table>';
-    if (isset($_POST['aanpassen'])) {
-        // Ensure the keys exist in the POST array before accessing them
-        if (isset($_POST['stock'])) {
-            $stock = $_POST['stock'];
-            $stock_id = $_POST['stock_id'];
-            $sql = "UPDATE tblstock SET stock = '$stock' WHERE stock_id = '$stock_id'";
-            $result = $mysqli->query($sql);
-            if ($result) {
-                echo "<div class='message success'>Het product met ID $stock_id is succesvol bijgewerkt.</div>";
-            } else {
-                echo "<div class='message error'>Er is een fout opgetreden bij het bijwerken van het product.</div>";
-            }
-        } else {
-            echo "<div class='message error'>Niet alle gegevens zijn verstrekt.</div>";
-        }
-    }

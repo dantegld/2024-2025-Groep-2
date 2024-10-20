@@ -44,8 +44,9 @@
    <body>
     <?php
     include 'connect.php';
-    include 'functies/functies.php';
     session_start();
+    include 'functies/functies.php';
+
     ?>
 
 <?php

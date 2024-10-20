@@ -104,6 +104,7 @@
     <?php
     include 'connect.php';
     // check if the user is logged in
+    session_start();
     include 'functies/functies.php';
     controleerAdmin();
     include 'functies/adminSideMenu.php';

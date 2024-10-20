@@ -49,11 +49,7 @@
     session_start();
 
     //NOG TE MAKEN: if the user is already logged in, redirect to the my profile page
-    if (isset($_SESSION["klant"])) {
-        if ($_SESSION["klant"] == true) {
-            header("Location: profile.php");
-        }
-    }
+
 
     
     if (isset($_POST["login"])) {
@@ -77,17 +73,11 @@
                     $_SESSION["eigenaar"] = false;    
                     header("Location: admin.php");
 
-                } else if ($type == "klant") {
+                } else if ($type == "customer") {
                     $_SESSION["klant"] = true;
                     $_SESSION["admin"] = false;
                     $_SESSION["eigenaar"] = false;
                     header("Location: index.php");
-                }
-                else if ($type=="eigenaar"){
-                    $_SESSION["eigenaar"]=true;
-                    $_SESSION["klant"]=true;
-                    $_SESSION["admin"]=true;
-                    header("Location: admin.php");
                 }
                 else{
                     echo"error";
@@ -105,8 +95,8 @@
     <input class="btn btn-primary" type="submit" name="login"><br> <br>
     </form><br><br> ';
     echo '<div class = "error"> The entered password or username is incorrect</div> <br>';
-    echo '<div>Dont have an account yet? <a href="register.php">Register</a></div> <br>';
-    echo ' <br><div>Forgot your password? <a href="reset.php">Forgot password?</a></div>';
+    echo '<div>Dont have an account yet? <a href="register.php">Register</a></div><br>';
+    echo '<div>Forgot your password? <a href="reset.php">Forgot password?</a></div>';
     
 
     
@@ -123,7 +113,7 @@
         <input class="btn btn-primary" type="submit" name="login"><br><br>
         </form><br> <br>';
         echo '<div>Dont have an account yet? <a href="register.php">Register</a></div> <br>';
-        echo ' <br><div>Forgot your password? <a href="reset.php">Forgot password?</a></div>';
+        echo '<div>Forgot your password? <a href="reset.php">Forgot password?</a></div>';
        
     }
     

@@ -1,7 +1,9 @@
 <?php
 include 'connect.php';
-include 'functies/functies.php';
 session_start();
+include 'functies/functies.php';
+controleerKlant();
+
 if (!isset($_GET["id"])) {
     header("Location: index.php");
     exit();

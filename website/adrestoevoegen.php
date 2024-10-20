@@ -38,8 +38,10 @@
    <body>
    <?php
     include 'connect.php';
-    include 'functies/functies.php';
     session_start();
+    include 'functies/functies.php';
+    controleerKlant();
+
     ?>
 
                     <div id="mySidenav" class="sidenav">

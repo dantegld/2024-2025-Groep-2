@@ -41,6 +41,7 @@
 <body>
 <?php
 include 'connect.php';
+session_start();
 include 'functies/adminSideMenu.php';
 include 'functies/functies.php';
 controleerAdmin();
@@ -116,7 +117,7 @@ if (isset($_POST['submit'])) {
         displayForm('Username or email already exists.');
     } else {
         // Insert new user
-        $sql = "INSERT INTO tblklant (klantnaam, wachtwoord, email, type) VALUES (?, ?, ?, 'klant')";
+        $sql = "INSERT INTO tblklant (klantnaam, wachtwoord, email, type) VALUES (?, ?, ?, 'customer')";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("sss", $username, $passwordhash, $email);
         $result = $stmt->execute();

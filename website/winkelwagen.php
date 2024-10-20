@@ -132,6 +132,7 @@
 include("connect.php");
 session_start();
 include 'functies/functies.php';
+controleerKlant();
 include 'functies/mySideNav.php';
 echo '<br><span class="toggle_icon1" onclick="openNav()"><img width="44px" src="images/icon/Hamburger_icon.svg.png"></span>';
 
@@ -217,7 +218,7 @@ if (isset($_SESSION["klant_id"])) {
         echo ' <div class= "pay"><a href="betalen.php" class="btn btn-primary">Checkout</a></div>';
         echo '</div>'; 
     } else {
-        echo '<div class="empty-cart">Winkelwagen is leeg.</div>';
+        echo '<div class="empty-cart">Winkelwagen is empty.</div>';
     }
 } else {
     echo '<div class="empty-cart">You are not logged in. Please log in first to view the shopping cart.</div>';

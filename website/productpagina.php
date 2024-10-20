@@ -3,6 +3,7 @@
    <head>      
     <?php
       include 'connect.php';
+      session_start();
          include 'functies/functies.php';
          onderhoudsModus();
 

@@ -43,15 +43,22 @@
                 <i class="fa fa-cogs fa-5x" aria-hidden="true"></i><br><br>
                 <h1>The website is currently under maintenance</h1>
                 <p>We are currently maintaining the website.
-                Click <a href="index.php">here</a> to try it again.</p>
+                Click <a href="index.php">here</a> to try again.</p>
                   <?php
                   include 'connect.php';
-                  include 'functies/functies.php';
                   session_start();
-                  if (($_SESSION["klant_id"])) {
-
-                  }else{
-                     echo 'You are not logged in<p>Click <a href="login.php">here</a> to log in anyway</p>';
+                  include 'functies/functies.php';
+                  
+      
+                  if (isset($_SESSION["klant_id"])) {
+                      if($_SESSION["klant_id"]){
+                          //echo logout
+                            echo '<p><a href="logout.php">Log out</a></p>';
+                      }else{
+                          echo '<p>You are not logged in. Click <a href="login.php">here</a> to log in anyway</p>';
+                      }
+                  } else {
+                    echo '<p>You are not logged in. Click <a href="login.php">here</a> to log in anyway</p>';
                   }
                   
                   ?>

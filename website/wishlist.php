@@ -125,16 +125,17 @@
    <body>
    <div>
    <?php
+   session_start();
 include("connect.php");
-session_start();
+
 include 'functies/functies.php';
-include 'functies/mySideNav.php';
 controleerKlant();
+include 'functies/mySideNav.php';
 echo '<br><span class="toggle_icon1" onclick="openNav()"><img width="44px" src="images/icon/Hamburger_icon.svg.png"></span>';
 
 if (isset($_SESSION["klant_id"])) {
     $klant_id = $_SESSION["klant_id"];
-    $sql = "SELECT v.variatie_id, w.artikel_id, v.directory,k.kleur, a.artikelnaam, a.prijs 
+    $sql = "SELECT w.wishlist_id, v.variatie_id, w.artikel_id, v.directory,k.kleur, a.artikelnaam, a.prijs 
             FROM tblwishlist w, tblartikels a, tblvariatie v,tblkleur k
             WHERE klant_id = '" . $klant_id . "' 
             AND w.artikel_id = a.artikel_id
@@ -164,7 +165,7 @@ if (isset($_SESSION["klant_id"])) {
             echo '<td><img src="' . $row["directory"] . '" alt="' . $row["artikelnaam"] . '"></td>';
             echo '<td><a href="productpagina.php?id=' . $row["artikel_id"] . '&variatie_id=' . $row["variatie_id"] . '">' . $row["artikelnaam"] . '<br>' . $row["kleur"] . '</a></td>';
             echo '<td>&euro;<span id="price-' . $row['artikel_id'] . '">' . number_format($row["prijs"], 2) . '</span></td>';
-            echo '<td><a href="verwijderWishlist.php?id=' . $row['artikel_id'] . '"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a></td>';
+            echo '<td><a href="verwijderWishlist.php?id=' . $row['wishlist_id'] . '"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a></td>';
             echo '</tr>';
         }
 
@@ -174,7 +175,7 @@ if (isset($_SESSION["klant_id"])) {
         
         echo '</div>'; 
     } else {
-        echo '<div class="empty-wishlist">Wishlist is leeg.</div>';
+        echo '<div class="empty-wishlist">Wishlist is empty.</div>';
     }
 } else {
     echo '<div class="empty-wishlist">U bent niet ingelogd. Log eerst in om de winkelwagen te bekijken.</div>';

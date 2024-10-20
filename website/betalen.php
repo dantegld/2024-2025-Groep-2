@@ -46,6 +46,7 @@
     <?php
     error_reporting(E_ALL & ~E_NOTICE);
     include 'connect.php';
+    session_start();
     include 'functies/functies.php';
     onderhoudsModus();
     controleerKlant();
