@@ -115,7 +115,7 @@
                 <table>
             <tr>
                 <th>Socials name</th>
-                <th>Actieve</th>
+                <th>Active</th>
                 <th> Activate/Deactivate</th>
             </tr>';
             
@@ -126,17 +126,17 @@
                     echo '<td>' . $row['socialmedianaam'] . '</td>';
                     echo '<td>';
                     if ($row['beschikbaar'] == 1) {
-                        echo 'Ja';
+                        echo 'Yes';
                     } else {
-                        echo 'Nee';
+                        echo 'No';
                     }
                     echo '</td>';
 
                     $socialmedia_id = $row['socialmedia_id'];
                     if ($row['beschikbaar'] == 1) {
-                        echo '<td><a href="socialDeactiveren.php?id=' . $socialmedia_id . '">Deactiveren</a></td>';
+                        echo '<td><a href="socialDeactiveren.php?id=' . $socialmedia_id . '">Deactivate</a></td>';
                     } else {
-                        echo '<td><a href="socialActiveren.php?id=' . $socialmedia_id . '">Activeren</a></td>';
+                        echo '<td><a href="socialActiveren.php?id=' . $socialmedia_id . '">Activate</a></td>';
                     }
                     echo '</tr>';
                 }

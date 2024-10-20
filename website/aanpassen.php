@@ -9,7 +9,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>Voorraad Beheren</title>
+      <title>Manage Stock</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -41,12 +41,17 @@
              background-color: #f5f5f5;
              margin: 0;
              padding: 0;
-         }
+            }
+             h1{
+                text-align: center;
+                margin-top: 20px;
+             }
          table {
             width: 60%;
              border-collapse: collapse;
              background-color: #fff;
              box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                margin: 50px auto;
          }
          th, td {
              padding: 10px;
@@ -125,12 +130,12 @@ include 'functies/adminSideMenu.php';
         $updateQuery = "UPDATE tblartikels SET artikelnaam = '$artikelnaam', prijs = '$prijs', stock = '$stock' WHERE artikel_id = '$artikel_id'";
         $updateResult = $mysqli->query($updateQuery);
         if ($updateResult) {
-            echo "<div class='message success'>Het product met ID $artikel_id is succesvol bijgewerkt.</div>";
+            echo "<div class='message success'>The product with ID $artikel_id has been updated successfully.</div>";
         } else {
-            echo "<div class='message error'>Er is een fout opgetreden bij het bijwerken van het product.</div>";
+            echo "<div class='message error'>An error occurred while updating the product.</div>";
         }
     } else {
-        echo "<div class='message error'>Niet alle gegevens zijn verstrekt.</div>";
+        echo "<div class='message error'>Not all data has been provided.</div>";
     }
 }
 if (isset($_POST['delete'])) {
@@ -145,7 +150,7 @@ if (isset($_POST['delete'])) {
     $result = $mysqli->query($query);
     if ($result->num_rows > 0) {
         echo "<table border='1'>";
-        echo "<tr><th>Artikel ID</th><th>Artikelnaam</th><th>Prijs</th><th>Actie</th><th>Variaties</th><th>Delete</th></tr>";
+        echo "<tr><th>Article ID</th><th>Article name</th><th>Price</th><th>Action</th><th>Variations</th><th>Delete</th></tr>";
         while ($row = $result->fetch_assoc()) {
 
             echo "<tr>";
@@ -155,9 +160,9 @@ if (isset($_POST['delete'])) {
             echo "<td><input type='number' name='prijs' value='" . $row['prijs'] . "' /></td>";
             echo "<td>
                       <input type='hidden' name='artikel_id' value='" . $row['artikel_id'] . "' />
-                      <input type='submit' name='aanpassen' value='Aanpassen' />
+                      <input type='submit' name='aanpassen' value='Adjust' />
                   </td>";
-            echo "<td><a class='btn btn-primary' href='variaties.php?artikel_id=" . $row['artikel_id'] . "'>Variaties</a></td>";
+            echo "<td><a class='btn btn-primary' href='variaties.php?artikel_id=" . $row['artikel_id'] . "'>Variations</a></td>";
             echo "<td>
                       <input type='hidden' name='artikel_id' value='" . $row['artikel_id'] . "' />
                       <input type='submit' name='delete' value='Delete' />
@@ -179,12 +184,12 @@ if (isset($_POST['delete'])) {
             $updateQuery = "UPDATE tblartikels SET artikelnaam = '$artikelnaam', prijs = '$prijs' WHERE artikel_id = '$artikel_id'";
             $updateResult = $mysqli->query($updateQuery);
             if ($updateResult) {
-                echo "<div class='message success'>Het product met ID $artikel_id is succesvol bijgewerkt.</div>";
+                echo "<div class='message success'>The product with ID $artikel_id has been updated successfully.</div>";
             } else {
-                echo "<div class='message error'>Er is een fout opgetreden bij het bijwerken van het product.</div>";
+                echo "<div class='message error'>An error occurred while updating the product.</div>";
             }
         } else {
-            echo "<div class='message error'>Niet alle gegevens zijn verstrekt.</div>";
+            echo "<div class='message error'>Not all data has been provided.</div>";
         }
     }
     ?>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Pagina</title>
+    <title>Admin Page</title>
     <!-- basic -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <!-- site metas -->
-    <title>Admin Pagina</title>
+    <title>Admin Page</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -52,22 +52,22 @@
     ?>
     
     <div class="adminpageCenter">
-    <h2 class="titel1">Onderhoudsmodus</h2><br>
+    <h2 class="titel1">Maintance mode</h2><br>
     <?php
     //knop that turns on the maintenance mode
 
     $sql1 = "SELECT * FROM tbladmin WHERE functienaam = 'onderhoudmodus' and functiewaarde = 1";
     $result1 = $mysqli->query($sql1);
     if ($result1->num_rows > 0) {
-        echo "Onderhoudsmodus is aan<br>";
+        echo "Maintance mode is enabled<br>";
             echo "<form action='adminonderhoud.php' method='post'>
-        <input type='submit' name='off' value='Zet onderhoudsmodus uit'><br>
+        <input type='submit' name='off' value='Disable maintance mode'><br>
             </form>";
 
     } else {
-        echo "Onderhoudsmodus is uit<br>";
+        echo "Maintance mode is disabled<br>";
         echo "<form action='adminonderhoud.php' method='post'>
-        <input type='submit' name='on' value='Zet onderhoudsmodus aan'><br>
+        <input type='submit' name='on' value='Enable maintance mode '><br>
             </form>";
     }
 

@@ -54,7 +54,7 @@
                   </div>
                   <span class="toggle_icon1" onclick="openNav()"><img  width="44px" src="images/icon/Hamburger_icon.svg.png"></span>
                   <div class="profilepage"><br><br>
-                  <h2 class="title3">Voeg adres toe</h2>
+                  <h2 class="title3">Add new address</h2>
                     <?php
                     $klant_id = $_SESSION['klant_id'];
                     $sql = "SELECT * FROM tbladres WHERE klant_id = '$klant_id'";
@@ -86,11 +86,11 @@
                         <div class='loginForm'>
                         <?php
                                             echo' <form action="adrestoevoegen.php" method="post">
-                                            <label>Adres:</label><br>
+                                            <label>Address:</label><br>
                                             <input type="text"  class="form-control" name="adres" id="adres" required><br>
-                                            <label>Postcode:</label><br>
+                                            <label>City code:</label><br>
                                             <input type="text"  class="form-control" name="postcode" id="postcode" required><br><br>
-                                            <input class="btn btn-primary" type="submit" value = "Voeg adres toe" name="adresbtn"><br>
+                                            <input class="btn btn-primary" type="submit" value = "Add new adress" name="adresbtn"><br>
                                             </form><br>';
 
                     }

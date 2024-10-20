@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <!-- site metas -->
-    <title>Betaalmethodes</title>
+    <title>Payement methods</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -128,17 +128,17 @@
                     echo '<td>' . $row['methodenaam'] . '</td>';
                     echo '<td>';
                     if ($row['actief'] == 1) {
-                        echo 'Ja';
+                        echo 'Yes';
                     } else {
-                        echo 'Nee';
+                        echo 'No';
                     }
                     echo '</td>';
 
                     $methode_id = $row['methode_id'];
                     if ($row['actief'] == 1) {
-                        echo '<td><a href="betaalmethodeDeactiveren.php?id=' . $methode_id . '">Deactiveren</a></td>';
+                        echo '<td><a href="betaalmethodeDeactiveren.php?id=' . $methode_id . '">Deactivate</a></td>';
                     } else {
-                        echo '<td><a href="betaalmethodeActiveren.php?id=' . $methode_id . '">Activeren</a></td>';
+                        echo '<td><a href="betaalmethodeActiveren.php?id=' . $methode_id . '">Activate</a></td>';
                     }
                     echo '</tr>';
                 }

@@ -176,7 +176,7 @@
                            echo '<div class="col-lg-4 col-sm-4">';
                            echo '   <div class="box_main">';
                            echo '      <h4 class="shirt_text">' . htmlspecialchars($row["artikelnaam"]) . '</h4>';
-                           echo '      <p class="price_text">Price  <span style="color: #262626;">$ ' . htmlspecialchars($row["prijs"]) . '</span></p>';
+                           echo '      <p class="price_text">Price:  <span style="color: #262626;">$' . htmlspecialchars($row["prijs"]) . '</span></p>';
                            echo '      <div class="tshirt_img"><img src="' . htmlspecialchars($row["directory"]) . '"></div>';
                            echo '      <div class="btn_main">';
                            if(!($_SESSION['klant'])) {
@@ -219,7 +219,7 @@
          <div class="container">
             <div class="footer_logo"><a href="index.php"><img src="images/icon/logo.svg"></a></div>
 
-            <div class="location_main">Help Line  Number : +32 41 23 45 97 8
+            <div class="location_main">Help Line  Number : +32 41 23 45 97 80
             <?php
             socialmedia();
             ?>

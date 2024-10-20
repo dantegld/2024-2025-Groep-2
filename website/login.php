@@ -102,11 +102,11 @@
     <input type="username"  class="form-control" name="username" required><br>
     <label>Password</label>
     <input type="password"  class="form-control" name="password" required><br>
-    <input class="btn btn-primary" type="submit" name="login"><br>
-    </form><br>';
-    echo '<div class = "error"> Het ingevoerde wachtwoord of gebruikersnaam is onjuist</div>';
-    echo '<div>Nog geen account? <a href="register.php">Register</a></div>';
-    echo ' <br><div>Wachtwoord vergeten? <a href="reset.php">Forgot password?</a></div>';
+    <input class="btn btn-primary" type="submit" name="login"><br> <br>
+    </form><br><br> ';
+    echo '<div class = "error"> The entered password or username is incorrect</div> <br>';
+    echo '<div>Dont have an account yet? <a href="register.php">Register</a></div> <br>';
+    echo ' <br><div>Forgot your password? <a href="reset.php">Forgot password?</a></div>';
     
 
     
@@ -120,10 +120,11 @@
         <input type="username"  class="form-control" name="username" required><br>
         <label>Password</label>
         <input type="password"  class="form-control" name="password" required><br>
-        <input class="btn btn-primary" type="submit" name="login"><br>
-        </form><br>';
-        echo '<div>Nog geen account? <a href="register.php">Register</a></div>';
-        echo ' <br><div>Wachtwoord vergeten? <a href="reset.php">Forgot password?</a></div>';
+        <input class="btn btn-primary" type="submit" name="login"><br><br>
+        </form><br> <br>';
+        echo '<div>Dont have an account yet? <a href="register.php">Register</a></div> <br>';
+        echo ' <br><div>Forgot your password? <a href="reset.php">Forgot password?</a></div>';
+       
     }
     
     

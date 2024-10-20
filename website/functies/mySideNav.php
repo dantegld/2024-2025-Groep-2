@@ -6,13 +6,13 @@
                   if ($_SESSION["klant"]){
                   echo '<a href="profile.php">My Profile</a>';
                   }else{
-                  echo '<a href="login.php">Log In</a>';
+                  echo '<a href="login.php">Login</a>';
                   }
                   if ($_SESSION["admin"]){
-                     echo '<a href="admin.php">Admin Pagina</a>';
+                     echo '<a href="admin.php">Admin Page</a>';
                   }
                   if ($_SESSION["klant"]){
-                     echo '<a class="logout" href="logout.php">Log Uit</a>';
+                     echo '<a class="logout" href="logout.php">Logout</a>';
                   }
                echo '</div>';
 

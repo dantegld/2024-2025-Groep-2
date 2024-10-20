@@ -89,6 +89,10 @@
           text-align: right;
           border-top: 2px solid #ddd;
       }
+      .pay{
+          text-align: right;
+          margin-top: 20px;
+      }
 
       /* Empty cart message */
       .empty-cart {
@@ -150,13 +154,13 @@ if (isset($_SESSION["klant_id"])) {
         echo '<table class="cart-table">';
         echo '<thead>'; 
         echo '<tr>';
-        echo '<th>Product</th>';
-        echo '<th>Artikelnaam</th>';
-        echo '<th>Aantal</th>';
-        echo '<th>Prijs per item</th>'; 
-        echo '<th>Totaal per item</th>';
-        echo '<th>Schoenmaat</th>';
-        echo '<th>Verwijderen</th>';
+        echo '<th>Article</th>';
+        echo '<th>Article name</th>';
+        echo '<th>Amount</th>';
+        echo '<th>Price per item</th>'; 
+        echo '<th>Total per item</th>';
+        echo '<th>Shoe size</th>';
+        echo '<th>Delete</th>';
         echo '</tr>';
         echo '</thead>';
         echo '<tbody>';
@@ -207,15 +211,16 @@ if (isset($_SESSION["klant_id"])) {
         echo '</tbody>';
         echo '</table>';
 
-        echo '<div class="cart-total">Totale Prijs: &euro;<span id="total-price">' . number_format($totalePrijs, 2) . '</span></div>';
+        echo '<div class="cart-total">Total Price: &euro;<span id="total-price">' . number_format($totalePrijs, 2) . '</span></div>';
         $_SESSION['total_price'] = number_format($totalePrijs, 2);
-        echo '<a href="betalen.php" class="btn btn-primary">Afrekenen</a>';
+        echo '<br>';
+        echo ' <div class= "pay"><a href="betalen.php" class="btn btn-primary">Checkout</a></div>';
         echo '</div>'; 
     } else {
         echo '<div class="empty-cart">Winkelwagen is leeg.</div>';
     }
 } else {
-    echo '<div class="empty-cart">U bent niet ingelogd. Log eerst in om de winkelwagen te bekijken.</div>';
+    echo '<div class="empty-cart">You are not logged in. Please log in first to view the shopping cart.</div>';
 }
 ?>
 

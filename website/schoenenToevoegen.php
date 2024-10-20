@@ -9,7 +9,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>Product Toevoegen</title>
+      <title>Add new products</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -45,11 +45,11 @@
       <div class="schoenenForm">
         <form class="formFlex" action="upload1.php" method="POST" enctype="multipart/form-data">
          <div>
-            <label>Naam</label>
+            <label>Name</label>
             <input type="text" name="naam" class="form-control" required><br>
             <!-- <label>Stock</label> -->
             <!-- <input type="number" name="stock" class="form-control" required><br> -->
-            <label>Prijs</label>
+            <label>Price</label>
             <input type="number" name="prijs" class="form-control" required><br>
             <!-- <label>Categorie</label>
             <input type="text" name="categorie" class="form-control" required><br>
@@ -70,7 +70,7 @@
             <label>Image Kleur 3</label>
             <input type="file" name="image3" class="form-control" ><br> -->
 
-            <input type="submit" name="submit" value="Toevoegen" class="btn btn-primary">
+            <input type="submit" name="submit" value="Add" class="btn btn-primary">
          </div>
          </div>
 

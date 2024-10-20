@@ -150,7 +150,7 @@ select:disabled {
          <div class="container2">
          <div class="banner_section layout_padding">
             <div class="container">
-                              <h1 class="banner_taital">Gratis Verzending Boven &euro;50</h1>
+                              <h1 class="banner_taital">Free Shipping Above &euro;50</h1>
                            </div>
                            </div>
                         </div>
