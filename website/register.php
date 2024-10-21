@@ -49,7 +49,7 @@
                 displayForm("Gebruikersnaam of email bestaat al.");
             } else {
                 // Insert new user with type 'klant'
-                $sql = "INSERT INTO tblklant (klantnaam, wachtwoord, email, uniekwoord, type) VALUES (?, ?, ?, ?, 'klant')";
+                $sql = "INSERT INTO tblklant (klantnaam, wachtwoord, email, uniekwoord, type) VALUES (?, ?, ?, ?, 'customer')";
                 $stmt = $mysqli->prepare($sql);
                 $stmt->execute([$username, password_hash($password, PASSWORD_DEFAULT), $email, password_hash($uniekwoord, PASSWORD_DEFAULT)]);
 

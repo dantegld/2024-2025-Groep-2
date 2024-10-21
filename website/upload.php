@@ -1,6 +1,9 @@
 <?php
 include 'connect.php';
+session_start();
 include 'functies/functies.php';
+controleerAdmin();
+
 if(isset($_POST["submit"])){
     $image1 = $_FILES['image1'];
     $image2 = $_FILES['image2'];

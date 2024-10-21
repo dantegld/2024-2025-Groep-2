@@ -24,10 +24,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "Error preparing statement: " . $mysqli->error;
         }
     } else {
-        echo "Invalid input or session data";
+        header("Location: winkelwagen.php");
     }
 } else {
-    echo "Invalid request method";
+    header("Location: winkelwagen.php");
 }
 
 $mysqli->close();
