@@ -79,9 +79,6 @@
                     $_SESSION["eigenaar"] = false;
                     header("Location: index.php");
                 }
-                else{
-                    echo"error";
-                }
             }
             
             

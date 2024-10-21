@@ -41,6 +41,7 @@
     session_start();
     include 'functies/functies.php';
     controleerKlant();
+    onderhoudsModus();
 
     ?>
 
@@ -61,15 +62,7 @@
                     $klant_id = $_SESSION['klant_id'];
                     $sql = "SELECT * FROM tbladres WHERE klant_id = '$klant_id'";
                     $result = $mysqli->query($sql);
-                    if ($result->num_rows == 0) {
-                        $adres_id = 1;
-                    }else if ($result->num_rows == 1) {
-                        $adres_id = 2;
-                    }else if ($result->num_rows == 2) {
-                        $adres_id = 3;
-                    }else if ($result->num_rows == 3) {
-                        Header("Location: profile.php");
-                    }
+                    $adres_id = $result->num_rows + 1;
                     if(isset($_POST['adresbtn'])){
                         $klant_id = $_SESSION['klant_id'];
                         $postcode = $_POST['postcode'];

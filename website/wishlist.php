@@ -130,6 +130,7 @@ include("connect.php");
 
 include 'functies/functies.php';
 controleerKlant();
+onderhoudsModus();
 include 'functies/mySideNav.php';
 echo '<br><span class="toggle_icon1" onclick="openNav()"><img width="44px" src="images/icon/Hamburger_icon.svg.png"></span>';
 

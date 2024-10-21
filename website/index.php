@@ -75,7 +75,7 @@
             <div class="container">
                <div class="containt_main">
                   <?php
-                  include 'functies/MySideNav.php';
+                  include 'functies/mySideNav.php';
                   ?>
                   <span class="toggle_icon" onclick="openNav()"><img src="images/icon/toggle-icon.png"></span>
                  
@@ -192,7 +192,7 @@
                            }
                         }
                         
-                           echo '         <div class="buy_bt"><a href="cartCalc.php?id='.$row['artikel_id'].'">Add to cart</a></div>';
+                           echo '         <div class="buy_bt"><a href="cartcalc.php?id='.$row['artikel_id'].'">Add to cart</a></div>';
                            echo '         <div class="seemore_bt"><a href="productpagina.php?id='.$row['artikel_id'].'">See More</a></div>';
                            echo '      </div>';
                            echo '   </div>';

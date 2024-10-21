@@ -6,16 +6,18 @@ function onderhoudsModus()
 {
    include 'connect.php';
    
+   
 
    $sql = "SELECT functiewaarde FROM tbladmin where functienaam = 'onderhoudmodus'";
    $result = $mysqli->query($sql);
    $row = $result->fetch_assoc();
-   if(!isset($_SESSION['klant'])){
-      $_SESSION['klant'] = FALSE;
-      $_SESSION['admin'] = FALSE;
-   }
-
-   if ($row["functiewaarde"] == 1 && $_SESSION['admin'] == FALSE) {
+   $sql4 = "SELECT type FROM tblklant WHERE klant_id = ? ";
+   $stmt4 = $mysqli->prepare($sql4);
+   $stmt4->bind_param("i", $_SESSION['klant_id']);
+   $stmt4->execute();
+   $result4 = $stmt4->get_result();
+   $row4 = $result4->fetch_assoc();
+   if ($row["functiewaarde"] == 1 && $row4['type'] == "customer") {
       header("Location: onderhoudsPagina.php");
    }
 }
@@ -23,12 +25,17 @@ function onderhoudsModus()
 // Functie om de gebruiker te controleren
 function controleerKlant()
 {
-   if(!isset($_SESSION['klant'])){
-      $_SESSION['klant'] = FALSE;
-      $_SESSION['admin'] = FALSE;
-   }
+   include 'connect.php';
+   $sql = "SELECT type FROM tblklant WHERE klant_id = ?";
+   $stmt = $mysqli->prepare($sql);
+   $stmt->bind_param("i", $_SESSION['klant_id']);
+   $stmt->execute();
+   $result = $stmt->get_result();
+   $row = $result->fetch_assoc();
+   $type = $row['type'];
 
-   if ($_SESSION['klant'] == FALSE) {
+
+   if ((!($type == "customer") && !($type == "admin")) || !isset($_SESSION['klant_id'])) {
       header("Location: logout.php");
    }
 }
@@ -36,15 +43,22 @@ function controleerKlant()
 function controleerAdmin()
 {
    
-   if(!isset($_SESSION['klant'])){
-      $_SESSION['klant'] = FALSE;
-      $_SESSION['admin'] = FALSE;
-   }
+   include 'connect.php';
+   $sql = "SELECT type FROM tblklant WHERE klant_id = ?";
+   $stmt = $mysqli->prepare($sql);
+   $stmt->bind_param("i", $_SESSION['klant_id']);
+   $stmt->execute();
+   $result = $stmt->get_result();
+   $row = $result->fetch_assoc();
+   $type = $row['type'];
 
-   if ($_SESSION['klant'] && $_SESSION['admin'] == FALSE) {
-      header("Location: index.php");
-   } else if ($_SESSION['klant'] == FALSE) {
+
+   if ((!($type == "admin")) || !isset($_SESSION['klant_id'])) {
+      if($type == "customer"){
+         header("Location: index.php");
+      }else{
       header("Location: logout.php");
+      }
    }
 }
 
@@ -61,7 +75,7 @@ function processPayPalPayment($amount)
 
 
    // Redirect to PayPal with required fields NOG VERRANDEREN VOOR LIVE SERVER
-   header("Location: $paypalUrl?cmd=_xclick&business=$businessEmail&amount=$amount&currency_code=$currency&return=http://localhost/tiago/2024-2025-Groep-2/website/winkelwagen.php&cancel_return=http://localhost/tiago/2024-2025-Groep-2/website/cancelBetalen.php");
+   header("Location: $paypalUrl?cmd=_xclick&business=$businessEmail&amount=$amount&currency_code=$currency&return=https://groep2.itbusleyden.be/successBetalen.php&cancel_return=https://groep2.itbusleyden.be/cancelBetalen.php");
    exit();
 }
 
@@ -77,8 +91,8 @@ function processStripePayment($amount){
    $amount = intval($amount);
    $amount = $amount * 100;
 
-   $success_url = "http://localhost/tiago/2024-2025-Groep-2/website/successBetalen.php";
-   $cancel_url = "http://localhost/tiago/2024-2025-Groep-2/website/cancelBetalen.php";
+   $success_url = "https://groep2.itbusleyden.be/successBetalen.php";
+   $cancel_url = "https://groep2.itbusleyden.be/cancelBetalen.php";
 
 
    //get from database

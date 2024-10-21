@@ -111,7 +111,7 @@ select:disabled {
             <div class="container1">
                <div class="containt_main1">
                   <?php
-                  include 'functies/MySideNav.php';
+                  include 'functies/mySideNav.php';
                   ?>
                   <span class="toggle_icon" onclick="openNav()"><img  width="44px" src="images/icon/Hamburger_icon.svg.png"></span>
 
@@ -230,7 +230,7 @@ foreach ($_GET as $key => $value) {
     echo '<br>';
     ?>
     <div class="buy_bt">
-        <a id="addToCartLink" href="cartCalc.php?variatie_id=<?php echo $variatie_id; ?>&id=<?php echo $artikel_id; ?>&schoenmaat=">Add to cart</a>
+        <a id="addToCartLink" href="cartcalc.php?variatie_id=<?php echo $variatie_id; ?>&id=<?php echo $artikel_id; ?>&schoenmaat=">Add to cart</a>
     </div>
 </div>
 </div>

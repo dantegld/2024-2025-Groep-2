@@ -1021,9 +1021,19 @@ display: flex;
     width: 100%;
     height: 33%;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     
+}
+.address-box {
+    margin-left: 50px !important;
+
+}
+.address-content {
+    width: 200px;
+}
+.address-delete {
+    margin-right: 50px;
 }
 btn-danger a:hover {
     color: white;

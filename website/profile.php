@@ -46,11 +46,13 @@
     include 'connect.php';
     session_start();
     include 'functies/functies.php';
+    controleerKlant();
+    onderhoudsModus();
 
     ?>
 
 <?php
-include 'functies/MySideNav.php';
+include 'functies/mySideNav.php';
 ?>
 <span class="toggle_icon1" onclick="openNav()"><img  width="44px" src="images/icon/Hamburger_icon.svg.png"></span>
 
@@ -112,30 +114,32 @@ include 'functies/MySideNav.php';
 
             if ($result->num_rows == 0) {
                 echo '  <div class="tabadres">
-                        <p>Address: </p>';
-                echo '<a href= "adrestoevoegen.php">Add new address</a>';
+                        <p class="address-box">Address: </p>';
+                echo '<div class="address-delete"><a href= "adrestoevoegen.php">Add new address</a></div>';
                 echo '</div>';
             } else {
                 $klant_id = $_SESSION['klant_id'];
-                $sql3 = "SELECT tbladres.adres, tbladres.postcode_id, tblpostcode.postcode_id, tblpostcode.postcode, tblpostcode.plaats 
+                $sql3 = "SELECT tbladres.adres_id, tbladres.adres, tbladres.postcode_id, tblpostcode.postcode_id, tblpostcode.postcode, tblpostcode.plaats 
                          FROM tbladres 
                          JOIN tblpostcode ON tbladres.postcode_id = tblpostcode.postcode_id 
                          WHERE klant_id = '$klant_id'";
                 $result3 = $mysqli->query($sql3);
                 
-            
+                echo '<br>';
                 $adres_count = 1;
                 while ($row3 = $result3->fetch_assoc()) {
                     echo '<div class="tabadres">';
-                    echo '<p>Address ' . $adres_count . ':</p>';
-                    echo $row3['adres'] . " " . $row3['postcode'] . " " . $row3['plaats'];
+                    echo '<p class="address-box">Address ' . $adres_count . ':</p>';
+                    echo '<span class = "address-content">' . $row3['adres'] . " " . $row3['postcode'] . " " . $row3['plaats'] . '</span>';
+                    echo '<div class="address-delete"><a href="adresverwijderen.php?adres_id=' . $row3['adres_id'] . '"><i class="fa fa-trash lg"></i></a></div>';
                     echo '</div>';
                     if ($adres_count == $result3->num_rows) {
                         $adres_count++;
-                        echo '<div class="tabadres">';
-                        echo '<p>Adres ' . $adres_count .':</p>';
+                        echo '<br>';
+                        echo '<div class="address-add"">';
                         echo '<a href="adrestoevoegen.php">Add new address</a>';
                         echo '</div>';
+                        echo '<br>';
                     }
                     $adres_count++;
                     
