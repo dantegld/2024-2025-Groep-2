@@ -42,12 +42,16 @@
          include 'connect.php';
          
          //initaliseerd de klant variabele zodat er verder geen errors komen voor bezoekers die niet zijn ingelogd.
-
-         if (!isset($_SESSION["klant"])) {
-            $_SESSION["klant"] = false;
-         }
-         if (!(isset($_SESSION["admin"]))) {
-            $_SESSION["admin"] = false;
+         if(isset($_SESSION['klant_id'])){
+         $sql = "SELECT type FROM tblklant WHERE klant_id = ?";
+         $stmt = $mysqli->prepare($sql);
+         $stmt->bind_param("i", $_SESSION['klant_id']);
+         $stmt->execute();
+         $result = $stmt->get_result();
+         $row = $result->fetch_assoc();
+         $type = $row['type'];
+         }else{
+         $type = "guest";
          }
          onderhoudsModus();
       ?>
@@ -103,7 +107,7 @@
                            </li>
                            <?php
                            //Als de klant is ingelogd, laat de knop "My Profile" zien, anders laat de knop "Log-In" zien
-                           if ($_SESSION["klant"]){
+                           if ($type == "customer" || $type == "admin"){
                               echo '<li><a href="profile.php">
                                     <i class="fa fa-user" aria-hidden="true"></i>
                                     <span class="padding_5">My Profile</span></a>
@@ -160,7 +164,7 @@
                      if (mysqli_num_rows($result) > 0) {
                         // Output data of each row
                         while($row = mysqli_fetch_assoc($result)) {
-                           if($_SESSION['klant']) {
+                           if($_SESSION['klant_id']) {
                            $sql2 = "SELECT artikel_id FROM tblwishlist 
                            WHERE artikel_id = " . $row['artikel_id'] . " AND klant_id = " . $_SESSION['klant_id'] . " AND variatie_id = 1";
                            $result2 = mysqli_query($mysqli, $sql2);
@@ -182,7 +186,7 @@
                            echo '      <p class="price_text">Price:  <span style="color: #262626;">$' . htmlspecialchars($row["prijs"]) . '</span></p>';
                            echo '      <div class="tshirt_img"><img src="' . htmlspecialchars($row["directory"]) . '"></div>';
                            echo '      <div class="btn_main">';
-                           if(!($_SESSION['klant'])) {
+                           if($type == "guest") {
                               echo '         <div class="wishlist_bt"><a href="login.php"><i class="fa fa-heart-o" aria-hidden="true"></i></a></div>';
                            } else {
                            if ($wishlist) {

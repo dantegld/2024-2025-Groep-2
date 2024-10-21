@@ -68,15 +68,9 @@
                 $type = $row["type"];
                 
                 if ($type == "admin") {
-                    $_SESSION["admin"] = true;
-                    $_SESSION["klant"] = true;
-                    $_SESSION["eigenaar"] = false;    
                     header("Location: admin.php");
 
                 } else if ($type == "customer") {
-                    $_SESSION["klant"] = true;
-                    $_SESSION["admin"] = false;
-                    $_SESSION["eigenaar"] = false;
                     header("Location: index.php");
                 }
             }
