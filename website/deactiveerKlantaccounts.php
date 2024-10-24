@@ -178,7 +178,7 @@ include 'functies/adminSideMenu.php';
         }
         echo "</table>";
     } else {
-        echo "No old or unavailable products found.";
+        echo "No Customers found";
     }
     echo "<br>";
     
