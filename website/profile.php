@@ -90,7 +90,7 @@ include 'functies/mySideNav.php';
                     $sql1 = "SELECT * FROM tblklant WHERE klant_id = '$_SESSION[klant_id]'";
                     $result1 = $mysqli->query($sql1);
                     while ($row1 = $result1->fetch_assoc()) {
-                        if ($row1['schoenmaat'] == null) {
+                        if ($row1['schoenmaat'] == null || $row1['schoenmaat'] == 0 || empty($row1['schoenmaat'])) {
                             $vorigeschoenmaat = "Enter your shoe size";
                         } else {
                             $vorigeschoenmaat = $row1['schoenmaat'];
