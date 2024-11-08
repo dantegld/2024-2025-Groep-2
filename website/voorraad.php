@@ -112,47 +112,51 @@ include 'functies/adminSideMenu.php';
 ?>
 <div class="adminpage">
     <?php
+ 
+ if (isset($_POST['aanpassen'])) {
+    if (isset($_POST['artikel_id'], $_POST['artikelnaam'], $_POST['prijs'])) {
+        $artikel_id = $_POST['artikel_id'];
+        $artikelnaam = $_POST['artikelnaam'];
+        $prijs = $_POST['prijs'];
+        $aankoopprijs = $_POST['aankoopprijs'];
+        $stock = $_POST['stock'];
+        $updateQuery = "UPDATE tblartikels SET artikelnaam = '$artikelnaam', prijs = '$prijs',aankoopprijs = '$aankoopprijs', stock = '$stock' WHERE artikel_id = '$artikel_id'";
+        $updateResult = $mysqli->query($updateQuery);
+        if ($updateResult) {
+            echo "<div class='message success'>Het product met ID $artikel_id is succesvol bijgewerkt.</div>";
+        } else {
+            echo "<div class='message error'>Er is een fout opgetreden bij het bijwerken van het product.</div>";
+        }
+    } else {
+        echo "<div class='message error'>Niet alle gegevens zijn verstrekt.</div>";
+    }
+} 
     $query = "SELECT * FROM tblartikels";
     $result = $mysqli->query($query);
     if ($result->num_rows > 0) {
         echo "<table border='1'>";
-        echo "<tr><th>Artikel ID</th><th>Artikelnaam</th><th>Prijs</th><th>Actie</th></tr>";
+        echo "<tr><th>Artikel ID</th><th>Artikelnaam</th><th>Prijs</th><th>Aankoopprijs</th><th>In Stock</th><th>Actie</th></tr>";
         while ($row = $result->fetch_assoc()) {
-            // Start the form here
+
             echo "<tr>";
-            echo "<form method='POST' action=''>";
+            echo "<form method='POST' action='voorraad.php'>";
             echo "<td>" . $row['artikel_id'] . "</td>";
             echo "<td><input type='text' name='artikelnaam' value='" . $row['artikelnaam'] . "' /></td>";
             echo "<td><input type='number' name='prijs' value='" . $row['prijs'] . "' /></td>";
+            echo "<td><input type='number' name='aankoopprijs' value='" . $row['aankoopprijs'] . "' /></td>";
+            echo "<td><input type='number' name='stock' value='" . $row['stock'] . "' /></td>";
             echo "<td>
                       <input type='hidden' name='artikel_id' value='" . $row['artikel_id'] . "' />
                       <input type='submit' name='aanpassen' value='Aanpassen' />
                   </td>";
-            echo "</form>"; // End the form here
+            echo "</form>"; 
             echo "</tr>";
         }
         echo "</table>";
     } else {
         echo "Geen oude of niet-beschikbare producten gevonden.";
     }
-    // Handle form submission
-    if (isset($_POST['aanpassen'])) {
-        // Ensure the keys exist in the POST array before accessing them
-        if (isset($_POST['artikel_id'], $_POST['artikelnaam'], $_POST['prijs'])) {
-            $artikel_id = $_POST['artikel_id'];
-            $artikelnaam = $_POST['artikelnaam'];
-            $prijs = $_POST['prijs'];
-            $updateQuery = "UPDATE tblartikels SET artikelnaam = '$artikelnaam', prijs = '$prijs' WHERE artikel_id = '$artikel_id'";
-            $updateResult = $mysqli->query($updateQuery);
-            if ($updateResult) {
-                echo "<div class='message success'>Het product met ID $artikel_id is succesvol bijgewerkt.</div>";
-            } else {
-                echo "<div class='message error'>Er is een fout opgetreden bij het bijwerken van het product.</div>";
-            }
-        } else {
-            echo "<div class='message error'>Niet alle gegevens zijn verstrekt.</div>";
-        }
-    }
+  
     ?>
 </div>
    </body>

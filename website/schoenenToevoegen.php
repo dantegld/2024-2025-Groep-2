@@ -41,7 +41,7 @@
       controleerAdmin();
       include 'functies/adminSideMenu.php';
         ?>
-        <div class="adminpage">
+        <div class="adminpage1">
       <div class="schoenenForm">
         <form class="formFlex" action="upload.php" method="POST" enctype="multipart/form-data">
          <div>
@@ -51,6 +51,8 @@
             <input type="number" name="stock" class="form-control" required><br>
             <label>Prijs</label>
             <input type="number" name="prijs" class="form-control" required><br>
+            <label>Aankoopprijs</label>
+            <input type="number" name="aankoopprijs" class="form-control" required><br>
             <label>Kleur 1</label>
             <input type="text" name="kleur1" class="form-control" required><br>
             <label>Kleur 2</label>

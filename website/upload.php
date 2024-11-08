@@ -1,6 +1,7 @@
 <?php
 include 'connect.php';
 include 'functies/functies.php';
+
 if(isset($_POST["submit"])){
     $image1 = $_FILES['image1'];
     $image2 = $_FILES['image2'];
@@ -13,7 +14,7 @@ if(isset($_POST["submit"])){
     $categorie = $_POST['categorie'];
     $prijs = $_POST['prijs'];
     $stock = $_POST['stock'];
-
+    $aankoopprijs = $_POST['aankoopprijs'];
 
     $images = ['image1', 'image2', 'image3'];
     $allowed = ['jpg', 'jpeg', 'png', 'avif'];
@@ -49,70 +50,69 @@ if(isset($_POST["submit"])){
         }
     }
 
-
-$sql1 = "SELECT * FROM tblmerk WHERE merknaam = ?";
-$stmt1 = $mysqli->prepare($sql1);
-$stmt1->bind_param("s", $merk);
-$stmt1->execute();
-$result1 = $stmt1->get_result();
-if($result1->num_rows == 0){
-    $sql2 = "INSERT INTO tblmerk (merknaam) VALUES (?)";
-    $stmt2 = $mysqli->prepare($sql2);
-    $stmt2->bind_param("s", $merk);
-    $stmt2->execute();
-}
-$sql4 = "SELECT * FROM tblmerk WHERE merknaam = ?";
-$stmt4 = $mysqli->prepare($sql4);
-$stmt4->bind_param("s", $merk);
-$stmt4->execute();
-$result4 = $stmt4->get_result();
-$row4 = $result4->fetch_assoc();
-$merk_id = $row4['merk_id'];
-
-$sql2 = "SELECT * FROM tblcategorie WHERE categorienaam = ?";
-$stmt2 = $mysqli->prepare($sql2);
-$stmt2->bind_param("s", $categorie);
-$stmt2->execute();
-$result2 = $stmt2->get_result();
-if($result2->num_rows == 0){
-    $sql3 = "INSERT INTO tblcategorie (categorienaam) VALUES (?)";
-    $stmt3 = $mysqli->prepare($sql3);
-    $stmt3->bind_param("s", $categorie);
-    $stmt3->execute();
-}
-$sql5 = "SELECT * FROM tblcategorie WHERE categorienaam = ?";
-$stmt5 = $mysqli->prepare($sql5);
-$stmt5->bind_param("s", $categorie);
-$stmt5->execute();
-$result5 = $stmt5->get_result();
-$row5 = $result5->fetch_assoc();
-$categorie_id = $row5['categorie_id'];
-
-$sql = "INSERT INTO tblartikels (merk_id, artikelnaam, categorie_id, prijs, stock) VALUES (?, ?, ?, ?, ?)"; 
-$stmt = $mysqli->prepare($sql);
-$directory = "images/shoes/".$fileNameNew;
-$stmt->bind_param("sssss", $merk_id, $naam, $categorie_id, $prijs, $stock);
-$stmt->execute();
-
-$sql6 = "SELECT * FROM tblartikels WHERE artikelnaam = ?";
-$stmt6 = $mysqli->prepare($sql6);
-$stmt6->bind_param("s", $naam);
-$stmt6->execute();
-$result6 = $stmt6->get_result();
-$row6 = $result6->fetch_assoc();
-$artikel_id = $row6['artikel_id'];
-
-$variatie_id = 1;
-$kleuren = [$kleur1, $kleur2, $kleur3];
-foreach ($kleuren as $index => $kleur) {
-    if (!empty($kleur)) {
-        $fileNameNew = $fileNames[$index]; // Get the corresponding file name
-        $sql7 = "INSERT INTO tblvariatie (artikel_id, variatie_id, kleur, directory) VALUES (?, ?, ?, ?)";
-        $stmt7 = $mysqli->prepare($sql7);
-        $stmt7->bind_param("ssss", $artikel_id, $variatie_id, $kleur, $fileNameNew);
-        $stmt7->execute();
-        $variatie_id++;
+    $sql1 = "SELECT * FROM tblmerk WHERE merknaam = ?";
+    $stmt1 = $mysqli->prepare($sql1);
+    $stmt1->bind_param("s", $merk);
+    $stmt1->execute();
+    $result1 = $stmt1->get_result();
+    if($result1->num_rows == 0){
+        $sql2 = "INSERT INTO tblmerk (merknaam) VALUES (?)";
+        $stmt2 = $mysqli->prepare($sql2);
+        $stmt2->bind_param("s", $merk);
+        $stmt2->execute();
     }
-}
+    $sql4 = "SELECT * FROM tblmerk WHERE merknaam = ?";
+    $stmt4 = $mysqli->prepare($sql4);
+    $stmt4->bind_param("s", $merk);
+    $stmt4->execute();
+    $result4 = $stmt4->get_result();
+    $row4 = $result4->fetch_assoc();
+    $merk_id = $row4['merk_id'];
+
+    $sql2 = "SELECT * FROM tblcategorie WHERE categorienaam = ?";
+    $stmt2 = $mysqli->prepare($sql2);
+    $stmt2->bind_param("s", $categorie);
+    $stmt2->execute();
+    $result2 = $stmt2->get_result();
+    if($result2->num_rows == 0){
+        $sql3 = "INSERT INTO tblcategorie (categorienaam) VALUES (?)";
+        $stmt3 = $mysqli->prepare($sql3);
+        $stmt3->bind_param("s", $categorie);
+        $stmt3->execute();
+    }
+    $sql5 = "SELECT * FROM tblcategorie WHERE categorienaam = ?";
+    $stmt5 = $mysqli->prepare($sql5);
+    $stmt5->bind_param("s", $categorie);
+    $stmt5->execute();
+    $result5 = $stmt5->get_result();
+    $row5 = $result5->fetch_assoc();
+    $categorie_id = $row5['categorie_id'];
+
+    $sql = "INSERT INTO tblartikels (merk_id, artikelnaam, categorie_id, prijs, stock, aankoopprijs) VALUES (?, ?, ?, ?, ?, ?)";
+    $stmt = $mysqli->prepare($sql);
+    $directory = "images/shoes/".$fileNameNew;
+    $stmt->bind_param("ssssss", $merk_id, $naam, $categorie_id, $prijs, $stock, $aankoopprijs);
+    $stmt->execute();
+
+    $sql6 = "SELECT * FROM tblartikels WHERE artikelnaam = ?";
+    $stmt6 = $mysqli->prepare($sql6);
+    $stmt6->bind_param("s", $naam);
+    $stmt6->execute();
+    $result6 = $stmt6->get_result();
+    $row6 = $result6->fetch_assoc();
+    $artikel_id = $row6['artikel_id'];
+
+    $variatie_id = 1;
+    $kleuren = [$kleur1, $kleur2, $kleur3];
+    foreach ($kleuren as $index => $kleur) {
+        if (!empty($kleur)) {
+            $fileNameNew = $fileNames[$index]; // Get the corresponding file name
+            $sql7 = "INSERT INTO tblvariatie (artikel_id, variatie_id, kleur, directory) VALUES (?, ?, ?, ?)";
+            $stmt7 = $mysqli->prepare($sql7);
+            $stmt7->bind_param("ssss", $artikel_id, $variatie_id, $kleur, $fileNameNew);
+            $stmt7->execute();
+            $variatie_id++;
+        }
+    }
 }
 ?>

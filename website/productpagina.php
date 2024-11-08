@@ -149,6 +149,7 @@
                <?php
                   $variatie_id = isset($_GET['variatie_id']) ? intval($_GET['variatie_id']) : 1;
                   $sql = "SELECT * FROM tblartikels, tblvariatie WHERE tblvariatie.artikel_id = $id AND tblartikels.artikel_id = tblvariatie.artikel_id AND tblvariatie.variatie_id = $variatie_id";
+                  print $sql;
                   $result = mysqli_query($mysqli, $sql);
                   $row = mysqli_fetch_assoc($result);
                   $afbeelding = $row['directory'];
