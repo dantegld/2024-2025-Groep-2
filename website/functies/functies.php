@@ -59,7 +59,9 @@ function controleerAdmin()
       } else {
          header("Location: logout.php");
       }
+         
    }
+      
 }
 
 // Functie om de betaling te verwerken

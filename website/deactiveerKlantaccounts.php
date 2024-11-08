@@ -9,7 +9,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>Customers</title>
+      <title>Klantaccounts</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -42,17 +42,12 @@
        margin: 0;
        padding: 0;
    }
-   h1{
-        text-align: center;
-        margin-top: 50px;
-   }
    table {
        width: 70%; /* Maak de tabel breder naar 70% */
        border-collapse: collapse;
        background-color: #fff;
        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
        margin: 0 auto; /* Centreer de tabel */
-       margin-top: 50px;
    }
    th, td {
        padding: 10px;
@@ -115,16 +110,14 @@
 
    </head>
    <body>
-
    <?php
 include 'connect.php'; 
-session_start();
 include 'functies/functies.php';
+session_start();
 controleerAdmin();
 include 'functies/adminSideMenu.php';
 ?>
 <div class="adminpage">
-<h1>Customers</h1>
     <?php
         if (isset($_POST['verwijderen'])) {
             if (!empty($_POST['klant_id'])) { // Only check for klant_id
@@ -136,20 +129,19 @@ include 'functies/adminSideMenu.php';
                 $deleteResult = $mysqli->query($deleteQuery);
                 
                 if ($deleteResult) {
-                    echo "<div class='message success'>The customer with ID $klant_id has been successfully deleted.</div>";
+                    echo "<div class='message success'>De klant met ID $klant_id is succesvol verwijderd.</div>";
                 } else {
-                    echo "<div class='message error'>An error occurred while deleting the customer.</div>";
+                    echo "<div class='message error'>Er is een fout opgetreden bij het verwijderen van de klant.</div>";
                 }
             } else {
-                echo "<div class='message error'>Not all data has been provided</div>";
+                echo "<div class='message error'>Niet alle gegevens zijn verstrekt.</div>";
             }
         }
-        $myKlantID = $_SESSION['klant_id'];
-    $query = "SELECT * FROM tblklant WHERE NOT klant_id = '$myKlantID'";
+    $query = "SELECT * FROM tblklant WHERE type = 'klant'";
     $result = $mysqli->query($query);
     if ($result->num_rows > 0) {
         echo "<table border='1'>";
-        echo "<tr><th>Customer ID</th><th>Customer name</th><th>E-mail</th><th>Phone number</th><th>Shoe size</th><th>Type</th><th>Action</th></tr>";
+        echo "<tr><th>Klant ID</th><th>Klantnaam</th><th>Email</th><th>Wachtwoord</th><th>Telefoonnummer</th><th>Schoenmaat</th><th>Type</th><th>Actie</th></tr>";
         while ($row = $result->fetch_assoc()) {
             // Start the form here
             echo "<tr>";
@@ -159,6 +151,7 @@ include 'functies/adminSideMenu.php';
             echo "<td>" . $row['klant_id'] . "</td>";
             echo "<td>" . $row['klantnaam'] . "</td>";
             echo "<td>" . $row['email'] . "</td>";
+            echo "<td class='wachtwoord-cell'>" . $row['wachtwoord'] . "</td>";
             echo "<td>" . $row['telefoonnummer'] . "</td>";
             echo "<td>" . $row['schoenmaat'] . "</td>";
             echo "<td>" . $row['type'] . "</td>";
@@ -171,16 +164,16 @@ include 'functies/adminSideMenu.php';
                       <input type='hidden' name='schoenmaat' value='" . $row['schoenmaat'] . "' />
                       <input type='hidden' name='type' value='" . $row['type'] . "' />
 
-                      <input type='submit' name='verwijderen' value='Delete' />
+                      <input type='submit' name='verwijderen' value='Verwijderen' />
                   </td>";
             echo "</form>"; // End the form here
             echo "</tr>";
         }
         echo "</table>";
     } else {
-        echo "No Customers found";
+        echo "Geen oude of niet-beschikbare producten gevonden.";
     }
-    echo "<br>";
+
     
 
     ?>

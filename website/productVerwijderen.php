@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+      <!DOCTYPE html>
 <html lang="en">
    <head>
       <!-- basic -->
@@ -9,7 +10,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>Product Toevoegen</title>
+      <title>Product Verwijderen</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -35,53 +36,62 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
    <link rel="icon" href="images/icon/favicon.png">
    </head>
-   <?php
-   session_start();
-   include 'connect.php'; 
+      
+      </style>
+   </head>
+   <body>
+      <?php
+      include 'connect.php'; 
       include 'functies/functies.php';
       controleerAdmin();
+
       include 'functies/adminSideMenu.php';
         ?>
-        <div class="adminpage1">
-      <div class="schoenenForm">
-        <form class="formFlex" action="upload.php" method="POST" enctype="multipart/form-data">
-         <div>
-            <label>Naam</label>
-            <input type="text" name="naam" class="form-control" required><br>
-            <label>Stock</label>
-            <input type="number" name="stock" class="form-control" required><br>
-            <label>Prijs</label>
-            <input type="number" name="prijs" class="form-control" required><br>
-            <label>Aankoopprijs</label>
-            <input type="number" name="aankoopprijs" class="form-control" required><br>
-            <label>Kleur 1</label>
-            <input type="text" name="kleur1" class="form-control" required><br>
-            <label>Kleur 2</label>
-            <input type="text" name="kleur2" class="form-control"><br>
-            <label>Kleur 3</label>
-            <input type="text" name="kleur3" class="form-control"><br>
-            </div>
-            <div>
-            <label>Categorie</label>
-            <input type="text" name="categorie" class="form-control" required><br>
-            <label>Merk</label>
-            <input type="text" name="merk" class="form-control" required><br>
-            <label>Image kleur 1</label>
-            <input type="file" name="image1" class="form-control" required><br>
-            <label>Image Kleur 2</label>
-            <input type="file" name="image2" class="form-control" ><br>
-            <label>Image Kleur 3</label>
-            <input type="file" name="image3" class="form-control" ><br>
+        <div class="adminpage">
+            <?php
 
-            <input type="submit" name="submit" value="Toevoegen" class="btn btn-primary">
-         </div>
-         </div>
+if (isset($_POST['delete'])) {
+    $artikel_id = $_POST['artikel_id'];
 
-        </form>
+    $deleteQuery1 = "DELETE FROM tblwinkelwagen WHERE artikel_id = '". $artikel_id ."'";
+    $deleteResult1 = $mysqli->query($deleteQuery1); 
 
+    $deleteQuery = "DELETE FROM tblartikels WHERE artikel_id = '". $artikel_id ."'";
+    $deleteResult = $mysqli->query($deleteQuery);
 
+    if ($deleteResult) {
+        echo "<div class='message success'>Het product met ID $artikel_id is succesvol verwijderd.</div>";
+    } else {
+        echo "<div class='message error'>Er is een fout opgetreden bij het verwijderen van het product.</div>";
+    }
+}
+      $query = "SELECT * FROM tblartikels";
+      $result = $mysqli->query($query);
 
+      if ($result->num_rows > 0) {
+          echo "<table border='1'>";
+          echo "<tr><th>Artikel ID</th><th>Artikelnaam</th><th>Prijs</th><th>Aankoopprijs</th><th>Actie</th></tr>";
 
+          while ($row = $result->fetch_assoc()) {
+              echo "<tr>";
+              echo "<td>" . $row['artikel_id'] . "</td>";
+              echo "<td>" . $row['artikelnaam'] . "</td>";
+              echo "<td>" . $row['prijs'] . "</td>";
+              echo "<td>" . $row['aankoopprijs'] . "</td>";
+              echo "<td>
+                      <form method='POST' action=''>
+                          <input type='hidden' name='artikel_id' value='" . $row['artikel_id'] . "' />
+                          <input type='submit' name='delete' value='Verwijderen' />
+                      </form>
+                    </td>";
+              echo "</tr>";
+          }
+          echo "</table>";
+      } else {
+          echo "Geen oude of niet-beschikbare producten gevonden.";
+      }
 
-
-        </div>
+      ?>
+      </div>
+   </body>
+</html>
