@@ -56,7 +56,7 @@
         $usernameOrEmail = $_POST["username"];
         $password = $_POST["password"];
     
-        $sql = "SELECT * FROM tblklant WHERE klantnaam = ? OR email = ?";
+        $sql = "SELECT * FROM tblklant,tbltypes WHERE klantnaam = ? OR email = ? AND tblklant.type_id = tbltypes.type_id";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("ss", $usernameOrEmail, $usernameOrEmail);
         $stmt->execute();
