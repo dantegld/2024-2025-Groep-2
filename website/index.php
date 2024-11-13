@@ -43,7 +43,7 @@
          
          //initaliseerd de klant variabele zodat er verder geen errors komen voor bezoekers die niet zijn ingelogd.
          if(isset($_SESSION['klant_id'])){
-         $sql = "SELECT type FROM tblklant WHERE klant_id = ?";
+         $sql = "SELECT k.type_id ,t.type_id,t.type FROM tblklant k,tbltypes t WHERE klant_id = ?  and k.type_id = t.type_id";
          $stmt = $mysqli->prepare($sql);
          $stmt->bind_param("i", $_SESSION['klant_id']);
          $stmt->execute();
@@ -86,14 +86,15 @@
                  
                   <div class="main">
                      <!-- Another variation with a button -->
-                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search the store">
+                     <form class="input-group" method="GET" action="index#shoes">
+                        <input type="text" class="form-control" name="q" placeholder="Search the store">
                         <div class="input-group-append">
-                           <button class="btn btn-secondary" type="button" style="background-color: #f26522; border-color:#f26522 ">
-                           <i class="fa fa-search"></i>
+                              <button type="submit" class="btn btn-secondary" style="background-color: #f26522; border-color:#f26522">
+                              <i class="fa fa-search"></i>
                            </button>
+                           
                         </div>
-                     </div>
+                     </form>
                   </div>
                   <div class="header_box">
                      <div class="login_menu">
@@ -148,7 +149,7 @@
          <div class="carousel-item active">
             <div class="container">
                <br>
-               <h1 class="fashion_taital">Shoes</h1>
+               <h1 id="shoes" class="fashion_taital">Shoes</h1>
                <div class="fashion_section_2">
                   <div class="row">
                      <?php
@@ -159,7 +160,12 @@
                      }
 
                      // Fetch shoe data
+                     if(isset($_GET['q'])){
+                        $search = $_GET['q'];
+                        $sql = "SELECT artikel_id,artikelnaam, prijs FROM tblartikels WHERE artikelnaam LIKE '%$search%'";
+                     }else{
                      $sql = "SELECT artikel_id,artikelnaam, prijs FROM tblartikels";
+                     }
                      $result = mysqli_query($mysqli, $sql);
 
                      if (mysqli_num_rows($result) > 0) {
