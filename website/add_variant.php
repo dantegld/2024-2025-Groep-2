@@ -82,7 +82,7 @@ if (isset($_POST['add_variatie'])) {
             
             // Close the statement
             $stmt->close();
-            header("Location: variaties.php?artikel_id=" . $artikel_id);
+            header("Location: variaties?artikel_id=" . $artikel_id);
         } else {
             echo "Er was een probleem met het uploaden van de afbeelding.";
         }
@@ -102,7 +102,7 @@ $artikel_id = $_GET['artikel_id'];
     $row1 = $result1->fetch_assoc();
     echo "<p>For " . $row1['artikelnaam'] . "</p>";
     ?>
-    <form action="add_variant.php" method="POST" enctype="multipart/form-data">
+    <form action="add_variant" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="artikel_id" value="<?php echo $artikel_id; ?>">
         <label for="kleur_id">Kleur:</label>
         <select name="kleur_id" required>

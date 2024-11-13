@@ -55,10 +55,10 @@
                           //echo logout
                             echo '<p><a href="logout.php">Log out</a></p>';
                       }else{
-                          echo '<p>You are not logged in. Click <a href="login.php">here</a> to log in anyway</p>';
+                          echo '<p>You are not logged in. Click <a href="login">here</a> to log in anyway</p>';
                       }
                   } else {
-                    echo '<p>You are not logged in. Click <a href="login.php">here</a> to log in anyway</p>';
+                    echo '<p>You are not logged in. Click <a href="login">here</a> to log in anyway</p>';
                   }
                   
                   ?>

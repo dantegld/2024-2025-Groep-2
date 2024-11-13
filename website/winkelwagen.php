@@ -173,7 +173,7 @@ if (isset($_SESSION["klant_id"])) {
             
             echo '<tr id="product-' . $row['artikel_id'] . '">';
             echo '<td><img src="' . $row["directory"] . '" alt="' . $row["artikelnaam"] . '"></td>';
-            echo '<td><a href="productpagina.php?id=' . $row["artikel_id"] . '&variatie_id=' . $row["variatie_id"] . '">' . $row["artikelnaam"] . '<br>' . $row["kleur"] . '</a></td>';
+            echo '<td><a href="productpagina?id=' . $row["artikel_id"] . '&variatie_id=' . $row["variatie_id"] . '">' . $row["artikelnaam"] . '<br>' . $row["kleur"] . '</a></td>';
             echo '<td>
                     <button class="quantity-btn" onclick="updateQuantity(' . $row['artikel_id'] . ', \'decrease\')">-</button>
                     <span id="quantity-' . $row['artikel_id'] . '">' . $row["aantal"] . '</span>
@@ -206,7 +206,7 @@ if (isset($_SESSION["klant_id"])) {
             <option value="50"' . ($row["schoenmaat"] == 50 ? ' selected' : '') . '>50</option>
         </select>
           </td>';
-          echo '<td><a href="verwijderenWinkelwagen.php?id=' . $row['id'] . '"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a></td>';
+          echo '<td><a href="verwijderenWinkelwagen?id=' . $row['id'] . '"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a></td>';
             echo '</tr>';
         }
 
@@ -216,7 +216,7 @@ if (isset($_SESSION["klant_id"])) {
         echo '<div class="cart-total">Total Price: &euro;<span id="total-price">' . number_format($totalePrijs, 2) . '</span></div>';
         $_SESSION['total_price'] = number_format($totalePrijs, 2);
         echo '<br>';
-        echo ' <div class= "pay"><a href="betalen.php" class="btn btn-primary">Checkout</a></div>';
+        echo ' <div class= "pay"><a href="betalen" class="btn btn-primary">Checkout</a></div>';
         echo '</div>'; 
     } else {
         echo '<div class="empty-cart">Winkelwagen is empty.</div>';

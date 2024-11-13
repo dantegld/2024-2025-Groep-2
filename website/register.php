@@ -16,7 +16,7 @@
 
         function displayForm($error = '') {
             echo '<h2>Register</h2>';
-            echo '<form action="register.php" method="post">
+            echo '<form action="register" method="post">
                     <label>Username</label>
                     <input type="text" name="username" class="form-control" required><br>
                     <label>Password</label>
@@ -30,7 +30,7 @@
                 echo '<div class="alreadyExists" style="color: red; margin-top: 10px;">' . $error . '</div>';
             }
             echo '</form><br>';
-            echo '<div>Al een account? <a href="login.php">Log in</a></div>';
+            echo '<div>Al een account? <a href="login">Log in</a></div>';
         }
 
         // Register form
@@ -54,7 +54,7 @@
                 $stmt->execute([$username, password_hash($password, PASSWORD_DEFAULT), $email, password_hash($uniekwoord, PASSWORD_DEFAULT)]);
 
                 echo '<h2>Registratie succesvol!</h2>';
-                echo '<div>Ga terug naar de <a href="login.php">loginpagina</a>.</div>';
+                echo '<div>Ga terug naar de <a href="login">loginpagina</a>.</div>';
             }
         } else {
             displayForm();

@@ -100,7 +100,7 @@ select:disabled {
             <div class="container">
                <div class="row">
                   <div class="col-sm-12">
-                     <div class="logo"><a href="index.php"><img src="images/icon/logo.svg"></a></div>
+                     <div class="logo"><a href="index"><img src="images/icon/logo.svg"></a></div>
                   </div>
                </div>
             </div>
@@ -118,23 +118,23 @@ select:disabled {
                   <div class="header_box">
                      <div class="login_menu">
                         <ul>
-                           <li><a class="black" href="wishlist.php">
+                           <li><a class="black" href="wishlist">
                               <i class="fa fa-heart" aria-hidden="true"></i>
                               <span class="padding_5">Wishlist</span></a>
                            </li>
-                           <li><a class="black" href="winkelwagen.php">
+                           <li><a class="black" href="winkelwagen">
                               <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                               <span class="padding_5">Cart</span></a>
                            </li>
                            <?php
                            //Als de klant is ingelogd, laat de knop "My Profile" zien, anders laat de knop "Log-In" zien
                            if ($_SESSION["klant"]){
-                              echo '<li><a class="black" href="profile.php">
+                              echo '<li><a class="black" href="profile">
                                     <i class="fa fa-user" aria-hidden="true"></i>
                                     <span class="padding_5">My Profile</span></a>
                                     </li>';
                            }else{
-                              echo '<li><a class="black" href="login.php">
+                              echo '<li><a class="black" href="login">
                               <i class="fa fa-user" aria-hidden="true"></i>
                               <span class="padding_5">Log-In</span></a>
                            </li>';
@@ -165,7 +165,7 @@ select:disabled {
          <div class="productpagina">
     <div class="product-container">
         <div class="product-image">
-        <a href="index.php">&#8592; Back</a>
+        <a href="index">&#8592; Back</a>
             <?php
             $variatie_id = isset($_GET['variatie_id']) ? intval($_GET['variatie_id']) : 1;
             $sql = "SELECT * FROM tblartikels, tblvariatie WHERE tblvariatie.artikel_id = $id AND tblartikels.artikel_id = tblvariatie.artikel_id AND tblvariatie.variatie_id = $variatie_id";
@@ -188,7 +188,7 @@ select:disabled {
                 }
 
             }else{
-                echo '<div class="wishlist_bt"><a href="login.php"><i class="fa fa-heart-o" aria-hidden="true"></i></a></div>';
+                echo '<div class="wishlist_bt"><a href="login"><i class="fa fa-heart-o" aria-hidden="true"></i></a></div>';
             }
             ?>
             <br>

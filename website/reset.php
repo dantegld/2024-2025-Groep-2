@@ -44,10 +44,10 @@
                     $stmt->execute();
 
                     echo '<h2>Wachtwoord succesvol gereset!</h2>';
-                    echo '<div>Ga terug naar de <a href="login.php">loginpagina</a>.</div>';
+                    echo '<div>Ga terug naar de <a href="login">loginpagina</a>.</div>';
                 } else {
                     echo '<h2>Wachtwoord resetten</h2>';
-                    echo '<form action="reset.php" method="post">
+                    echo '<form action="reset" method="post">
                             <label>Email</label>
                             <input type="email" name="email" class="form-control" required><br>
                             <label>Uniek woord</label>
@@ -59,7 +59,7 @@
                 }
             } else {
                 echo '<h2>Wachtwoord resetten</h2>';
-                echo '<form action="reset.php" method="post">
+                echo '<form action="reset" method="post">
                         <label>Email</label>
                         <input type="email" name="email" class="form-control" required><br>
                         <label>Uniek woord</label>
@@ -71,7 +71,7 @@
             }
         } else {
             echo '<h2>Wachtwoord resetten</h2>';
-            echo '<form action="reset.php" method="post">
+            echo '<form action="reset" method="post">
                     <label>Email</label>
                     <input type="email" name="email" class="form-control" required><br>
                     <label>Uniek woord</label>

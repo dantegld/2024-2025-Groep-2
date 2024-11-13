@@ -154,7 +154,7 @@ if (isset($_POST['delete'])) {
         while ($row = $result->fetch_assoc()) {
 
             echo "<tr>";
-            echo "<form method='POST' action='aanpassen.php'>";
+            echo "<form method='POST' action='aanpassen'>";
             echo "<td>" . $row['artikel_id'] . "</td>";
             echo "<td><input type='text' name='artikelnaam' value='" . $row['artikelnaam'] . "' /></td>";
             echo "<td><input type='number' name='prijs' value='" . $row['prijs'] . "' /></td>";
@@ -162,7 +162,7 @@ if (isset($_POST['delete'])) {
                       <input type='hidden' name='artikel_id' value='" . $row['artikel_id'] . "' />
                       <input type='submit' name='aanpassen' value='Adjust' />
                   </td>";
-            echo "<td><a class='btn btn-primary' href='variaties.php?artikel_id=" . $row['artikel_id'] . "'>Variations</a></td>";
+            echo "<td><a class='btn btn-primary' href='variaties?artikel_id=" . $row['artikel_id'] . "'>Variations</a></td>";
             echo "<td>
                       <input type='hidden' name='artikel_id' value='" . $row['artikel_id'] . "' />
                       <input type='submit' name='delete' value='Delete' />

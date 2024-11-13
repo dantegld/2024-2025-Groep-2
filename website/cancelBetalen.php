@@ -53,7 +53,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="titlepage">
-                    <a href="winkelwagen.php" class="btn btn-primary">Terug naar de winkelwagen</a>
+                    <a href="winkelwagen" class="btn btn-primary">Terug naar de winkelwagen</a>
                 </div>
             </div>
         </div>

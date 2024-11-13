@@ -18,7 +18,7 @@ function onderhoudsModus()
    $result4 = $stmt4->get_result();
    $row4 = $result4->fetch_assoc();
    if ($row["functiewaarde"] == 1 && $row4['type'] == "customer") {
-      header("Location: onderhoudsPagina.php");
+      header("Location: onderhoudsPagina");
    }
 }
 
@@ -55,9 +55,9 @@ function controleerAdmin()
 
    if ((!($type == "admin")) || !isset($_SESSION['klant_id'])) {
       if ($type == "customer") {
-         header("Location: index.php");
+         header("Location: index");
       } else {
-         header("Location: logout.php");
+         header("Location: logout");
       }
    }
 }

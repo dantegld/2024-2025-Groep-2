@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 VALUES ($artikel_id, $klant_id, '$commentaar', $rating, $approved)";
         mysqli_query($mysqli, $sql);
 
-        header('Location: reviews.php?artikel_id=' . $artikel_id . '&success=review_submitted');
+        header('Location: reviews?artikel_id=' . $artikel_id . '&success=review_submitted');
         exit();
     }
 
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             mysqli_query($mysqli, $sql);
         }
 
-        header('Location: reviews.php?admin_view=1');
+        header('Location: reviews?admin_view=1');
         exit();
     }
 }
@@ -85,7 +85,7 @@ if (isset($_GET['artikel_id'])) {
     <!-- Review submission form for logged-in customers -->
     <?php if (isset($_SESSION['klant'])) : ?>
         <h3>Leave a Review:</h3>
-        <form action="reviews.php" method="POST">
+        <form action="reviews" method="POST">
             <input type="hidden" name="artikel_id" value="<?php echo $artikel_id; ?>">
             <textarea name="commentaar" required placeholder="Write your review..."></textarea><br>
             <label for="rating">Rating:</label>
@@ -99,7 +99,7 @@ if (isset($_GET['artikel_id'])) {
             <input type="submit" name="submit_review" value="Submit Review">
         </form>
     <?php else : ?>
-        <p><a href="login.php">Log in</a> to leave a review.</p>
+        <p><a href="login">Log in</a> to leave a review.</p>
     <?php endif; ?>
 
 <?php elseif ($is_admin && isset($_GET['admin_view'])) : ?>
@@ -113,7 +113,7 @@ if (isset($_GET['artikel_id'])) {
                 echo '<h4>' . $review['klantnaam'] . '</h4>';
                 echo '<p>' . $review['commentaar'] . '</p>';
                 echo '<p>Rating: ' . $review['rating'] . '/5</p>';
-                echo '<form method="POST" action="reviews.php">';
+                echo '<form method="POST" action="reviews">';
                 echo '<input type="hidden" name="recensie_id" value="' . $review['recensie_id'] . '">';
                 echo '<input type="submit" name="approve_review" value="Approve">';
                 echo '<input type="submit" name="delete_review" value="Delete">';

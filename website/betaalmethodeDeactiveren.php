@@ -60,8 +60,8 @@
             $row2 = $result->fetch_assoc();
             $naam = $row2['methodenaam'];
 
-            header('Location: betaalmethodes.php');
+            header('Location: betaalmethodes');
         } else {
             echo '<h4>Er is iets fout gegaan</h4>';
-            echo '<a href="betaalmethodes.php">Terug naar betaalmethodes</a>';
+            echo '<a href="betaalmethodes">Terug naar betaalmethodes</a>';
         }

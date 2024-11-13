@@ -68,17 +68,17 @@
                 $type = $row["type"];
                 
                 if ($type == "admin") {
-                    header("Location: admin.php");
+                    header("Location: admin");
 
                 } else if ($type == "customer") {
-                    header("Location: index.php");
+                    header("Location: index");
                 }
             }
             
             
     }
     
-    echo' <form action="login.php" method="post">
+    echo' <form action="login" method="post">
     <label>Username or Email</label>
     <input type="username"  class="form-control" name="username" required><br>
     <label>Password</label>
@@ -86,8 +86,8 @@
     <input class="btn btn-primary" type="submit" name="login"><br> <br>
     </form><br><br> ';
     echo '<div class = "error"> The entered password or username is incorrect</div> <br>';
-    echo '<div>Dont have an account yet? <a href="register.php">Register</a></div><br>';
-    echo '<div>Forgot your password? <a href="reset.php">Forgot password?</a></div>';
+    echo '<div>Dont have an account yet? <a href="register">Register</a></div><br>';
+    echo '<div>Forgot your password? <a href="reset">Forgot password?</a></div>';
     
 
     
@@ -96,15 +96,15 @@
     
     
     else{
-        echo' <form action="login.php" method="post">
+        echo' <form action="login" method="post">
         <label>Username or Email</label>
         <input type="username"  class="form-control" name="username" required><br>
         <label>Password</label>
         <input type="password"  class="form-control" name="password" required><br>
         <input class="btn btn-primary" type="submit" name="login"><br><br>
         </form><br> <br>';
-        echo '<div>Dont have an account yet? <a href="register.php">Register</a></div> <br>';
-        echo '<div>Forgot your password? <a href="reset.php">Forgot password?</a></div>';
+        echo '<div>Dont have an account yet? <a href="register">Register</a></div> <br>';
+        echo '<div>Forgot your password? <a href="reset">Forgot password?</a></div>';
        
     }
     

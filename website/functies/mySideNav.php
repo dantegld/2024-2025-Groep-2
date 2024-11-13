@@ -1,7 +1,7 @@
 <?php
                   echo '<div id="mySidenav" class="sidenav">
                   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                  <a href="index.php">Home</a>';
+                  <a href="index">Home</a>';
 
                   if ($_SESSION["klant_id"]){
                   $sql = "SELECT type FROM tblklant WHERE klant_id = ?";
@@ -17,15 +17,15 @@
 
 
                   if ($type == "customer" || $type == "admin"){
-                  echo '<a href="profile.php">My Profile</a>';
+                  echo '<a href="profile">My Profile</a>';
                   }elseif($type == "guest"){
-                  echo '<a href="login.php">Login</a>';
+                  echo '<a href="login">Login</a>';
                   }
                   if ($type == "admin"){
-                     echo '<a href="admin.php">Admin Page</a>';
+                     echo '<a href="admin">Admin Page</a>';
                   }
                   if ($type == "customer" || $type == "admin"){
-                     echo '<a class="logout" href="logout.php">Logout</a>';
+                     echo '<a class="logout" href="logout">Logout</a>';
                   }
                echo '</div>';
 
