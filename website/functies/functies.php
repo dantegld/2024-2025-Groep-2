@@ -11,7 +11,7 @@ function onderhoudsModus()
    $sql = "SELECT functiewaarde FROM tbladmin where functienaam = 'onderhoudmodus'";
    $result = $mysqli->query($sql);
    $row = $result->fetch_assoc();
-   $sql4 = "SELECT type FROM tblklant WHERE klant_id = ? ";
+   $sql4 = "SELECT k.type_id ,t.type_id,t.type FROM tblklant k,tbltypes t WHERE klant_id = ?  and k.type_id = t.type_id";
    $stmt4 = $mysqli->prepare($sql4);
    $stmt4->bind_param("i", $_SESSION['klant_id']);
    $stmt4->execute();
@@ -26,7 +26,7 @@ function onderhoudsModus()
 function controleerKlant()
 {
    include 'connect.php';
-   $sql = "SELECT type FROM tblklant WHERE klant_id = ?";
+   $sql = "SELECT k.type_id ,t.type_id,t.type FROM tblklant k,tbltypes t WHERE klant_id = ?  and k.type_id = t.type_id";
    $stmt = $mysqli->prepare($sql);
    $stmt->bind_param("i", $_SESSION['klant_id']);
    $stmt->execute();
@@ -44,7 +44,7 @@ function controleerAdmin()
 {
 
    include 'connect.php';
-   $sql = "SELECT type FROM tblklant WHERE klant_id = ?";
+   $sql = "SELECT k.type_id ,t.type_id,t.type FROM tblklant k,tbltypes t WHERE klant_id = ?  and k.type_id = t.type_id";
    $stmt = $mysqli->prepare($sql);
    $stmt->bind_param("i", $_SESSION['klant_id']);
    $stmt->execute();
@@ -56,8 +56,10 @@ function controleerAdmin()
    if ((!($type == "admin")) || !isset($_SESSION['klant_id'])) {
       if ($type == "customer") {
          header("Location: index");
+         exit();
       } else {
          header("Location: logout");
+         exit();
       }
    }
 }
@@ -124,6 +126,7 @@ function processStripePayment($amount)
 
       http_response_code(303);
       header('Location: ' . $checkout_session->url);
+      exit();
    } catch (Exception $e) {
 
       echo 'Caught exception: ',  $e->getMessage(), "\n";

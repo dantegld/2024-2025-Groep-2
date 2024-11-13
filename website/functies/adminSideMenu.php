@@ -13,6 +13,7 @@ echo '
 <a href="schoenenToevoegen">Add new products</a>
 <a href="socials">Socials</a>
 <a href="announcement">Announcements</a>
+<a href="categoriesandbrands">Brands and categories</a>
 </div>';
 
 ?>

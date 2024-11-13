@@ -4,7 +4,7 @@
                   <a href="index">Home</a>';
 
                   if ($_SESSION["klant_id"]){
-                  $sql = "SELECT type FROM tblklant WHERE klant_id = ?";
+                  $sql = "SELECT k.type_id ,t.type_id,t.type FROM tblklant k,tbltypes t WHERE klant_id = ?  and k.type_id = t.type_id";
                   $stmt = $mysqli->prepare($sql);
                   $stmt->bind_param("i", $_SESSION['klant_id']);
                   $stmt->execute();
