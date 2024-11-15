@@ -54,7 +54,6 @@
          $type = "guest";
          }
          onderhoudsModus();
-         announcement();
       ?>
 
 
@@ -153,7 +152,6 @@
                <div class="fashion_section_2">
                   <div class="row">
                      <?php
-
                      // Check connection
                      if (!$mysqli) {
                         die("Connection failed: " . mysqli_connect_error());

@@ -163,13 +163,14 @@ function announcement()
    include 'connect.php';
 
    // Haal alle aankondigingen op uit de database
-   $sql = "SELECT * FROM tblannouncement";
+   $sql = "SELECT * FROM tblannouncement WHERE announcement_id = 1";
    $result = $mysqli->query($sql);
+   $row = $result->fetch_assoc();
 
    // Controleer of er aankondigingen zijn
-   if ($result->num_rows == 0) {
+   if ($row['announcement'] == ' ') {
       // Geen aankondigingen gevonden, log dit in de console
-      print("<script>console.log('No announcement found');</script>");
+      echo '<script>console.log("Geen aankondigingen gevonden")</script>';
       return;
    } else {
       // Toon elke aankondiging als een popup
@@ -183,7 +184,8 @@ function announcement()
              <p>' . htmlspecialchars($row['announcement'], ENT_QUOTES, 'UTF-8') . '</p>
            </div>
           </div>
-          </div>';
+          </div>
+          <script>console.log("Aankondiging gevonden")</script>';
 
          // JavaScript functie om de popup te sluiten
          echo '<script>
