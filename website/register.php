@@ -16,21 +16,19 @@
 
         function displayForm($error = '') {
             echo '<h2>Register</h2>';
-            echo '<form action="register.php" method="post">
+            echo '<form action="register" method="post">
                     <label>Username</label>
                     <input type="text" name="username" class="form-control" required><br>
                     <label>Password</label>
                     <input type="password" name="password" class="form-control" required><br>
                     <label>Email</label>
                     <input type="email" name="email" class="form-control" required><br>
-                    <label><a href="uitleg.html">Uniek woord</a> (druk uniek voor uitleg)  </label>
-                    <input type="text" name="uniekwoord" class="form-control" required><br>
                     <input class="btn btn-primary" type="submit" name="submit" value="Register"><br>';
             if ($error) {
                 echo '<div class="alreadyExists" style="color: red; margin-top: 10px;">' . $error . '</div>';
             }
             echo '</form><br>';
-            echo '<div>Al een account? <a href="login.php">Log in</a></div>';
+            echo '<div>Al een account? <a href="login">Log in</a></div>';
         }
 
         // Register form
@@ -38,7 +36,6 @@
             $username = $_POST['username'];
             $password = $_POST['password'];
             $email = $_POST['email'];
-            $uniekwoord = $_POST['uniekwoord'];
 
             // Check if username or email already exists
             $stmt = $mysqli->prepare("SELECT * FROM tblklant WHERE klantnaam = ? OR email = ?");
@@ -49,12 +46,18 @@
                 displayForm("Gebruikersnaam of email bestaat al.");
             } else {
                 // Insert new user with type 'klant'
-                $sql = "INSERT INTO tblklant (klantnaam, wachtwoord, email, uniekwoord, type) VALUES (?, ?, ?, ?, 'customer')";
+                $sql = "INSERT INTO tblklant (klantnaam, wachtwoord, email, type_id) VALUES (?, ?, ?, '2')";
                 $stmt = $mysqli->prepare($sql);
-                $stmt->execute([$username, password_hash($password, PASSWORD_DEFAULT), $email, password_hash($uniekwoord, PASSWORD_DEFAULT)]);
+                $stmt->execute([$username, password_hash($password, PASSWORD_DEFAULT), $email]);
+                $id = $mysqli->insert_id;
+                $stmt->close();
+                $sqlType = "INSERT INTO tbltypes (type_id, type) VALUES (?, 'customer')";
+                $stmtType = $mysqli->prepare($sqlType);
+                $stmtType->execute([$id]);
+                $stmtType->close();
 
                 echo '<h2>Registratie succesvol!</h2>';
-                echo '<div>Ga terug naar de <a href="login.php">loginpagina</a>.</div>';
+                echo '<div>Ga terug naar de <a href="login">loginpagina</a>.</div>';
             }
         } else {
             displayForm();

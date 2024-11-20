@@ -73,28 +73,23 @@
             outline: none;
          }
 
-         select:hover {
-            border-color: #0056b3;
-         }
 
-         select:disabled {
-            color: #6c757d;
-            background-color: #e9ecef;
-            cursor: not-allowed;
-         }
-      </style>
-
-      <!-- Logo section -->
-      <div class="logo_section">
-         <div class="container">
-            <div class="row">
-               <div class="col-sm-12">
-                  <div class="logo"><a href="index.php"><img src="images/icon/logo.svg"></a></div>
+select:disabled {
+    color: #6c757d; /* Grey color for disabled select */
+    background-color: #e9ecef; /* Light grey background for disabled select */
+    cursor: not-allowed;
+}
+</style>
+         <div class="logo_section">
+            <div class="container">
+               <div class="row">
+                  <div class="col-sm-12">
+                     <div class="logo"><a href="index"><img src="images/icon/logo.svg"></a></div>
+                  </div>
                </div>
             </div>
          </div>
       </div>
-
       <!-- Header section -->
       <div class="header_section">
          <div class="container1">
@@ -121,6 +116,16 @@
                                     </li>';
                            } else {
                               echo '<li><a class="black" href="login.php">
+                           <?php
+                           //Als de klant is ingelogd, laat de knop "My Profile" zien, anders laat de knop "Log-In" zien
+                           if ($_SESSION["klant"]){
+                              echo '<li><a class="black" href="profile">
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                    <span class="padding_5">My Profile</span></a>
+                                    </li>';
+                           }else{
+                              echo '<li><a class="black" href="login">
+
                               <i class="fa fa-user" aria-hidden="true"></i>
                               <span class="padding_5">Log-In</span></a></li>';
                            }
@@ -259,7 +264,83 @@
                </form>
             </div>
          </div>
-      </div>
+
+                <br>
+                <br>                      
+         <div class="productpagina">
+    <div class="product-container">
+        <div class="product-image">
+        <a href="index">&#8592; Back</a>
+            <?php
+            $variatie_id = isset($_GET['variatie_id']) ? intval($_GET['variatie_id']) : 1;
+            $sql = "SELECT * FROM tblartikels, tblvariatie WHERE tblvariatie.artikel_id = $id AND tblartikels.artikel_id = tblvariatie.artikel_id AND tblvariatie.variatie_id = $variatie_id";
+            $result = mysqli_query($mysqli, $sql);
+            $row = mysqli_fetch_assoc($result);
+            $afbeelding = $row['directory'];
+            $artikel_id = $row['artikel_id'];
+            echo '<img width="300px" src="' . $afbeelding . '" alt="' . $row['artikelnaam'] . ' Image">';
+            ?>
+        </div>
+        <div class="product-details" id="product-details">
+            <?php
+            if($_SESSION['klant']){
+                $sql = "SELECT * FROM tblwishlist WHERE artikel_id = $id and klant_id = '" . $_SESSION['klant_id'] . "' and variatie_id = $variatie_id";
+                $result = mysqli_query($mysqli, $sql);
+                if(mysqli_num_rows($result) > 0){
+                    echo '<div class="wishlist_bt"><a href="wishlistCalc1.php?variatie_id='.$variatie_id .'&'. 'id='. $artikel_id.'"><i class="fa fa-heart" aria-hidden="true"></i></a></div>';
+                }else{
+                    echo '<div class="wishlist_bt"><a href="wishlistCalc1.php?variatie_id='.$variatie_id .'&'. 'id='. $artikel_id.'"><i class="fa fa-heart-o" aria-hidden="true"></i></a></div>';
+                }
+
+            }else{
+                echo '<div class="wishlist_bt"><a href="login"><i class="fa fa-heart-o" aria-hidden="true"></i></a></div>';
+            }
+            ?>
+            <br>
+            <br>
+    <h1 class="product-title"><?php echo $row['artikelnaam']; ?></h1>
+    <p class="product-price">&euro; <?php echo $row['prijs']; ?></p>
+    <form id="colorForm" action="" method="GET">
+        <div class="color-selector">
+        <h3>Select Color:</h3>
+<div class="colors">
+    <?php
+    $sql = "SELECT * FROM tblvariatie WHERE artikel_id = $id";
+    $sql = "SELECT * FROM tblvariatie,tblkleur WHERE artikel_id = $id and tblvariatie.kleur_id = tblkleur.kleur_id";
+    $result = mysqli_query($mysqli, $sql);
+    while ($row = mysqli_fetch_assoc($result)) {
+        echo '<div class="color" style="background-color:' . $row['HEX'] . '" data-color="' . $row['kleur'] . '" onclick="selectColor(' . $row['variatie_id'] . ')"></div>';
+    }
+    ?>
+</div>
+</div>
+<input type="hidden" name="variatie_id" id="variatie_id" value="<?php echo $variatie_id; ?>">
+<?php
+// Preserve existing GET parameters
+foreach ($_GET as $key => $value) {
+    if ($key != 'variatie_id') {
+        echo '<input type="hidden" name="' . htmlspecialchars($key) . '" value="' . htmlspecialchars($value) . '">';
+    }
+}
+?>
+</form>
+<div class="dropdown">
+    <?php
+    echo '<select class="mySelect" name="schoenmaat" id="schoenmaat" onchange="updateCartLink()">';
+    for ($i = 30; $i <= 50; $i++) {
+        echo '<option value="' . $i . '">' . $i . '</option>';
+    }
+    echo '</select>';
+    echo '<br>';
+    echo '<br>';
+    ?>
+    <div class="buy_bt">
+        <a id="addToCartLink" href="cartcalc.php?variatie_id=<?php echo $variatie_id; ?>&id=<?php echo $artikel_id; ?>&schoenmaat=">Add to cart</a>
+    </div>
+</div>
+</div>
+</div>
+</div>
 
       <!-- Footer Scripts -->
       <script>

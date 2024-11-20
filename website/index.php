@@ -43,7 +43,7 @@
          
          //initaliseerd de klant variabele zodat er verder geen errors komen voor bezoekers die niet zijn ingelogd.
          if(isset($_SESSION['klant_id'])){
-         $sql = "SELECT type FROM tblklant WHERE klant_id = ?";
+         $sql = "SELECT k.type_id ,t.type_id,t.type FROM tblklant k,tbltypes t WHERE klant_id = ?  and k.type_id = t.type_id";
          $stmt = $mysqli->prepare($sql);
          $stmt->bind_param("i", $_SESSION['klant_id']);
          $stmt->execute();
@@ -54,7 +54,6 @@
          $type = "guest";
          }
          onderhoudsModus();
-         announcement();
       ?>
 
 
@@ -69,7 +68,7 @@
             <div class="container">
                <div class="row">
                   <div class="col-sm-12">
-                     <div class="logo"><a href="index.php"><img src="images/icon/logo.svg"></a></div>
+                     <div class="logo"><a href="index"><img src="images/icon/logo.svg"></a></div>
                   </div>
                </div>
             </div>
@@ -86,35 +85,36 @@
                  
                   <div class="main">
                      <!-- Another variation with a button -->
-                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search the store">
+                     <form class="input-group" method="GET" action="index#shoes">
+                        <input type="text" class="form-control" name="q" placeholder="Search the store">
                         <div class="input-group-append">
-                           <button class="btn btn-secondary" type="button" style="background-color: #f26522; border-color:#f26522 ">
-                           <i class="fa fa-search"></i>
+                              <button type="submit" class="btn btn-secondary" style="background-color: #f26522; border-color:#f26522">
+                              <i class="fa fa-search"></i>
                            </button>
+                           
                         </div>
-                     </div>
+                     </form>
                   </div>
                   <div class="header_box">
                      <div class="login_menu">
                         <ul>
-                           <li><a href="wishlist.php">
+                           <li><a href="wishlist">
                               <i class="fa fa-heart" aria-hidden="true"></i>
                               <span class="padding_5">Wishlist</span></a>
                            </li>
-                           <li><a href="winkelwagen.php">
+                           <li><a href="winkelwagen">
                               <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                               <span class="padding_5">Cart</span></a>
                            </li>
                            <?php
                            //Als de klant is ingelogd, laat de knop "My Profile" zien, anders laat de knop "Log-In" zien
                            if ($type == "customer" || $type == "admin"){
-                              echo '<li><a href="profile.php">
+                              echo '<li><a href="profile">
                                     <i class="fa fa-user" aria-hidden="true"></i>
                                     <span class="padding_5">My Profile</span></a>
                                     </li>';
                            }else{
-                              echo '<li><a href="login.php">
+                              echo '<li><a href="login">
                               <i class="fa fa-user" aria-hidden="true"></i>
                               <span class="padding_5">Log-In</span></a>
                            </li>';
@@ -148,18 +148,22 @@
          <div class="carousel-item active">
             <div class="container">
                <br>
-               <h1 class="fashion_taital">Shoes</h1>
+               <h1 id="shoes" class="fashion_taital">Shoes</h1>
                <div class="fashion_section_2">
                   <div class="row">
                      <?php
-
                      // Check connection
                      if (!$mysqli) {
                         die("Connection failed: " . mysqli_connect_error());
                      }
 
                      // Fetch shoe data
+                     if(isset($_GET['q'])){
+                        $search = $_GET['q'];
+                        $sql = "SELECT artikel_id,artikelnaam, prijs FROM tblartikels WHERE artikelnaam LIKE '%$search%'";
+                     }else{
                      $sql = "SELECT artikel_id,artikelnaam, prijs FROM tblartikels";
+                     }
                      $result = mysqli_query($mysqli, $sql);
 
                      if (mysqli_num_rows($result) > 0) {
@@ -188,17 +192,17 @@
                            echo '      <div class="tshirt_img"><img src="' . htmlspecialchars($row["directory"]) . '"></div>';
                            echo '      <div class="btn_main">';
                            if($type == "guest") {
-                              echo '         <div class="wishlist_bt"><a href="login.php"><i class="fa fa-heart-o" aria-hidden="true"></i></a></div>';
+                              echo '         <div class="wishlist_bt"><a href="login"><i class="fa fa-heart-o" aria-hidden="true"></i></a></div>';
                            } else {
                            if ($wishlist) {
-                              echo '         <div class="wishlist_bt"><a href="wishlistCalc.php?id='. $row['artikel_id'].'"><i class="fa fa-heart" aria-hidden="true"></i></a></div>';
+                              echo '         <div class="wishlist_bt"><a href="wishlistCalc?id='. $row['artikel_id'].'"><i class="fa fa-heart" aria-hidden="true"></i></a></div>';
                            } else {
-                              echo '         <div class="wishlist_bt"><a href="wishlistCalc.php?id='. $row['artikel_id'].'"><i class="fa fa-heart-o" aria-hidden="true"></i></a></div>';
+                              echo '         <div class="wishlist_bt"><a href="wishlistCalc?id='. $row['artikel_id'].'"><i class="fa fa-heart-o" aria-hidden="true"></i></a></div>';
                            }
                         }
                         
                            echo '         <div class="buy_bt"><a href="cartcalc.php?id='.$row['artikel_id'].'">Add to cart</a></div>';
-                           echo '         <div class="seemore_bt"><a href="productpagina.php?id='.$row['artikel_id'].'">See More</a></div>';
+                           echo '         <div class="seemore_bt"><a href="productpagina?id='.$row['artikel_id'].'">See More</a></div>';
                            echo '      </div>';
                            echo '   </div>';
                            echo '</div>';
@@ -225,7 +229,7 @@
       <!-- footer section start -->
       <div class="footer_section layout_padding">
          <div class="container">
-            <div class="footer_logo"><a href="index.php"><img src="images/icon/logo.svg"></a></div>
+            <div class="footer_logo"><a href="index"><img src="images/icon/logo.svg"></a></div>
 
             <div class="location_main">Help Line  Number : +32 41 23 45 97 80
             <?php

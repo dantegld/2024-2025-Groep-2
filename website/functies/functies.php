@@ -11,14 +11,14 @@ function onderhoudsModus()
    $sql = "SELECT functiewaarde FROM tbladmin where functienaam = 'onderhoudmodus'";
    $result = $mysqli->query($sql);
    $row = $result->fetch_assoc();
-   $sql4 = "SELECT type FROM tblklant WHERE klant_id = ? ";
+   $sql4 = "SELECT k.type_id ,t.type_id,t.type FROM tblklant k,tbltypes t WHERE klant_id = ?  and k.type_id = t.type_id";
    $stmt4 = $mysqli->prepare($sql4);
    $stmt4->bind_param("i", $_SESSION['klant_id']);
    $stmt4->execute();
    $result4 = $stmt4->get_result();
    $row4 = $result4->fetch_assoc();
    if ($row["functiewaarde"] == 1 && $row4['type'] == "customer") {
-      header("Location: onderhoudsPagina.php");
+      header("Location: onderhoudsPagina");
    }
 }
 
@@ -26,7 +26,7 @@ function onderhoudsModus()
 function controleerKlant()
 {
    include 'connect.php';
-   $sql = "SELECT type FROM tblklant WHERE klant_id = ?";
+   $sql = "SELECT k.type_id ,t.type_id,t.type FROM tblklant k,tbltypes t WHERE klant_id = ?  and k.type_id = t.type_id";
    $stmt = $mysqli->prepare($sql);
    $stmt->bind_param("i", $_SESSION['klant_id']);
    $stmt->execute();
@@ -44,7 +44,7 @@ function controleerAdmin()
 {
 
    include 'connect.php';
-   $sql = "SELECT type FROM tblklant WHERE klant_id = ?";
+   $sql = "SELECT k.type_id ,t.type_id,t.type FROM tblklant k,tbltypes t WHERE klant_id = ?  and k.type_id = t.type_id";
    $stmt = $mysqli->prepare($sql);
    $stmt->bind_param("i", $_SESSION['klant_id']);
    $stmt->execute();
@@ -55,9 +55,11 @@ function controleerAdmin()
 
    if ((!($type == "admin")) || !isset($_SESSION['klant_id'])) {
       if ($type == "customer") {
-         header("Location: index.php");
+         header("Location: index");
+         exit();
       } else {
-         header("Location: logout.php");
+         header("Location: logout");
+         exit();
       }
          
    }
@@ -126,6 +128,7 @@ function processStripePayment($amount)
 
       http_response_code(303);
       header('Location: ' . $checkout_session->url);
+      exit();
    } catch (Exception $e) {
 
       echo 'Caught exception: ',  $e->getMessage(), "\n";
@@ -162,13 +165,14 @@ function announcement()
    include 'connect.php';
 
    // Haal alle aankondigingen op uit de database
-   $sql = "SELECT * FROM tblannouncement";
+   $sql = "SELECT * FROM tblannouncement WHERE announcement_id = 1";
    $result = $mysqli->query($sql);
+   $row = $result->fetch_assoc();
 
    // Controleer of er aankondigingen zijn
-   if ($result->num_rows == 0) {
+   if ($row['announcement'] == ' ') {
       // Geen aankondigingen gevonden, log dit in de console
-      print("<script>console.log('No announcement found');</script>");
+      echo '<script>console.log("Geen aankondigingen gevonden")</script>';
       return;
    } else {
       // Toon elke aankondiging als een popup
@@ -182,7 +186,8 @@ function announcement()
              <p>' . htmlspecialchars($row['announcement'], ENT_QUOTES, 'UTF-8') . '</p>
            </div>
           </div>
-          </div>';
+          </div>
+          <script>console.log("Aankondiging gevonden")</script>';
 
          // JavaScript functie om de popup te sluiten
          echo '<script>

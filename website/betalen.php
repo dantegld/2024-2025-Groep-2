@@ -70,7 +70,7 @@ echo '
                 }
             } else {
                 echo "
-                <form action='betalen.php' method='post'>
+                <form action='betalen' method='post'>
                 <br>
                 <h3>Total price: €$totaal</h3>
                 <input type='hidden' name='amount' value='$totaal'>

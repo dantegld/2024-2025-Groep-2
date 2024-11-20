@@ -11,4 +11,4 @@ $stmt = $mysqli->prepare($sql);
 $stmt->bind_param("ss", $naam, $prijs);
 $stmt->execute();
 $stmt->close();
-header("Location: aanpassen.php");
+header("Location: aanpassen");

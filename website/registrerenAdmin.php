@@ -55,7 +55,7 @@ controleerAdmin();
 
 function displayForm($error = '') {
     echo '<h2>Register</h2>';
-    echo '<form action="registrerenAdmin.php" method="post">
+    echo '<form action="registrerenAdmin" method="post">
             <label>Username</label>
             <input type="text" name="username" class="form-control" required><br>
             <label>Password</label>
@@ -70,7 +70,7 @@ function displayForm($error = '') {
 }
 function displayForm1($msg = '') {
     echo '<h2>Register</h2>';
-    echo '<form action="registrerenAdmin.php" method="post">
+    echo '<form action="registrerenAdmin" method="post">
             <label>Username</label>
             <input type="text" name="username" class="form-control" required><br>
             <label>Password</label>

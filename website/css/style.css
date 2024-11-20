@@ -937,6 +937,15 @@ input.mail_bt::placeholder {
     justify-content: center;
     align-items: center;
 }
+.adminpageCenter1 {
+    width: 100vw;
+    height: 100vh;
+    padding-left: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
 .sidemenu a {
     padding: 8px 8px 8px 32px;
@@ -1097,6 +1106,12 @@ text-align: right;
     flex-direction: column;
     align-items: center;
 }
+.adminpage1 {
+    width: 100vw;
+    padding-left: 250px;
+    display: flex;
+    flex-direction: column;
+}
 .product-container {
     display: flex;
     width: 100%;
@@ -1203,4 +1218,34 @@ text-align: right;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+table.adminTable{
+    width: 60%;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 50px auto;
+}
+table.adminTable th, table.adminTable td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+table.adminTable th {
+    background-color: #007BFF;
+    color: white;
+    font-weight: normal;
+}
+table.adminTable tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+table.adminTable tr:hover {
+    background-color: #ddd;
+}
+select.selectTable {
+    border: 1px solid #ddd;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
 }

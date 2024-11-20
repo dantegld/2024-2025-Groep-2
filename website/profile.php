@@ -81,7 +81,7 @@ include 'functies/mySideNav.php';
                         } else {
                             $vorigeschoenmaat = $row1['schoenmaat'];
                         }
-                        echo' <form action="profile.php" method="post">
+                        echo' <form action="profile" method="post">
                         <input type="number" name="schoenmaat" value = "' . $vorigeschoenmaat. '" >
                         <input type="submit" name="Change">
                         </form>';
@@ -95,7 +95,7 @@ include 'functies/mySideNav.php';
                         } else {
                             $vorigeschoenmaat = $row1['schoenmaat'];
                         }
-                    echo' <form action="profile.php" method="post">
+                    echo' <form action="profile" method="post">
                     <input type="number" name="schoenmaat" value = "' . $vorigeschoenmaat. '" >
                     <input type="submit" name="Change">
                     </form>';
@@ -115,7 +115,7 @@ include 'functies/mySideNav.php';
             if ($result->num_rows == 0) {
                 echo '  <div class="tabadres">
                         <p class="address-box">Address: </p>';
-                echo '<div class="address-delete"><a href= "adrestoevoegen.php">Add new address</a></div>';
+                echo '<div class="address-delete"><a href= "adrestoevoegen">Add new address</a></div>';
                 echo '</div>';
             } else {
                 $klant_id = $_SESSION['klant_id'];
@@ -131,13 +131,13 @@ include 'functies/mySideNav.php';
                     echo '<div class="tabadres">';
                     echo '<p class="address-box">Address ' . $adres_count . ':</p>';
                     echo '<span class = "address-content">' . $row3['adres'] . " " . $row3['postcode'] . " " . $row3['plaats'] . '</span>';
-                    echo '<div class="address-delete"><a href="adresverwijderen.php?adres_id=' . $row3['adres_id'] . '"><i class="fa fa-trash lg"></i></a></div>';
+                    echo '<div class="address-delete"><a href="adresverwijderen?adres_id=' . $row3['adres_id'] . '"><i class="fa fa-trash lg"></i></a></div>';
                     echo '</div>';
                     if ($adres_count == $result3->num_rows) {
                         $adres_count++;
                         echo '<br>';
                         echo '<div class="address-add"">';
-                        echo '<a href="adrestoevoegen.php">Add new address</a>';
+                        echo '<a href="adrestoevoegen">Add new address</a>';
                         echo '</div>';
                         echo '<br>';
                     }
@@ -149,7 +149,7 @@ include 'functies/mySideNav.php';
                 if ($adres_count == 1) {
                     echo '<div class="tabadres">';
                     echo '<p>Address 2:</p>';
-                    echo '<a href="adrestoevoegen.php">Add new address</a>';
+                    echo '<a href="adrestoevoegen">Add new address</a>';
                     echo '</div>';
                 }
             }
@@ -182,10 +182,10 @@ include 'functies/mySideNav.php';
             $sql = "UPDATE tblklant SET email = '$new_email' WHERE klant_id = '$_SESSION[klant_id]'";
             if ($mysqli->query($sql)) {
                 echo "<p class='success-msg'>Email address updated!</p>";
-                header("Refresh: 1; url=profile.php");
+                header("Refresh: 1; url=profile");
             } else {
                 echo "<p class='error-msg'>Error updating email address.</p>";
-                header("Refresh: 1; url=profile.php");
+                header("Refresh: 1; url=profile");
             }
         }
     }
@@ -201,10 +201,10 @@ include 'functies/mySideNav.php';
             $sql = "UPDATE tblklant SET telefoonnummer = '$new_phone_number' WHERE klant_id = '$_SESSION[klant_id]'";
             if ($mysqli->query($sql)) {
                 echo "<p class='success-msg'>Phone number updated!</p>";
-                header("Refresh: 1; url=profile.php");
+                header("Refresh: 1; url=profile");
             } else {
                 echo "<p class='error-msg'>Error updating phone number.</p>";
-                header("Refresh: 1; url=profile.php");
+                header("Refresh: 1; url=profile");
             }
         }
     }
@@ -214,7 +214,7 @@ include 'functies/mySideNav.php';
         $sql = "UPDATE tblklant SET telefoonnummer = NULL WHERE klant_id = '$_SESSION[klant_id]'";
         if ($mysqli->query($sql)) {
             echo "<p class='success-msg'>Phone number removed!</p>";
-            header("Refresh: 1; url=profile.php");
+            header("Refresh: 1; url=profile");
         } else {
             echo "<p class='error-msg'>Error while deleting phone number.</p>";
         }
@@ -239,7 +239,7 @@ include 'functies/mySideNav.php';
 
     <!-- Form for Updating/Adding Information -->
     <div class="tab5">
-        <form action="profile.php" method="post">
+        <form action="profile" method="post">
             <label for="email">Email address:</label><br>
             <input type="email" name="email" placeholder="Enter your email address" value="<?= isset($user['email']) ? $user['email'] : '' ?>" class="form-control"><br><br>
             <input type="submit" name="update_email" value="Update Email address" class="btn btn-primary"> <br><br>

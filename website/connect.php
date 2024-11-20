@@ -1,11 +1,5 @@
 <?php
-//ZET DIE DAT JE NIET GEBRUIKT IN COMMENTS
-
-//xamp server
-$mysqli = new mysqli("localhost", "root", "", "groep2");
-
-//ftp server
-//$mysqli = new mysqli("localhost", "dbgroep2@groep2.", "Groep22024", "groep2"); //connectie maken met de database op ftp server
+$mysqli = new mysqli("srv1650.hstgr.io", "u578783310_groep2", "Groep22024", "u578783310_myshoes");
 
 
 
