@@ -61,7 +61,9 @@ function controleerAdmin()
          header("Location: logout");
          exit();
       }
+         
    }
+      
 }
 
 // Functie om de betaling te verwerken
