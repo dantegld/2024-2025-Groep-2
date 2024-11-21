@@ -14,6 +14,8 @@ echo '
 <a href="socials">Socials</a>
 <a href="announcement">Announcements</a>
 <a href="categoriesandbrands">Brands and categories</a>
+<a href="bezorgopties">Delivery options</a>
+<a href= "promo">Promo Codes</a>
 </div>';
 
 ?>
