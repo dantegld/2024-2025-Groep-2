@@ -9,7 +9,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>Klantaccounts</title>
+      <title>Customers</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -42,12 +42,17 @@
        margin: 0;
        padding: 0;
    }
+   h1{
+        text-align: center;
+        margin-top: 50px;
+   }
    table {
        width: 70%; /* Maak de tabel breder naar 70% */
        border-collapse: collapse;
        background-color: #fff;
        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
        margin: 0 auto; /* Centreer de tabel */
+       margin-top: 50px;
    }
    th, td {
        padding: 10px;
@@ -122,14 +127,16 @@
 
    </head>
    <body>
+
    <?php
 include 'connect.php'; 
-include 'functies/functies.php';
 session_start();
+include 'functies/functies.php';
 controleerAdmin();
 include 'functies/adminSideMenu.php';
 ?>
 <div class="adminpage">
+<h1>Customers</h1>
     <?php
         if (isset($_POST['verwijderen'])) {
             if (!empty($_POST['klant_id'])) { // Only check for klant_id
@@ -141,12 +148,12 @@ include 'functies/adminSideMenu.php';
                 $deleteResult = $mysqli->query($deleteQuery);
                 
                 if ($deleteResult) {
-                    echo "<div class='message success'>De klant met ID $klant_id is succesvol verwijderd.</div>";
+                    echo "<div class='message success'>The customer with ID $klant_id has been successfully deleted.</div>";
                 } else {
-                    echo "<div class='message error'>Er is een fout opgetreden bij het verwijderen van de klant.</div>";
+                    echo "<div class='message error'>An error occurred while deleting the customer.</div>";
                 }
             } else {
-                echo "<div class='message error'>Niet alle gegevens zijn verstrekt.</div>";
+                echo "<div class='message error'>Not all data has been provided</div>";
             }
         }
 
@@ -211,9 +218,9 @@ include 'functies/adminSideMenu.php';
         }
         echo "</table>";
     } else {
-        echo "Geen oude of niet-beschikbare producten gevonden.";
+        echo "No Customers found";
     }
-
+    echo "<br>";
     
 
     ?>

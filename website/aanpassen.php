@@ -130,34 +130,21 @@ include 'functies/adminSideMenu.php';
     <br>
     <?php
     if (isset($_POST['aanpassen'])) {
-        if (isset($_POST['artikel_id'], $_POST['artikelnaam'], $_POST['prijs'], $_POST['aankoopprijs'])) {
+        if (isset($_POST['artikel_id'], $_POST['artikelnaam'], $_POST['prijs'])) {
             $artikel_id = $_POST['artikel_id'];
             $artikelnaam = $_POST['artikelnaam'];
             $prijs = $_POST['prijs'];
-            $aankoopprijs = $_POST['aankoopprijs'];
             $merk_id = $_POST['merk_id'];
             $categorie_id = $_POST['categorie_id'];
-
-            // Calculate margin per product in PHP
-            $margeperproduct = $prijs - $aankoopprijs;
-
-            // Update query without 'marge_per_product'
-            $updateQuery = "UPDATE tblartikels 
-                            SET artikelnaam = '$artikelnaam', 
-                                prijs = '$prijs', 
-                                aankoopprijs = '$aankoopprijs', 
-                                merk_id = '$merk_id', 
-                                categorie_id = '$categorie_id' 
-                            WHERE artikel_id = '$artikel_id'";
-
-            if ($mysqli->query($updateQuery)) {
-                echo "<div class='message success'>The product with ID $artikel_id has been successfully updated.</div>";
+            $updateQuery = "UPDATE tblartikels SET artikelnaam = '$artikelnaam', prijs = '$prijs', merk_id = '$merk_id', categorie_id = '$categorie_id' WHERE artikel_id = '$artikel_id'";
+            $updateResult = $mysqli->query($updateQuery);
+            if ($updateResult) {
+                echo "<div class='message success'>The product with ID $artikel_id has been updated successfully.</div>";
             } else {
-                echo "<div class='message error'>There was an error updating the product: " . $mysqli->error . "</div>";
-            exit;
-             }
+                echo "<div class='message error'>An error occurred while updating the product.</div>";
+            }
         } else {
-            echo "<div class='message error'>Not all data was provided.</div>";
+            echo "<div class='message error'>Not all data has been provided.</div>";
         }
     }
 
@@ -165,33 +152,22 @@ include 'functies/adminSideMenu.php';
         if (isset($_POST['artikel_id'])) {
             $artikel_id = $_POST['artikel_id'];
             $deleteQuery = "DELETE FROM tblartikels WHERE artikel_id = '$artikel_id'";
-            if ($mysqli->query($deleteQuery)) {
-                echo "<div class='message success'>The product with ID $artikel_id has been successfully deleted.</div>";
+            $deleteResult = $mysqli->query($deleteQuery);
+            if ($deleteResult) {
+                echo "<div class='message success'>The product with ID $artikel_id has been deleted successfully.</div>";
             } else {
-                echo "<div class='message error'>There was an error deleting the product: " . $mysqli->error . "</div>";
+                echo "<div class='message error'>An error occurred while deleting the product.</div>";
             }
         } else {
             echo "<div class='message error'>Product ID not provided.</div>";
         }
     }
 
-    // Fetch the data with margin as an alias
-    $query = 'SELECT *, prijs - aankoopprijs AS marge_per_product FROM tblartikels';
+    $query = "SELECT * FROM tblartikels";
     $result = $mysqli->query($query);
     if ($result->num_rows > 0) {
         echo "<table border='1'>";
-        echo "<tr>
-                <th>Product ID</th>
-                <th>Product Name</th>
-                <th class='price-column'>Price</th>
-                <th>Purchase Price</th>
-                <th>Profit Margin per Product</th>
-                <th>Brand</th>
-                <th>Category</th>
-                <th>Action</th>
-                <th>Variations</th>
-                <th>Delete</th>
-              </tr>";
+        echo "<tr><th>Product ID</th><th>Product name</th><th class='price-column'>Price</th><th>Brand</th><th>Category</th><th>Action</th><th>Variations</th><th>Delete</th></tr>";
         while ($row = $result->fetch_assoc()) {
             // Fetch all brands
             $brandQuery = "SELECT * FROM tblmerk";
@@ -204,36 +180,33 @@ include 'functies/adminSideMenu.php';
             echo "<tr>";
             echo "<form method='POST' action='aanpassen.php'>";
             echo "<td>" . $row['artikel_id'] . "</td>";
-            echo "<td><input type='text' name='artikelnaam' value='" . $row['artikelnaam'] . "' required /></td>";
-            echo "<td class='price-column'><input type='number' step='0.01' name='prijs' value='" . $row['prijs'] . "' required /></td>";
-            echo "<td><input type='number' step='0.01' name='aankoopprijs' value='" . $row['aankoopprijs'] . "' required /></td>";
-            echo "<td>" . ($row['prijs'] - $row['aankoopprijs']) . "</td>"; // Calculation in display
+            echo "<td><input type='text' name='artikelnaam' value='" . $row['artikelnaam'] . "' /></td>";
+            echo "<td class='price-column'><input type='number' name='prijs' value='" . $row['prijs'] . "' /></td>";
 
             // Brand dropdown
-            echo "<td><select name='merk_id' required>";
+            echo "<td><select name='merk_id'>";
             while ($brandRow = $brandResult->fetch_assoc()) {
-                $selected = ($brandRow['merk_id'] == $row['merk_id']) ? "selected" : "";
+                $selected = $brandRow['merk_id'] == $row['merk_id'] ? "selected" : "";
                 echo "<option value='" . $brandRow['merk_id'] . "' $selected>" . $brandRow['merknaam'] . "</option>";
             }
             echo "</select></td>";
 
             // Category dropdown
-            echo "<td><select name='categorie_id' required>";
+            echo "<td><select name='categorie_id'>";
             while ($categoryRow = $categoryResult->fetch_assoc()) {
-                $selected = ($categoryRow['categorie_id'] == $row['categorie_id']) ? "selected" : "";
+                $selected = $categoryRow['categorie_id'] == $row['categorie_id'] ? "selected" : "";
                 echo "<option value='" . $categoryRow['categorie_id'] . "' $selected>" . $categoryRow['categorienaam'] . "</option>";
             }
             echo "</select></td>";
 
-            // Action and Delete buttons
             echo "<td>
-                    <input type='hidden' name='artikel_id' value='" . $row['artikel_id'] . "' />
-                    <input type='submit' name='aanpassen' value='Update' />
+                      <input type='hidden' name='artikel_id' value='" . $row['artikel_id'] . "' />
+                      <input type='submit' name='aanpassen' value='Adjust' />
                   </td>";
-            echo "<td><a class='btn btn-primary' href='variaties.php?artikel_id=" . $row['artikel_id'] . "'>Variations</a></td>";
+            echo "<td><a class='btn btn-primary' href='variaties?artikel_id=" . $row['artikel_id'] . "'>Variations</a></td>";
             echo "<td>
-                    <input type='hidden' name='artikel_id' value='" . $row['artikel_id'] . "' />
-                    <input type='submit' name='delete' value='Delete' onclick=\"return confirm('Are you sure you want to delete this product?');\" />
+                      <input type='hidden' name='artikel_id' value='" . $row['artikel_id'] . "' />
+                      <input type='submit' name='delete' value='Delete' />
                   </td>";
             echo "</form>";
             echo "</tr>";

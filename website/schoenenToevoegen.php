@@ -9,7 +9,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>Product Toevoegen</title>
+      <title>Add new products</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -36,25 +36,27 @@
    <link rel="icon" href="images/icon/favicon.png">
    </head>
    <?php
-   session_start();
    include 'connect.php'; 
+   session_start();
       include 'functies/functies.php';
       controleerAdmin();
       include 'functies/adminSideMenu.php';
         ?>
-        <div class="adminpage1">
+        <div class="adminpageCenter">
       <div class="schoenenForm">
-        <form class="formFlex" action="upload.php" method="POST" enctype="multipart/form-data">
+        <form class="formFlex" action="upload1.php" method="POST" enctype="multipart/form-data">
          <div>
-            <label>Naam</label>
+            <label>Name</label>
             <input type="text" name="naam" class="form-control" required><br>
-            <label>Stock</label>
-            <input type="number" name="stock" class="form-control" required><br>
-            <label>Prijs</label>
+            <!-- <label>Stock</label> -->
+            <!-- <input type="number" name="stock" class="form-control" required><br> -->
+            <label>Price</label>
             <input type="number" name="prijs" class="form-control" required><br>
-            <label>Aankoopprijs</label>
-            <input type="number" name="aankoopprijs" class="form-control" required><br>
-            <label>Kleur 1</label>
+            <!-- <label>Categorie</label>
+            <input type="text" name="categorie" class="form-control" required><br>
+            <label>Merk</label>
+            <input type="text" name="merk" class="form-control" required><br> -->
+            <!-- <label>Kleur 1</label>
             <input type="text" name="kleur1" class="form-control" required><br>
             <label>Kleur 2</label>
             <input type="text" name="kleur2" class="form-control"><br>
@@ -62,18 +64,14 @@
             <input type="text" name="kleur3" class="form-control"><br>
             </div>
             <div>
-            <label>Categorie</label>
-            <input type="text" name="categorie" class="form-control" required><br>
-            <label>Merk</label>
-            <input type="text" name="merk" class="form-control" required><br>
             <label>Image kleur 1</label>
             <input type="file" name="image1" class="form-control" required><br>
             <label>Image Kleur 2</label>
             <input type="file" name="image2" class="form-control" ><br>
             <label>Image Kleur 3</label>
-            <input type="file" name="image3" class="form-control" ><br>
+            <input type="file" name="image3" class="form-control" ><br> -->
 
-            <input type="submit" name="submit" value="Toevoegen" class="btn btn-primary">
+            <input type="submit" name="submit" value="Add" class="btn btn-primary">
          </div>
          </div>
 

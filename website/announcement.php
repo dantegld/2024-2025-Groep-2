@@ -51,22 +51,21 @@
     controleerAdmin();
     include 'functies/adminSideMenu.php';
 
-    // als er al een msg is 
+
     if (isset($_POST['submit'])) {
         $announcement = $_POST['announcement'];
-        $sql = "UPDATE tblannouncement SET announcement = '$announcement' WHERE announcement_id = 1";
+        $sql = "UPDATE tblannouncement SET announcement = '$announcement' WHERE announcement_id = 0";
         $result = $mysqli->query($sql);
         echo '<div class="alert alert-success" role="alert">Announcement has been updated</div>';
         print("<script>
             setTimeout(function(){
                 window.location = 'announcement.php';
-            }, 3000);
+            }, 5000);
         </script>");
 
-    //als er geen msg er is
     } else if (isset($_POST['submit_zero'])) {
         $announcement = $_POST['announcement'];
-        $sql = "UPDATE tblannouncement SET announcement = '$announcement'WHERE announcement_id = 1;";
+        $sql = "INSERT INTO tblannouncement (announcement) VALUES ('$announcement')";
         $result = $mysqli->query($sql);
         echo '<div class="alert alert-success" role="alert">Announcement has been added</div>';
         print("<script>
@@ -75,9 +74,8 @@
             }, 5000);
         </script>");
 
-    //als de butten delete is geklikt
     } else if (isset($_POST['delete'])) {
-        $sql = "UPDATE tblannouncement SET announcement = ' ' WHERE announcement_id = 1";
+        $sql = "DELETE FROM tblannouncement WHERE announcement_id = 0";
         $result = $mysqli->query($sql);
         echo '<div class="alert alert-danger" role="alert">Announcement has been deleted</div>';
         print("<script>
@@ -88,11 +86,10 @@
 
     } else {
         echo '<h1>Announcement</h1>';
-        $sql = "SELECT * FROM tblannouncement WHERE announcement_id = 1";
+        $sql = "SELECT * FROM tblannouncement";
         $result = $mysqli->query($sql);
-        $row = $result->fetch_assoc();
 
-        if ($row['announcement'] == ' ') {
+        if ($result->num_rows == 0) {
             echo '
             <form method="post" action="announcement.php">
             <label for="announcement">Announcement text:</label>
@@ -101,6 +98,7 @@
             <input type="submit" name="delete" value="Delete" class="btn btn-danger">';
        
         } else {
+            while ($row = $result->fetch_assoc()) {
             echo 
             '<form method="post" action="announcement.php">
             <label for="announcement">Announcement text updaten:</label>
@@ -108,6 +106,7 @@
             <input type="submit" name="submit" value="Update" class="btn btn-primary">
             <input type="submit" name="delete" value="Delete" class="btn btn-danger">
             </form>';
+            }
         }
     }
 

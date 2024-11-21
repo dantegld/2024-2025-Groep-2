@@ -61,9 +61,7 @@ function controleerAdmin()
          header("Location: logout");
          exit();
       }
-         
    }
-      
 }
 
 // Functie om de betaling te verwerken
@@ -165,14 +163,13 @@ function announcement()
    include 'connect.php';
 
    // Haal alle aankondigingen op uit de database
-   $sql = "SELECT * FROM tblannouncement WHERE announcement_id = 1";
+   $sql = "SELECT * FROM tblannouncement";
    $result = $mysqli->query($sql);
-   $row = $result->fetch_assoc();
 
    // Controleer of er aankondigingen zijn
-   if ($row['announcement'] == ' ') {
+   if ($result->num_rows == 0) {
       // Geen aankondigingen gevonden, log dit in de console
-      echo '<script>console.log("Geen aankondigingen gevonden")</script>';
+      print("<script>console.log('No announcement found');</script>");
       return;
    } else {
       // Toon elke aankondiging als een popup
@@ -186,8 +183,7 @@ function announcement()
              <p>' . htmlspecialchars($row['announcement'], ENT_QUOTES, 'UTF-8') . '</p>
            </div>
           </div>
-          </div>
-          <script>console.log("Aankondiging gevonden")</script>';
+          </div>';
 
          // JavaScript functie om de popup te sluiten
          echo '<script>

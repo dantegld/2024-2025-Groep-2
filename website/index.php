@@ -54,6 +54,7 @@
          $type = "guest";
          }
          onderhoudsModus();
+         announcement();
       ?>
 
 
@@ -149,29 +150,10 @@
             <div class="container">
                <br>
                <h1 id="shoes" class="fashion_taital">Shoes</h1>
-               <span>
-                           <div class="sortBy">
-                     <div class="dropdown">
-                        <button style="border-radius:5px;" class="btn btn-primary sortBtn">Sort by <i style="padding-left: 5px;" class="fa fa-caret-down"></i></button>
-                        <div class="sortOptions">
-                           <?php 
-                           if(isset($_GET['q'])){
-                              echo '<a href="index?q='.$_GET['q'].'&s=al#shoes">Alphabet</a>';
-                              echo '<a href="index?q='.$_GET['q'].'&s=pr#shoes">Price</a>';
-                           }else{
-                              ?>
-                        <a href="index?s=rn#shoes">Alphabet</a>
-                        <a href="index?s=al#shoes">Price</a>
-                        <?php
-                           }
-                        ?>
-                        </div>
-                     </div>
-                  </div>
-               </span>
                <div class="fashion_section_2">
                   <div class="row">
                      <?php
+
                      // Check connection
                      if (!$mysqli) {
                         die("Connection failed: " . mysqli_connect_error());
@@ -180,29 +162,9 @@
                      // Fetch shoe data
                      if(isset($_GET['q'])){
                         $search = $_GET['q'];
-                        if(isset($_GET['s'])){
-                           if($_GET['s'] == "al"){
-                              $sql = "SELECT artikel_id,artikelnaam, prijs FROM tblartikels WHERE artikelnaam LIKE '%$search%' ORDER BY artikelnaam ASC";
-                           }else if($_GET['s'] == "pr"){
-                              $sql = "SELECT artikel_id,artikelnaam, prijs FROM tblartikels WHERE artikelnaam LIKE '%$search%' ORDER BY prijs ASC";
-                           }else{
-                              $sql = "SELECT artikel_id,artikelnaam, prijs FROM tblartikels WHERE artikelnaam LIKE '%$search%'";
-                           }
-                        }else{
-                           $sql = "SELECT artikel_id,artikelnaam, prijs FROM tblartikels WHERE artikelnaam LIKE '%$search%'";
-                        }
+                        $sql = "SELECT artikel_id,artikelnaam, prijs FROM tblartikels WHERE artikelnaam LIKE '%$search%'";
                      }else{
-                        if(isset($_GET['s'])){
-                           if($_GET['s'] == "al"){
-                              $sql = "SELECT artikel_id,artikelnaam, prijs FROM tblartikels ORDER BY artikelnaam ASC";
-                           }else if($_GET['s'] == "pr"){
-                              $sql = "SELECT artikel_id,artikelnaam, prijs FROM tblartikels ORDER BY prijs ASC";
-                           }else{
-                              $sql = "SELECT artikel_id,artikelnaam, prijs FROM tblartikels";
-                           }
-                        }else{
                      $sql = "SELECT artikel_id,artikelnaam, prijs FROM tblartikels";
-                        }
                      }
                      $result = mysqli_query($mysqli, $sql);
 
