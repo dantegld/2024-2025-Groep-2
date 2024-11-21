@@ -1,10 +1,11 @@
 <?php
 include 'connect.php';
+require 'vendor/autoload.php'; 
+
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'vendor/autoload.php'; 
 
 
 
@@ -33,19 +34,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['email'])) {
 
 
         $mail = new PHPMailer(true);
+        
 
         try {
            
             $mail->isSMTP();
-            $mail->Host = 'smtp.hostinger.com';  
+            $mail->Host = 'smtp.gmail.com';  
             $mail->SMTPAuth = true;
-            $mail->Username = 'myshoes@zoobagogo.com';  
-            $mail->Password = 'ShoesMy123!';
+            $mail->Username = 'contactmyshoes2800@gmail.com';  
+            $mail->Password = 'pztvrfzhcksiqzhq';
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;  
 
 
-            $mail->setFrom('myshoes@zoobagogo.com', 'Myshoes');  
+            $mail->setFrom('contactmyshoes2800@gmail.com', 'My Shoes');  
             $mail->addAddress($email);  
             $mail->Subject = 'Wachtwoord Reset Verzoek';
             $mail->Body    = 'Hallo, klik op de volgende link om je wachtwoord te resetten: ' . $reset_link;

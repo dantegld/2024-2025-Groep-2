@@ -1,4 +1,6 @@
 <?php
+
+
 echo '
 <div class="sidemenu">
 <a href="index">Home</a>
@@ -12,5 +14,7 @@ echo '
 <a href="socials">Socials</a>
 <a href="announcement">Announcements</a>
 <a href="categoriesandbrands">Brands and categories</a>
+<a href="bezorgopties">Delivery options</a>
 </div>';
+
 ?>
