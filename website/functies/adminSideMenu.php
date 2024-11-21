@@ -16,6 +16,7 @@ echo '
 <a href="categoriesandbrands">Brands and categories</a>
 <a href="bezorgopties">Delivery options</a>
 <a href= "promo">Promo Codes</a>
+<a href="view">View count</a>
 </div>';
 
 ?>
