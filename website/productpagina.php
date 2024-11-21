@@ -16,6 +16,10 @@
          $result = mysqli_query($mysqli, $sql);
          $row = mysqli_fetch_assoc($result);
          $artikelnaam = $row['artikelnaam'];
+
+         $sql = "Update tblartikels SET viewcount = viewcount + 1 WHERE artikel_id = $id";
+         $mysqli->query($sql);
+         
       ?>
       <!-- basic -->
       <meta charset="utf-8">
