@@ -106,12 +106,14 @@
                                  $min = $_GET['min'];
                                  $max = $_GET['max'];
                               ?>
+                              <a class="dropdown-item" href="index?q=<?php echo"$q";?>&min=<?php echo"$min";?>&max=<?php echo"$max";?>&s=trnd#shoes"><i class="fa fa-line-chart" aria-hidden="true"></i></a>
                               <a class="dropdown-item" href="index?q=<?php echo"$q";?>&min=<?php echo"$min";?>&max=<?php echo"$max";?>&s=abc#shoes">ABC</a>
                               <a class="dropdown-item" href="index?q=<?php echo"$q";?>&min=<?php echo"$min";?>&max=<?php echo"$max";?>&s=pru#shoes">&euro;&uarr;</a>
                               <a class="dropdown-item" href="index?q=<?php echo"$q";?>&min=<?php echo"$min";?>&max=<?php echo"$max";?>&s=prd#shoes">&euro;&darr;</a>
                               <?php }else if(isset($_GET['q'])){
                                  $q = $_GET['q'];
                               ?>
+                              <a class="dropdown-item" href="index?q=<?php echo"$q";?>&s=trnd#shoes"><i class="fa fa-line-chart" aria-hidden="true"></i></a>
                               <a class="dropdown-item" href="index?q=<?php echo"$q";?>&s=abc#shoes">ABC</a>
                               <a class="dropdown-item" href="index?q=<?php echo"$q";?>&s=pru#shoes">&euro;&uarr;</a>
                               <a class="dropdown-item" href="index?q=<?php echo"$q";?>&s=prd#shoes">&euro;&darr;</a>
@@ -119,10 +121,12 @@
                                  $min = $_GET['min'];
                                  $max = $_GET['max'];
                               ?>
+                              <a class="dropdown-item" href="index?min=<?php echo"$min";?>&max=<?php echo"$max";?>&s=trnd#shoes"><i class="fa fa-line-chart" aria-hidden="true"></i></a>
                               <a class="dropdown-item" href="index?min=<?php echo"$min";?>&max=<?php echo"$max";?>&s=abc#shoes">ABC</a>
                               <a class="dropdown-item" href="index?min=<?php echo"$min";?>&max=<?php echo"$max";?>&s=pru#shoes">&euro;&uarr;</a>
                               <a class="dropdown-item" href="index?min=<?php echo"$min";?>&max=<?php echo"$max";?>&s=prd#shoes">&euro;&darr;</a>
                               <?php }else{ ?>
+                              <a class="dropdown-item" href="index?s=trnd#shoes"><i class="fa fa-line-chart" aria-hidden="true"></i></a>
                               <a class="dropdown-item" href="index?s=abc#shoes">ABC</a>
                               <a class="dropdown-item" href="index?s=pru#shoes">&euro;&uarr;</a>
                               <a class="dropdown-item" href="index?s=prd#shoes">&euro;&darr;</a>
@@ -136,6 +140,7 @@
                            $resultmax = mysqli_query($mysqli, $sqlmax);
                            $rowmax = mysqli_fetch_assoc($resultmax);
                            $maxprijs = $rowmax['maxprijs'];
+                           $maxprijsfinal = $maxprijs;
 
                            $sqlmin = "SELECT MIN(prijs) as minprijs FROM tblartikels";
                            $resultmin = mysqli_query($mysqli, $sqlmin);
@@ -248,66 +253,47 @@
                      }
 
                      
-                     if (isset($_GET['q']) && isset($_GET['min']) && isset($_GET['s'])) {
+
+                     $conditions = [];
+                     $orderBy = '';
+                     
+                     if (isset($_GET['q'])) {
                          $q = $_GET['q'];
-                         $min = $_GET['min'];
-                         $max = $_GET['max'];
-                         $s = $_GET['s'];
-                         if ($s == "abc") {
-                             $sql = "SELECT * FROM tblartikels WHERE artikelnaam LIKE '%$q%' AND prijs BETWEEN $min AND $max ORDER BY artikelnaam ASC";
-                         } else if ($s == "pru") {
-                             $sql = "SELECT * FROM tblartikels WHERE artikelnaam LIKE '%$q%' AND prijs BETWEEN $min AND $max ORDER BY prijs ASC";
-                         } else if ($s == "prd") {
-                             $sql = "SELECT * FROM tblartikels WHERE artikelnaam LIKE '%$q%' AND prijs BETWEEN $min AND $max ORDER BY prijs DESC";
-                         }
-                     } else if (isset($_GET['q']) && isset($_GET['min'])) {
-                         $q = $_GET['q'];
-                         $min = $_GET['min'];
-                         $max = $_GET['max'];
-                         $sql = "SELECT * FROM tblartikels WHERE artikelnaam LIKE '%$q%' AND prijs BETWEEN $min AND $max";
-                     } else if (isset($_GET['q']) && isset($_GET['s'])) {
-                         $q = $_GET['q'];
-                         $s = $_GET['s'];
-                         if ($s == "abc") {
-                             $sql = "SELECT * FROM tblartikels WHERE artikelnaam LIKE '%$q%' ORDER BY artikelnaam ASC";
-                         } else if ($s == "pru") {
-                             $sql = "SELECT * FROM tblartikels WHERE artikelnaam LIKE '%$q%' ORDER BY prijs ASC";
-                         } else if ($s == "prd") {
-                             $sql = "SELECT * FROM tblartikels WHERE artikelnaam LIKE '%$q%' ORDER BY prijs DESC";
-                         }
-                     } else if (isset($_GET['q'])) {
-                         $q = $_GET['q'];
-                         $sql = "SELECT * FROM tblartikels WHERE artikelnaam LIKE '%$q%'";
-                     } else if (isset($_GET['min']) && isset($_GET['s'])) {
-                         $min = $_GET['min'];
-                         $max = $_GET['max'];
-                         $s = $_GET['s'];
-                         if ($s == "abc") {
-                             $sql = "SELECT * FROM tblartikels WHERE prijs BETWEEN $min AND $max ORDER BY artikelnaam ASC";
-                         } else if ($s == "pru") {
-                             $sql = "SELECT * FROM tblartikels WHERE prijs BETWEEN $min AND $max ORDER BY prijs ASC";
-                         } else if ($s == "prd") {
-                             $sql = "SELECT * FROM tblartikels WHERE prijs BETWEEN $min AND $max ORDER BY prijs DESC";
-                         }
-                     } else if (isset($_GET['min'])) {
-                         $min = $_GET['min'];
-                         $max = $_GET['max'];
-                         $sql = "SELECT * FROM tblartikels WHERE prijs BETWEEN $min AND $max";
-                     } else if (isset($_GET['s'])) {
-                         $s = $_GET['s'];
-                         if ($s == "abc") {
-                             $sql = "SELECT * FROM tblartikels ORDER BY artikelnaam ASC";
-                         } else if ($s == "pru") {
-                             $sql = "SELECT * FROM tblartikels ORDER BY prijs ASC";
-                         } else if ($s == "prd") {
-                             $sql = "SELECT * FROM tblartikels ORDER BY prijs DESC";
-                         }
-                     } else {
-                         $sql = "SELECT * FROM tblartikels";
+                         $conditions[] = "artikelnaam LIKE '%$q%'";
                      }
+                     
+                     if (isset($_GET['min']) && isset($_GET['max'])) {
+                         $min = $_GET['min'];
+                         $max = $_GET['max'];
+                         $conditions[] = "prijs BETWEEN $min AND $max";
+                     }
+                     
+                     if (isset($_GET['s'])) {
+                         $s = $_GET['s'];
+                         if ($s == "abc") {
+                             $orderBy = "ORDER BY artikelnaam ASC";
+                         } else if ($s == "pru") {
+                             $orderBy = "ORDER BY prijs ASC";
+                         } else if ($s == "prd") {
+                             $orderBy = "ORDER BY prijs DESC";
+                         }else if ($s == "trnd") {
+                             $orderBy = "ORDER BY viewcount DESC";
+                         }
+                     }else{
+                        $orderBy = "ORDER BY viewcount DESC";
+                     }
+                     
+                     $sql = "SELECT * FROM tblartikels a INNER join tblvariatie v on v.artikel_id=a.artikel_id";
+                     if (!empty($conditions)) {
+                         $sql .= " WHERE " . implode(' AND ', $conditions);
+                     }
+                     $sql .= " $orderBy";
+                     
+                     // Execute the query
+                     $result = mysqli_query($mysqli, $sql);
 
                      
-                     $result = mysqli_query($mysqli, $sql);
+
 
                      if (mysqli_num_rows($result) > 0) {
                         // Output data of each row
