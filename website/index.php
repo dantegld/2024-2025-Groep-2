@@ -86,14 +86,104 @@
                   <div class="main">
                      <!-- Another variation with a button -->
                      <form class="input-group" method="GET" action="index#shoes">
+                     <?php if(isset($_GET['q'])){
+                              $q = $_GET['q'];
+                           ?>
+                        <input type="text" class="form-control" name="q" placeholder="Search the store" value="<?php echo "$q";?>">
+                        <?php }else{ ?>
                         <input type="text" class="form-control" name="q" placeholder="Search the store">
-                        <div class="input-group-append">
-                              <button type="submit" class="btn btn-secondary" style="background-color: #f26522; border-color:#f26522">
+                        <?php } ?>
+                        <span class="input-group-append">
+
+                           <button type="submit" class="btn btn-secondary" style="background-color: #f26522; border-color:#f26522">
                               <i class="fa fa-search"></i>
                            </button>
-                           
-                        </div>
+                           <span id="filterBtn" class="btn btn-secondary" style="background-color: #f26522; border-color:#f26522;margin-left:1px;"><i class="fa fa-filter"></i></span>
+                           <span id="sortBtn" class="btn btn-secondary dropdown-toggle" style="background-color: #f26522; border-color:#f26522;margin-left:1px;" data-toggle="dropdown"><i class="fa fa-sort"></i>
+                           <div class="dropdown-menu" id="sortOptionsContainer" style="position: absolute;">
+                              <?php if(isset($_GET['min']) && isset($_GET['q'])){
+                                 $q = $_GET['q'];
+                                 $min = $_GET['min'];
+                                 $max = $_GET['max'];
+                              ?>
+                              <a class="dropdown-item" href="index?q=<?php echo"$q";?>&min=<?php echo"$min";?>&max=<?php echo"$max";?>&s=abc#shoes">ABC</a>
+                              <a class="dropdown-item" href="index?q=<?php echo"$q";?>&min=<?php echo"$min";?>&max=<?php echo"$max";?>&s=pru#shoes">&euro;&uarr;</a>
+                              <a class="dropdown-item" href="index?q=<?php echo"$q";?>&min=<?php echo"$min";?>&max=<?php echo"$max";?>&s=prd#shoes">&euro;&darr;</a>
+                              <?php }else if(isset($_GET['q'])){
+                                 $q = $_GET['q'];
+                              ?>
+                              <a class="dropdown-item" href="index?q=<?php echo"$q";?>&s=abc#shoes">ABC</a>
+                              <a class="dropdown-item" href="index?q=<?php echo"$q";?>&s=pru#shoes">&euro;&uarr;</a>
+                              <a class="dropdown-item" href="index?q=<?php echo"$q";?>&s=prd#shoes">&euro;&darr;</a>
+                              <?php }else if(isset($_GET['min'])){
+                                 $min = $_GET['min'];
+                                 $max = $_GET['max'];
+                              ?>
+                              <a class="dropdown-item" href="index?min=<?php echo"$min";?>&max=<?php echo"$max";?>&s=abc#shoes">ABC</a>
+                              <a class="dropdown-item" href="index?min=<?php echo"$min";?>&max=<?php echo"$max";?>&s=pru#shoes">&euro;&uarr;</a>
+                              <a class="dropdown-item" href="index?min=<?php echo"$min";?>&max=<?php echo"$max";?>&s=prd#shoes">&euro;&darr;</a>
+                              <?php }else{ ?>
+                              <a class="dropdown-item" href="index?s=abc#shoes">ABC</a>
+                              <a class="dropdown-item" href="index?s=pru#shoes">&euro;&uarr;</a>
+                              <a class="dropdown-item" href="index?s=prd#shoes">&euro;&darr;</a>
+                              <?php } ?>
+                           </div>
+                           </span>
+                        </span>
                      </form>
+                           <?php
+                           $sqlmax = "SELECT MAX(prijs) as maxprijs FROM tblartikels";
+                           $resultmax = mysqli_query($mysqli, $sqlmax);
+                           $rowmax = mysqli_fetch_assoc($resultmax);
+                           $maxprijs = $rowmax['maxprijs'];
+
+                           $sqlmin = "SELECT MIN(prijs) as minprijs FROM tblartikels";
+                           $resultmin = mysqli_query($mysqli, $sqlmin);
+                           $rowmin = mysqli_fetch_assoc($resultmin);
+                           $minprijs = $rowmin['minprijs'];
+
+                           if(isset($_GET['q'])){
+                              $q = $_GET['q'];
+                              $sqlmin = "SELECT MIN(prijs) as minprijs FROM tblartikels WHERE artikelnaam LIKE '%$q%'";
+                              $resultmin = mysqli_query($mysqli, $sqlmin);
+                              $rowmin = mysqli_fetch_assoc($resultmin);
+                              $minprijs = $rowmin['minprijs'];
+
+                              $sqlmax = "SELECT MAX(prijs) as maxprijs FROM tblartikels WHERE artikelnaam LIKE '%$q%'";
+                              $resultmax = mysqli_query($mysqli, $sqlmax);
+                              $rowmax = mysqli_fetch_assoc($resultmax);
+                              $maxprijs = $rowmax['maxprijs'];
+                              $maxprijsfinal = $maxprijs;
+
+                              if(isset($_GET['min'])){
+                                 $minprijs = $_GET['min'];
+                                 $maxprijs = $_GET['max'];
+                           }
+                        }
+
+                        if(isset($_GET['min'])){
+                           $minprijs = $_GET['min'];
+                           $maxprijs = $_GET['max'];
+                        }
+
+
+
+                           ?>
+
+                     <div id="filterSection" class="filter-section" style="display:none;">
+                        <form method="GET" action="index#shoes">
+                           <?php if(isset($_GET['q'])){ ?>
+                              <input type="hidden" name="q" value="<?php echo $_GET['q']; ?>">
+                           <?php } ?>
+                           <label for="minPriceRange">Min Price:</label>
+                           <input type="range" id="minPriceRange" name="min" min="<?php echo"$minprijs";?>" max="<?php echo"$maxprijsfinal";?>" value="<?php echo"$minprijs";?>" step="5" oninput="updateMinPriceValue(this.value)">
+                           <span id="minPriceValue"><?php echo"$minprijs";?></span>
+                           <label for="maxPriceRange">Max Price:</label>
+                           <input type="range" id="maxPriceRange" name="max" min="<?php echo"$minprijs";?>" max="<?php echo"$maxprijsfinal";?>" value="<?php echo"$maxprijs";?>" step="5" oninput="updateMaxPriceValue(this.value)">
+                           <span id="maxPriceValue"><?php echo"$maxprijs";?></span>
+                           <button type="submit" class="btn btn-primary" style="background-color: #f26522; border-color:#f26522">Apply Filter</button>
+                        </form>
+                     </div>
                   </div>
                   <div class="header_box">
                      <div class="login_menu">
@@ -149,26 +239,6 @@
             <div class="container">
                <br>
                <h1 id="shoes" class="fashion_taital">Shoes</h1>
-               <span>
-                           <div class="sortBy">
-                     <div class="dropdown">
-                        <button style="border-radius:5px;" class="btn btn-primary sortBtn">Sort by <i style="padding-left: 5px;" class="fa fa-caret-down"></i></button>
-                        <div class="sortOptions">
-                           <?php 
-                           if(isset($_GET['q'])){
-                              echo '<a href="index?q='.$_GET['q'].'&s=al#shoes">Alphabet</a>';
-                              echo '<a href="index?q='.$_GET['q'].'&s=pr#shoes">Price</a>';
-                           }else{
-                              ?>
-                        <a href="index?s=rn#shoes">Alphabet</a>
-                        <a href="index?s=al#shoes">Price</a>
-                        <?php
-                           }
-                        ?>
-                        </div>
-                     </div>
-                  </div>
-               </span>
                <div class="fashion_section_2">
                   <div class="row">
                      <?php
@@ -177,33 +247,66 @@
                         die("Connection failed: " . mysqli_connect_error());
                      }
 
-                     // Fetch shoe data
-                     if(isset($_GET['q'])){
-                        $search = $_GET['q'];
-                        if(isset($_GET['s'])){
-                           if($_GET['s'] == "al"){
-                              $sql = "SELECT artikel_id,artikelnaam, prijs FROM tblartikels WHERE artikelnaam LIKE '%$search%' ORDER BY artikelnaam ASC";
-                           }else if($_GET['s'] == "pr"){
-                              $sql = "SELECT artikel_id,artikelnaam, prijs FROM tblartikels WHERE artikelnaam LIKE '%$search%' ORDER BY prijs ASC";
-                           }else{
-                              $sql = "SELECT artikel_id,artikelnaam, prijs FROM tblartikels WHERE artikelnaam LIKE '%$search%'";
-                           }
-                        }else{
-                           $sql = "SELECT artikel_id,artikelnaam, prijs FROM tblartikels WHERE artikelnaam LIKE '%$search%'";
-                        }
-                     }else{
-                        if(isset($_GET['s'])){
-                           if($_GET['s'] == "al"){
-                              $sql = "SELECT artikel_id,artikelnaam, prijs FROM tblartikels ORDER BY artikelnaam ASC";
-                           }else if($_GET['s'] == "pr"){
-                              $sql = "SELECT artikel_id,artikelnaam, prijs FROM tblartikels ORDER BY prijs ASC";
-                           }else{
-                              $sql = "SELECT artikel_id,artikelnaam, prijs FROM tblartikels";
-                           }
-                        }else{
-                     $sql = "SELECT artikel_id,artikelnaam, prijs FROM tblartikels";
-                        }
+                     
+                     if (isset($_GET['q']) && isset($_GET['min']) && isset($_GET['s'])) {
+                         $q = $_GET['q'];
+                         $min = $_GET['min'];
+                         $max = $_GET['max'];
+                         $s = $_GET['s'];
+                         if ($s == "abc") {
+                             $sql = "SELECT * FROM tblartikels WHERE artikelnaam LIKE '%$q%' AND prijs BETWEEN $min AND $max ORDER BY artikelnaam ASC";
+                         } else if ($s == "pru") {
+                             $sql = "SELECT * FROM tblartikels WHERE artikelnaam LIKE '%$q%' AND prijs BETWEEN $min AND $max ORDER BY prijs ASC";
+                         } else if ($s == "prd") {
+                             $sql = "SELECT * FROM tblartikels WHERE artikelnaam LIKE '%$q%' AND prijs BETWEEN $min AND $max ORDER BY prijs DESC";
+                         }
+                     } else if (isset($_GET['q']) && isset($_GET['min'])) {
+                         $q = $_GET['q'];
+                         $min = $_GET['min'];
+                         $max = $_GET['max'];
+                         $sql = "SELECT * FROM tblartikels WHERE artikelnaam LIKE '%$q%' AND prijs BETWEEN $min AND $max";
+                     } else if (isset($_GET['q']) && isset($_GET['s'])) {
+                         $q = $_GET['q'];
+                         $s = $_GET['s'];
+                         if ($s == "abc") {
+                             $sql = "SELECT * FROM tblartikels WHERE artikelnaam LIKE '%$q%' ORDER BY artikelnaam ASC";
+                         } else if ($s == "pru") {
+                             $sql = "SELECT * FROM tblartikels WHERE artikelnaam LIKE '%$q%' ORDER BY prijs ASC";
+                         } else if ($s == "prd") {
+                             $sql = "SELECT * FROM tblartikels WHERE artikelnaam LIKE '%$q%' ORDER BY prijs DESC";
+                         }
+                     } else if (isset($_GET['q'])) {
+                         $q = $_GET['q'];
+                         $sql = "SELECT * FROM tblartikels WHERE artikelnaam LIKE '%$q%'";
+                     } else if (isset($_GET['min']) && isset($_GET['s'])) {
+                         $min = $_GET['min'];
+                         $max = $_GET['max'];
+                         $s = $_GET['s'];
+                         if ($s == "abc") {
+                             $sql = "SELECT * FROM tblartikels WHERE prijs BETWEEN $min AND $max ORDER BY artikelnaam ASC";
+                         } else if ($s == "pru") {
+                             $sql = "SELECT * FROM tblartikels WHERE prijs BETWEEN $min AND $max ORDER BY prijs ASC";
+                         } else if ($s == "prd") {
+                             $sql = "SELECT * FROM tblartikels WHERE prijs BETWEEN $min AND $max ORDER BY prijs DESC";
+                         }
+                     } else if (isset($_GET['min'])) {
+                         $min = $_GET['min'];
+                         $max = $_GET['max'];
+                         $sql = "SELECT * FROM tblartikels WHERE prijs BETWEEN $min AND $max";
+                     } else if (isset($_GET['s'])) {
+                         $s = $_GET['s'];
+                         if ($s == "abc") {
+                             $sql = "SELECT * FROM tblartikels ORDER BY artikelnaam ASC";
+                         } else if ($s == "pru") {
+                             $sql = "SELECT * FROM tblartikels ORDER BY prijs ASC";
+                         } else if ($s == "prd") {
+                             $sql = "SELECT * FROM tblartikels ORDER BY prijs DESC";
+                         }
+                     } else {
+                         $sql = "SELECT * FROM tblartikels";
                      }
+
+                     
                      $result = mysqli_query($mysqli, $sql);
 
                      if (mysqli_num_rows($result) > 0) {
@@ -220,7 +323,12 @@
                            }
 
                         }
-                        $sql3 = "SELECT v.directory from tblartikels a, tblvariatie v where a.artikel_id = v.artikel_id and a.artikel_id = '" . $row['artikel_id'] . "'  AND v.variatie_id = '1'";
+                        $sql3 = "SELECT v.directory 
+                                 FROM tblartikels a, tblvariatie v 
+                                 WHERE a.artikel_id = v.artikel_id 
+                                 AND a.artikel_id = '" . $row['artikel_id'] . "' 
+                                 ORDER BY v.variatie_id ASC 
+                                 LIMIT 1";
                         $result3 = mysqli_query($mysqli, $sql3);
                         $row3 = mysqli_fetch_assoc($result3);
                         $row['directory'] = $row3['directory'];
@@ -286,5 +394,67 @@
          </div>
       </div>
       <!-- copyright section end -->
+      <script>
+         document.getElementById("filterBtn").onclick = function(event) {
+            event.stopPropagation();
+            var filterSection = document.getElementById("filterSection");
+            var bannerTitle = document.querySelector("h1.banner_taital");
+            var bannerSection = document.querySelector("div.banner_section.layout_padding");
+            if (filterSection.style.display === "none" || filterSection.style.display === "") {
+               filterSection.style.display = "block";
+               bannerTitle.style.display = "none";
+               bannerSection.style.display = "none";
+            } else {
+               filterSection.style.display = "none";
+               bannerTitle.style.display = "block";
+               bannerSection.style.display = "block";
+            }
+         };
+
+         document.getElementById("sortBtn").onclick = function(event) {
+            event.stopPropagation();
+            var sortOptionsContainer = document.getElementById("sortOptionsContainer");
+            if (sortOptionsContainer.classList.contains("show")) {
+                sortOptionsContainer.classList.remove("show");
+            } else {
+                sortOptionsContainer.classList.add("show");
+            }
+         };
+
+         document.addEventListener("click", function(event) {
+            var filterSection = document.getElementById("filterSection");
+            var filterBtn = document.getElementById("filterBtn");
+            var sortOptionsContainer = document.getElementById("sortOptionsContainer");
+            var sortBtn = document.getElementById("sortBtn");
+            if (!filterSection.contains(event.target) && !filterBtn.contains(event.target)) {
+               filterSection.style.display = "none";
+               document.querySelector("h1.banner_taital").style.display = "block";
+               document.querySelector("div.banner_section.layout_padding").style.display = "block";
+            }
+            if (!sortOptionsContainer.contains(event.target) && !sortBtn.contains(event.target)) {
+                sortOptionsContainer.classList.remove("show");
+            }
+         });
+
+         function updateMinPriceValue(value) {
+            var maxPriceRange = document.getElementById("maxPriceRange");
+            if (parseInt(value) > parseInt(maxPriceRange.value)) {
+               maxPriceRange.value = value;
+               document.getElementById("maxPriceValue").innerText = value;
+            }
+            document.getElementById("minPriceValue").innerText = value;
+         }
+
+         function updateMaxPriceValue(value) {
+            var minPriceRange = document.getElementById("minPriceRange");
+            if (parseInt(value) < parseInt(minPriceRange.value)) {
+               minPriceRange.value = value;
+               document.getElementById("minPriceValue").innerText = value;
+            }
+            document.getElementById("maxPriceValue").innerText = value;
+         }
+      </script>
+   </body>
+</html>
    </body>
 </html>

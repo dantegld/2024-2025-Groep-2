@@ -165,8 +165,10 @@ include 'functies/adminSideMenu.php';
                 $telefoonnummer = $_POST['telefoonnummer'];
                 $schoenmaat = $_POST['schoenmaat'];
                 $type = $_POST['type'];
-                $updateQuery = "UPDATE tblklant SET klantnaam = '$klantnaam', email = '$email', telefoonnummer = '$telefoonnummer', schoenmaat = '$schoenmaat', type = '$type' WHERE klant_id = '$klant_id'";
+                $updateQuery = "UPDATE tblklant SET klantnaam = '$klantnaam', email = '$email', telefoonnummer = '$telefoonnummer', schoenmaat = '$schoenmaat' WHERE klant_id = '$klant_id'";
                 $updateResult = $mysqli->query($updateQuery);
+                $updateTypeQuery = "UPDATE tblklant SET type_id = '$type' WHERE klant_id = '$klant_id'";
+                $updateTypeResult = $mysqli->query($updateTypeQuery);
                 if ($updateResult) {
                     echo "<div class='message success'>The customer with ID $klant_id has been updated successfully.</div>";
                 } else {

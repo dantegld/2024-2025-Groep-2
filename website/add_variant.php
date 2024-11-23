@@ -50,6 +50,12 @@ include 'functies/functies.php';
 controleerAdmin();
 include 'functies/adminSideMenu.php';
 ?>
+<style>
+    option:hover {
+        color: #ffffff;
+    }
+</style>
+
 
 
 <?php
@@ -110,7 +116,7 @@ $artikel_id = $_GET['artikel_id'];
             $kleur_sql = "SELECT * FROM tblkleur";
             $kleur_result = $mysqli->query($kleur_sql);
             while ($kleur_row = $kleur_result->fetch_assoc()) {
-                echo '<option value="' . $kleur_row['kleur_id'] . '">' . $kleur_row['kleur'] . '</option>';
+                echo '<option style="background-color:'. $kleur_row['HEX'] . '" value="' . $kleur_row['kleur_id'] . '">' . $kleur_row['kleur'] . '</option>';
             }
             ?>
         </select><br>
