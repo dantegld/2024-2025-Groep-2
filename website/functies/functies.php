@@ -250,3 +250,33 @@ function announcement()
    // Sluit de databaseverbinding
    $mysqli->close();
 }
+function recensiePakken($klant_id)
+{
+   include 'connect.php';
+  $sql = "SELECT * FROM tblrecensies WHERE klant_id = ?";
+  $stmt = $mysqli->prepare($sql);
+  $stmt->bind_param("i", $klant_id);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  return $result;
+}
+
+// Functie om een recensie goed te keuren
+function recensieGoedkeuren($recensie_id) {
+   include 'connect.php';
+   $sql = "UPDATE tblrecensies SET goedGekeurd = 1 WHERE recensie_id = ?";
+   $stmt = $mysqli->prepare($sql);
+   $stmt->bind_param("i", $recensie_id);
+   $stmt->execute();
+   $stmt->close();
+}
+
+// recensie toevoegen
+function recensieToevoegen($klant_id, $artikel_id, $rating, $text) {
+   include 'connect.php';
+   $sql = "INSERT INTO tblrecensies (text, rating, klant_id, artikel_id, goedGekeurd) VALUES (?, ?, ?, ?, 0)";
+   $stmt = $mysqli->prepare($sql);
+   $stmt->bind_param("siii", $text, $rating, $klant_id, $artikel_id);
+   $stmt->execute();
+   $stmt->close();
+}
