@@ -167,7 +167,7 @@ include 'functies/adminSideMenu.php';
     $result = $mysqli->query($query);
     if ($result->num_rows > 0) {
         echo "<table border='1'>";
-        echo "<tr><th>Product ID</th><th>Product name</th><th class='price-column'>Price</th><th>Brand</th><th>Category</th><th>Action</th><th>Variations</th><th>Delete</th></tr>";
+        echo "<tr><th>Product ID</th><th>Product name</th><th class='price-column'>Price</th><th>Total Views</th><th>Brand</th><th>Category</th><th>Action</th><th>Variations</th><th>Delete</th></tr>";
         while ($row = $result->fetch_assoc()) {
             // Fetch all brands
             $brandQuery = "SELECT * FROM tblmerk";
@@ -182,6 +182,7 @@ include 'functies/adminSideMenu.php';
             echo "<td>" . $row['artikel_id'] . "</td>";
             echo "<td><input type='text' name='artikelnaam' value='" . $row['artikelnaam'] . "' /></td>";
             echo "<td class='price-column'><input type='number' name='prijs' value='" . $row['prijs'] . "' /></td>";
+            echo '<td>' . $row['viewcount'] . '</td>';
 
             // Brand dropdown
             echo "<td><select name='merk_id'>";
