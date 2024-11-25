@@ -256,8 +256,7 @@ function announcement()
       }
    }
    // Sluit de databaseverbinding
-   $mysqli->close();
-}
+   
 
 function recensiePakken($klant_id)
 {

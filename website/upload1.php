@@ -24,33 +24,6 @@ if(isset($_POST["submit"])){
     $stmt->execute();
     $result = $stmt->get_result();
 
-    $mail = new PHPMailer(true);
-
-    while ($row = $result->fetch_assoc()) {
-        try {
-            $email = $row['email'];
-            $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';  
-            $mail->SMTPAuth = true;
-            $mail->Username = 'contactmyshoes2800@gmail.com';  
-            $mail->Password = 'pztvrfzhcksiqzhq';
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = 587;  
-
-            $mail->setFrom('contactmyshoes2800@gmail.com', 'My Shoes');  
-            $mail->addAddress($email);  
-            $mail->Subject = 'Nieuw Artikel Online';
-            $mail->Body    = 'Er is een nieuw artikel online, https://myshoes.zoobagogo.com/productpagina?id=' . $artikel_id;
-
-            $mail->send();
-            $message = 'Er is een notificatie naar je e-mail gestuurd. Controleer je inbox!';
-            $message_class = 'success';
-        } catch (Exception $e) {
-            $message = "Er is iets misgegaan bij het verzenden van de e-mail. Mailer Error: {$mail->ErrorInfo}";
-            $message_class = 'error';
-        }
-    }
-
     header("Location: aanpassen");
 }
 ?>
