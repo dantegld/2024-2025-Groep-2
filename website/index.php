@@ -49,9 +49,9 @@
          $stmt->execute();
          $result = $stmt->get_result();
          $row = $result->fetch_assoc();
-         $type = $row['type'];
+         $_SESSION['type'] = $row['type'];
          }else{
-         $type = "guest";
+         $_SESSION['type'] = "guest";
          }
          onderhoudsModus();
       ?>
@@ -201,10 +201,17 @@
                               <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                               <span class="padding_5">Cart</span></a>
                            </li>
+                           <!--recensie toevoegen ---->
+                           <li><a href="recensieToevoegen.php?id=<?php echo $row['artikel_id']; ?>">
+                              <i class="fa fa-comment" aria-hidden="true"></i>
+                              <span class="padding_5">Add Review</span></a>
+                           </li>
                            <?php
                            //Als de klant is ingelogd, laat de knop "My Profile" zien, anders laat de knop "Log-In" zien
+
                            if ($type == "customer" || $type == "admin"){
                               echo '<li><a href="profile">
+
                                     <i class="fa fa-user" aria-hidden="true"></i>
                                     <span class="padding_5">My Profile</span></a>
                                     </li>';
@@ -325,8 +332,10 @@
                            echo '      <p class="price_text">Price:  <span style="color: #262626;">$' . htmlspecialchars($row["prijs"]) . '</span></p>';
                            echo '      <div class="tshirt_img"><img src="' . htmlspecialchars($row["directory"]) . '"></div>';
                            echo '      <div class="btn_main">';
+
                            if($type == "guest") {
                               echo '         <div class="wishlist_bt"><a href="login"><i class="fa fa-heart-o" aria-hidden="true"></i></a></div>';
+
                            } else {
                            if ($wishlist) {
                               echo '         <div class="wishlist_bt"><a href="wishlistCalc?id='. $row['artikel_id'].'"><i class="fa fa-heart" aria-hidden="true"></i></a></div>';

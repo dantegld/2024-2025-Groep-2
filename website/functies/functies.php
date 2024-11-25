@@ -185,6 +185,14 @@ function announcement()
           </div>
           </div>';
 
+
+    $mysqli->close();
+
+    
+}
+
+
+//recenties pakken
          // JavaScript functie om de popup te sluiten
          echo '<script>
          function closePopup() {
@@ -250,6 +258,7 @@ function announcement()
    // Sluit de databaseverbinding
    $mysqli->close();
 }
+
 function recensiePakken($klant_id)
 {
    include 'connect.php';
