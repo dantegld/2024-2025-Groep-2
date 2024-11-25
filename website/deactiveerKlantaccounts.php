@@ -70,7 +70,7 @@
    tr:nth-child(even) {
        background-color: #f2f2f2;
    }
-   input[type="submit"] {
+   input[type="submit"].delete {
        background-color: #ff4d4d;
        color: white;
        border: none;
@@ -80,8 +80,20 @@
        font-size: 14px;
        transition: background-color 0.3s ease;
    }
-   input:hover {
-       background-color: #e60000;
+    input[type="submit"].edit {
+         background-color: #007BFF;
+         color: white;
+         border: none;
+         padding: 10px 15px;
+         cursor: pointer;
+         border-radius: 5px;
+         font-size: 14px;
+         transition: background-color 0.3s ease;
+    }
+   input{
+    border: none;
+    text-align: center;
+    background-color: transparent;
    }
    .message {
        text-align: center;
@@ -144,35 +156,65 @@ include 'functies/adminSideMenu.php';
                 echo "<div class='message error'>Not all data has been provided</div>";
             }
         }
+
+        if (isset($_POST['aanpassen'])) {
+            if (isset($_POST['klant_id'], $_POST['klantnaam'], $_POST['email'], $_POST['telefoonnummer'], $_POST['schoenmaat'], $_POST['type'])) {
+                $klant_id = $_POST['klant_id'];
+                $klantnaam = $_POST['klantnaam'];
+                $email = $_POST['email'];
+                $telefoonnummer = $_POST['telefoonnummer'];
+                $schoenmaat = $_POST['schoenmaat'];
+                $type = $_POST['type'];
+                $updateQuery = "UPDATE tblklant SET klantnaam = '$klantnaam', email = '$email', telefoonnummer = '$telefoonnummer', schoenmaat = '$schoenmaat' WHERE klant_id = '$klant_id'";
+                $updateResult = $mysqli->query($updateQuery);
+                $updateTypeQuery = "UPDATE tblklant SET type_id = '$type' WHERE klant_id = '$klant_id'";
+                $updateTypeResult = $mysqli->query($updateTypeQuery);
+                if ($updateResult) {
+                    echo "<div class='message success'>The customer with ID $klant_id has been updated successfully.</div>";
+                } else {
+                    echo "<div class='message error'>An error occurred while updating the customer.</div>";
+                }
+            } else {
+                echo "<div class='message error'>Not all data has been provided.</div>";
+            }
+        }
+
         $myKlantID = $_SESSION['klant_id'];
-    $query = "SELECT * FROM tblklant WHERE NOT klant_id = '$myKlantID'";
+    $query = "SELECT * FROM tblklant,tbltypes WHERE NOT klant_id = '$myKlantID' and tblklant.type_id = tbltypes.type_id";
     $result = $mysqli->query($query);
     if ($result->num_rows > 0) {
         echo "<table border='1'>";
-        echo "<tr><th>Customer ID</th><th>Customer name</th><th>E-mail</th><th>Phone number</th><th>Shoe size</th><th>Type</th><th>Action</th></tr>";
+        echo "<tr><th>Customer ID</th><th>Customer name</th><th>E-mail</th><th>Phone number</th><th>Shoe size</th><th>Type</th><th>Action</th><th>Delete</th></tr>";
         while ($row = $result->fetch_assoc()) {
             // Start the form here
+            $typesql = "SELECT * FROM tbltypes";
+            $typeresult = $mysqli->query($typesql);
             echo "<tr>";
-            echo "<form method='POST' action=''>"; // Make sure action is set correctly
+            echo "<form method='POST' action='deactiveerKlantaccounts.php'>"; // Make sure action is set correctly
 
          
             echo "<td>" . $row['klant_id'] . "</td>";
-            echo "<td>" . $row['klantnaam'] . "</td>";
-            echo "<td>" . $row['email'] . "</td>";
-            echo "<td>" . $row['telefoonnummer'] . "</td>";
-            echo "<td>" . $row['schoenmaat'] . "</td>";
-            echo "<td>" . $row['type'] . "</td>";
+            echo "<td><input type='text' name='klantnaam' value='" . $row['klantnaam'] . "' /></td>";
+            echo "<td><input type='email' name='email' value='" . $row['email'] . "' /></td>";
+            echo "<td><input type='text' name='telefoonnummer' value='" . $row['telefoonnummer'] . "' /></td>";
+            echo "<td><input type='number' name='schoenmaat' value='" . $row['schoenmaat'] . "' /></td>";
+            
+            echo "<td><select class='selectTable' name='type'>";
+            while ($typerow = $typeresult->fetch_assoc()) {
+                echo "<option value='" . $typerow['type_id'] . "'";
+                if ($typerow['type_id'] == $row['type_id']) {
+                    echo " selected";
+                }
+                echo ">" . $typerow['type'] . "</option>";
+            }
             echo "<td>
-                      <input type='hidden' name='klant_id' value='" . $row['klant_id'] . "' />
-                      <input type='hidden' name='klantnaam' value='" . $row['klantnaam'] . "' /> <!-- Added hidden fields -->
-                      <input type='hidden' name='email' value='" . $row['email'] . "' />
-                      <input type='hidden' name='wachtwoord' value='" . $row['wachtwoord'] . "' />
-                      <input type='hidden' name='telefoonnummer' value='" . $row['telefoonnummer'] . "' />
-                      <input type='hidden' name='schoenmaat' value='" . $row['schoenmaat'] . "' />
-                      <input type='hidden' name='type' value='" . $row['type'] . "' />
-
-                      <input type='submit' name='verwijderen' value='Delete' />
-                  </td>";
+                          <input type='hidden' name='klant_id' value='" . $row['klant_id'] . "' />
+                          <input class='edit' type='submit' name='aanpassen' value='Adjust' />
+                      </td>";
+            echo "<td>
+                          <input type='hidden' name='klant_id' value='" . $row['klant_id'] . "' />
+                          <input class='delete' type='submit' name='verwijderen' value='Delete' />
+                      </td>";
             echo "</form>"; // End the form here
             echo "</tr>";
         }

@@ -145,7 +145,7 @@
     echo '</tr>';
     while ($row = $result->fetch_assoc()) {
         echo '<tr>';
-        echo "<form method='POST' action='stock.php?artikel_id=" . $artikel_id. '&variatie_id='. $variatie_id . "'>";
+        echo "<form method='POST' action='stock?artikel_id=" . $artikel_id. '&variatie_id='. $variatie_id . "'>";
         echo '<td>' . $row['stock_id'] . '</td>';
         echo '<td>' . $row['artikelnaam'] . ' ' . $row['kleur'] . '</td>';
         echo '<td>' . $row['schoenmaat'] . '</td>';

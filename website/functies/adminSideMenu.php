@@ -3,15 +3,20 @@
 
 echo '
 <div class="sidemenu">
-<a href="index.php">Home</a>
-<a href="admin.php">Admin Page</a>
-<a href="adminonderhoud.php">Maintance Mode</a>
-<a href="aanpassen.php">Products</a>
-<a href="deactiveerKlantaccounts.php">Customers</a>
-<a href="registrerenAdmin.php">Add new customer</a>
-<a href="betaalmethodes.php">Payement methods</a>
-<a href="schoenenToevoegen.php">Add new products</a>
-<a href="socials.php">Socials</a>
+<a href="index">Home</a>
+<a href="admin">Admin Page</a>
+<a href="adminonderhoud">Maintance Mode</a>
+<a href="aanpassen">Products</a>
+<a href="deactiveerKlantaccounts">Customers</a>
+<a href="registrerenAdmin">Add new customer</a>
+<a href="betaalmethodes">Payement methods</a>
+<a href="schoenenToevoegen">Add new products</a>
+<a href="socials">Socials</a>
+<a href="announcement">Announcements</a>
+<a href="categoriesandbrands">Brands and categories</a>
+<a href="bezorgopties">Delivery options</a>
+<a href= "promo">Promo Codes</a>
+<a href="view">View count</a>
 </div>';
 
 ?>

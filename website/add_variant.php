@@ -50,6 +50,12 @@ include 'functies/functies.php';
 controleerAdmin();
 include 'functies/adminSideMenu.php';
 ?>
+<style>
+    option:hover {
+        color: #ffffff;
+    }
+</style>
+
 
 
 <?php
@@ -82,7 +88,7 @@ if (isset($_POST['add_variatie'])) {
             
             // Close the statement
             $stmt->close();
-            header("Location: variaties.php?artikel_id=" . $artikel_id);
+            header("Location: variaties?artikel_id=" . $artikel_id);
         } else {
             echo "Er was een probleem met het uploaden van de afbeelding.";
         }
@@ -102,7 +108,7 @@ $artikel_id = $_GET['artikel_id'];
     $row1 = $result1->fetch_assoc();
     echo "<p>For " . $row1['artikelnaam'] . "</p>";
     ?>
-    <form action="add_variant.php" method="POST" enctype="multipart/form-data">
+    <form action="add_variant" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="artikel_id" value="<?php echo $artikel_id; ?>">
         <label for="kleur_id">Kleur:</label>
         <select name="kleur_id" required>
@@ -110,7 +116,7 @@ $artikel_id = $_GET['artikel_id'];
             $kleur_sql = "SELECT * FROM tblkleur";
             $kleur_result = $mysqli->query($kleur_sql);
             while ($kleur_row = $kleur_result->fetch_assoc()) {
-                echo '<option value="' . $kleur_row['kleur_id'] . '">' . $kleur_row['kleur'] . '</option>';
+                echo '<option style="background-color:'. $kleur_row['HEX'] . '" value="' . $kleur_row['kleur_id'] . '">' . $kleur_row['kleur'] . '</option>';
             }
             ?>
         </select><br>

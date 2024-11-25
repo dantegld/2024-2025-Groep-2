@@ -137,9 +137,9 @@
 
                     $methode_id = $row['methode_id'];
                     if ($row['actief'] == 1) {
-                        echo '<td><a href="betaalmethodeDeactiveren.php?id=' . $methode_id . '">Deactivate</a></td>';
+                        echo '<td><a href="betaalmethodeDeactiveren?id=' . $methode_id . '">Deactivate</a></td>';
                     } else {
-                        echo '<td><a href="betaalmethodeActiveren.php?id=' . $methode_id . '">Activate</a></td>';
+                        echo '<td><a href="betaalmethodeActiveren?id=' . $methode_id . '">Activate</a></td>';
                     }
                     echo '</tr>';
                 }

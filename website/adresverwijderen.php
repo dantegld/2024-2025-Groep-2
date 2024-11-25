@@ -9,9 +9,9 @@ if (isset($_GET['adres_id'])) {
     $id = $_GET['adres_id'];
     $sql = "DELETE FROM tbladres WHERE adres_id = $id and klant_id = $klant_id";
     $mysqli->query($sql);
-    header('Location: profile.php');
+    header('Location: profile');
 } else {
-header('Location: profile.php');
+header('Location: profile');
     
 }
 

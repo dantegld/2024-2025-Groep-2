@@ -1,0 +1,11 @@
+#sends to error page instead of default when non existin file is trying to be accessed
+ErrorDocument 404 /error.php
+
+#deletes file extentions (change php to html when using html file)
+ReWriteEngine on
+ReWriteCond %{REQUEST_FILENAME} !-d
+ReWriteCond %{REQUEST_FILENAME}.php -f
+ReWriteRule ^(.*)$ $1.php
+
+
+

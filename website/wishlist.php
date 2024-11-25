@@ -164,9 +164,9 @@ if (isset($_SESSION["klant_id"])) {
             
             echo '<tr id="product-' . $row['artikel_id'] . '">';
             echo '<td><img src="' . $row["directory"] . '" alt="' . $row["artikelnaam"] . '"></td>';
-            echo '<td><a href="productpagina.php?id=' . $row["artikel_id"] . '&variatie_id=' . $row["variatie_id"] . '">' . $row["artikelnaam"] . '<br>' . $row["kleur"] . '</a></td>';
+            echo '<td><a href="productpagina?id=' . $row["artikel_id"] . '&variatie_id=' . $row["variatie_id"] . '">' . $row["artikelnaam"] . '<br>' . $row["kleur"] . '</a></td>';
             echo '<td>&euro;<span id="price-' . $row['artikel_id'] . '">' . number_format($row["prijs"], 2) . '</span></td>';
-            echo '<td><a href="verwijderWishlist.php?id=' . $row['wishlist_id'] . '"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a></td>';
+            echo '<td><a href="verwijderWishlist?id=' . $row['wishlist_id'] . '"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a></td>';
             echo '</tr>';
         }
 

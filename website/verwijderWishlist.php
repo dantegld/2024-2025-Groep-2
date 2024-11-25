@@ -8,8 +8,8 @@ if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $sql = "DELETE FROM tblwishlist WHERE wishlist_id = " . $id . "";
     $mysqli->query($sql);
-    header('Location: wishlist.php');
+    header('Location: wishlist');
 } else {
     echo '<h4>Er is iets fout gegaan</h4>';
-    echo '<a href="wishlist.php">Go back to wishlist</a>';
+    echo '<a href="wishlist">Go back to wishlist</a>';
 }

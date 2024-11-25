@@ -62,13 +62,13 @@
     $result1 = $mysqli->query($sql1);
     if ($result1->num_rows > 0) {
         echo "Maintance mode is enabled<br>";
-            echo "<form action='adminonderhoud.php' method='post'>
+            echo "<form action='adminonderhoud' method='post'>
         <input type='submit' name='off' value='Disable maintance mode'><br>
             </form>";
 
     } else {
         echo "Maintance mode is disabled<br>";
-        echo "<form action='adminonderhoud.php' method='post'>
+        echo "<form action='adminonderhoud' method='post'>
         <input type='submit' name='on' value='Enable maintance mode '><br>
             </form>";
     }
@@ -79,7 +79,7 @@
         $sql = "UPDATE tbladmin SET functiewaarde = 1 WHERE functienaam = 'onderhoudmodus'";
         $result = $mysqli->query($sql);
         if ($result) {
-            header("Refresh: 1; url=adminonderhoud.php");
+            header("Refresh: 1; url=adminonderhoud");
         } else {
             echo "Failed to turn on maintenance mode";
         }

@@ -74,13 +74,13 @@
                         $adres = $_POST['adres'];
                         $sql2 = "INSERT INTO tbladres (adres_id, klant_id, adres, postcode_id) VALUES ('$adres_id', '$klant_id', '$adres', '$postcode_id')";
                         $mysqli->query($sql2);
-                        Header("Location: profile.php");
+                        Header("Location: profile");
                     }else {
                         //php form
                         ?>
                         <div class='loginForm'>
                         <?php
-                                            echo' <form action="adrestoevoegen.php" method="post">
+                                            echo' <form action="adrestoevoegen" method="post">
                                             <label>Address:</label><br>
                                             <input type="text"  class="form-control" name="adres" id="adres" required><br>
                                             <label>City code:</label><br>

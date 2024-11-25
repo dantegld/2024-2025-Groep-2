@@ -135,9 +135,9 @@
 
                     $socialmedia_id = $row['socialmedia_id'];
                     if ($row['beschikbaar'] == 1) {
-                        echo '<td><a href="socialDeactiveren.php?id=' . $socialmedia_id . '">Deactivate</a></td>';
+                        echo '<td><a href="socialDeactiveren?id=' . $socialmedia_id . '">Deactivate</a></td>';
                     } else {
-                        echo '<td><a href="socialActiveren.php?id=' . $socialmedia_id . '">Activate</a></td>';
+                        echo '<td><a href="socialActiveren?id=' . $socialmedia_id . '">Activate</a></td>';
                     }
                     echo '</tr>';
                 }

@@ -129,9 +129,9 @@
         echo '<tr>';
         echo '<td>' . $row['variatie_id'] . '</td>';
         echo '<td>' . $row['artikelnaam'] . ' ' . $row['kleur'] . '</td>';
-        echo '<td><a class="btn btn-primary" href="fotos.php?artikel_id=' . $artikel_id . '&variatie_id='.$row['variatie_id']. '">Adjust Photo</td>';
-        echo '<td><a class="btn btn-primary" href="stock.php?artikel_id=' . $artikel_id . '&variatie_id='.$row['variatie_id']. '">Manage Stock</td>';
-        echo '<td><a href="delete_variant.php?artikel_id=' . $artikel_id . '&variatie_id='.$row['variatie_id']. '"><i class="fa fa-trash lg" aria-hidden="true"></i></td>';
+        echo '<td><a class="btn btn-primary" href="fotos?artikel_id=' . $artikel_id . '&variatie_id='.$row['variatie_id']. '">Adjust Photo</td>';
+        echo '<td><a class="btn btn-primary" href="stock?artikel_id=' . $artikel_id . '&variatie_id='.$row['variatie_id']. '">Manage Stock</td>';
+        echo '<td><a href="delete_variant?artikel_id=' . $artikel_id . '&variatie_id='.$row['variatie_id']. '"><i class="fa fa-trash lg" aria-hidden="true"></i></td>';
         echo '</tr>';
     }
     echo '</table>';
@@ -139,6 +139,6 @@
     echo '<br>';
     echo '<br>';
     
-    echo '<a class="btn btn-primary" href="add_variant.php?artikel_id=' . $artikel_id . '">Add new variation</a>';
+    echo '<a class="btn btn-primary" href="add_variant?artikel_id=' . $artikel_id . '">Add new variation</a>';
     echo '</div>';
     ?>

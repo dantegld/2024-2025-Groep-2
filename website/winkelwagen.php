@@ -173,7 +173,7 @@ if (isset($_SESSION["klant_id"])) {
             
             echo '<tr id="product-' . $row['artikel_id'] . '">';
             echo '<td><img src="' . $row["directory"] . '" alt="' . $row["artikelnaam"] . '"></td>';
-            echo '<td><a href="productpagina.php?id=' . $row["artikel_id"] . '&variatie_id=' . $row["variatie_id"] . '">' . $row["artikelnaam"] . '<br>' . $row["kleur"] . '</a></td>';
+            echo '<td><a href="productpagina?id=' . $row["artikel_id"] . '&variatie_id=' . $row["variatie_id"] . '">' . $row["artikelnaam"] . '<br>' . $row["kleur"] . '</a></td>';
             echo '<td>
                     <button class="quantity-btn" onclick="updateQuantity(' . $row['artikel_id'] . ', \'decrease\')">-</button>
                     <span id="quantity-' . $row['artikel_id'] . '">' . $row["aantal"] . '</span>
@@ -206,7 +206,7 @@ if (isset($_SESSION["klant_id"])) {
             <option value="50"' . ($row["schoenmaat"] == 50 ? ' selected' : '') . '>50</option>
         </select>
           </td>';
-          echo '<td><a href="verwijderenWinkelwagen.php?id=' . $row['id'] . '"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a></td>';
+          echo '<td><a href="verwijderenWinkelwagen?id=' . $row['id'] . '"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></a></td>';
             echo '</tr>';
         }
 
@@ -216,7 +216,34 @@ if (isset($_SESSION["klant_id"])) {
         echo '<div class="cart-total">Total Price: &euro;<span id="total-price">' . number_format($totalePrijs, 2) . '</span></div>';
         $_SESSION['total_price'] = number_format($totalePrijs, 2);
         echo '<br>';
-        echo ' <div class= "pay"><a href="betalen.php" class="btn btn-primary">Checkout</a></div>';
+
+        // Fetch active delivery options
+        $sql = "SELECT * FROM tblbezorgopties WHERE actief = 1";
+        $result = $mysqli->query($sql);
+        if ($result->num_rows > 0) {
+            echo '<div class="delivery-options">';
+            echo '<label for="delivery-option">Choose a delivery option:</label> <br>';
+            echo '<select id="delivery-option" name="delivery_option">';
+            while ($row = $result->fetch_assoc()) {
+                echo '<option value="' . $row['methode_id'] . '">' . $row['methodenaam'] . '</option>';
+            }
+            echo '</select>';
+            echo '</div>';
+        }
+
+        // Check if home delivery is active
+        $sql = "SELECT * FROM tblbezorgopties WHERE methodenaam = 'Laten leveren' AND actief = 1";
+        $result = $mysqli->query($sql);
+        if ($result->num_rows > 0) {
+            // Fetch address from profile
+            $sql = "SELECT * FROM tbladres WHERE klant_id = '$_SESSION[klant_id]'";
+            $result = $mysqli->query($sql);
+            if ($result->num_rows == 0) {
+                echo '<div class="address-warning">Please <a href="profile">add an address</a> to enable home delivery.</div>';
+            }
+        }
+
+        echo ' <div class= "pay"><a href="betalen" class="btn btn-primary">Checkout</a></div>';
         echo '</div>'; 
     } else {
         echo '<div class="empty-cart">Winkelwagen is empty.</div>';

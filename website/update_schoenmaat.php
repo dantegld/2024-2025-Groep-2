@@ -24,10 +24,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "Error preparing statement: " . $mysqli->error;
         }
     } else {
-        header("Location: winkelwagen.php");
+        header("Location: winkelwagen");
     }
 } else {
-    header("Location: winkelwagen.php");
+    header("Location: winkelwagen");
 }
 
 $mysqli->close();
