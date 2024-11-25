@@ -201,11 +201,7 @@
                               <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                               <span class="padding_5">Cart</span></a>
                            </li>
-                           <!--recensie toevoegen ---->
-                           <li><a href="recensieToevoegen.php?id=<?php echo $row['artikel_id']; ?>">
-                              <i class="fa fa-comment" aria-hidden="true"></i>
-                              <span class="padding_5">Add Review</span></a>
-                           </li>
+                          
                            <?php
                            //Als de klant is ingelogd, laat de knop "My Profile" zien, anders laat de knop "Log-In" zien
 

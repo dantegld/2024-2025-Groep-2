@@ -49,6 +49,10 @@ session_start();
 include 'functies/functies.php';
 controleerAdmin();
 include 'functies/adminSideMenu.php';
+require 'vendor/autoload.php'; 
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 ?>
 <style>
     option:hover {
@@ -69,8 +73,6 @@ if (isset($_POST['add_variatie'])) {
     $count_sql = "SELECT * FROM tblvariatie WHERE artikel_id = '$artikel_id'";
     $count_result = $mysqli->query($count_sql);
     $new_variatie_id = $count_result->num_rows + 1;
-    print_r($new_variatie_id);
-
     // Insert new variation into the database
     $insert_sql = "INSERT INTO tblvariatie (variatie_id, artikel_id, kleur_id, directory) VALUES ('$new_variatie_id', '$artikel_id', '$kleur_id', '$target')";
     if ($mysqli->query($insert_sql) === TRUE) {
@@ -85,30 +87,69 @@ if (isset($_POST['add_variatie'])) {
                 // Execute the statement
                 $stmt->execute();
             }
-            
+
             // Close the statement
             $stmt->close();
-            header("Location: variaties?artikel_id=" . $artikel_id);
+
+            $sql = "SELECT * FROM tblvariatie WHERE artikel_id = '$artikel_id'";
+            $result1 = $mysqli->query($sql);
+            echo $result1->num_rows;
+            echo $sql; 
+            if($result1->num_rows == 1){
+                // Haal alle klanten op met type_id = 2
+                $sql = "SELECT * FROM tblklant WHERE type_id = 2";
+                $stmt = $mysqli->prepare($sql);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                echo $sql;
+
+                $mail = new PHPMailer(true);
+
+                while ($row = $result->fetch_assoc()) {
+                    try {
+                        $email = $row['email'];
+                        $mail->isSMTP();
+                        $mail->Host = 'smtp.gmail.com';  
+                        $mail->SMTPAuth = true;
+                        $mail->Username = 'contactmyshoes2800@gmail.com';  
+                        $mail->Password = 'pztvrfzhcksiqzhq';
+                        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                        $mail->Port = 587;  
+
+                        $mail->setFrom('contactmyshoes2800@gmail.com', 'My Shoes');  
+                        $mail->addBCC($email);  
+                        $mail->Subject = 'Nieuw Artikel Online';
+                        $mail->Body    = 'Er is een nieuw artikel online, https://myshoes.zoobagogo.com/productpagina?id=' . $artikel_id;
+
+                  
+                        $message = 'Er is een notificatie naar je e-mail gestuurd. Controleer je inbox!';
+                        $message_class = 'success';
+                    } catch (Exception $e) {
+                        $message = "Er is iets misgegaan bij het verzenden van de e-mail. Mailer Error: {$mail->ErrorInfo}";
+                        $message_class = 'error';
+                    }
+                }
+                $mail->send();
+            }
         } else {
             echo "Er was een probleem met het uploaden van de afbeelding.";
         }
     } else {
-        echo "Error: " . $insert_sql . "<br>" . $mysqli->error;
+        echo "Er was een probleem met het toevoegen van de variatie.";
     }
 }
-
-$artikel_id = $_GET['artikel_id'];
 ?>
 
 <div class="adminpage">
     <h2>Add New Variant</h2>
-    <?php 
+    <?php
+    $artikel_id = $_GET['artikel_id'];
     $sql1 = "SELECT artikelnaam FROM tblartikels WHERE artikel_id = '$artikel_id'";
     $result1 = $mysqli->query($sql1);
     $row1 = $result1->fetch_assoc();
     echo "<p>For " . $row1['artikelnaam'] . "</p>";
     ?>
-    <form action="add_variant" method="POST" enctype="multipart/form-data">
+    <form action="add_variant?artikel_id=<?php echo $artikel_id ?> " method="POST" enctype="multipart/form-data">
         <input type="hidden" name="artikel_id" value="<?php echo $artikel_id; ?>">
         <label for="kleur_id">Kleur:</label>
         <select name="kleur_id" required>
