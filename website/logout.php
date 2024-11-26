@@ -1,7 +1,3 @@
-<?php
-// Start de sessie.  Begin hier telkens mee op elke pagina!
-session_start();
-?>
 <!DOCTYPE html>
 <html>
 <body>
@@ -9,7 +5,11 @@ session_start();
 <?php
 
 session_start(); 
-session_destroy(); 
+session_destroy();
+if(isset($_GET['delete'])){
+    header("Location: login?delete=1");
+    exit();
+}
 header("Location: login"); 
 
 ?>

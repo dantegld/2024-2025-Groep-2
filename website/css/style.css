@@ -1049,17 +1049,17 @@ btn-danger a:hover {
 .tab4 {
     background-color: white;
     width: 80%;
-    height: 500px;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    flex-direction: column;
+    flex-direction: row;
     margin: 20px;
     padding-bottom: 20px;
 }
 
 .tab4 a {
     color: black;
+    margin: 10px;
 }
 .tab4 a:hover {
     color: black;

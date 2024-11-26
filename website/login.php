@@ -96,6 +96,9 @@
     
     
     else{
+        if(isset($_GET['delete'])){
+            echo '<div class = "error"> Account deleted Succesfully</div>';
+        }
         echo' <form action="login" method="post">
         <label>Username or Email</label>
         <input type="username"  class="form-control" name="username" required><br>
@@ -105,6 +108,7 @@
         </form><br> <br>';
         echo '<div>Dont have an account yet? <a href="register">Register</a></div> <br>';
         echo '<div>Forgot your password? <a href="reset">Forgot password?</a></div>';
+
        
     }
     
