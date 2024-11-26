@@ -1,4 +1,5 @@
 <?php
+//$mysqli = new mysqli("localhost", "root", "", "u578783310_myshoes");
 $mysqli = new mysqli("localhost", "root", "", "u578783310_myshoes");
 
 

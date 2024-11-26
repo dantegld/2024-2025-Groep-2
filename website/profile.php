@@ -39,6 +39,48 @@
        text-align: center;
        margin-top: 20px;
      }
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+.modal-txt{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
    </style>
    </head>
    <body>
@@ -68,6 +110,20 @@ include 'functies/mySideNav.php';
         <div class="tab">
             <p>Shoe size:</p> 
             <?php
+            if(isset($_POST['password'])){
+                $password = $_POST['password'];
+                $sql = "SELECT * FROM tblklant WHERE klant_id = '$_SESSION[klant_id]'";
+                $result = $mysqli->query($sql);
+                while ($row = $result->fetch_assoc()) {
+                    if (password_verify($password, $row['wachtwoord'])) {
+                        $sql = "DELETE FROM tblklant WHERE klant_id = '$_SESSION[klant_id]'";
+                        $mysqli->query($sql);
+                        header("Location: logout.php?delete=1");
+                    } else {
+                        echo "<p class='error-msg'>Password is incorrect!</p>";
+                    }
+                }
+            }
 
                 if(isset($_POST['schoenmaat'])){
                     $schoenmaat = $_POST['schoenmaat'];
@@ -252,12 +308,54 @@ include 'functies/mySideNav.php';
         </form>
     </div>
 </div>
-<div class="tab4"><a class="btn btn-danger" href="logout.php">Logout</a></div><br><br><br>
+<centre>
+    <div class="tab4">
+        <a class="btn btn-danger" href="logout.php">Logout</a>
+        <a id="deleteProfileBtn" class="btn btn-danger" href="profile">Delete Profile</a>
+    </div>
+</centre>
+
+<div id="deleteProfileModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-txt">
+        <div>
+            <p>Are you sure you want to delete your profile? Type your password to continue:</p>
+            <form id="deleteProfileForm" method="POST" action="profile.php">
+            <input type="hidden" name="klant_id" value="<?php echo $klant_id; ?>">
+        </div>
+        <div>
+            <input class="form-control" type="password" name="password" required>
+        </div>
+        <br>
+        <div>
+            <button type="submit" class="btn btn-danger">Delete Profile</button>
+        </div>
+        </form>
+        </div>
+    </div>
+</div>
+<!-- di is delete id -->
+<br><br><br>
 </div>
 
 
 
    <script>
+document.getElementById('deleteProfileBtn').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent the default action
+    document.getElementById('deleteProfileModal').style.display = 'block';
+});
+
+document.querySelector('.close').addEventListener('click', function() {
+    document.getElementById('deleteProfileModal').style.display = 'none';
+});
+
+window.onclick = function(event) {
+    if (event.target == document.getElementById('deleteProfileModal')) {
+        document.getElementById('deleteProfileModal').style.display = 'none';
+    }
+};
          function openNav() {
            document.getElementById("mySidenav").style.width = "250px";
          }
