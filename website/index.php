@@ -100,37 +100,26 @@
                            </button>
                            <span id="filterBtn" class="btn btn-secondary" style="background-color: #f26522; border-color:#f26522;margin-left:1px;"><i class="fa fa-filter"></i></span>
                            <span id="sortBtn" class="btn btn-secondary dropdown-toggle" style="background-color: #f26522; border-color:#f26522;margin-left:1px;" data-toggle="dropdown"><i class="fa fa-sort"></i>
-                           <div class="dropdown-menu" id="sortOptionsContainer" style="position: absolute;">
-                              <?php if(isset($_GET['min']) && isset($_GET['q'])){
-                                 $q = $_GET['q'];
-                                 $min = $_GET['min'];
-                                 $max = $_GET['max'];
-                              ?>
-                              <a class="dropdown-item" href="index?q=<?php echo"$q";?>&min=<?php echo"$min";?>&max=<?php echo"$max";?>&s=trnd#shoes"><i class="fa fa-line-chart" aria-hidden="true"></i></a>
-                              <a class="dropdown-item" href="index?q=<?php echo"$q";?>&min=<?php echo"$min";?>&max=<?php echo"$max";?>&s=abc#shoes">ABC</a>
-                              <a class="dropdown-item" href="index?q=<?php echo"$q";?>&min=<?php echo"$min";?>&max=<?php echo"$max";?>&s=pru#shoes">&euro;&uarr;</a>
-                              <a class="dropdown-item" href="index?q=<?php echo"$q";?>&min=<?php echo"$min";?>&max=<?php echo"$max";?>&s=prd#shoes">&euro;&darr;</a>
-                              <?php }else if(isset($_GET['q'])){
-                                 $q = $_GET['q'];
-                              ?>
-                              <a class="dropdown-item" href="index?q=<?php echo"$q";?>&s=trnd#shoes"><i class="fa fa-line-chart" aria-hidden="true"></i></a>
-                              <a class="dropdown-item" href="index?q=<?php echo"$q";?>&s=abc#shoes">ABC</a>
-                              <a class="dropdown-item" href="index?q=<?php echo"$q";?>&s=pru#shoes">&euro;&uarr;</a>
-                              <a class="dropdown-item" href="index?q=<?php echo"$q";?>&s=prd#shoes">&euro;&darr;</a>
-                              <?php }else if(isset($_GET['min'])){
-                                 $min = $_GET['min'];
-                                 $max = $_GET['max'];
-                              ?>
-                              <a class="dropdown-item" href="index?min=<?php echo"$min";?>&max=<?php echo"$max";?>&s=trnd#shoes"><i class="fa fa-line-chart" aria-hidden="true"></i></a>
-                              <a class="dropdown-item" href="index?min=<?php echo"$min";?>&max=<?php echo"$max";?>&s=abc#shoes">ABC</a>
-                              <a class="dropdown-item" href="index?min=<?php echo"$min";?>&max=<?php echo"$max";?>&s=pru#shoes">&euro;&uarr;</a>
-                              <a class="dropdown-item" href="index?min=<?php echo"$min";?>&max=<?php echo"$max";?>&s=prd#shoes">&euro;&darr;</a>
-                              <?php }else{ ?>
-                              <a class="dropdown-item" href="index?s=trnd#shoes"><i class="fa fa-line-chart" aria-hidden="true"></i></a>
-                              <a class="dropdown-item" href="index?s=abc#shoes">ABC</a>
-                              <a class="dropdown-item" href="index?s=pru#shoes">&euro;&uarr;</a>
-                              <a class="dropdown-item" href="index?s=prd#shoes">&euro;&darr;</a>
-                              <?php } ?>
+                            <div class="dropdown-menu" id="sortOptionsContainer" style="position: absolute;">
+                               <?php
+                               $baseUrl = "index?";
+                               if (isset($_GET['q'])) {
+                                   $baseUrl .= "q=" . $_GET['q'] . "&";
+                               }
+                               if (isset($_GET['min']) && isset($_GET['max'])) {
+                                   $baseUrl .= "min=" . $_GET['min'] . "&max=" . $_GET['max'] . "&";
+                               }
+                               if (isset($_GET['kleur'])) {
+                                   $baseUrl .= "kleur=" . $_GET['kleur'] . "&";
+                               }
+                               if (isset($_GET['merk'])) {
+                                   $baseUrl .= "merk=" . $_GET['merk'] . "&";
+                               }
+                               ?>
+                               <a class="dropdown-item" href="<?php echo $baseUrl; ?>s=trnd#shoes"><i class="fa fa-line-chart" aria-hidden="true"></i></a>
+                               <a class="dropdown-item" href="<?php echo $baseUrl; ?>s=abc#shoes">ABC</a>
+                               <a class="dropdown-item" href="<?php echo $baseUrl; ?>s=pru#shoes">&euro;&uarr;</a>
+                               <a class="dropdown-item" href="<?php echo $baseUrl; ?>s=prd#shoes">&euro;&darr;</a>
                            </div>
                            </span>
                         </span>
@@ -147,29 +136,6 @@
                            $rowmin = mysqli_fetch_assoc($resultmin);
                            $minprijs = $rowmin['minprijs'];
 
-                           if(isset($_GET['q'])){
-                              $q = $_GET['q'];
-                              $sqlmin = "SELECT MIN(prijs) as minprijs FROM tblartikels WHERE artikelnaam LIKE '%$q%'";
-                              $resultmin = mysqli_query($mysqli, $sqlmin);
-                              $rowmin = mysqli_fetch_assoc($resultmin);
-                              $minprijs = $rowmin['minprijs'];
-
-                              $sqlmax = "SELECT MAX(prijs) as maxprijs FROM tblartikels WHERE artikelnaam LIKE '%$q%'";
-                              $resultmax = mysqli_query($mysqli, $sqlmax);
-                              $rowmax = mysqli_fetch_assoc($resultmax);
-                              $maxprijs = $rowmax['maxprijs'];
-                              $maxprijsfinal = $maxprijs;
-
-                              if(isset($_GET['min'])){
-                                 $minprijs = $_GET['min'];
-                                 $maxprijs = $_GET['max'];
-                           }
-                        }
-
-                        if(isset($_GET['min'])){
-                           $minprijs = $_GET['min'];
-                           $maxprijs = $_GET['max'];
-                        }
 
 
 
@@ -180,12 +146,63 @@
                            <?php if(isset($_GET['q'])){ ?>
                               <input type="hidden" name="q" value="<?php echo $_GET['q']; ?>">
                            <?php } ?>
+                           <div style="display: flex; flex-direction:row">
+                           <div class="minmax">
                            <label for="minPriceRange">Min Price:</label>
                            <input type="range" id="minPriceRange" name="min" min="<?php echo"$minprijs";?>" max="<?php echo"$maxprijsfinal";?>" value="<?php echo"$minprijs";?>" step="5" oninput="updateMinPriceValue(this.value)">
                            <span id="minPriceValue"><?php echo"$minprijs";?></span>
                            <label for="maxPriceRange">Max Price:</label>
                            <input type="range" id="maxPriceRange" name="max" min="<?php echo"$minprijs";?>" max="<?php echo"$maxprijsfinal";?>" value="<?php echo"$maxprijs";?>" step="5" oninput="updateMaxPriceValue(this.value)">
                            <span id="maxPriceValue"><?php echo"$maxprijs";?></span>
+                           </div>
+                           <div style="height: 100%;width:1px;background-color:#ccc;"></div>
+                           <div class="filter">
+                           <label for="kleur">Color:</label>
+                           <?php
+                           $sql = "select distinct kleur from tblkleur";
+                           $result = mysqli_query($mysqli, $sql);
+                           echo '<select class="form-control" name="kleur">';
+                           echo '<option value="">All</option>'; // Add this line
+                           while($row = mysqli_fetch_assoc($result)){
+                               echo '<option class="form-control" value="' . $row['kleur'] . '">' . $row['kleur'] . '</option>';
+                           }
+                           echo '</select>';
+                           ?>
+                           <br>
+                           <label for="merk">Brand:</label>
+                           <?php
+                           $sql1 = "select * from tblmerk";
+                           $result1 = mysqli_query($mysqli, $sql1);
+                           echo '<select class="form-control" name="merk">';
+                           echo '<option value="">All</option>'; // Add this line
+                           while($row1 = mysqli_fetch_assoc($result1)){
+                               echo '<option class="form-control" value="' . $row1['merk_id'] . '">' . $row1['merknaam'] . '</option>';
+                           }
+                           echo '</select>';
+                           ?>
+                           <br>
+                           <label for="shoesize">Shoe Size</label>
+                           <?php
+                           if (isset($_SESSION['klant_id'])) {
+                               $sql = "select schoenmaat from tblklant where klant_id = " . $_SESSION['klant_id'];
+                               $result = mysqli_query($mysqli, $sql);
+                               $row = mysqli_fetch_assoc($result);
+                               if(isset($_GET['shoesize']) && !empty($_GET['shoesize'])) {
+                                   $shoesize = $_GET['shoesize'];
+                               } else
+                               if ($row['schoenmaat'] == null) {
+                                   $shoesize = 40;
+                               } else {
+                                   $shoesize = $row['schoenmaat'];
+                               }
+                           } else {
+                               $shoesize = 40;
+                           }
+                           ?>
+                           <input value="<?php echo $shoesize;?>" type="number" class="form-control" name="shoesize" placeholder="Shoe Size">
+
+                           </div>
+                           </div>
                            <button type="submit" class="btn btn-primary" style="background-color: #f26522; border-color:#f26522">Apply Filter</button>
                         </form>
                      </div>
@@ -255,45 +272,71 @@
                         die("Connection failed: " . mysqli_connect_error());
                      }
 
-                     
-
+            
                      $conditions = [];
                      $orderBy = '';
                      
                      if (isset($_GET['q'])) {
                          $q = $_GET['q'];
-                         $conditions[] = "artikelnaam LIKE '%$q%'";
+                         $conditions[] = "a.artikelnaam LIKE '%$q%'";
                      }
                      
                      if (isset($_GET['min']) && isset($_GET['max'])) {
                          $min = $_GET['min'];
                          $max = $_GET['max'];
-                         $conditions[] = "prijs BETWEEN $min AND $max";
+                         $conditions[] = "a.prijs BETWEEN $min AND $max";
                      }
                      
                      if (isset($_GET['s'])) {
                          $s = $_GET['s'];
                          if ($s == "abc") {
-                             $orderBy = "ORDER BY artikelnaam ASC";
+                             $orderBy = "ORDER BY a.artikelnaam ASC";
                          } else if ($s == "pru") {
-                             $orderBy = "ORDER BY prijs ASC";
+                             $orderBy = "ORDER BY a.prijs ASC";
                          } else if ($s == "prd") {
-                             $orderBy = "ORDER BY prijs DESC";
-                         }else if ($s == "trnd") {
-                             $orderBy = "ORDER BY viewcount DESC";
+                             $orderBy = "ORDER BY a.prijs DESC";
+                         } else if ($s == "trnd") {
+                             $orderBy = "ORDER BY a.viewcount DESC";
                          }
-                     }else{
-                        $orderBy = "ORDER BY viewcount DESC";
+                     } else {
+                         $orderBy = "ORDER BY a.viewcount DESC";
                      }
                      
-                     $sql = "SELECT * FROM tblartikels a INNER join tblvariatie v on v.artikel_id=a.artikel_id";
-                     if (!empty($conditions)) {
-                         $sql .= " WHERE " . implode(' AND ', $conditions);
+                     $sql = "SELECT DISTINCT a.* FROM tblartikels a INNER JOIN tblvariatie v ON v.artikel_id = a.artikel_id INNER JOIN tblkleur k ON k.kleur_id = v.kleur_id INNER JOIN tblmerk m ON m.merk_id = a.merk_id INNER JOIN tblstock s ON s.variatie_id = v.variatie_id WHERE s.stock > 0 and a.artikel_id = s.artikel_id";
+
+                     
+                     if (isset($_GET['kleur']) && !empty($_GET['kleur'])) {
+                         $kleur = $_GET['kleur'];
+                         $conditions[] = "k.kleur = '$kleur'";
                      }
+                     
+                     if (isset($_GET['merk']) && !empty($_GET['merk'])) {
+                         $merk = $_GET['merk'];
+                         $conditions[] = "m.merk_id = $merk";
+                     }
+
+                     if (isset($_GET['shoesize']) && !empty($_GET['shoesize'])) {
+                         $shoesize = $_GET['shoesize'];
+                         $conditions[] = "s.schoenmaat = $shoesize";
+                     }
+                     
+                     if (!empty($conditions)) {
+                         $sql .= " AND " . implode(' AND ', $conditions);
+                     }
+                     
+                     $sql .= " GROUP BY a.artikel_id";
                      $sql .= " $orderBy";
+                     
                      
                      // Execute the query
                      $result = mysqli_query($mysqli, $sql);
+                     // Execute the query
+                     
+
+                     
+                     
+                     
+                     
 
                      
 
@@ -312,12 +355,28 @@
                            }
 
                         }
-                        $sql3 = "SELECT v.directory 
+                           if(isset($_GET['kleur'])){
+                              $kleur = $_GET['kleur'];
+                              if($kleur != ""){
+                              $sql3  = "SELECT v.directory FROM tblartikels a, tblvariatie v, tblkleur k WHERE a.artikel_id = v.artikel_id AND v.kleur_id = k.kleur_id AND a.artikel_id = '" . $row['artikel_id'] . "' AND k.kleur = '$kleur' ORDER BY v.variatie_id ASC LIMIT 1";
+                              }else{
+                                 $sql3 = "SELECT v.directory 
                                  FROM tblartikels a, tblvariatie v 
                                  WHERE a.artikel_id = v.artikel_id 
                                  AND a.artikel_id = '" . $row['artikel_id'] . "' 
                                  ORDER BY v.variatie_id ASC 
                                  LIMIT 1";
+                              }
+
+
+                           }else{
+                              $sql3 = "SELECT v.directory 
+                              FROM tblartikels a, tblvariatie v 
+                              WHERE a.artikel_id = v.artikel_id 
+                              AND a.artikel_id = '" . $row['artikel_id'] . "' 
+                              ORDER BY v.variatie_id ASC 
+                              LIMIT 1";
+                           }
                         $result3 = mysqli_query($mysqli, $sql3);
                         $row3 = mysqli_fetch_assoc($result3);
                         $row['directory'] = $row3['directory'];

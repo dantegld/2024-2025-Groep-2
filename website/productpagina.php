@@ -225,13 +225,23 @@ foreach ($_GET as $key => $value) {
 </form>
 <div class="dropdown">
     <?php
-    echo '<select class="mySelect" name="schoenmaat" id="schoenmaat" onchange="updateCartLink()">';
-    for ($i = 30; $i <= 50; $i++) {
-        echo '<option value="' . $i . '">' . $i . '</option>';
-    }
-    echo '</select>';
-    echo '<br>';
-    echo '<br>';
+        $sql = "select * from tblklant where klant_id = '" . $_SESSION['klant_id'] . "'";
+        $result = mysqli_query($mysqli, $sql);
+        $row = mysqli_fetch_assoc($result);
+        //if is null
+        if ($row['schoenmaat'] == null) {
+            $shoeSize = 40;
+        } else {
+            $shoeSize = $row['schoenmaat'];
+        }
+        echo '<select class="mySelect" name="schoenmaat" id="schoenmaat" onchange="updateCartLink()">';
+        for ($i = 30; $i <= 50; $i++) {
+            $selected = ($i == $shoeSize) ? 'selected' : '';
+            echo '<option value="' . $i . '" ' . $selected . '>' . $i . '</option>';
+        }
+        echo '</select>';
+        echo '<br>';
+        echo '<br>';
     ?>
     <div class="buy_bt">
         <a id="addToCartLink" href="cartcalc.php?variatie_id=<?php echo $variatie_id; ?>&id=<?php echo $artikel_id; ?>&schoenmaat=">Add to cart</a>
