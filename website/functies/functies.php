@@ -64,6 +64,20 @@ function controleerAdmin()
    }
 }
 
+function type()
+{
+
+   include 'connect.php';
+   $sql = "SELECT k.type_id ,t.type_id,t.type FROM tblklant k,tbltypes t WHERE klant_id = ?  and k.type_id = t.type_id";
+   $stmt = $mysqli->prepare($sql);
+   $stmt->bind_param("i", $_SESSION['klant_id']);
+   $stmt->execute();
+   $result = $stmt->get_result();
+   $row = $result->fetch_assoc();
+   $type = $row['type'];
+   return $type;
+}
+
 // Functie om de betaling te verwerken
 function processPayPalPayment($amount)
 {
@@ -257,34 +271,49 @@ function announcement()
    }
    // Sluit de databaseverbinding
    
-
-function recensiePakken($klant_id)
-{
-   include 'connect.php';
-  $sql = "SELECT * FROM tblrecensies WHERE klant_id = ?";
-  $stmt = $mysqli->prepare($sql);
-  $stmt->bind_param("i", $klant_id);
-  $stmt->execute();
-  $result = $stmt->get_result();
-  return $result;
-}
-
 // Functie om een recensie goed te keuren
 function recensieGoedkeuren($recensie_id) {
-   include 'connect.php';
-   $sql = "UPDATE tblrecensies SET goedGekeurd = 1 WHERE recensie_id = ?";
-   $stmt = $mysqli->prepare($sql);
-   $stmt->bind_param("i", $recensie_id);
-   $stmt->execute();
-   $stmt->close();
+    include 'connect.php'; // Zorg dat connect.php de $mysqli variabele bevat
+    global $mysqli;
+
+    // Update-query om een recensie goed te keuren
+    $sql = "UPDATE tblrecensies SET goedGekeurd = 1 WHERE recensie_id = ?";
+    $stmt = $mysqli->prepare($sql);
+
+    if (!$stmt) {
+        die("Fout bij voorbereiden van statement: " . $mysqli->error);
+    }
+
+    // Bind de parameter en voer de query uit
+    $stmt->bind_param("i", $recensie_id);
+
+    if (!$stmt->execute()) {
+        die("Fout bij uitvoeren van statement: " . $stmt->error);
+    }
+
+    $stmt->close();
 }
 
-// recensie toevoegen
-function recensieToevoegen($klant_id, $artikel_id, $rating, $text) {
-   include 'connect.php';
-   $sql = "INSERT INTO tblrecensies (text, rating, klant_id, artikel_id, goedGekeurd) VALUES (?, ?, ?, ?, 0)";
-   $stmt = $mysqli->prepare($sql);
-   $stmt->bind_param("siii", $text, $rating, $klant_id, $artikel_id);
-   $stmt->execute();
-   $stmt->close();
+// Functie om een recensie toe te voegen
+function recensieToevoegen($klant_id, $rating, $text) {
+    include 'connect.php'; // Zorg dat connect.php de $mysqli variabele bevat
+    global $mysqli;
+
+    // Query aangepast aan de getoonde tabelstructuur
+    $sql = "INSERT INTO tblrecensies (text, rating, klant_id, goedGekeurd) VALUES (?, ?, ?, 0)";
+    $stmt = $mysqli->prepare($sql);
+
+    if (!$stmt) {
+        die("Fout bij voorbereiden van statement: " . $mysqli->error);
+    }
+
+    // Bind de parameters en voer de query uit
+    $stmt->bind_param("sii", $text, $rating, $klant_id);
+
+    if (!$stmt->execute()) {
+        die("Fout bij uitvoeren van statement: " . $stmt->error);
+    }
+
+    $stmt->close();
 }
+?>
