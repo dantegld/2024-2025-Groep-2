@@ -316,4 +316,14 @@ function recensieToevoegen($klant_id, $rating, $text) {
 
     $stmt->close();
 }
+function getStockStatus($artikel_id) {
+   include 'connect.php';
+   $sql = "SELECT stock FROM tblartikels WHERE artikel_id = ?";
+   $stmt = $mysqli->prepare($sql);
+   $stmt->bind_param("i", $artikel_id);
+   $stmt->execute();
+   $result = $stmt->get_result();
+   $row = $result->fetch_assoc();
+   return $row['stock'] > 0 ? 'In Stock' : 'Out of Stock';
+}
 ?>
