@@ -37,9 +37,7 @@
    <link rel="icon" href="images/icon/favicon.png">
    
    </head>
-<body>
-
-<?php
+   <?php
 include 'connect.php';
 // check if the user is logged in
 session_start();
@@ -59,6 +57,12 @@ if (isset($_POST['add'])) {
     $stmt->bind_param("sds", $kortingscode, $korting_euro, $einddatum);
     $stmt->execute();
     $stmt->close();
+
+    // code voor het toevoegen van een announcement in verband met een nieuwe kortingscode
+    $sql = "INSERT INTO tblannouncements (announcement) VALUES ('There is a new promo code!')";
+    $result = $mysqli->query($sql);
+    
+
 } elseif (isset($_POST['update'])) {
     $kortingscode = $_POST['kortingscode'];
     $korting_euro = $_POST['korting_euro'];
@@ -77,41 +81,51 @@ if (isset($_POST['add'])) {
     $stmt->close();
 }
 
+// Haal alle kortingscodes op
 $result = $mysqli->query("SELECT * FROM tblkortingscodes");
 ?>
 
 <h1>Beheer Kortingscodes</h1>
 
+<!-- Formulier om een nieuwe kortingscode toe te voegen -->
 <form method="POST" action="">
     <h2>Voeg nieuwe kortingscode toe</h2>
     <input type="text" name="kortingscode" placeholder="Kortingscode" required>
-    <input type="number" step="0.01" name="korting_euro" placeholder="Korting in Euro" required>
+    <input type="number" step="0.01" name="korting_euro" placeholder="Korting in procent" required>
     <input type="date" name="einddatum" placeholder="Einddatum" required>
-    <input class= "btn btn-primary" type="submit" name="add" value="Toevoegen">
+    <input class="btn btn-primary" type="submit" name="add" value="Toevoegen">
 </form>
 
 <h2>Bestaande kortingscodes</h2>
-<table>
+<table border="1">
     <tr>
         <th>Kortingscode</th>
-        <th>Korting in Procent</th>
+        <th>Korting in Euro</th>
         <th>Einddatum</th>
+        <th>Gebruik Aantal</th>
         <th>Acties</th>
     </tr>
     <?php while ($row = $result->fetch_assoc()) { ?>
         <tr>
             <form method="POST" action="">
-                <td><input type="text" name="kortingscode" value="<?php echo $row['kortingscode']; ?>" readonly></td>
-                <td><input type="number" step="0.01" name="korting_euro" value="<?php echo $row['korting_euro']; ?>" required></td>
-                <td><input type="date" name="einddatum" value="<?php echo $row['einddatum']; ?>" required></td>
+                <td><input type="text" name="kortingscode" value="<?php echo htmlspecialchars($row['kortingscode']); ?>" readonly></td>
+                <td><input type="number" step="0.01" name="korting_euro" value="<?php echo htmlspecialchars($row['korting_euro']); ?>" required></td>
+                <td><input type="date" name="einddatum" value="<?php echo htmlspecialchars($row['einddatum']); ?>" required></td>
+                <td><?php echo htmlspecialchars($row['gebruik_aantal']); ?></td>
                 <td>
-                    <input class= "btn btn-primary" type="submit" name="update" value="Wijzigen">
-                    <input class= "btn btn-danger" type="submit" name="delete" value="Verwijderen">
+                    <input class="btn btn-primary" type="submit" name="update" value="Wijzigen">
+                    <input class="btn btn-danger" type="submit" name="delete" value="Verwijderen">
                 </td>
             </form>
         </tr>
     <?php } ?>
 </table>
+
+<?php
+// Sluit de databaseverbinding
+$mysqli->close();
+?>
 </div>
+
 </body>
 </html>

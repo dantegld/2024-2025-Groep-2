@@ -43,8 +43,12 @@
 </head>
 <?php
 error_reporting(E_ALL & ~E_NOTICE);
+
+var_dump($_POST);
+
 include 'connect.php';
 session_start();
+var_dump($_SESSION);
 include 'functies/functies.php';
 onderhoudsModus();
 controleerKlant();
@@ -68,19 +72,8 @@ echo '
 
     
     // Haal de hoogste kortingscode op
-    $sqlDiscount = "SELECT * FROM `tblkortingscodes` ORDER BY korting_euro DESC LIMIT 1";
-    $resultDiscount = $mysqli->query($sqlDiscount);
-    while ($row = $resultDiscount->fetch_assoc()) {
-        $discountPrice = (float) $row['korting_euro'];  
-        // Controleer de waarde van het kortingspercentage
-    // Dit zou het kortingspercentage moeten zijn
     
-        // Pas de korting toe op het totaalbedrag als het percentage geldig is
-        if (!($row['einddatum'] < date("Y-m-d"))) {
-            // Pas de korting toe (korting is altijd een percentage)
-            $totaal = $totaal * (1 - $discountPrice / 100);  // Verminder de prijs met het percentage
-        }
-    }
+
     
     // Debugging: Bekijk de nieuwe waarde van $totaal na de korting
 

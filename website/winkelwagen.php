@@ -212,45 +212,95 @@ if (isset($_SESSION["klant_id"])) {
 
         echo '</tbody>';
         echo '</table>';
+        if(isset($_POST['verstuur'])) {
+            // Debug: Controleer de waarde van $totaal
+            $kortingscode = $_POST['kortingscode'];
+                $sqlDiscount = "SELECT * FROM `tblkortingscodes` WHERE kortingscode = '". $kortingscode ."'";
+                $resultDiscount = $mysqli->query($sqlDiscount);
+                if ($resultDiscount->num_rows > 0) {
+                while ($row = $resultDiscount->fetch_assoc()) {
 
-        echo '<div class="cart-total">Total Price: &euro;<span id="total-price">' . number_format($totalePrijs, 2) . '</span></div>';
-        $_SESSION['total_price'] = number_format($totalePrijs, 2);
-        echo '<br>';
+                    $gebruik_aantal = $row['gebruik_aantal'];
+                            $gebruik_aantal += 1;
+                            // code voor het opslaan van gebruik_aantal
+                            $sqlGebruikAantal = "UPDATE tblkortingscodes SET gebruik_aantal = '".$gebruik_aantal."' WHERE kortingscode = '".$kortingscode."'";
+                            $resultGebruikAantal = $mysqli->query($sqlGebruikAantal);
 
-        // Fetch active delivery options
-        $sql = "SELECT * FROM tblbezorgopties WHERE actief = 1";
-        $result = $mysqli->query($sql);
-        if ($result->num_rows > 0) {
-            echo '<div class="delivery-options">';
-            echo '<label for="delivery-option">Choose a delivery option:</label> <br>';
-            echo '<select id="delivery-option" name="delivery_option">';
-            while ($row = $result->fetch_assoc()) {
-                echo '<option value="' . $row['methode_id'] . '">' . $row['methodenaam'] . '</option>';
+                $discountPrice = (float) $row['korting_euro'];  
+             
+                if (strtotime($row['einddatum']) >= strtotime(date("Y-m-d"))) {
+                    // Kortingscode is geldig
+                    $totalePrijs = $totalePrijs * (1 - $discountPrice / 100);
+                    echo "<span style=\"color: green;\">The promo code has been used succesfully.</span>";
+           
+                    
+                } else {
+                    echo "Kortingscode is verlopen.";
+                }
+                
             }
-            echo '</select>';
-            echo '</div>';
         }
+            }
 
-        // Check if home delivery is active
-        $sql = "SELECT * FROM tblbezorgopties WHERE methodenaam = 'Laten leveren' AND actief = 1";
-        $result = $mysqli->query($sql);
-        if ($result->num_rows > 0) {
-            // Fetch address from profile
-            $sql = "SELECT * FROM tbladres WHERE klant_id = '$_SESSION[klant_id]'";
+            echo '<div class="cart-total">Total Price: &euro;<span id="total-price">' . number_format($totalePrijs, 2) . '</span></div>';
+            $_SESSION['total_price'] = number_format($totalePrijs, 2);
+            echo '<br>';
+            echo "enter a discount code: <br>";
+    
+    
+            echo "<form method='POST' action='winkelwagen'>";
+            echo "<input type='text' name='kortingscode'/>";
+            echo "<input type='submit'  value='test' name='verstuur' />";
+            echo "</form>";
+            ?>
+            <?php
+       
+            //Fetch active delivery options
+    
+            $sql = "SELECT * FROM tblbezorgopties WHERE actief = 1";
             $result = $mysqli->query($sql);
-            if ($result->num_rows == 0) {
-                echo '<div class="address-warning">Please <a href="profile">add an address</a> to enable home delivery.</div>';
+            if ($result->num_rows > 0) {
+                echo '<div class="delivery-options">';
+                echo '<label for="delivery-option">Choose a delivery option:</label> <br>';
+                echo '<select id="delivery-option" name="delivery_option">';
+                while ($row = $result->fetch_assoc()) {
+                    echo '<option value="' . $row['methode_id'] . '">' . $row['methodenaam'] . '</option>';
+                }
+                echo '</select>';
+                echo '</div>';
             }
-        }
+    
+            //Check if home delivery is active
+            $sql = "SELECT * FROM tblbezorgopties WHERE methodenaam = 'Laten leveren' AND actief = 1";
+            $result = $mysqli->query($sql);
+            if ($result->num_rows > 0) {
+                // Fetch address from profile
+                $sql = "SELECT * FROM tbladres WHERE klant_id = '$_SESSION[klant_id]'";
+                $result = $mysqli->query($sql);
+                if ($result->num_rows == 0) {
+                    echo '<div class="address-warning">Please <a href="profile">add an address</a> to enable home delivery.</div>';
+                }
+            }
+            
+    
+      echo ' <div class= "pay"><a href="betalen" class="btn btn-primary">Checkout</a></div>';
+           echo "</form>";
+            echo '</div>'; 
 
-        echo ' <div class= "pay"><a href="betalen" class="btn btn-primary">Checkout</a></div>';
-        echo '</div>'; 
-    } else {
-        echo '<div class="empty-cart">Winkelwagen is empty.</div>';
+
+
+
+        }else {
+            echo '<div class="empty-cart">Cart is empty</div>';
+        }
+    }else {
+        echo '<div class="empty-cart">Log in to use shopping cart</div>';
     }
-} else {
-    echo '<div class="empty-cart">You are not logged in. Please log in first to view the shopping cart.</div>';
-}
+    
+    
+     
+        
+
 ?>
 
    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
