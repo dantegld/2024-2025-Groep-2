@@ -48,6 +48,9 @@ session_start();
 include 'functies/functies.php';
 onderhoudsModus();
 controleerKlant();
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+require 'vendor/autoload.php';
 
 // Haal totaalbedrag op uit de sessie
 $totaal = $_SESSION['total_price'];
@@ -95,6 +98,45 @@ if (isset($_POST['betalen'])) {
     } else {
         echo "Invalid payment method selected.";
         die;
+    }
+
+    //Neem email van de klant
+    $sql = "SELECT email FROM tblklant WHERE klant_id = ?";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("i", $_SESSION['klant_id']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $email = $row['email'];
+
+    // PHPMailer
+    $mail = new PHPMailer(true);
+
+    try {
+        // Host, wachtwoord, gebruikersnaam, etc.
+        $mail->isSMTP();
+        $mail->Host = 'smtp.hostinger.com';  
+        $mail->SMTPAuth = true;
+        $mail->Username = 'myshoes@zoobagogo.com';  
+        $mail->Password = 'ShoesMy123!';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;  
+
+        // zender en ontvanger
+        $mail->setFrom('myshoes@zoobagogo.com', 'Myshoes');  
+        $mail->addAddress($email);  
+
+        // inhoud van de email
+        $mail->isHTML(true);
+        $mail->Subject = 'Payment Confirmation';
+        $mail->Body    = 'Dear customer,<br><br>Thank you for your payment of €' . number_format($totaal, 2) . '.<br><br>Best regards,<br>Your Company';
+        $mail->AltBody = 'Dear customer,\n\nThank you for your payment of €' . number_format($totaal, 2) . '.\n\nBest regards,\nYour Company';
+
+        // verzend de email
+        $mail->send();
+        echo 'Payment successful. A confirmation email has been sent to your email address.';
+    } catch (Exception $e) {
+        echo "Payment successful. However, we could not send a confirmation email. Mailer Error: {$mail->ErrorInfo}";
     }
 } else {
     // Toon het betalingsformulier
