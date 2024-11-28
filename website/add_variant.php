@@ -103,33 +103,33 @@ if (isset($_POST['add_variatie'])) {
                 $result = $stmt->get_result();
                 echo $sql;
 
-                $mail = new PHPMailer(true);
+                // $mail = new PHPMailer(true);
 
-                while ($row = $result->fetch_assoc()) {
-                    try {
-                        $email = $row['email'];
-                        $mail->isSMTP();
-                        $mail->Host = 'smtp.gmail.com';  
-                        $mail->SMTPAuth = true;
-                        $mail->Username = 'contactmyshoes2800@gmail.com';  
-                        $mail->Password = 'pztvrfzhcksiqzhq';
-                        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-                        $mail->Port = 587;  
+                // while ($row = $result->fetch_assoc()) {
+                //     try {
+                //         $email = $row['email'];
+                //         $mail->isSMTP();
+                //         $mail->Host = 'smtp.gmail.com';  
+                //         $mail->SMTPAuth = true;
+                //         $mail->Username = 'contactmyshoes2800@gmail.com';  
+                //         $mail->Password = 'pztvrfzhcksiqzhq';
+                //         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                //         $mail->Port = 587;  
 
-                        $mail->setFrom('contactmyshoes2800@gmail.com', 'My Shoes');  
-                        $mail->addBCC($email);  
-                        $mail->Subject = 'Nieuw Artikel Online';
-                        $mail->Body    = 'Er is een nieuw artikel online, https://myshoes.zoobagogo.com/productpagina?id=' . $artikel_id;
+                //         $mail->setFrom('contactmyshoes2800@gmail.com', 'My Shoes');  
+                //         $mail->addBCC($email);  
+                //         $mail->Subject = 'Nieuw Artikel Online';
+                //         $mail->Body    = 'Er is een nieuw artikel online, https://myshoes.zoobagogo.com/productpagina?id=' . $artikel_id;
 
                   
-                        $message = 'Er is een notificatie naar je e-mail gestuurd. Controleer je inbox!';
-                        $message_class = 'success';
-                    } catch (Exception $e) {
-                        $message = "Er is iets misgegaan bij het verzenden van de e-mail. Mailer Error: {$mail->ErrorInfo}";
-                        $message_class = 'error';
-                    }
-                }
-                $mail->send();
+                //         $message = 'Er is een notificatie naar je e-mail gestuurd. Controleer je inbox!';
+                //         $message_class = 'success';
+                //     } catch (Exception $e) {
+                //         $message = "Er is iets misgegaan bij het verzenden van de e-mail. Mailer Error: {$mail->ErrorInfo}";
+                //         $message_class = 'error';
+                //     }
+                // }
+                // $mail->send();
             }
         } else {
             echo "Er was een probleem met het uploaden van de afbeelding.";
