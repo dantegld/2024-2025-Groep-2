@@ -1,10 +1,17 @@
 <?php
 require 'vendor/autoload.php';
+require 'connect.php';
 use PHPMailer\PHPMailer\PHPMailer;
 $client = new Google_Client;
 
-$client->setClientId("267762598007-rt1je04qcbodlri0lqp9ihfkd83b5j64.apps.googleusercontent.com");
-$client->setClientSecret("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");
+$sql = "SELECT * FROM tblids_google";
+$stmt = $mysqli->prepare($sql);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+
+$client->setClientId($row["client_id"]);
+$client->setClientSecret($row["client_secret"]);
 $client->SetRedirectUri("http://localhost/tiago/2024-2025-Groep-2/website/successLogin.php");
 
 $client->addScope("email");
