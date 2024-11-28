@@ -46,6 +46,8 @@
     <?php
     include 'connect.php';
     include 'functies/functies.php';
+    require 'vendor/autoload.php';
+    include 'config.php';
     session_start();
 
     //NOG TE MAKEN: if the user is already logged in, redirect to the my profile page
@@ -111,8 +113,9 @@
 
        
     }
-    
-    
+    echo '
+    <a href="' . $client->createAuthUrl() . '"><img src="https://www.svgrepo.com/show/303108/google-icon-logo.svg" alt="Google logo" class="google-logo" witdh="30">Sign in with Google</a>';
+
     ?>
 </div>
 </div>
