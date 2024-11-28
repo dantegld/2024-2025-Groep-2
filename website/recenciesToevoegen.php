@@ -2,6 +2,12 @@
 include 'functies/functies.php';
 include 'connect.php';
 
+//login check
+if (!isset($_SESSION["klant_id"])) {
+  header("Location: login.php");
+  exit();
+}
+
 if (isset($_POST['recensie_indienen'])) {
   $text = $_POST['text'];
   $rating = $_POST['rating'];

@@ -2,13 +2,12 @@
 include 'functies/functies.php';
 include 'connect.php';
 
-//admin check
-session_start();
-if (!isset($_SESSION['type']) || $_SESSION['type'] != 'admin') {
-    header("Location: index.php");
-    exit();
-}
+//login check
 
+if (!isset($_SESSION["klant_id"])) {
+  header("Location: login.php");
+  exit();
+}
 // Recensies bekijken
 if (isset($_GET['artikel_id'])) {
   $artikel_id = intval($_GET['artikel_id']);

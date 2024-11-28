@@ -232,10 +232,23 @@ foreach ($_GET as $key => $value) {
     echo '</select>';
     echo '<br>';
     echo '<br>';
+    
     ?>
     <div class="buy_bt">
         <a id="addToCartLink" href="cartcalc.php?variatie_id=<?php echo $variatie_id; ?>&id=<?php echo $artikel_id; ?>&schoenmaat=">Add to cart</a>
     </div>
+</div>
+</div>
+    <!-- recensies-->
+<div class="review-buttons">
+    <a href="recenciesBekijken.php?artikel_id=<?php echo $id; ?>" class="btn btn-primary">View Reviews</a>
+    <a href="recenciesToevoegen.php?artikel_id=<?php echo $id; ?>" class="btn btn-secondary">Leave a Review</a>
+    <?php
+
+         if(type() == "admin"){
+            echo '<a href="recensieGoedkeuren.php?admin_view=1" class="btn btn-warning">Approve Reviews</a>';
+         }
+        ?>
 </div>
 </div>
 </div>
@@ -258,3 +271,4 @@ function updateCartLink() {
 }
 </script>
 </body>
+</html>
