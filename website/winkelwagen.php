@@ -231,6 +231,7 @@ if (isset($_SESSION["klant_id"])) {
                 if (strtotime($row['einddatum']) >= strtotime(date("Y-m-d"))) {
                     // Kortingscode is geldig
                     $totalePrijs = $totalePrijs * (1 - $discountPrice / 100);
+                    echo "<span style=\"color: green;\">The promo code has been used succesfully.</span>";
            
                     
                 } else {
