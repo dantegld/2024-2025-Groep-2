@@ -28,6 +28,10 @@ class ComposerStaticInit2185d2f99bcd56787481d9357a5972d3
             'Psr\\Cache\\' => 10,
             'ParagonIE\\ConstantTime\\' => 23,
         ),
+        'P' => 
+        array (
+            'PHPMailer\\PHPMailer\\' => 20,
+        ),
         'M' => 
         array (
             'Monolog\\' => 8,
