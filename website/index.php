@@ -54,6 +54,7 @@
          $_SESSION['type'] = "guest";
          }
          onderhoudsModus();
+         announcement();
       ?>
 
 

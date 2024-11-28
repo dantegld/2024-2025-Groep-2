@@ -11,14 +11,16 @@ function onderhoudsModus()
    $sql = "SELECT functiewaarde FROM tbladmin where functienaam = 'onderhoudmodus'";
    $result = $mysqli->query($sql);
    $row = $result->fetch_assoc();
-   $sql4 = "SELECT k.type_id ,t.type_id,t.type FROM tblklant k,tbltypes t WHERE klant_id = ?  and k.type_id = t.type_id";
-   $stmt4 = $mysqli->prepare($sql4);
-   $stmt4->bind_param("i", $_SESSION['klant_id']);
-   $stmt4->execute();
-   $result4 = $stmt4->get_result();
-   $row4 = $result4->fetch_assoc();
-   if ($row["functiewaarde"] == 1 && $row4['type'] == "customer") {
-      header("Location: onderhoudsPagina");
+   if ($row) {
+      $sql4 = "SELECT k.type_id ,t.type_id,t.type FROM tblklant k,tbltypes t WHERE klant_id = ?  and k.type_id = t.type_id";
+      $stmt4 = $mysqli->prepare($sql4);
+      $stmt4->bind_param("i", $_SESSION['klant_id']);
+      $stmt4->execute();
+      $result4 = $stmt4->get_result();
+      $row4 = $result4->fetch_assoc();
+      if ($row4 && $row["functiewaarde"] == 1 && $row4['type'] == "customer") {
+         header("Location: onderhoudsPagina");
+      }
    }
 }
 
@@ -177,7 +179,7 @@ function announcement()
    include 'connect.php';
 
    // Haal alle aankondigingen op uit de database
-   $sql = "SELECT * FROM tblannouncement";
+   $sql = "SELECT * FROM tblannouncement WHERE announcement_id = 1";
    $result = $mysqli->query($sql);
 
    // Controleer of er aankondigingen zijn

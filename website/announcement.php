@@ -54,7 +54,7 @@
 
     if (isset($_POST['submit'])) {
         $announcement = $_POST['announcement'];
-        $sql = "UPDATE tblannouncement SET announcement = '$announcement' WHERE announcement_id = 0";
+        $sql = "UPDATE tblannouncement SET announcement = '$announcement' WHERE announcement_id = 1";
         $result = $mysqli->query($sql);
         echo '<div class="alert alert-success" role="alert">Announcement has been updated</div>';
         print("<script>
@@ -75,7 +75,7 @@
         </script>");
 
     } else if (isset($_POST['delete'])) {
-        $sql = "DELETE FROM tblannouncement WHERE announcement_id = 0";
+        $sql = "DELETE FROM tblannouncement WHERE announcement_id = 1";
         $result = $mysqli->query($sql);
         echo '<div class="alert alert-danger" role="alert">Announcement has been deleted</div>';
         print("<script>
