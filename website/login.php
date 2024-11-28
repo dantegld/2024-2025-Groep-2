@@ -107,7 +107,7 @@
         <input class="btn btn-primary" type="submit" name="login"><br><br>
         </form><br> <br>';
         echo '<div>Dont have an account yet? <a href="register">Register</a></div> <br>';
-        echo '<div>Forgot your password? <a href="reset">Forgot password?</a></div>';
+        echo '<div>Forgot your password? <a href="reset_password">Forgot password?</a></div>';
 
        
     }
