@@ -142,6 +142,7 @@
                     echo '</tr>';
                 }
                 echo '</table>';
+                $mysqli->close();
             ?>
     </div>
 </body>

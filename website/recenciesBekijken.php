@@ -19,6 +19,8 @@ if (isset($_GET['artikel_id'])) {
     echo "<p>" . $recensie["text"] . "</p>";
     echo "<p>Rating: " . $recensie["rating"] . "/5</p>";
   }
+  $resultaat->close();
+  $mysqli->close();
 }
 
 ?>

@@ -143,6 +143,8 @@
                     }
                     echo '</tr>';
                 }
+                $result->close();
+                $mysqli->close(); // Close the MySQL connection
                 echo '</table>';
             ?>
     </div>

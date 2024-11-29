@@ -62,12 +62,16 @@
             $row2 = $result->fetch_assoc();
             $naam = $row2['methodenaam'];
 
+            $mysqli->close(); // Close the MySQL connection
             header('Location: bezorgopties');
         } else {
             echo '<h4>Er is iets fout gegaan</h4>';
             echo '<a href="betaalmethodes">Terug naar bezorgopties</a>';
+            $mysqli->close(); // Close the MySQL connection
         }
         ?>
     </div>
+    <?php
+    ?>
     </body>
 </html>

@@ -297,7 +297,7 @@ if (isset($_SESSION["klant_id"])) {
         echo '<div class="empty-cart">Log in to use shopping cart</div>';
     }
     
-    
+    $mysqli->close();
      
         
 

@@ -124,6 +124,8 @@ if (isset($_GET['artikel_id'])) {
             echo '<p>No pending reviews to moderate.</p>';
         }
     }
+    $result_reviews->close();
+    $mysqli->close();
     ?>
 <?php endif; ?>
 

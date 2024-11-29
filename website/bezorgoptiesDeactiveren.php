@@ -65,6 +65,7 @@
             echo '<h4>Er is iets fout gegaan</h4>';
             echo '<a href="betaalmethodes">Terug naar betaalmethodes</a>';
         }
+        $mysqli->close();
         ?>
 
     </div>

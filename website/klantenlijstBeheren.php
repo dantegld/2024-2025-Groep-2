@@ -98,6 +98,7 @@ controleerAdmin();
             <input type="submit" name="delete" value="Verwijderen"><br><br>
           </form>';
 
+$conn->close();
 ?>
 
 

@@ -101,6 +101,7 @@ if (isset($_POST['betalen'])) {
     $result = $stmt->get_result();
     $row = $result->fetch_assoc();
     $email = $row['email'];
+    $stmt->close();
 
     // PHPMailer
     $mail = new PHPMailer(true);
@@ -155,6 +156,8 @@ if (isset($_POST['betalen'])) {
         echo "<br><input type='submit' value='Pay now' name='betalen' class='btn btn-primary'>";
         echo "</div></form>";
     }
+    $result->close();
+    $mysqli->close(); // Close the MySQL connection
 }
 
 echo ' </div>

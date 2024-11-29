@@ -62,6 +62,9 @@
             $row2 = $result->fetch_assoc();
             $naam = $row2['methodenaam'];
 
+            $result->close();
+            $mysqli->close(); // Close the MySQL connection
+
             header('Location: betaalmethodes');
         } else {
             echo '<h4>Er is iets fout gegaan</h4>';

@@ -123,6 +123,7 @@ $result = $mysqli->query("SELECT * FROM tblkortingscodes");
 
 <?php
 // Sluit de databaseverbinding
+$result->close();
 $mysqli->close();
 ?>
 </div>

@@ -224,7 +224,7 @@ include 'functies/adminSideMenu.php';
     }
     echo "<br>";
     
-
+    $mysqli->close();
     ?>
 </div>
    </body>

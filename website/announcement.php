@@ -108,6 +108,8 @@
             </form>';
             }
         }
+        $result->close();
+        $mysqli->close(); // Close the MySQL connection
     }
 
     ?>

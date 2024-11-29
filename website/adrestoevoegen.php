@@ -75,7 +75,8 @@
                         $sql2 = "INSERT INTO tbladres (adres_id, klant_id, adres, postcode_id) VALUES ('$adres_id', '$klant_id', '$adres', '$postcode_id')";
                         $mysqli->query($sql2);
                         Header("Location: profile");
-                    }else {
+                        $mysqli->close(); // Close the MySQL connection
+                    } else {
                         //php form
                         ?>
                         <div class='loginForm'>

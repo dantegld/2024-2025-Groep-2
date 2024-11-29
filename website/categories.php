@@ -132,5 +132,8 @@ include 'functies/adminSideMenu.php';
             </table>';
             echo '<a href="categories?addID=' . true .'">add new categorie</a>';
         }
+        $mysqli->close();
         ?>
     </div>
+</body>
+</html>

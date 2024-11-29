@@ -47,4 +47,6 @@ if (isset($_POST["artikel_id"]) && isset($_POST["action"]) && isset($_SESSION["k
         ]);
     }
 }
+
+$mysqli->close();
 ?>

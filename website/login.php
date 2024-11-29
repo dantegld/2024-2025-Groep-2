@@ -113,10 +113,43 @@
 
        
     }
-    echo '
-    <a href="' . $client->createAuthUrl() . '"><img src="https://www.svgrepo.com/show/303108/google-icon-logo.svg" alt="Google logo" class="google-logo" witdh="30">Sign in with Google</a>';
-
     ?>
+<style>
+    .google-signin-btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: #f5f5f5;
+        color: #4285F4;
+        border-radius: 5px;
+        text-decoration: none;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    .google-signin-btn img {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+    }
+
+    .google-signin-btn:hover {
+        background-color: #e0e0e0;
+        border-color: #ccc;
+    }
+</style>
+<br>
+<?php
+echo '
+    <a href="' . $client->createAuthUrl() . '" class="google-signin-btn">
+        <img src="https://www.svgrepo.com/show/303108/google-icon-logo.svg" alt="Google logo">
+        Sign in with Google
+    </a>';
+?>
+
+    
 </div>
 </div>
 

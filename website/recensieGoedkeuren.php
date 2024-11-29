@@ -20,6 +20,8 @@ if (isset($_GET['admin_view'])) {
     echo "<input type='submit' name='goedkeuren' value='Approve'>";
     echo "</form>";
   }
+  $resultaat->close();
+  $mysqli->close();
 }
 
 // Recensies goedkeuren

@@ -159,3 +159,7 @@
         echo '</tr>';
     }
     echo '</table>';
+    $mysqli->close();
+    ?>
+</body>
+</html>

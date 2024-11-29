@@ -62,6 +62,9 @@
             $row2 = $result->fetch_assoc();
             $naam = $row2['socialmedianaam'];
 
+            $result->close();
+            $mysqli->close();
+
             header('Location: socials');
         } else {
             echo '<h4>Er is iets fout gegaan</h4>';
@@ -69,3 +72,4 @@
         }
         ?>
     </div>
+</body>

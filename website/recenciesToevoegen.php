@@ -20,6 +20,8 @@ if (isset($_POST['recensie_indienen'])) {
   exit();
 }
 
+// No database connection to close in this file
+
 if (isset($_SESSION["klant"])) {
   echo "<form action='recenciesToevoegen.php' method='post'>";
   echo "<textarea name='text' required placeholder='Write your review...'></textarea><br>";

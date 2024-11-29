@@ -60,6 +60,8 @@
             echo '<h2>Adminpage Myshoes</h2>';
             echo '<h4>Welcome, ' . $row['klantnaam'] . '.</h4>';
         }
+        $result->close();
+        $mysqli->close(); // Close the MySQL connection
         ?>
     </div>
 

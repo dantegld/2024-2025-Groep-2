@@ -216,6 +216,8 @@ include 'functies/adminSideMenu.php';
     } else {
         echo "No products found.";
     }
+    $result->close();
+    $mysqli->close(); // Close the MySQL connection
     ?>
     <br>
 </div>

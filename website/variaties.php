@@ -135,6 +135,8 @@
         echo '</tr>';
     }
     echo '</table>';
+    $result->close(); // Close the result set
+    $mysqli->close(); // Close the MySQL connection
     echo '<br>';
     echo '<br>';
     echo '<br>';

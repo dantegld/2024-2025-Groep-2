@@ -65,6 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['email'])) {
 
     // Sluit de statement
     $stmt->close();
+    $mysqli->close(); // Close the MySQL connection
 }
 
 
@@ -114,6 +115,8 @@ if (isset($_GET['token'])) {
             }
         }
     } 
+    $stmt->close();
+    $mysqli->close(); // Close the MySQL connection
 }
 ?>
 

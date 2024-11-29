@@ -25,5 +25,6 @@ if(isset($_POST["submit"])){
     $result = $stmt->get_result();
 
     header("Location: aanpassen");
+    $mysqli->close();
 }
 ?>

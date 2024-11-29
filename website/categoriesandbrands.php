@@ -55,3 +55,10 @@
         <a href="brands">Brands</a>
         <a href="categories">Categories</a>
     </div>
+    <?php
+    // ...existing code...
+    $mysqli->close();
+    ?>
+</body>
+
+</html>

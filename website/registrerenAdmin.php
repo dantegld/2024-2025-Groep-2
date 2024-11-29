@@ -130,6 +130,7 @@ if (isset($_POST['submit'])) {
         }
     }
     $stmt->close();
+    $mysqli->close();
 } else {
     displayForm();
 }

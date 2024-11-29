@@ -13,6 +13,7 @@ $sql = "DELETE FROM tblwinkelwagen WHERE klant_id = $klant_id AND id = $product_
 print_r($sql);
 $mysqli->query($sql);
 $result = $mysqli->query($sql);
+$mysqli->close();
 header("Location: winkelwagen");
 exit();
 

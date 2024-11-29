@@ -279,5 +279,8 @@ function updateCartLink() {
     addToCartLink.href = 'cartCalc.php?variatie_id=' + variatie_id + '&id=' + artikel_id + '&schoenmaat=' + schoenmaat;
 }
 </script>
+<?php
+$mysqli->close();
+?>
 </body>
 </html>

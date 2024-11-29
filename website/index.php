@@ -137,6 +137,17 @@
                            $rowmin = mysqli_fetch_assoc($resultmin);
                            $minprijs = $rowmin['minprijs'];
 
+                           if(isset($_GET['min']) && !empty($_GET['min'])){
+                              $minprijs = $_GET['min'];
+                           }
+                           if(isset($_GET['max']) && !empty($_GET['max'])){
+                              $maxprijs = $_GET['max'];
+                           }
+
+                           if(isset($_GET['kleur']) && !empty($_GET['kleur'])){
+                              $kleur = $_GET['kleur'];
+                           }
+
 
 
 
@@ -160,10 +171,18 @@
                            <div class="filter">
                            <label for="kleur">Color:</label>
                            <?php
+                           $kleur = "All";
+                           $kleurValue = "";
                            $sql = "select distinct kleur from tblkleur";
+                           if(isset($_GET['kleur']) && !empty($_GET['kleur'])){
+                              $kleur = $_GET['kleur'];
+                              $kleurvalue = $kleur;
+                              $sql .= " WHERE kleur != '$kleur'";
+                           }
+                           
                            $result = mysqli_query($mysqli, $sql);
                            echo '<select class="form-control" name="kleur">';
-                           echo '<option value="">All</option>'; // Add this line
+                           echo "<option value=$kleurvalue >$kleur</option>"; // Add this line
                            while($row = mysqli_fetch_assoc($result)){
                                echo '<option class="form-control" value="' . $row['kleur'] . '">' . $row['kleur'] . '</option>';
                            }
@@ -172,10 +191,23 @@
                            <br>
                            <label for="merk">Brand:</label>
                            <?php
+                           
+                           $merk = "All";
+                           $merkValue = "";
                            $sql1 = "select * from tblmerk";
+                           if (isset($_GET['merk']) && !empty($_GET['merk'])) {
+                               $merk_id = $_GET['merk'];
+                               $sqlMerk = "SELECT merknaam FROM tblmerk WHERE merk_id = $merk_id";
+                               $resultMerk = mysqli_query($mysqli, $sqlMerk);
+                               if ($resultMerk && mysqli_num_rows($resultMerk) > 0) {
+                                   $rowMerk = mysqli_fetch_assoc($resultMerk);
+                                   $merk = $rowMerk['merknaam'];
+                                   $merkValue = $merk;
+                               }
+                           }
                            $result1 = mysqli_query($mysqli, $sql1);
                            echo '<select class="form-control" name="merk">';
-                           echo '<option value="">All</option>'; // Add this line
+                           echo "<option value=$merkValue>$merk</option>";
                            while($row1 = mysqli_fetch_assoc($result1)){
                                echo '<option class="form-control" value="' . $row1['merk_id'] . '">' . $row1['merknaam'] . '</option>';
                            }
@@ -184,23 +216,9 @@
                            <br>
                            <label for="shoesize">Shoe Size</label>
                            <?php
-                           if (isset($_SESSION['klant_id'])) {
-                               $sql = "select schoenmaat from tblklant where klant_id = " . $_SESSION['klant_id'];
-                               $result = mysqli_query($mysqli, $sql);
-                               $row = mysqli_fetch_assoc($result);
-                               if(isset($_GET['shoesize']) && !empty($_GET['shoesize'])) {
-                                   $shoesize = $_GET['shoesize'];
-                               } else
-                               if ($row['schoenmaat'] == null) {
-                                   $shoesize = 40;
-                               } else {
-                                   $shoesize = $row['schoenmaat'];
-                               }
-                           } else {
-                               $shoesize = 40;
-                           }
+
                            ?>
-                           <input value="<?php echo $shoesize;?>" type="number" class="form-control" name="shoesize" placeholder="Shoe Size">
+                           <input type="number" class="form-control" name="shoesize" placeholder="Shoe Size">
 
                            </div>
                            </div>
@@ -409,8 +427,7 @@
                      } else {
                         echo "0 results";
                      }
-      
-                     mysqli_close($mysqli);
+                     mysqli_close($mysqli); // Close the MySQL connection
                      ?>
                   </div>
                </div>

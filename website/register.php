@@ -55,6 +55,7 @@
                 $stmtType = $mysqli->prepare($sqlType);
                 $stmtType->execute([$id]);
                 $stmtType->close();
+                $mysqli->close();
 
                 echo '<h2>Registratie succesvol!</h2>';
                 echo '<div>Ga terug naar de <a href="login">loginpagina</a>.</div>';

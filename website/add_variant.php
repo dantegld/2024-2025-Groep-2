@@ -97,45 +97,52 @@ if (isset($_POST['add_variatie'])) {
             echo $sql; 
             if($result1->num_rows == 1){
                 // Haal alle klanten op met type_id = 2
-                $sql = "SELECT * FROM tblklant WHERE type_id = 2";
+                $sql = "SELECT * FROM tblklant WHERE type_id = 2 AND mail = 1";
                 $stmt = $mysqli->prepare($sql);
                 $stmt->execute();
                 $result = $stmt->get_result();
-                echo $sql;
 
-                // $mail = new PHPMailer(true);
+                $mail = new PHPMailer(true);
 
-                // while ($row = $result->fetch_assoc()) {
-                //     try {
-                //         $email = $row['email'];
-                //         $mail->isSMTP();
-                //         $mail->Host = 'smtp.gmail.com';  
-                //         $mail->SMTPAuth = true;
-                //         $mail->Username = 'contactmyshoes2800@gmail.com';  
-                //         $mail->Password = 'pztvrfzhcksiqzhq';
-                //         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-                //         $mail->Port = 587;  
+                while ($row = $result->fetch_assoc()) {
+                    try {
+                        $email = $row['email'];
+                        $mail->isSMTP();
+                        $mail->Host = 'smtp.gmail.com';  
+                        $mail->SMTPAuth = true;
+                        $mail->Username = 'contactmyshoes2800@gmail.com';  
+                        $mail->Password = 'pztvrfzhcksiqzhq';
+                        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                        $mail->Port = 587;  
 
-                //         $mail->setFrom('contactmyshoes2800@gmail.com', 'My Shoes');  
-                //         $mail->addBCC($email);  
-                //         $mail->Subject = 'Nieuw Artikel Online';
-                //         $mail->Body    = 'Er is een nieuw artikel online, https://myshoes.zoobagogo.com/productpagina?id=' . $artikel_id;
+                        $mail->setFrom('contactmyshoes2800@gmail.com', 'My Shoes');  
+                        $mail->addBCC($email);  
+                        $mail->Subject = 'Nieuw Artikel Online';
+                        $mail->Body    = 'Er is een nieuw artikel online, https://myshoes.zoobagogo.com/productpagina?id=' . $artikel_id;
+                        $mail->Body .= "\n\nAls je geen e-mails meer wilt ontvangen, klik dan hier: https://myshoes.zoobagogo.com/unsubscribe.php?email=" . $email;
+                        
+
 
                   
-                //         $message = 'Er is een notificatie naar je e-mail gestuurd. Controleer je inbox!';
-                //         $message_class = 'success';
-                //     } catch (Exception $e) {
-                //         $message = "Er is iets misgegaan bij het verzenden van de e-mail. Mailer Error: {$mail->ErrorInfo}";
-                //         $message_class = 'error';
-                //     }
-                // }
-                // $mail->send();
+                        $message = 'Er is een notificatie naar je e-mail gestuurd. Controleer je inbox!';
+                        $message_class = 'success';
+                    } catch (Exception $e) {
+                        $message = "Er is iets misgegaan bij het verzenden van de e-mail. Mailer Error: {$mail->ErrorInfo}";
+                        $message_class = 'error';
+                    }
+                }
+                $mail->send();
+                $stmt->close();
+                $mysqli->close(); // Close the MySQL connection
+                header("Location: aanpassen");
             }
         } else {
             echo "Er was een probleem met het uploaden van de afbeelding.";
+            $mysqli->close(); // Close the MySQL connection
         }
     } else {
         echo "Er was een probleem met het toevoegen van de variatie.";
+        $mysqli->close(); // Close the MySQL connection
     }
 }
 ?>

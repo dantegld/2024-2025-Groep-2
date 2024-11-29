@@ -83,6 +83,7 @@
         } else {
             echo "Failed to turn on maintenance mode";
         }
+        $mysqli->close(); // Close the MySQL connection
     } elseif (isset($_POST['off'])) {
         $sql = "UPDATE tbladmin SET functiewaarde = 0 WHERE functienaam = 'onderhoudmodus'";
         $result = $mysqli->query($sql);
@@ -91,6 +92,7 @@
         } else {
             echo "Failed to turn off maintenance mode";
         }
+        $mysqli->close(); // Close the MySQL connection
     }
 
 
