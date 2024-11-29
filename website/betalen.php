@@ -44,11 +44,10 @@
 <?php
 error_reporting(E_ALL & ~E_NOTICE);
 
-var_dump($_POST);
 
 include 'connect.php';
 session_start();
-var_dump($_SESSION);
+
 include 'functies/functies.php';
 onderhoudsModus();
 controleerKlant();
