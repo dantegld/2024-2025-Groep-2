@@ -65,7 +65,7 @@
 
     } else if (isset($_POST['submit_zero'])) {
         $announcement = $_POST['announcement'];
-        $sql = "INSERT INTO tblannouncement (announcement) VALUES ('$announcement')";
+        $sql = "INSERT INTO tblannouncement (announcement_id, announcement) VALUES (1, '$announcement')";
         $result = $mysqli->query($sql);
         echo '<div class="alert alert-success" role="alert">Announcement has been added</div>';
         print("<script>
