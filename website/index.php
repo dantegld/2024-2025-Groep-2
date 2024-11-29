@@ -194,6 +194,7 @@
                            
                            $merk = "All";
                            $merkValue = "";
+
                            $sql1 = "select * from tblmerk";
                            if (isset($_GET['merk']) && !empty($_GET['merk'])) {
                                $merk_id = $_GET['merk'];
@@ -202,8 +203,9 @@
                                if ($resultMerk && mysqli_num_rows($resultMerk) > 0) {
                                    $rowMerk = mysqli_fetch_assoc($resultMerk);
                                    $merk = $rowMerk['merknaam'];
-                                   $merkValue = $merk;
+                                   $merkValue = $merk_id;
                                }
+                               $sql1 .= " WHERE merk_id != $merk_id";
                            }
                            $result1 = mysqli_query($mysqli, $sql1);
                            echo '<select class="form-control" name="merk">';
@@ -218,7 +220,7 @@
                            <?php
 
                            ?>
-                           <input type="number" class="form-control" name="shoesize" placeholder="Shoe Size">
+                              <input value="<?php if(isset($_GET['shoesize']) && !empty($_GET['shoesize'])){ echo $_GET['shoesize'];} ?>" type="number" class="form-control" name="shoesize" placeholder="Shoe Size">
 
                            </div>
                            </div>
@@ -404,7 +406,6 @@
                            echo '   <div class="box_main">';
                            echo '      <h4 class="shirt_text">' . htmlspecialchars($row["artikelnaam"]) . '</h4>';
                            echo '      <p class="price_text">Price:  <span style="color: #262626;">$' . htmlspecialchars($row["prijs"]) . '</span></p>';
-                           echo '      <p class="stock_text">' . getStockStatus($row["artikel_id"]) . '</p>';
                            echo '      <div class="tshirt_img"><img src="' . htmlspecialchars($row["directory"]) . '"></div>';
                            echo '      <div class="btn_main">';
 
