@@ -199,6 +199,9 @@ select:disabled {
             <br>
     <h1 class="product-title"><?php echo $row['artikelnaam']; ?></h1>
     <p class="product-price">&euro; <?php echo $row['prijs']; ?></p>
+    <p class="product-stock">
+        <?php echo getStockStatus($id); ?>
+    </p>
     <form id="colorForm" action="" method="GET">
         <div class="color-selector">
         <h3>Select Color:</h3>
