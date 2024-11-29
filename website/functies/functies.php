@@ -275,47 +275,87 @@ function announcement()
    
 // Functie om een recensie goed te keuren
 function recensieGoedkeuren($recensie_id) {
-    include 'connect.php'; // Zorg dat connect.php de $mysqli variabele bevat
-    global $mysqli;
+   include 'connect.php'; // Zorg dat connect.php de $mysqli variabele bevat
+   global $mysqli;
 
-    // Update-query om een recensie goed te keuren
-    $sql = "UPDATE tblrecensies SET goedGekeurd = 1 WHERE recensie_id = ?";
-    $stmt = $mysqli->prepare($sql);
+   // Update-query om een recensie goed te keuren
+   $sql = "UPDATE tblrecensies SET goedGekeurd = 1 WHERE recensie_id = ?";
+   $stmt = $mysqli->prepare($sql);
 
-    if (!$stmt) {
-        die("Fout bij voorbereiden van statement: " . $mysqli->error);
-    }
+   if (!$stmt) {
+       die("Fout bij voorbereiden van statement: " . $mysqli->error);
+   }
 
-    // Bind de parameter en voer de query uit
-    $stmt->bind_param("i", $recensie_id);
+   // Bind de parameter en voer de query uit
+   $stmt->bind_param("i", $recensie_id);
 
-    if (!$stmt->execute()) {
-        die("Fout bij uitvoeren van statement: " . $stmt->error);
-    }
+   if (!$stmt->execute()) {
+       die("Fout bij uitvoeren van statement: " . $stmt->error);
+   }
 
-    $stmt->close();
+   $stmt->close();
+}
+
+// Functie om een recensie te verwijderen
+function recensieVerwijderen($recensie_id) {
+   include 'connect.php'; // Zorg dat connect.php de $mysqli variabele bevat
+   global $mysqli;
+
+   // Delete-query om een recensie te verwijderen
+   $sql = "DELETE FROM tblrecensies WHERE recensie_id = ?";
+   $stmt = $mysqli->prepare($sql);
+
+   if (!$stmt) {
+       die("Fout bij voorbereiden van statement: " . $mysqli->error);
+   }
+
+   // Bind de parameter en voer de query uit
+   $stmt->bind_param("i", $recensie_id);
+
+   if (!$stmt->execute()) {
+       die("Fout bij uitvoeren van statement: " . $stmt->error);
+   }
+
+   $stmt->close();
 }
 
 // Functie om een recensie toe te voegen
-function recensieToevoegen($klant_id, $rating, $text) {
-    include 'connect.php'; // Zorg dat connect.php de $mysqli variabele bevat
-    global $mysqli;
+function recensieToevoegen($klant_id, $rating, $text, $artikel_id) {
+  include 'connect.php'; // Zorg dat $mysqli beschikbaar is
+  global $mysqli;
 
-    // Query aangepast aan de getoonde tabelstructuur
-    $sql = "INSERT INTO tblrecensies (text, rating, klant_id, goedGekeurd) VALUES (?, ?, ?, 0)";
-    $stmt = $mysqli->prepare($sql);
+  // De SQL-query aanpassen aan de bestaande kolommen
+  $sql = "INSERT INTO tblrecensies (klant_id, rating, text, goedGekeurd, artikel_id) VALUES (?, ?, ?, 0, ?)";
+  $stmt = $mysqli->prepare($sql);
 
-    if (!$stmt) {
-        die("Fout bij voorbereiden van statement: " . $mysqli->error);
-    }
+  if (!$stmt) {
+      die("Fout bij voorbereiden van statement: " . $mysqli->error);
+  }
 
-    // Bind de parameters en voer de query uit
-    $stmt->bind_param("sii", $text, $rating, $klant_id);
+  // Parameters binden en de query uitvoeren
+  $stmt->bind_param("iisi", $klant_id, $rating, $text, $artikel_id);
 
-    if (!$stmt->execute()) {
-        die("Fout bij uitvoeren van statement: " . $stmt->error);
-    }
+  if (!$stmt->execute()) {
+      die("Fout bij uitvoeren van statement: " . $stmt->error);
+  }
 
-    $stmt->close();
+  $stmt->close();
+}
+
+
+function getStockStatus($artikel_id) {
+  include 'connect.php';
+  $sql = "SELECT stock FROM tblstock WHERE artikel_id = ?";
+  $stmt = $mysqli->prepare($sql);
+  $stmt->bind_param("i", $artikel_id);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  $row = $result->fetch_assoc();
+  
+  if ($row === null) {
+      return 'Out of stock';
+  }
+  
+  return $row['stock'] > 0 ? 'In Stock' : 'Out of Stock';
 }
 ?>

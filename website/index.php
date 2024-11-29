@@ -404,6 +404,7 @@
                            echo '   <div class="box_main">';
                            echo '      <h4 class="shirt_text">' . htmlspecialchars($row["artikelnaam"]) . '</h4>';
                            echo '      <p class="price_text">Price:  <span style="color: #262626;">$' . htmlspecialchars($row["prijs"]) . '</span></p>';
+                           echo '      <p class="stock_text">' . getStockStatus($row["artikel_id"]) . '</p>';
                            echo '      <div class="tshirt_img"><img src="' . htmlspecialchars($row["directory"]) . '"></div>';
                            echo '      <div class="btn_main">';
 
