@@ -1,7 +1,5 @@
-MyShoes
+[MyShoes](https://myshoes.zoobagogo.com/)
 =======
-
-*[myshoes](https://myshoes.zoobagogo.com/)*
 
 
 **Database sql staat online op https://auth-db1650.hstgr.io/index.php?route=/&route=%2F**
