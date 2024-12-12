@@ -59,7 +59,7 @@ if (isset($_POST['add'])) {
     $stmt->close();
 
     // code voor het toevoegen van een announcement in verband met een nieuwe kortingscode
-    $sql = "INSERT INTO tblannouncements (announcement) VALUES ('There is a new promo code!')";
+    $sql = "INSERT INTO tblannouncement (announcement) VALUES ('There is a new promo code!')";
     $result = $mysqli->query($sql);
     
 
