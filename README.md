@@ -1,9 +1,12 @@
 MyShoes
 =======
 
-**Database sql staat in current-db.txt**
+*myshoes.zoobagogo.com*
 
 
-*Als jullie errors krijgen, of code die niet werkt, probeer het dan niet zelf op te lossen voordat je de database opnieuw geinstalleerd hebt vanaf deze file*
+**Database sql staat online op https://auth-db1650.hstgr.io/index.php?route=/&route=%2F**
 
-*Sommige dingen werken niet zonder die db*
+**User: u578783310_groep2**
+
+**Wachtwoord op discord**
+
