@@ -18,6 +18,8 @@ echo '
 <a href= "promo">Promo Codes</a>
 <a href="recensieGoedkeuren">Approve reviews</a>
 <a href="lopendPromotieOverzicht">Active Promotions Overview</a>
+<a href="orders">Orders</a>
+
 </div>';
 
 ?>
