@@ -1,6 +1,5 @@
 <?php
 
-
 echo '
 <div class="sidemenu">
 <a href="index">Home</a>

@@ -1218,12 +1218,30 @@ text-align: right;
     justify-content: center;
     align-items: center;
 }
+.tableContainer{
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 50px;
+    overflow-x: auto;
+}
+.message {
+    text-align: center;
+    font-size: 18px;
+    color: #333;
+    margin-top: 20px;
+}
+.message.success {
+    color: #28a745;
+}
+.message.error {
+    color: #dc3545;
+}
+
 table.adminTable{
-    width: 60%;
     border-collapse: collapse;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin: 50px auto;
+    margin: 0 auto;
 }
 table.adminTable th, table.adminTable td {
     padding: 10px;
@@ -1240,6 +1258,18 @@ table.adminTable tr:nth-child(even) {
 }
 table.adminTable tr:hover {
     background-color: #ddd;
+}
+table.adminTable input:not([type="submit"]) {
+    border: none;
+    text-align: center;
+    background-color: transparent;
+   }
+   table.adminTable select {
+    border: 1px solid #ddd;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
 }
 select.selectTable {
     border: 1px solid #ddd;
@@ -1313,9 +1343,7 @@ select.selectTable {
 .show {
     display: block;
 }
-/* ...existing code... */
 
-/* ...existing code... */
 .filter-section {
     display: none;
     padding: 20px;
