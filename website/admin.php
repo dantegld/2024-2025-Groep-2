@@ -65,7 +65,31 @@
         ?>
     </div>
 
+    <style>
+        .sidemenu{
+            width: 100%;
+            max-width: 250px;
+        }
 
+        @media screen and (orientation: portrait) {
+            .sidemenu {
+                max-width: none;
+                height: auto;
+                position: relative;
+                
+            }
+
+            .sidemenu a {
+                float: left;
+                padding: 15px;
+                text-align: center;
+                width: 100%;
+            }
+            .adminpageCenter {
+                padding-left: 0;
+            }   
+        }
+    </style>
 </body>
 
 </html>

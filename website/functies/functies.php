@@ -376,6 +376,7 @@ function getSchoenenVergelijking($schoen1, $schoen2)
    return $schoenen;
 }
 
+
 function getMerkNaam($merk_id)
 {
    include 'connect.php';
@@ -402,6 +403,31 @@ function getCategorieNaam($categorie_id)
    $stmt->close();
    $mysqli->close();
    return $row['categorienaam'];
+
+function getMerkNaam($merk_id) {
+    include 'connect.php';
+    $sql = "SELECT merknaam FROM tblmerk WHERE merk_id = ?";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("i", $merk_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $stmt->close();
+    $mysqli->close();
+    return $row ? $row['merknaam'] : 'unknown';
+}
+
+function getCategorieNaam($categorie_id) {
+    include 'connect.php';
+    $sql = "SELECT categorienaam FROM tblcategorie WHERE categorie_id = ?";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("i", $categorie_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $stmt->close();
+    $mysqli->close();
+    return $row ? $row['categorienaam'] : 'unknown'
 }
 
 
