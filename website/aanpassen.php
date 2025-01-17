@@ -225,6 +225,9 @@ include 'functies/adminSideMenu.php';
     } else {
         echo "No products found.";
     }
+    require_once 'functies/functies.php';
+    stockCheck();
+
     $result->close();
     $mysqli->close(); // Close the MySQL connection
     ?>

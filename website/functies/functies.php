@@ -4,9 +4,7 @@
 // Functie om de onderhoudsmodus te controleren
 function onderhoudsModus()
 {
-   include 'connect.php';
-
-
+   include_once 'connect.php';
 
    $sql = "SELECT functiewaarde FROM tbladmin where functienaam = 'onderhoudmodus'";
    $result = $mysqli->query($sql);
@@ -202,15 +200,13 @@ function announcement()
           </div>';
 
 
-    $mysqli->close();
-
-    
-}
+         $mysqli->close();
+      }
 
 
-//recenties pakken
-         // JavaScript functie om de popup te sluiten
-         echo '<script>
+      //recenties pakken
+      // JavaScript functie om de popup te sluiten
+      echo '<script>
          function closePopup() {
             var popup = document.getElementById("popup");
             var popupBackground = document.getElementById("popupBackground");
@@ -219,8 +215,8 @@ function announcement()
            }
            </script>';
 
-         // JavaScript om de popup te tonen bij het laden van de pagina
-         echo '<script>
+      // JavaScript om de popup te tonen bij het laden van de pagina
+      echo '<script>
            window.onload = function() {
             var popup = document.getElementById("popup");
             var popupBackground = document.getElementById("popupBackground");
@@ -228,8 +224,8 @@ function announcement()
            }
            </script>';
 
-         // CSS voor de popup styling
-         echo '<style>
+      // CSS voor de popup styling
+      echo '<style>
              .popupBackground {
                 position: fixed;
                 top:  0;
@@ -269,12 +265,13 @@ function announcement()
              cursor: pointer;
            }
            </style>';
-      }
    }
-   // Sluit de databaseverbinding
-   
+}
+// Sluit de databaseverbinding
+
 // Functie om een recensie goed te keuren
-function recensieGoedkeuren($recensie_id) {
+function recensieGoedkeuren($recensie_id)
+{
    include 'connect.php'; // Zorg dat connect.php de $mysqli variabele bevat
    global $mysqli;
 
@@ -283,21 +280,22 @@ function recensieGoedkeuren($recensie_id) {
    $stmt = $mysqli->prepare($sql);
 
    if (!$stmt) {
-       die("Fout bij voorbereiden van statement: " . $mysqli->error);
+      die("Fout bij voorbereiden van statement: " . $mysqli->error);
    }
 
    // Bind de parameter en voer de query uit
    $stmt->bind_param("i", $recensie_id);
 
    if (!$stmt->execute()) {
-       die("Fout bij uitvoeren van statement: " . $stmt->error);
+      die("Fout bij uitvoeren van statement: " . $stmt->error);
    }
 
    $stmt->close();
 }
 
 // Functie om een recensie te verwijderen
-function recensieVerwijderen($recensie_id) {
+function recensieVerwijderen($recensie_id)
+{
    include 'connect.php'; // Zorg dat connect.php de $mysqli variabele bevat
    global $mysqli;
 
@@ -306,98 +304,144 @@ function recensieVerwijderen($recensie_id) {
    $stmt = $mysqli->prepare($sql);
 
    if (!$stmt) {
-       die("Fout bij voorbereiden van statement: " . $mysqli->error);
+      die("Fout bij voorbereiden van statement: " . $mysqli->error);
    }
 
    // Bind de parameter en voer de query uit
    $stmt->bind_param("i", $recensie_id);
 
    if (!$stmt->execute()) {
-       die("Fout bij uitvoeren van statement: " . $stmt->error);
+      die("Fout bij uitvoeren van statement: " . $stmt->error);
    }
 
    $stmt->close();
 }
 
 // Functie om een recensie toe te voegen
-function recensieToevoegen($klant_id, $rating, $text, $artikel_id) {
-  include 'connect.php'; // Zorg dat $mysqli beschikbaar is
-  global $mysqli;
+function recensieToevoegen($klant_id, $rating, $text, $artikel_id)
+{
+   include 'connect.php'; // Zorg dat $mysqli beschikbaar is
+   global $mysqli;
 
-  // De SQL-query aanpassen aan de bestaande kolommen
-  $sql = "INSERT INTO tblrecensies (klant_id, rating, text, goedGekeurd, artikel_id) VALUES (?, ?, ?, 0, ?)";
-  $stmt = $mysqli->prepare($sql);
+   // De SQL-query aanpassen aan de bestaande kolommen
+   $sql = "INSERT INTO tblrecensies (klant_id, rating, text, goedGekeurd, artikel_id) VALUES (?, ?, ?, 0, ?)";
+   $stmt = $mysqli->prepare($sql);
 
-  if (!$stmt) {
+   if (!$stmt) {
       die("Fout bij voorbereiden van statement: " . $mysqli->error);
-  }
+   }
 
-  // Parameters binden en de query uitvoeren
-  $stmt->bind_param("iisi", $klant_id, $rating, $text, $artikel_id);
+   // Parameters binden en de query uitvoeren
+   $stmt->bind_param("iisi", $klant_id, $rating, $text, $artikel_id);
 
-  if (!$stmt->execute()) {
+   if (!$stmt->execute()) {
       die("Fout bij uitvoeren van statement: " . $stmt->error);
-  }
+   }
 
-  $stmt->close();
+   $stmt->close();
 }
 
 
-function getStockStatus($artikel_id) {
-  include 'connect.php';
-  $sql = "SELECT stock FROM tblstock WHERE artikel_id = ?";
-  $stmt = $mysqli->prepare($sql);
-  $stmt->bind_param("i", $artikel_id);
-  $stmt->execute();
-  $result = $stmt->get_result();
-  $row = $result->fetch_assoc();
-  
-  if ($row === null) {
+function getStockStatus($artikel_id)
+{
+   include 'connect.php';
+   $sql = "SELECT stock FROM tblstock WHERE artikel_id = ?";
+   $stmt = $mysqli->prepare($sql);
+   $stmt->bind_param("i", $artikel_id);
+   $stmt->execute();
+   $result = $stmt->get_result();
+   $row = $result->fetch_assoc();
+
+   if ($row === null) {
       return 'Out of stock';
-  }
-  
-  return $row['stock'] > 0 ? 'In Stock' : 'Out of Stock';
+   }
+
+   return $row['stock'] > 0 ? 'In Stock' : 'Out of Stock';
 }
 
-function getSchoenenVergelijking($schoen1, $schoen2) {
-    include 'connect.php';
-    $sql = "SELECT * FROM tblartikels WHERE artikel_id IN (?, ?)";
-    $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("ii", $schoen1, $schoen2);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $schoenen = [];
-    while ($row = $result->fetch_assoc()) {
-        $schoenen[] = $row;
-    }
-    $stmt->close();
-    $mysqli->close();
-    return $schoenen;
+function getSchoenenVergelijking($schoen1, $schoen2)
+{
+   include 'connect.php';
+   $sql = "SELECT * FROM tblartikels WHERE artikel_id IN (?, ?)";
+   $stmt = $mysqli->prepare($sql);
+   $stmt->bind_param("ii", $schoen1, $schoen2);
+   $stmt->execute();
+   $result = $stmt->get_result();
+   $schoenen = [];
+   while ($row = $result->fetch_assoc()) {
+      $schoenen[] = $row;
+   }
+   $stmt->close();
+   $mysqli->close();
+   return $schoenen;
 }
 
-function getMerkNaam($merk_id) {
-    include 'connect.php';
-    $sql = "SELECT merknaam FROM tblmerk WHERE merk_id = ?";
-    $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("i", $merk_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $row = $result->fetch_assoc();
-    $stmt->close();
-    $mysqli->close();
-    return $row['merknaam'];
+function getMerkNaam($merk_id)
+{
+   include 'connect.php';
+   $sql = "SELECT merknaam FROM tblmerk WHERE merk_id = ?";
+   $stmt = $mysqli->prepare($sql);
+   $stmt->bind_param("i", $merk_id);
+   $stmt->execute();
+   $result = $stmt->get_result();
+   $row = $result->fetch_assoc();
+   $stmt->close();
+   $mysqli->close();
+   return $row['merknaam'];
 }
 
-function getCategorieNaam($categorie_id) {
-    include 'connect.php';
-    $sql = "SELECT categorienaam FROM tblcategorie WHERE categorie_id = ?";
-    $stmt->prepare($sql);
-    $stmt->bind_param("i", $categorie_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $row = $result->fetch_assoc();
-    $stmt->close();
-    $mysqli->close();
-    return $row['categorienaam'];
+function getCategorieNaam($categorie_id)
+{
+   include 'connect.php';
+   $sql = "SELECT categorienaam FROM tblcategorie WHERE categorie_id = ?";
+   $stmt->prepare($sql);
+   $stmt->bind_param("i", $categorie_id);
+   $stmt->execute();
+   $result = $stmt->get_result();
+   $row = $result->fetch_assoc();
+   $stmt->close();
+   $mysqli->close();
+   return $row['categorienaam'];
 }
+
+
+function stockCheck()
+{
+   include 'connect.php';
+   $outOfStock = [];
+
+   $sql = "SELECT artikel_id, artikelnaam FROM tblartikels WHERE artikel_id NOT IN (SELECT artikel_id FROM tblstock WHERE stock > 0)";
+   $result = $mysqli->query($sql);
+
+
+
+   if ($result) {
+      while ($row = $result->fetch_assoc()) {
+         $outOfStock[] = $row;
+      }
+      $result->close();
+   }
+
+   if (!empty($outOfStock)) {
+
+      echo '<div class="alert alert-danger" role="alert">
+         The following products are out of stock:<br>
+      ';
+
+      foreach ($outOfStock as $product) {
+         echo htmlspecialchars($product['artikelnaam'], ENT_QUOTES, 'UTF-8') . "<br>";
+
+      }
+      echo '</div>';
+
+
+   } else {
 ?>
+      <div class="alert alert-success" role="alert">
+         All products are in stock.
+      </div>
+<?php
+   }
+
+   $mysqli->close();
+}
