@@ -35,94 +35,6 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
    <link rel="icon" href="images/icon/favicon.png">
    </head>
-   <style>
-   body {
-       font-family: 'Poppins', sans-serif;
-       background-color: #f5f5f5;
-       margin: 0;
-       padding: 0;
-   }
-   h1{
-        text-align: center;
-        margin-top: 50px;
-   }
-   table {
-       width: 70%; /* Maak de tabel breder naar 70% */
-       border-collapse: collapse;
-       background-color: #fff;
-       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-       margin: 0 auto; /* Centreer de tabel */
-       margin-top: 50px;
-   }
-   th, td {
-       padding: 10px;
-       text-align: center;
-       border: 1px solid #ddd;
-   }
-   th {
-       background-color: #007BFF;
-       color: white;
-       font-weight: normal;
-   }
-   td {
-       color: #333;
-   }
-   tr:nth-child(even) {
-       background-color: #f2f2f2;
-   }
-   input[type="submit"].delete {
-       background-color: #ff4d4d;
-       color: white;
-       border: none;
-       padding: 10px 15px;
-       cursor: pointer;
-       border-radius: 5px;
-       font-size: 14px;
-       transition: background-color 0.3s ease;
-   }
-    input[type="submit"].edit {
-         background-color: #007BFF;
-         color: white;
-         border: none;
-         padding: 10px 15px;
-         cursor: pointer;
-         border-radius: 5px;
-         font-size: 14px;
-         transition: background-color 0.3s ease;
-    }
-   input{
-    border: none;
-    text-align: center;
-    background-color: transparent;
-   }
-   .message {
-       text-align: center;
-       font-size: 18px;
-       color: #333;
-       margin-top: 20px;
-   }
-   .message.success {
-       color: #28a745;
-   }
-   .message.error {
-       color: #dc3545;
-   }
-   form {
-       display: inline;
-   }
-   .container {
-       text-align: center;
-       padding: 20px;
-   }
-   .wachtwoord-cell {
-    max-width: 250px;
-    word-wrap: break-word;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-}
-
-</style>
 
 
    </head>
@@ -183,7 +95,8 @@ include 'functies/adminSideMenu.php';
     $query = "SELECT * FROM tblklant,tbltypes WHERE NOT klant_id = '$myKlantID' and tblklant.type_id = tbltypes.type_id";
     $result = $mysqli->query($query);
     if ($result->num_rows > 0) {
-        echo "<table border='1'>";
+        echo "<div class='tableContainer'>";
+        echo "<table border='1' class='adminTable'>";
         echo "<tr><th>Customer ID</th><th>Customer name</th><th>E-mail</th><th>Phone number</th><th>Shoe size</th><th>Type</th><th>Action</th><th>Delete</th></tr>";
         while ($row = $result->fetch_assoc()) {
             // Start the form here
@@ -209,16 +122,17 @@ include 'functies/adminSideMenu.php';
             }
             echo "<td>
                           <input type='hidden' name='klant_id' value='" . $row['klant_id'] . "' />
-                          <input class='edit' type='submit' name='aanpassen' value='Adjust' />
+                          <input class='btn btn-primary' type='submit' name='aanpassen' value='Adjust' />
                       </td>";
             echo "<td>
                           <input type='hidden' name='klant_id' value='" . $row['klant_id'] . "' />
-                          <input class='delete' type='submit' name='verwijderen' value='Delete' />
+                          <input class='btn btn-danger' type='submit' name='verwijderen' value='Delete' />
                       </td>";
             echo "</form>"; // End the form here
             echo "</tr>";
         }
         echo "</table>";
+        echo "</div>";
     } else {
         echo "No Customers found";
     }
