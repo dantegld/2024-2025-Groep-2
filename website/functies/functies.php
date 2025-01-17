@@ -4,7 +4,7 @@
 // Functie om de onderhoudsmodus te controleren
 function onderhoudsModus()
 {
-   include_once 'connect.php';
+   include 'connect.php';
 
    $sql = "SELECT functiewaarde FROM tbladmin where functienaam = 'onderhoudmodus'";
    $result = $mysqli->query($sql);
@@ -462,11 +462,11 @@ function stockCheck()
 
 
    } else {
-?>
+   ?>
       <div class="alert alert-success" role="alert">
          All products are in stock.
       </div>
-<?php
+   <?php
    }
 
    $mysqli->close();

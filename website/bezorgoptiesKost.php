@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <!-- site metas -->
-    <title>Delivery options</title>
+    <title>Delivery cost</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -111,68 +111,7 @@
     include 'functies/functies.php';
     controleerAdmin();
     include 'functies/adminSideMenu.php';
-    ?>
+    
 
+    
 
-<div class="adminpageCenter">
-        <br>
-        <h2>Delivery options</h2>
-        <br>
-            <?php
-                echo '
-                <table>
-            <tr>
-                <th>Method</th>
-                <th>Active</th>
-                <th>Activate/Deactivate</th>
-                <th>Kost</th>
-            </tr>';
-            
-                $sql = "SELECT * FROM tblbezorgopties";
-                $result = $mysqli->query($sql);
-                while ($row = $result->fetch_assoc()) {
-                    echo '<tr>';
-                    echo '<td>' . $row['methodenaam'] . '</td>';
-                    echo '<td>';
-                    if ($row['actief'] == 1) {
-                        echo 'Yes';
-                    } else {
-                        echo 'No';
-                    }
-                    echo '</td>';
-
-                    $methode_id = $row['methode_id'];
-                    if ($row['actief'] == 1) {
-                        echo '<td><a href="bezorgoptiesDeactiveren?id=' . $methode_id . '">Deactivate</a></td>';
-                    } else {
-                        echo '<td><a href="bezorgoptiesActiveren?id=' . $methode_id . '">Activate</a></td>';
-                    }
-                    echo '<td>
-                    <form method="post" action="bezorgopties">
-                    <input type="number" name="kost" value="' . $row['kost'] . '">
-                    <input type="hidden" name="methode_id" value="' . $methode_id . '">
-                    <input type="submit" value="Save" name="save" >
-                    </form></td>';
-                    echo '</tr>';
-                }
-                echo '</table>';
-
-
-                if (isset($_POST['save'])) {
-                    $kost = $_POST['kost'];
-                    $methode_id = $_POST['methode_id'];
-                    $sql = "UPDATE tblbezorgopties SET kost = ? WHERE methode_id = ?";
-                    $stmt = $mysqli->prepare($sql);
-                    $stmt->bind_param("ii", $kost, $methode_id);
-                    $stmt->execute();
-                    $stmt->close();
-                    echo '<div class="message success">Delivery option saved successfully.</div>';
-                    //refresh page
-                    echo "<meta http-equiv='refresh' content='1'>";
-                }
-                $mysqli->close();
-            ?>
-    </div>
-
-</body>
-</html>
