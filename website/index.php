@@ -237,7 +237,10 @@
                               <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                               <span class="padding_5">Cart</span></a>
                            </li>
-                          
+                           <li><a href="vergelijkSchoenen.php">
+                              <i class="fa fa-exchange" aria-hidden="true"></i>
+                              <span class="padding_5">Compare shoes</span></a>
+                           </li>
                            <?php
                            //Als de klant is ingelogd, laat de knop "My Profile" zien, anders laat de knop "Log-In" zien
 

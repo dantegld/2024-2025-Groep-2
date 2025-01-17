@@ -385,19 +385,19 @@ function getMerkNaam($merk_id) {
     $row = $result->fetch_assoc();
     $stmt->close();
     $mysqli->close();
-    return $row['merknaam'];
+    return $row ? $row['merknaam'] : 'unknown';
 }
 
 function getCategorieNaam($categorie_id) {
     include 'connect.php';
     $sql = "SELECT categorienaam FROM tblcategorie WHERE categorie_id = ?";
-    $stmt->prepare($sql);
+    $stmt = $mysqli->prepare($sql);
     $stmt->bind_param("i", $categorie_id);
     $stmt->execute();
     $result = $stmt->get_result();
     $row = $result->fetch_assoc();
     $stmt->close();
     $mysqli->close();
-    return $row['categorienaam'];
+    return $row ? $row['categorienaam'] : 'unknown';
 }
 ?>
