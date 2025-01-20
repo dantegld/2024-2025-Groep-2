@@ -341,6 +341,25 @@ function recensieToevoegen($klant_id, $rating, $text, $artikel_id)
    $stmt->close();
 }
 
+// Functie om een website recensie toe te voegen
+function addWebsiteReview($klant_id, $rating, $text) {
+   include 'connect.php';
+   $sql = "INSERT INTO tblwebsitefeedback (klant_id, rating, text) VALUES (?, ?, ?)";
+   $stmt = $mysqli->prepare($sql);
+
+   if (!$stmt) {
+       die("Fout bij voorbereiden van statement: " . $mysqli->error);
+   }
+
+   $stmt->bind_param("iis", $klant_id, $rating, $text);
+
+   if (!$stmt->execute()) {
+       die("Fout bij uitvoeren van statement: " . $stmt->error);
+   }
+
+   $stmt->close();
+   $mysqli->close();
+}
 
 function getStockStatus($artikel_id)
 {
@@ -444,4 +463,41 @@ function stockCheck()
 
    $mysqli->close();
 }
+
+
+function getOrderStatus($order_id) {
+   include 'connect.php';
+   $sql = "SELECT status FROM tblorders WHERE order_id = ?";
+   $stmt = $mysqli->prepare($sql);
+   $stmt->bind_param("i", $order_id);
+   $stmt->execute();
+   $result = $stmt->get_result();
+   $row = $result->fetch_assoc();
+   $stmt->close();
+   $mysqli->close();
+   return $row ? $row['status'] : 'Unknown';
+}
+
+function updateOrderStatus($order_id, $new_status) {
+   include 'connect.php';
+   $sql = "UPDATE tblorders SET status = ? WHERE order_id = ?";
+   $stmt = $mysqli->prepare($sql);
+   $stmt->bind_param("si", $new_status, $order_id);
+   $stmt->execute();
+   $stmt->close();
+   $mysqli->close();
+}
+
+function getAllOrders() {
+  include 'connect.php';
+  $sql = "SELECT * FROM tblorders";
+  $result = $mysqli->query($sql);
+  $orders = [];
+  while ($row = $result->fetch_assoc()) {
+      $orders[] = $row;
+  }
+  $mysqli->close();
+  return $orders;
+}
+
 ?>

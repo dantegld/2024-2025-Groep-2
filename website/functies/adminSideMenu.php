@@ -18,7 +18,8 @@ echo '
 <a href="recensieGoedkeuren">Approve reviews</a>
 <a href="lopendPromotieOverzicht">Active Promotions Overview</a>
 <a href="orders">Orders</a>
-
+<a href="websiteFeedback">Customer Feedback</a>
+<a href="changeOrderStatus">Change Order Status</a>
 </div>';
 
 ?>
