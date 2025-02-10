@@ -500,4 +500,28 @@ function getAllOrders() {
   return $orders;
 }
 
+function addDeliveryCostToToatallPrice($totalPrice, $deliveryOption) {
+   include 'connect.php';
+   $sql = "SELECT * FROM tblbezorgopties WHERE methode_id = ?";
+   $stmt = $mysqli->prepare($sql);
+   $stmt->bind_param("i", $deliveryOption);
+   $stmt->execute();
+   
+   $result = $stmt->get_result();
+   $row = $result->fetch_assoc();
+   $deliveryCost = $row['kost'];
+   return $totalPrice + $deliveryCost;
+}
+
+function addLoyaltyPoints ($klant_id) {
+   include 'connect.php';
+   $sql = "SELECT klantloyaliteitsPunten FROM tblklant WHERE klant_id = ?";
+
+   $sql = "UPDATE tblklant SET klantloyaliteitsPunten =  + ? WHERE klant_id = ?";
+   $stmt = $mysqli->prepare($sql);
+   $stmt->bind_param("ii", $points, $klant_id);
+   $stmt->execute();
+   $stmt->close();
+   $mysqli->close();
+}
 ?>
