@@ -251,7 +251,7 @@ if (isset($_SESSION["klant_id"])) {
             echo "<form method='POST' action='winkelwagen'>";
             echo "<input type='text' name='kortingscode'/>";
             echo "<input type='submit'  value='test' name='verstuur' />";
-            echo "</form>";
+            echo "</form> <br>";
             ?>
             <?php
        
@@ -262,7 +262,7 @@ if (isset($_SESSION["klant_id"])) {
             if ($result->num_rows > 0) {
                 echo '<div class="delivery-options">';
                 echo '<label for="delivery-option">Choose a delivery option:</label> <br>';
-                echo '<select id="delivery-option" name="delivery_option">';
+                echo '<select id="delivery-option" name="delivery_option" onchange="checkDeliveryOption(this.value)">';
                 while ($row = $result->fetch_assoc()) {
                     echo '<option value="' . $row['methode_id'] . '">' . $row['methodenaam'] . '</option>';
                 }
@@ -278,29 +278,43 @@ if (isset($_SESSION["klant_id"])) {
                 $sql = "SELECT * FROM tbladres WHERE klant_id = '$_SESSION[klant_id]'";
                 $result = $mysqli->query($sql);
                 if ($result->num_rows == 0) {
-                    echo '<div class="address-warning">Please <a href="profile">add an address</a> to enable home delivery.</div>';
-                }
+                    $addressExists = false;
+                    echo '<div class="no-address">Please fill in an address in your profile page.</div>';
+                } else {
+                    $addressExists = true;
+                    $query = "SELECT * FROM tbladres WHERE klant_id = '$_SESSION[klant_id]'";
+                    $result = $mysqli->query($query);
+                    echo '<div class="address"><br>';
+                    echo '<h3>Address</h3>';
+                    echo '<label for="address-select">Choose an address:</label><br>';
+                    echo '<select id="address-select" name="address_id">';
+                    while ($row = $result->fetch_assoc()) {
+                        echo '<option value="' . $row['adres_id'] . '">' . $row['adres'] . '</option>';
+                    }
+                    echo '</select>';
+                    echo '</div>';
             }
             
     
-      echo ' <div class= "pay"><a href="betalen" class="btn btn-primary">Checkout</a></div>';
+      echo ' <div class="pay">';
+      if ($addressExists) {
+          echo '<a href="betalen" id="checkout-button" class="btn btn-primary">Checkout</a>';
+      } else {
+          echo '<a href="profile" id="checkout-button" class="btn btn-primary">Fill adress in</a>';
+      }
+
+      echo '</div>';
            echo "</form>";
             echo '</div>'; 
-
-
-
-
-        }else {
-            echo '<div class="empty-cart">Cart is empty</div>';
         }
-    }else {
-        echo '<div class="empty-cart">Log in to use shopping cart</div>';
+    } else {
+        echo '<div class="empty-cart">Cart is empty</div>';
     }
-    
-    $mysqli->close();
-     
-        
+} else {
+    echo '<div class="empty-cart">Log in to use shopping cart</div>';
+}
 
+$mysqli->close();
 ?>
 
    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -346,6 +360,28 @@ if (isset($_SESSION["klant_id"])) {
         }
     };
     xhr.send("id=" + encodeURIComponent(id) + "&schoenmaat=" + encodeURIComponent(schoenmaat));
+}
+
+function checkDeliveryOption(option) {
+    if (option == 'Laten leveren') {
+        $.ajax({
+            url: 'check_address.php',
+            type: 'POST',
+            data: {
+                klant_id: <?php echo $_SESSION['klant_id']; ?>
+            },
+            success: function(response) {
+                if (response == 'no_address') {
+                    alert('Please fill in an address in your profile page.');
+                    $('#checkout-button').attr('href', 'javascript:void(0);');
+                } else {
+                    $('#checkout-button').attr('href', 'betalen');
+                }
+            }
+        });
+    } else {
+        $('#checkout-button').attr('href', 'betalen');
+    }
 }
    </script>
 </div>

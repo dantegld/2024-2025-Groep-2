@@ -51,21 +51,38 @@
     controleerAdmin();
     include 'functies/adminSideMenu.php';
     ?>
-    
-    <div class="adminpageCenter">
-        <?php
-        $sql = "SELECT * FROM tblklant WHERE klant_id = '$_SESSION[klant_id]'";
-        $result = $mysqli->query($sql);
-        while ($row = $result->fetch_assoc()) {
-            echo '<h2>Adminpage Myshoes</h2>';
-            echo '<h4>Welcome, ' . $row['klantnaam'] . '.</h4>';
-        }
-        $result->close();
-        $mysqli->close(); // Close the MySQL connection
-        ?>
-    </div>
 
 
+<h1>International Sales</h1>
+
+<?php
+
+$query = "SELECT SUM(a . aantal  * b . prijs) AS 'Totaal', d . landNaam 
+          FROM tblaankoop a 
+          INNER JOIN tbladres c ON c . adres_id = a . adres_id 
+          INNER JOIN tblartikels b ON a . artikel_id = b . artikel_id 
+          INNER JOIN tblLand d ON c . landID = d . landID 
+          WHERE d . landID != 1 GROUP BY d . landNaam";
+        
+$result = $mysqli->query($query);
+
+echo "<table border='1'>
+<tr>
+<th>Land</th>
+<th>Totaal</th>
+</tr>";
+
+while ($row = $result->fetch_assoc()) {
+    echo "<tr>";
+    echo "<td>" . $row['landNaam'] . "</td>";
+    echo "<td>" . $row['Totaal'] . "</td>";
+    echo "</tr>";
+}
+
+echo "</table>";
+
+
+
+
+?>
 </body>
-
-</html>

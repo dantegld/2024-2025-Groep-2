@@ -45,18 +45,9 @@
 
     ?>
 
-                    <div id="mySidenav" class="sidenav">
-                     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                     <a href="index.php">Home</a>
-                     <a href="profile.php">My Profile</a>
-                     <?php
-                     if ($_SESSION["admin"]){
-                        echo '<a href="admin.php">Admin Pagina</a>';
-                     }
-                     ?>
-                  </div>
-                  <span class="toggle_icon1" onclick="openNav()"><img  width="44px" src="images/icon/Hamburger_icon.svg.png"></span>
-                  <div class="profilepage"><br><br>
+               <div style="position: absolute; top: 10px; left: 10px;">
+                  <a href="profile"><img src="images/shoes/goback.png" style="width: 50px; height: auto;"></a>
+               </div>
                   <h2 class="title3">Add new address</h2>
                     <?php
                     $klant_id = $_SESSION['klant_id'];
@@ -72,12 +63,13 @@
                             $postcode_id = $row['postcode_id'];
                         }
                         $adres = $_POST['adres'];
-                        $sql2 = "INSERT INTO tbladres (adres_id, klant_id, adres, postcode_id) VALUES ('$adres_id', '$klant_id', '$adres', '$postcode_id')";
+                        $nation = $_POST['nation'];
+                        $sql2 = "INSERT INTO tbladres (adres_id, klant_id, adres, postcode_id, landID) VALUES ('$adres_id', '$klant_id', '$adres', '$postcode_id','$nation')";
                         $mysqli->query($sql2);
                         Header("Location: profile");
                         $mysqli->close(); // Close the MySQL connection
                     } else {
-                        //php form
+                        //php form  
                         ?>
                         <div class='loginForm'>
                         <?php
@@ -85,7 +77,17 @@
                                             <label>Address:</label><br>
                                             <input type="text"  class="form-control" name="adres" id="adres" required><br>
                                             <label>City code:</label><br>
-                                            <input type="text"  class="form-control" name="postcode" id="postcode" required><br><br>
+                                            <input type="text"  class="form-control" name="postcode" id="postcode" required><br>
+                                          <label>Nation:</label><br>
+                                            <select class="form-control" name="nation" id="nation" required>';
+                                              
+                                              $sql3 = "SELECT * FROM tblLand";
+                                              $result3 = $mysqli->query($sql3);
+                                              while ($row = $result3->fetch_assoc()) {
+                                                 echo '<option value="' . $row['landID'] . '">' . $row['landNaam'] . '</option>';
+                                              }
+                                          
+                                           echo '</select><br>
                                             <input class="btn btn-primary" type="submit" value = "Add new adress" name="adresbtn"><br>
                                             </form><br>';
 

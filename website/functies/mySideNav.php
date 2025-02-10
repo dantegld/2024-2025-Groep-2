@@ -1,7 +1,8 @@
 <?php
                   echo '<div id="mySidenav" class="sidenav">
                   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                  <a href="index">Home</a>';
+                  <a href="index">Home</a>
+                  <a href="contact">Contact Us</a>';
 
                   if ($_SESSION["klant_id"]){
                   $sql = "SELECT k.type_id ,t.type_id,t.type FROM tblklant k,tbltypes t WHERE klant_id = ?  and k.type_id = t.type_id";
@@ -18,6 +19,7 @@
 
                   if ($type == "customer" || $type == "admin"){
                   echo '<a href="profile">My Profile</a>';
+                  echo '<a href="mijnbestelling">My Orders</a>';
                   }elseif($type == "guest"){
                   echo '<a href="login">Login</a>';
                   }
