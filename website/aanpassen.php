@@ -33,7 +33,88 @@
     <link rel="stylesoeet" href="css/owl.theme.default.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
     <link rel="icon" href="images/icon/favicon.png">
-       
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        table {
+            width: 90%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 50px auto;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+            font-weight: normal;
+        }
+        td {
+            color: #333;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        input[type="submit"] {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+        input:hover {
+            background-color: #e60000;
+        }
+        .message {
+            text-align: center;
+            font-size: 18px;
+            color: #333;
+            margin-top: 20px;
+        }
+        .message.success {
+            color: #28a745;
+        }
+        .message.error {
+            color: #dc3545;
+        }
+        form {
+            display: inline;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+        input[type="number"], input[name="artikelnaam"] {
+            border: none;
+            background-color: transparent;
+            text-align: center;
+        }
+        .price-column {
+            width: 50px !important; /* Adjust the width as needed */
+        }
+        select {
+            border: 1px solid #ddd;
+            padding: 5px;
+            border-radius: 5px;
+            background-color: #fff;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
 <?php
@@ -43,7 +124,7 @@ include 'functies/functies.php';
 controleerAdmin();
 include 'functies/adminSideMenu.php';
 ?>
-<div class="adminpage">
+<div class="adminpage1">
     <br>
     <h1>Products</h1>
     <br>
@@ -89,12 +170,11 @@ include 'functies/adminSideMenu.php';
             echo "<div class='message error'>Product ID not provided.</div>";
         }
     }
-    $query = 'SELECT *, prijs - aankoopprijs AS marge_per_product FROM tblartikels';
+    $query = 'SELECT a . artikel_id, a . artikelnaam, a . prijs, a . aankoopprijs , COALESCE(SUM(b . aantal), 0) AS totaalverkocht, a . viewcount , a . prijs - a . aankoopprijs  AS marge_per_product  FROM tblartikels a LEFT JOIN tblaankoop b ON a . artikel_id = b . artikel_id GROUP BY a . artikel_id ';
     $result = $mysqli->query($query);
     if ($result->num_rows > 0) {
-        echo "<div class='tableContainer'>"; 
-        echo "<table border='1' class='adminTable'>";
-        echo "<tr><th>Product ID</th><th>Product name</th><th class='price-column'>Price</th><th>Purchase price</th><th>Profit Margin per Product</th><th>Total Views</th><th>Brand</th><th>Category</th><th>Action</th><th>Variations</th><th>Delete</th></tr>";
+        echo "<table border='1'>";
+        echo "<tr><th>Product ID</th><th>Product name</th><th class='price-column'>Price</th><th>Purchase price</th><th>Profit Margin per Product</th><th>Total sales</th><th>Total Views</th><th>Brand</th><th>Category</th><th>Action</th><th>Variations</th><th>Delete</th></tr>";
         while ($row = $result->fetch_assoc()) {
             // Fetch all brands
             $brandQuery = "SELECT * FROM tblmerk";
@@ -111,6 +191,7 @@ include 'functies/adminSideMenu.php';
             echo "<td class='price-column'><input type='number' name='prijs' value='" . $row['prijs'] . "' /></td>";
             echo "<td><input type='number' name='aankoopprijs' value='" . $row['aankoopprijs'] . "' /></td>";
             echo "<td>" . ($row['prijs'] - $row['aankoopprijs']) . "</td>";
+            echo "<td>" . $row['totaalverkocht'] . "</td>";
             echo '<td>' . $row['viewcount'] . '</td>';
 
             // Brand dropdown
@@ -131,18 +212,17 @@ include 'functies/adminSideMenu.php';
 
             echo "<td>
                       <input type='hidden' name='artikel_id' value='" . $row['artikel_id'] . "' />
-                      <input class='btn btn-primary' type='submit' name='aanpassen' value='Adjust' />
+                      <input type='submit' name='aanpassen' value='Adjust' />
                   </td>";
-            echo "<td><a class='btn btn-secondary' href='variaties?artikel_id=" . $row['artikel_id'] . "'>Variations</a></td>";
+            echo "<td><a class='btn btn-primary' href='variaties?artikel_id=" . $row['artikel_id'] . "'>Variations</a></td>";
             echo "<td>
                       <input type='hidden' name='artikel_id' value='" . $row['artikel_id'] . "' />
-                      <input class='btn btn-danger' type='submit' name='delete' value='Delete' />
+                      <input type='submit' name='delete' value='Delete' />
                   </td>";
             echo "</form>";
             echo "</tr>";
         }
         echo "</table>";
-        echo "</div>";
     } else {
         echo "No products found.";
     }

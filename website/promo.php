@@ -92,7 +92,7 @@ $result = $mysqli->query("SELECT * FROM tblkortingscodes");
     <h2>Voeg nieuwe kortingscode toe</h2>
     <input type="text" name="kortingscode" placeholder="Kortingscode" required>
     <input type="number" step="0.01" name="korting_euro" placeholder="Korting in procent" required>
-    <input type="date" name="einddatum" placeholder="Einddatum" required>
+    <input type="date" name="einddatum" placeholder="Einddatum" required min="<?php echo date('Y-m-d'); ?>">
     <input class="btn btn-primary" type="submit" name="add" value="Toevoegen">
 </form>
 
@@ -110,7 +110,7 @@ $result = $mysqli->query("SELECT * FROM tblkortingscodes");
             <form method="POST" action="">
                 <td><input type="text" name="kortingscode" value="<?php echo htmlspecialchars($row['kortingscode']); ?>" readonly></td>
                 <td><input type="number" step="0.01" name="korting_euro" value="<?php echo htmlspecialchars($row['korting_euro']); ?>" required></td>
-                <td><input type="date" name="einddatum" value="<?php echo htmlspecialchars($row['einddatum']); ?>" required></td>
+                <td><input type="date" name="einddatum" value="<?php echo htmlspecialchars($row['einddatum']); ?>" required min="<?php echo date('Y-m-d'); ?>"></td>
                 <td><?php echo htmlspecialchars($row['gebruik_aantal']); ?></td>
                 <td>
                     <input class="btn btn-primary" type="submit" name="update" value="Wijzigen">
