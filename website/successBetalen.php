@@ -90,21 +90,32 @@
     }
     ?>
     <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="titlepage">
-                    <h2>Thank you for your order!</h2>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="titlepage">
+                        <h2>Thank you for your order!</h2>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="titlepage">
-                    <h3>Uw betaling is succesvol verwerkt</h3>
-                    <a href="winkelwagen" class="btn btn-primary">Terug naar de winkelwagen</a>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="titlepage">
+                        <h3>Uw betaling is succesvol verwerkt</h3>
+                        <a href="winkelwagen" class="btn btn-primary">Terug naar de winkelwagen</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="titlepage">
+                        <h3>Track your order</h3>
+                        <p>Your order number is: <?php echo $_SESSION['order_id']; ?></p>
+                        <a href="trackOrder.php?order_id=<?php echo $_SESSION['order_id']; ?>" class="btn btn-primary">Track Order</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    
 </body>
 </html>
