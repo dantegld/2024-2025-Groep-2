@@ -213,6 +213,7 @@ if (isset($_SESSION["klant_id"])) {
         echo '</tbody>';
         echo '</table>';
         if(isset($_POST['verstuur'])) {
+            
             // Debug: Controleer de waarde van $totaal
             $kortingscode = $_POST['kortingscode'];
                 $sqlDiscount = "SELECT * FROM `tblkortingscodes` WHERE kortingscode = '". $kortingscode ."'";
@@ -254,6 +255,7 @@ if (isset($_SESSION["klant_id"])) {
             echo "</form>";
             ?>
             <?php
+    
        
             //Fetch active delivery options
     
@@ -281,7 +283,19 @@ if (isset($_SESSION["klant_id"])) {
                     echo '<div class="address-warning">Please <a href="profile">add an address</a> to enable home delivery.</div>';
                 }
             }
-            
+                 // Selecteer het type bestelling (cadeau of normaal)
+        $sqlType = "SELECT * FROM tbltypebestelling";
+        $resultType = $mysqli->query($sqlType);
+        echo '<div class="type-bestelling">';
+        echo '<label for="type-bestelling">Select a type of order:</label>';
+        echo '<select id="type-bestelling" name="type_bestelling">';
+
+        while ($rowType = $resultType->fetch_assoc()) {
+            echo '<option value="' . $rowType['type_id'] . '">' . $rowType['type_naam'] . '</option>';
+        }
+
+        echo '</select>';
+        echo '</div>';
     
       echo ' <div class= "pay"><a href="betalen" class="btn btn-primary">Checkout</a></div>';
            echo "</form>";
