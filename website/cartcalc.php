@@ -45,8 +45,15 @@ if(!isset($_GET["schoenmaat"])){
     $sql = "INSERT INTO tblwinkelwagen (klant_id, artikel_id, aantal, variatie_id, schoenmaat) VALUES ($klant_id, $artikel_id, 1, $variatie_id, $schoenmaat)";
     print_r($sql);
     if ($mysqli->query($sql) === TRUE) {
-        header("Location: winkelwagen.php");
+        
+        //add a count to how many times the product has been added to the cart
+        $sql = "UPDATE tblartikels SET addedCart = addedCart + 1 WHERE artikel_id = $artikel_id";
+        if ($mysqli->query($sql) === TRUE) {
+            header("Location: winkelwagen.php");
         exit();
+        } else {
+            echo "Error updating record: " . $mysqli->error;
+        }
     } else {
         echo "Error: " . $sql . "<br>" . $mysqli->error; 
     }

@@ -43,74 +43,88 @@
 </head>
 
 <body>
-<style>
-         body {
-             font-family: 'Poppins', sans-serif;
-             background-color: #f5f5f5;
-             margin: 0;
-             padding: 0;
-         }
-         table {
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        table {
             width: 60%;
-             border-collapse: collapse;
-             background-color: #fff;
-             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             white-space: nowrap;
-            }
-         
-         th, td {
-             padding: 10px;
-             text-align: center;
-             border: 1px solid #ddd;
-         }
-         th {
-             background-color: #007BFF;
-             color: white;
-             font-weight: normal;
-         }
-         td {
-             color: #333;
-         }
-         tr:nth-child(even) {
-             background-color: #f2f2f2;
-         }
-         input[type="submit"] {
-             color: white;
-             border: none;
-             padding: 10px 15px;
-             cursor: pointer;
-             border-radius: 5px;
-             font-size: 14px;
-             transition: background-color 0.3s ease;
-         }
-         input:hover {
-             background-color: #e60000;
-         }
-         .message {
-             text-align: center;
-             font-size: 18px;
-             color: #333;
-             margin-top: 20px;
-         }
-         .message.success {
-             color: #28a745;
-         }
-         .message.error {
-             color: #dc3545;
-         }
-         form {
-             display: inline;
-         }
-         .container {
-             text-align: center;
-             padding: 20px;
-         }
-         input[type="number"],input[name="artikelnaam"] {
-             border: none;
-             background-color: transparent;
-             text-align: center;
-         }
-      </style>
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+            font-weight: normal;
+        }
+
+        td {
+            color: #333;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        input[type="submit"] {
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        input:hover {
+            background-color: #e60000;
+        }
+
+        .message {
+            text-align: center;
+            font-size: 18px;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        .message.success {
+            color: #28a745;
+        }
+
+        .message.error {
+            color: #dc3545;
+        }
+
+        form {
+            display: inline;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        input[type="number"],
+        input[name="artikelnaam"] {
+            border: none;
+            background-color: transparent;
+            text-align: center;
+        }
+    </style>
     <?php
     include 'connect.php';
     session_start();
@@ -118,9 +132,9 @@
     controleerAdmin();
     include 'functies/adminSideMenu.php';
 
- 
 
     echo '<div class="adminpage">';
+
     if (isset($_POST['aanpassen'])) {
         $stock_id = $_POST['stock_id'];
         $stock = $_POST['stock'];
@@ -145,11 +159,16 @@
     echo '</tr>';
     while ($row = $result->fetch_assoc()) {
         echo '<tr>';
-        echo "<form method='POST' action='stock?artikel_id=" . $artikel_id. '&variatie_id='. $variatie_id . "'>";
+        echo "<form method='POST' action='stock?artikel_id=" . $artikel_id . '&variatie_id=' . $variatie_id . "'>";
         echo '<td>' . $row['stock_id'] . '</td>';
         echo '<td>' . $row['artikelnaam'] . ' ' . $row['kleur'] . '</td>';
         echo '<td>' . $row['schoenmaat'] . '</td>';
-        echo "<td><input type='number' name='stock' value='" . $row['stock'] . "' /></td>";
+        //shows red number when stock is below 2
+        if ($row['stock'] < 2) {
+            echo '<td><input type="number" name="stock" value="' . $row['stock'] . '" style="color:red;"></td>';
+        } else {
+            echo '<td><input type="number" name="stock" value="' . $row['stock'] . '"></td>';
+        }
         echo "<td>
         <input class='btn btn-primary' type='hidden' name='artikel_id' value='" . $row['artikel_id'] . "' />
         <input class='btn btn-primary' type='hidden' name='stock_id' value='" . $row['stock_id'] . "' />
@@ -160,6 +179,9 @@
     }
     echo '</table>';
     $mysqli->close();
+
+    echo '</div>';
     ?>
 </body>
+
 </html>
