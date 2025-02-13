@@ -213,6 +213,7 @@ if (isset($_SESSION["klant_id"])) {
         echo '</tbody>';
         echo '</table>';
         if(isset($_POST['verstuur'])) {
+            
             // Debug: Controleer de waarde van $totaal
             $kortingscode = $_POST['kortingscode'];
                 $sqlDiscount = "SELECT * FROM `tblkortingscodes` WHERE kortingscode = '". $kortingscode ."'";
@@ -254,20 +255,32 @@ if (isset($_SESSION["klant_id"])) {
             echo "</form> <br>";
             ?>
             <?php
+    
        
             //Fetch active delivery options
     
             $sql = "SELECT * FROM tblbezorgopties WHERE actief = 1";
             $result = $mysqli->query($sql);
             if ($result->num_rows > 0) {
+                echo '<form method="POST" action="winkelwagen">';
                 echo '<div class="delivery-options">';
                 echo '<label for="delivery-option">Choose a delivery option:</label> <br>';
                 echo '<select id="delivery-option" name="delivery_option" onchange="checkDeliveryOption(this.value)">';
                 while ($row = $result->fetch_assoc()) {
                     echo '<option value="' . $row['methode_id'] . '">' . $row['methodenaam'] . '</option>';
                 }
+                echo '<input type="submit" value="save" name="verstuur" />';
                 echo '</select>';
+                echo '</form>';
                 echo '</div>';
+
+                //if that saves the option selected when button is clicked
+                if(isset($_POST['verstuur'])) {
+                    $_SESSION['delivery_option'] = $_POST['delivery_option'];
+                    if (isset($_SESSION['delivery_option'])) {
+                        echo "<span style=\"color: green;\">Delivery option saved succesfully.</span>";
+                }
+                }
             }
     
             //Check if home delivery is active
@@ -294,7 +307,19 @@ if (isset($_SESSION["klant_id"])) {
                     echo '</select>';
                     echo '</div>';
             }
-            
+                 // Selecteer het type bestelling (cadeau of normaal)
+        $sqlType = "SELECT * FROM tbltypebestelling";
+        $resultType = $mysqli->query($sqlType);
+        echo '<div class="type-bestelling">';
+        echo '<label for="type-bestelling">Select a type of order:</label>';
+        echo '<select id="type-bestelling" name="type_bestelling">';
+
+        while ($rowType = $resultType->fetch_assoc()) {
+            echo '<option value="' . $rowType['type_id'] . '">' . $rowType['type_naam'] . '</option>';
+        }
+
+        echo '</select>';
+        echo '</div>';
     
       echo ' <div class="pay">';
       if ($addressExists) {

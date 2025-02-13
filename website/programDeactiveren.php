@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <!-- site metas -->
-    <title>Delivery Options</title>
+    <title>Program Options</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -48,22 +48,22 @@
     include 'functies/adminSideMenu.php';
     ?>
     <div class="adminpage">
-        <h3>Delivery options</h3>
+        <h3>Program Options</h3>
         <?php
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
-            $sql = "UPDATE tblbezorgopties SET actief = 0 WHERE methode_id = " . $id . "";
+            $sql = "UPDATE tblLoyaliteits SET active = 0 WHERE programa_id = " . $id . "";
             $mysqli->query($sql);
 
-            $sql2 = 'SELECT * FROM tblbezorgopties WHERE methode_id = ' . $id . '';
+            $sql2 = 'SELECT * FROM tblLoyaliteits WHERE programa_id = ' . $id . '';
             $result = $mysqli->query($sql2);
             $row2 = $result->fetch_assoc();
-            $naam = $row2['methodenaam'];
+            $naam = $row2['Name'];
 
-            header('Location: bezorgopties');
+            header('Location: klantloyaliteitsprogramma');
         } else {
             echo '<h4>Er is iets fout gegaan</h4>';
-            echo '<a href="betaalmethodes">Terug naar betaalmethodes</a>';
+            echo '<a href="klantloyaliteitsprogramma">Terug naar Program Options</a>';
         }
         $mysqli->close();
         ?>

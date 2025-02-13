@@ -92,19 +92,23 @@ include 'functies/adminSideMenu.php';
     <h1>Orders</h1>
     <br>
     <?php
-    $query = 'SELECT * FROM tblorders';
+    $query = 'SELECT * FROM tblaankoop';
     $result = $mysqli->query($query);
     if ($result->num_rows > 0) {
         echo "<table border='1'>";
-        echo "<tr><th>Order ID</th><th>Costumer ID</th><th class='price-column'>Price</th><th>Personal message</th></tr>";
+        echo "<tr><th>Order ID</th><th>Costumer ID</th><th>Product ID</th><th>Variation ID</th><th>Number</th><th>Adres_ID</th><th class='price-column'>Price</th></tr>";
         while ($row = $result->fetch_assoc()) {
         
 
             echo "<tr>";
-            echo "<td>" . $row['order_id'] . "</td>";
+            echo "<td>" . $row['verkoop_id'] . "</td>";
             echo "<td>" . $row['klant_id'] . "</td>";
+            echo "<td>" . $row['artikel_id'] . "</td>";
+            echo "<td>" . $row['variatie_id'] . "</td>";
+            echo "<td>" . $row['aantal'] . "</td>";
+            echo "<td>" . $row['adres_id'] . "</td>";
             echo "<td class='price-column'>" . $row['totaalbedrag'] . "</td>";
-            echo "<td>" . $row['persoonlijke_bericht'] . "</td>";
+
             echo "</tr>";
         }
         echo "</table>";

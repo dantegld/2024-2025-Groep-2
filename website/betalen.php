@@ -26,8 +26,8 @@
     use PHPMailer\PHPMailer\Exception;
     require 'vendor/autoload.php';
 
-    // Haal totaalbedrag op uit de sessie
-    $totaal = $_SESSION['total_price'];
+    // Voeg de bezorgkosten toe aan het totaalbedrag
+    $totaal = addDeliveryCostToToatallPrice($_SESSION['total_price'], $_SESSION['delivery_option']);
 
     echo '
     <div class="loginFormLocatie">
@@ -62,13 +62,8 @@
         $row = $result->fetch_assoc();
         $email = $row['email'];
         $stmt->close();
-
-        // Sla de bestelling op in de database inclusief het persoonlijke bericht
-        $sql = "INSERT INTO tblorders (klant_id, totaalbedrag, persoonlijke_bericht) VALUES (?, ?, ?)";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("ids", $_SESSION['klant_id'], $totaal, $personal_message);
-        $stmt->execute();
-        $stmt->close();
+  
+    
 
         // PHPMailer
         $mail = new PHPMailer(true);
@@ -120,13 +115,11 @@
                         <input type='radio' name='payment_method' value='" . $row['methodenaam'] . "'> " . $row['methodenaam'] . "
                       </div>";
             }
-
-            // Persoonlijk bericht toevoegen
-            echo "
-            <br>
-            <h4>Add a personal message to your order:</h4>
+            /*<h4>Add a personal message to your order:</h4>
             <textarea name='personal_message' rows='4' cols='50' placeholder='Write your personal message here...'></textarea>
-            <br><br>
+            // Persoonlijk bericht toevoegen
+           */ echo "
+            <br>
             <input type='submit' value='Pay now' name='betalen' class='btn btn-primary'>
             ";
         }
