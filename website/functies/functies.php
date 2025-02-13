@@ -342,19 +342,20 @@ function recensieToevoegen($klant_id, $rating, $text, $artikel_id)
 }
 
 // Functie om een website recensie toe te voegen
-function addWebsiteReview($klant_id, $rating, $text) {
+function addWebsiteReview($klant_id, $rating, $text)
+{
    include 'connect.php';
    $sql = "INSERT INTO tblwebsitefeedback (klant_id, rating, text) VALUES (?, ?, ?)";
    $stmt = $mysqli->prepare($sql);
 
    if (!$stmt) {
-       die("Fout bij voorbereiden van statement: " . $mysqli->error);
+      die("Fout bij voorbereiden van statement: " . $mysqli->error);
    }
 
    $stmt->bind_param("iis", $klant_id, $rating, $text);
 
    if (!$stmt->execute()) {
-       die("Fout bij uitvoeren van statement: " . $stmt->error);
+      die("Fout bij uitvoeren van statement: " . $stmt->error);
    }
 
    $stmt->close();
@@ -396,76 +397,36 @@ function getSchoenenVergelijking($schoen1, $schoen2)
 }
 
 
-function getMerkNaam($merk_id) {
-    include 'connect.php';
-    $sql = "SELECT merknaam FROM tblmerk WHERE merk_id = ?";
-    $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("i", $merk_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $row = $result->fetch_assoc();
-    $stmt->close();
-    $mysqli->close();
-    return $row ? $row['merknaam'] : 'unknown';
-}
-
-function getCategorieNaam($categorie_id) {
-    include 'connect.php';
-    $sql = "SELECT categorienaam FROM tblcategorie WHERE categorie_id = ?";
-    $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("i", $categorie_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $row = $result->fetch_assoc();
-    $stmt->close();
-    $mysqli->close();
-    return $row ? $row['categorienaam'] : 'unknown';
-}
-
-
-function stockCheck()
+function getMerkNaam($merk_id)
 {
    include 'connect.php';
-   $outOfStock = [];
-
-   $sql = "SELECT artikel_id, artikelnaam FROM tblartikels WHERE artikel_id NOT IN (SELECT artikel_id FROM tblstock WHERE stock > 0)";
-   $result = $mysqli->query($sql);
-
-
-
-   if ($result) {
-      while ($row = $result->fetch_assoc()) {
-         $outOfStock[] = $row;
-      }
-      $result->close();
-   }
-
-   if (!empty($outOfStock)) {
-
-      echo '<div class="alert alert-danger" role="alert">
-         The following products are out of stock:<br>
-      ';
-
-      foreach ($outOfStock as $product) {
-         echo htmlspecialchars($product['artikelnaam'], ENT_QUOTES, 'UTF-8') . "<br>";
-
-      }
-      echo '</div>';
-
-
-   } else {
-   ?>
-      <div class="alert alert-success" role="alert">
-         All products are in stock.
-      </div>
-   <?php
-   }
-
+   $sql = "SELECT merknaam FROM tblmerk WHERE merk_id = ?";
+   $stmt = $mysqli->prepare($sql);
+   $stmt->bind_param("i", $merk_id);
+   $stmt->execute();
+   $result = $stmt->get_result();
+   $row = $result->fetch_assoc();
+   $stmt->close();
    $mysqli->close();
+   return $row ? $row['merknaam'] : 'unknown';
 }
 
+function getCategorieNaam($categorie_id)
+{
+   include 'connect.php';
+   $sql = "SELECT categorienaam FROM tblcategorie WHERE categorie_id = ?";
+   $stmt = $mysqli->prepare($sql);
+   $stmt->bind_param("i", $categorie_id);
+   $stmt->execute();
+   $result = $stmt->get_result();
+   $row = $result->fetch_assoc();
+   $stmt->close();
+   $mysqli->close();
+   return $row ? $row['categorienaam'] : 'unknown';
+}
 
-function getOrderStatus($order_id) {
+function getOrderStatus($order_id)
+{
    include 'connect.php';
    $sql = "SELECT status FROM tblorders WHERE order_id = ?";
    $stmt = $mysqli->prepare($sql);
@@ -478,7 +439,8 @@ function getOrderStatus($order_id) {
    return $row ? $row['status'] : 'Unknown';
 }
 
-function updateOrderStatus($order_id, $new_status) {
+function updateOrderStatus($order_id, $new_status)
+{
    include 'connect.php';
    $sql = "UPDATE tblorders SET status = ? WHERE order_id = ?";
    $stmt = $mysqli->prepare($sql);
@@ -488,18 +450,55 @@ function updateOrderStatus($order_id, $new_status) {
    $mysqli->close();
 }
 
-function getAllOrders() {
-  include 'connect.php';
-  $sql = "SELECT * FROM tblorders";
-  $result = $mysqli->query($sql);
-  $orders = [];
-  while ($row = $result->fetch_assoc()) {
+function getAllOrders()
+{
+   include 'connect.php';
+   $sql = "SELECT * FROM tblorders";
+   $result = $mysqli->query($sql);
+   $orders = [];
+   while ($row = $result->fetch_assoc()) {
       $orders[] = $row;
-  }
-  $mysqli->close();
-  return $orders;
+   }
+   $mysqli->close();
+   return $orders;
 }
 
+
+function checkStock()
+    {
+        include 'connect.php';
+        //list of wich stock id is below 2
+        $sql = "SELECT * FROM tblstock WHERE stock < 2";
+        $result = $mysqli->query($sql);
+
+        if ($result->num_rows == 0) {
+            echo '<h4 style="color:green;">Alle stock is boven 2</h4>';
+        } else {
+            echo '<div class="alert alert-danger" role="alert">The following products are out of stock:<br>';
+            echo '<table border="1">';
+            echo '<tr>';
+            echo '<th>Stock_id</th><th>Artikel</th><th>Schoenmaat</th><th>Stock</th>';
+            echo '</tr>';
+            while ($row = $result->fetch_assoc()) {
+                $stock_id = $row['stock_id'];
+                $sql = "SELECT * FROM tblkleur k,tblvariatie v,tblstock s, tblartikels 
+        WHERE s.stock_id = $stock_id and v.variatie_id = s.variatie_id and v.artikel_id = s.artikel_id 
+        and v.artikel_id = tblartikels.artikel_id and k.kleur_id = v.kleur_id";
+                $result2 = $mysqli->query($sql);
+                while ($row2 = $result2->fetch_assoc()) {
+                    echo '<tr>';
+                    echo '<td>' . $row2['stock_id'] . '</td>';
+                    echo '<td>' . $row2['artikelnaam'] . ' ' . $row2['kleur'] . '</td>';
+                    echo '<td>' . $row2['schoenmaat'] . '</td>';
+                    echo '<td style="color:red;">' . $row2['stock'] . '</td>';
+                    echo '</tr>';
+                }
+            }
+            echo '</table>';
+        }
+    }
+
+?>
 function addDeliveryCostToToatallPrice($totalPrice, $deliveryOption) {
    include 'connect.php';
    $sql = "SELECT * FROM tblbezorgopties WHERE methode_id = ?";

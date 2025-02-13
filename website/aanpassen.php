@@ -174,7 +174,7 @@ include 'functies/adminSideMenu.php';
     $result = $mysqli->query($query);
     if ($result->num_rows > 0) {
         echo "<table border='1'>";
-        echo "<tr><th>Product ID</th><th>Product name</th><th class='price-column'>Price</th><th>Purchase price</th><th>Profit Margin per Product</th><th>Total sales</th><th>Total Views</th><th>Brand</th><th>Category</th><th>Action</th><th>Variations</th><th>Delete</th></tr>";
+        echo "<tr><th>Product ID</th><th>Product name</th><th class='price-column'>Price</th><th>Purchase price</th><th>Profit Margin per Product</th><th>Total sales</th><th>Total Views</th><th>Added To Cart</th><th>Bought Count</th><th>Brand</th><th>Category</th><th>Action</th><th>Variations</th><th>Delete</th></tr>";
         while ($row = $result->fetch_assoc()) {
             // Fetch all brands
             $brandQuery = "SELECT * FROM tblmerk";
@@ -193,6 +193,22 @@ include 'functies/adminSideMenu.php';
             echo "<td>" . ($row['prijs'] - $row['aankoopprijs']) . "</td>";
             echo "<td>" . $row['totaalverkocht'] . "</td>";
             echo '<td>' . $row['viewcount'] . '</td>';
+
+            // Added to cart
+            $sql4 = "SELECT addedCart FROM tblartikels WHERE artikel_id = " . $row['artikel_id'];
+            $result4 = $mysqli->query($sql4);
+            $row4 = $result4->fetch_assoc();
+
+            echo '<td>' . $row4['addedCart'] . '</td>';
+
+            //bought count
+            $sql5 = "SELECT boughtCount FROM tblartikels WHERE artikel_id = " . $row['artikel_id'];
+            $result5 = $mysqli->query($sql5);
+            $row5 = $result5->fetch_assoc();
+
+            echo '<td>' . $row5['boughtCount'] . '</td>';
+
+
 
             // Brand dropdown
             echo "<td><select name='merk_id'>";
@@ -227,7 +243,7 @@ include 'functies/adminSideMenu.php';
         echo "No products found.";
     }
     require_once 'functies/functies.php';
-    stockCheck();
+    checkStock();
 
     $result->close();
     $mysqli->close(); // Close the MySQL connection
