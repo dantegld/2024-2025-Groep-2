@@ -26,8 +26,8 @@
     use PHPMailer\PHPMailer\Exception;
     require 'vendor/autoload.php';
 
-    // Haal totaalbedrag op uit de sessie
-    $totaal = $_SESSION['total_price'];
+    // Voeg de bezorgkosten toe aan het totaalbedrag
+    $totaal = addDeliveryCostToToatallPrice($_SESSION['total_price'], $_SESSION['delivery_option']);
 
     echo '
     <div class="loginFormLocatie">

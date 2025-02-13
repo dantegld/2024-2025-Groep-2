@@ -262,14 +262,25 @@ if (isset($_SESSION["klant_id"])) {
             $sql = "SELECT * FROM tblbezorgopties WHERE actief = 1";
             $result = $mysqli->query($sql);
             if ($result->num_rows > 0) {
+                echo '<form method="POST" action="winkelwagen">';
                 echo '<div class="delivery-options">';
                 echo '<label for="delivery-option">Choose a delivery option:</label> <br>';
                 echo '<select id="delivery-option" name="delivery_option" onchange="checkDeliveryOption(this.value)">';
                 while ($row = $result->fetch_assoc()) {
                     echo '<option value="' . $row['methode_id'] . '">' . $row['methodenaam'] . '</option>';
                 }
+                echo '<input type="submit" value="save" name="verstuur" />';
                 echo '</select>';
+                echo '</form>';
                 echo '</div>';
+
+                //if that saves the option selected when button is clicked
+                if(isset($_POST['verstuur'])) {
+                    $_SESSION['delivery_option'] = $_POST['delivery_option'];
+                    if (isset($_SESSION['delivery_option'])) {
+                        echo "<span style=\"color: green;\">Delivery option saved succesfully.</span>";
+                }
+                }
             }
     
             //Check if home delivery is active

@@ -44,10 +44,14 @@
 <body>
     <?php
     include 'connect.php';
+    include 'functies/functies.php';
     session_start();
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
     require 'vendor/autoload.php';
+    
+    //add points to klant
+    addLoyaltyPoints($_SESSION['klant_id']);
 
     // Neem email van de klant
     $sql = "SELECT email FROM tblklant WHERE klant_id = ?";
@@ -88,7 +92,11 @@
     } catch (Exception $e) {
         echo "Payment successful. However, we could not send a confirmation email. Mailer Error: {$mail->ErrorInfo}";
     }
+
+    
     ?>
+
+
     <div class="container">
             <div class="row">
                 <div class="col-md-12">

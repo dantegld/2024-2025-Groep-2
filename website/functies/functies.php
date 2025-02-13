@@ -500,4 +500,66 @@ function getAllOrders() {
   return $orders;
 }
 
+function addDeliveryCostToToatallPrice($totalPrice, $deliveryOption) {
+   include 'connect.php';
+   $sql = "SELECT * FROM tblbezorgopties WHERE methode_id = ?";
+   $stmt = $mysqli->prepare($sql);
+   $stmt->bind_param("i", $deliveryOption);
+   $stmt->execute();
+   
+   $result = $stmt->get_result();
+   $row = $result->fetch_assoc();
+   $deliveryCost = $row['kost'];
+   return $totalPrice + $deliveryCost;
+}
+
+function addLoyaltyPoints($klant_id) {
+   include 'connect.php';
+
+   // Fetch current loyalty points
+   $sql = "SELECT klantloyaliteitsPunten FROM tblklant WHERE klant_id = ?";
+   $stmt = $mysqli->prepare($sql);
+   if (!$stmt) {
+       die("Fout bij voorbereiden van statement: " . $mysqli->error);
+   }
+   $stmt->bind_param("i", $klant_id);
+   $stmt->execute();
+   $result = $stmt->get_result();
+   $row = $result->fetch_assoc();
+   $points = $row['klantloyaliteitsPunten'];
+
+   echo "<script>console.log('Loyalty points before adding ". $points ." ');</script>";
+
+   // Fetch points to add
+   $programa_id = 1; // Define the variable to be passed by reference
+   $sql2 = "SELECT Aantal FROM tblLoyaliteits WHERE programa_id = ?";
+   $stmt2 = $mysqli->prepare($sql2);
+   if (!$stmt2) {
+       die("Fout bij voorbereiden van statement: " . $mysqli->error);
+   }
+   $stmt2->bind_param("i", $programa_id);
+   $stmt2->execute();
+   $result2 = $stmt2->get_result();
+   $row2 = $result2->fetch_assoc();
+   $pointsToAdd = $row2['Aantal'];
+
+   $points += $pointsToAdd;
+
+   $stmt->close();
+   $stmt2->close();
+
+   echo "<script>console.log('Loyalty points to add ". $pointsToAdd ." ');</script>";
+
+   // Update loyalty points
+   $sql3 = "UPDATE tblklant SET klantloyaliteitsPunten = ? WHERE klant_id = ?";
+   $stmt3 = $mysqli->prepare($sql3);
+   if (!$stmt3) {
+       die("Fout bij voorbereiden van statement: " . $mysqli->error);
+   }
+   $stmt3->bind_param("ii", $points, $klant_id);
+   $stmt3->execute();
+   $stmt3->close();
+
+   echo "<script>console.log('Loyalty points added ". $points ." ');</script>";
+}
 ?>
