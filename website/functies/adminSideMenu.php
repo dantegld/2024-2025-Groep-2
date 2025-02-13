@@ -19,11 +19,9 @@ echo '
 <a href="recensieGoedkeuren">Approve reviews</a>
 <a href="lopendPromotieOverzicht">Active Promotions Overview</a>
 <a href="interverkoop">International Sales</a>
-<a href="orders">Orders</a>
 <a href="websiteFeedback">Customer Feedback</a>
-<a href="orderStatus">Status Orders</a>
+<a href="Retouren">Returns</a>
 <a href="changeOrderStatus">Change Order Status</a>
-<a href="klantloyaliteitsprogramma">Loyalty options</a>
 </div>';
 
 ?>

@@ -82,7 +82,7 @@ function type()
 function processPayPalPayment($amount)
 {
    session_start();
-
+   $_SESSION['betaalmethode'] = "PayPal"; 
    $amount = str_replace(",", "", $amount);
    // Redirect to PayPal payment page
    $paypalUrl = "https://sandbox.paypal.com";
@@ -94,13 +94,71 @@ function processPayPalPayment($amount)
    header("Location: $paypalUrl?cmd=_xclick&business=$businessEmail&amount=$amount&currency_code=$currency&return=https://groep2.itbusleyden.be/successBetalen.php&cancel_return=https://groep2.itbusleyden.be/cancelBetalen.php");
    exit();
 }
+function refundPayPalPayment($captureId, $amount)
+{
+    // PayPal API-gegevens (voor sandbox)
+    $clientId = 'YOUR_PAYPAL_CLIENT_ID';  // Vervang door je PayPal client-id
+    $secret = 'YOUR_PAYPAL_SECRET';  // Vervang door je PayPal secret
+    $sandboxUrl = 'https://api.sandbox.paypal.com';  // PayPal sandbox URL voor API-aanroepen
 
+    // Genereer een toegangstoken
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $sandboxUrl . '/v1/oauth2/token');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Accept: application/json',
+        'Accept-Language: en_US'
+    ]);
+    curl_setopt($ch, CURLOPT_USERPWD, $clientId . ':' . $secret);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, 'grant_type=client_credentials');
+    $response = curl_exec($ch);
+    if (curl_errno($ch)) {
+        die('Error:' . curl_error($ch));
+    }
+    $jsonResponse = json_decode($response);
+    $accessToken = $jsonResponse->access_token;
+    curl_close($ch);
+
+    // Creëer het refund-verzoek payload
+    $refundData = [
+        'amount' => [
+            'currency_code' => 'EUR',
+            'value' => $amount
+        ]
+    ];
+
+    // Maak de refund-aanroep naar PayPal
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $sandboxUrl . '/v2/payments/captures/' . $captureId . '/refund');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json',
+        'Authorization: Bearer ' . $accessToken
+    ]);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($refundData));
+    $response = curl_exec($ch);
+    if (curl_errno($ch)) {
+        die('Error:' . curl_error($ch));
+    }
+    curl_close($ch);
+
+    // Verwerk de response van PayPal
+    $refundResponse = json_decode($response);
+
+    if (isset($refundResponse->status) && $refundResponse->status == 'COMPLETED') {
+        echo "Refund succesvol!";
+    } else {
+        echo "Refund mislukt: " . $refundResponse->message;
+    }
+}
 
 // Functie om de Stripe betaling te verwerken
 
 function processStripePayment($amount)
 {
    include 'connect.php';
+   session_start();
+   $_SESSION['betaalmethode'] = "Stripe"; 
    require_once('stripe-php/init.php');
 
    $amount = str_replace(',', '', $amount);
@@ -144,6 +202,37 @@ function processStripePayment($amount)
    } catch (Exception $e) {
 
       echo 'Caught exception: ',  $e->getMessage(), "\n";
+   }
+}
+function processStripeRefund($paymentIntentId)
+{
+   include 'connect.php';
+   session_start();
+   
+   // Haal de Stripe secret key uit de database
+   $sql = "SELECT * FROM tblbetaalmethodes where methodenaam = 'Stripe'";
+   $result = $mysqli->query($sql);
+   $row = $result->fetch_assoc();
+   $stripe_secret_key = $row['sleutel'];
+
+   try {
+      \Stripe\Stripe::setApiKey($stripe_secret_key);
+
+      // Voer de terugbetaling uit
+      $refund = \Stripe\Refund::create([
+         'payment_intent' => $paymentIntentId, // Gebruik het Payment Intent ID dat je van de betaling hebt ontvangen
+      ]);
+
+      if ($refund->status == 'succeeded') {
+         // Terugbetaling is gelukt
+         echo 'Refund succesvol verwerkt!';
+      } else {
+         // Terugbetaling is niet geslaagd
+         echo 'Er is een probleem met de terugbetaling.';
+      }
+   } catch (\Stripe\Exception\ApiErrorException $e) {
+      // Foutafhandelingscode
+      echo 'Fout bij het verwerken van de terugbetaling: ' . $e->getMessage();
    }
 }
 
@@ -342,20 +431,19 @@ function recensieToevoegen($klant_id, $rating, $text, $artikel_id)
 }
 
 // Functie om een website recensie toe te voegen
-function addWebsiteReview($klant_id, $rating, $text)
-{
+function addWebsiteReview($klant_id, $rating, $text) {
    include 'connect.php';
    $sql = "INSERT INTO tblwebsitefeedback (klant_id, rating, text) VALUES (?, ?, ?)";
    $stmt = $mysqli->prepare($sql);
 
    if (!$stmt) {
-      die("Fout bij voorbereiden van statement: " . $mysqli->error);
+       die("Fout bij voorbereiden van statement: " . $mysqli->error);
    }
 
    $stmt->bind_param("iis", $klant_id, $rating, $text);
 
    if (!$stmt->execute()) {
-      die("Fout bij uitvoeren van statement: " . $stmt->error);
+       die("Fout bij uitvoeren van statement: " . $stmt->error);
    }
 
    $stmt->close();
@@ -397,36 +485,76 @@ function getSchoenenVergelijking($schoen1, $schoen2)
 }
 
 
-function getMerkNaam($merk_id)
-{
-   include 'connect.php';
-   $sql = "SELECT merknaam FROM tblmerk WHERE merk_id = ?";
-   $stmt = $mysqli->prepare($sql);
-   $stmt->bind_param("i", $merk_id);
-   $stmt->execute();
-   $result = $stmt->get_result();
-   $row = $result->fetch_assoc();
-   $stmt->close();
-   $mysqli->close();
-   return $row ? $row['merknaam'] : 'unknown';
+function getMerkNaam($merk_id) {
+    include 'connect.php';
+    $sql = "SELECT merknaam FROM tblmerk WHERE merk_id = ?";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("i", $merk_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $stmt->close();
+    $mysqli->close();
+    return $row ? $row['merknaam'] : 'unknown';
 }
 
-function getCategorieNaam($categorie_id)
-{
-   include 'connect.php';
-   $sql = "SELECT categorienaam FROM tblcategorie WHERE categorie_id = ?";
-   $stmt = $mysqli->prepare($sql);
-   $stmt->bind_param("i", $categorie_id);
-   $stmt->execute();
-   $result = $stmt->get_result();
-   $row = $result->fetch_assoc();
-   $stmt->close();
-   $mysqli->close();
-   return $row ? $row['categorienaam'] : 'unknown';
+function getCategorieNaam($categorie_id) {
+    include 'connect.php';
+    $sql = "SELECT categorienaam FROM tblcategorie WHERE categorie_id = ?";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("i", $categorie_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $stmt->close();
+    $mysqli->close();
+    return $row ? $row['categorienaam'] : 'unknown';
 }
 
-function getOrderStatus($order_id)
+
+function stockCheck()
 {
+   include 'connect.php';
+   $outOfStock = [];
+
+   $sql = "SELECT artikel_id, artikelnaam FROM tblartikels WHERE artikel_id NOT IN (SELECT artikel_id FROM tblstock WHERE stock > 0)";
+   $result = $mysqli->query($sql);
+
+
+
+   if ($result) {
+      while ($row = $result->fetch_assoc()) {
+         $outOfStock[] = $row;
+      }
+      $result->close();
+   }
+
+   if (!empty($outOfStock)) {
+
+      echo '<div class="alert alert-danger" role="alert">
+         The following products are out of stock:<br>
+      ';
+
+      foreach ($outOfStock as $product) {
+         echo htmlspecialchars($product['artikelnaam'], ENT_QUOTES, 'UTF-8') . "<br>";
+
+      }
+      echo '</div>';
+
+
+   } else {
+   ?>
+      <div class="alert alert-success" role="alert">
+         All products are in stock.
+      </div>
+   <?php
+   }
+
+   $mysqli->close();
+}
+
+
+function getOrderStatus($order_id) {
    include 'connect.php';
    $sql = "SELECT status FROM tblorders WHERE order_id = ?";
    $stmt = $mysqli->prepare($sql);
@@ -439,8 +567,7 @@ function getOrderStatus($order_id)
    return $row ? $row['status'] : 'Unknown';
 }
 
-function updateOrderStatus($order_id, $new_status)
-{
+function updateOrderStatus($order_id, $new_status) {
    include 'connect.php';
    $sql = "UPDATE tblorders SET status = ? WHERE order_id = ?";
    $stmt = $mysqli->prepare($sql);
@@ -450,123 +577,16 @@ function updateOrderStatus($order_id, $new_status)
    $mysqli->close();
 }
 
-function getAllOrders()
-{
-   include 'connect.php';
-   $sql = "SELECT * FROM tblorders";
-   $result = $mysqli->query($sql);
-   $orders = [];
-   while ($row = $result->fetch_assoc()) {
+function getAllOrders() {
+  include 'connect.php';
+  $sql = "SELECT * FROM tblorders";
+  $result = $mysqli->query($sql);
+  $orders = [];
+  while ($row = $result->fetch_assoc()) {
       $orders[] = $row;
-   }
-   $mysqli->close();
-   return $orders;
+  }
+  $mysqli->close();
+  return $orders;
 }
 
-
-function checkStock()
-{
-   include 'connect.php';
-   //list of wich stock id is below 2
-   $sql = "SELECT * FROM tblstock WHERE stock < 2";
-   $result = $mysqli->query($sql);
-
-   if ($result->num_rows == 0) {
-      echo '<h4 style="color:green;">Alle stock is boven 2</h4>';
-   } else {
-      echo '<div class="alert alert-danger" role="alert">The following products are out of stock:<br>';
-      echo '<table border="1">';
-      echo '<tr>';
-      echo '<th>Stock_id</th><th>Artikel</th><th>Schoenmaat</th><th>Stock</th>';
-      echo '</tr>';
-      while ($row = $result->fetch_assoc()) {
-         $stock_id = $row['stock_id'];
-         $sql = "SELECT * FROM tblkleur k,tblvariatie v,tblstock s, tblartikels 
-        WHERE s.stock_id = $stock_id and v.variatie_id = s.variatie_id and v.artikel_id = s.artikel_id 
-        and v.artikel_id = tblartikels.artikel_id and k.kleur_id = v.kleur_id";
-         $result2 = $mysqli->query($sql);
-         while ($row2 = $result2->fetch_assoc()) {
-            echo '<tr>';
-            echo '<td>' . $row2['stock_id'] . '</td>';
-            echo '<td>' . $row2['artikelnaam'] . ' ' . $row2['kleur'] . '</td>';
-            echo '<td>' . $row2['schoenmaat'] . '</td>';
-            echo '<td style="color:red;">' . $row2['stock'] . '</td>';
-            echo '</tr>';
-         }
-      }
-      echo '</table>';
-   }
-}
-
-
-function addDeliveryCostToToatallPrice($totalPrice, $deliveryOption)
-{
-   include 'connect.php';
-   $sql = "SELECT * FROM tblbezorgopties WHERE methode_id = ?";
-   $stmt = $mysqli->prepare($sql);
-   $stmt->bind_param("i", $deliveryOption);
-   $stmt->execute();
-
-   $result = $stmt->get_result();
-   $row = $result->fetch_assoc();
-   $deliveryCost = floatval($row['kost']);
-
-   $totalPrice = (float) str_replace(',', '', $totalPrice);
-
-   $result = floatval($totalPrice) + $deliveryCost;
-   print("<script>console.log('deliverycost: " . $deliveryCost . "');</script>");
-   print("<script>console.log('totalprice: " . $totalPrice . "');</script>");
-   print("<script>console.log('totalprice + deliverycost: " . $result . "');</script>");
-   return $result;
-}
-
-function addLoyaltyPoints($klant_id)
-{
-   include 'connect.php';
-
-   // Fetch current loyalty points
-   $sql = "SELECT klantloyaliteitsPunten FROM tblklant WHERE klant_id = ?";
-   $stmt = $mysqli->prepare($sql);
-   if (!$stmt) {
-      die("Fout bij voorbereiden van statement: " . $mysqli->error);
-   }
-   $stmt->bind_param("i", $klant_id);
-   $stmt->execute();
-   $result = $stmt->get_result();
-   $row = $result->fetch_assoc();
-   $points = $row['klantloyaliteitsPunten'];
-
-   echo "<script>console.log('Loyalty points before adding " . $points . " ');</script>";
-
-   // Fetch points to add
-   $programa_id = 1; // Define the variable to be passed by reference
-   $sql2 = "SELECT Aantal FROM tblLoyaliteits WHERE programa_id = ?";
-   $stmt2 = $mysqli->prepare($sql2);
-   if (!$stmt2) {
-      die("Fout bij voorbereiden van statement: " . $mysqli->error);
-   }
-   $stmt2->bind_param("i", $programa_id);
-   $stmt2->execute();
-   $result2 = $stmt2->get_result();
-   $row2 = $result2->fetch_assoc();
-   $pointsToAdd = $row2['Aantal'];
-
-   $points += $pointsToAdd;
-
-   $stmt->close();
-   $stmt2->close();
-
-   echo "<script>console.log('Loyalty points to add " . $pointsToAdd . " ');</script>";
-
-   // Update loyalty points
-   $sql3 = "UPDATE tblklant SET klantloyaliteitsPunten = ? WHERE klant_id = ?";
-   $stmt3 = $mysqli->prepare($sql3);
-   if (!$stmt3) {
-      die("Fout bij voorbereiden van statement: " . $mysqli->error);
-   }
-   $stmt3->bind_param("ii", $points, $klant_id);
-   $stmt3->execute();
-   $stmt3->close();
-
-   echo "<script>console.log('Loyalty points added " . $points . " ');</script>";
-}
+?>
