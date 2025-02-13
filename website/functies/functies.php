@@ -82,7 +82,7 @@ function type()
 function processPayPalPayment($amount)
 {
    session_start();
-
+   $_SESSION['betaalmethode'] = "PayPal"; 
    $amount = str_replace(",", "", $amount);
    // Redirect to PayPal payment page
    $paypalUrl = "https://sandbox.paypal.com";
@@ -94,13 +94,71 @@ function processPayPalPayment($amount)
    header("Location: $paypalUrl?cmd=_xclick&business=$businessEmail&amount=$amount&currency_code=$currency&return=https://groep2.itbusleyden.be/successBetalen.php&cancel_return=https://groep2.itbusleyden.be/cancelBetalen.php");
    exit();
 }
+function refundPayPalPayment($captureId, $amount)
+{
+    // PayPal API-gegevens (voor sandbox)
+    $clientId = 'YOUR_PAYPAL_CLIENT_ID';  // Vervang door je PayPal client-id
+    $secret = 'YOUR_PAYPAL_SECRET';  // Vervang door je PayPal secret
+    $sandboxUrl = 'https://api.sandbox.paypal.com';  // PayPal sandbox URL voor API-aanroepen
 
+    // Genereer een toegangstoken
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $sandboxUrl . '/v1/oauth2/token');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Accept: application/json',
+        'Accept-Language: en_US'
+    ]);
+    curl_setopt($ch, CURLOPT_USERPWD, $clientId . ':' . $secret);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, 'grant_type=client_credentials');
+    $response = curl_exec($ch);
+    if (curl_errno($ch)) {
+        die('Error:' . curl_error($ch));
+    }
+    $jsonResponse = json_decode($response);
+    $accessToken = $jsonResponse->access_token;
+    curl_close($ch);
+
+    // Creëer het refund-verzoek payload
+    $refundData = [
+        'amount' => [
+            'currency_code' => 'EUR',
+            'value' => $amount
+        ]
+    ];
+
+    // Maak de refund-aanroep naar PayPal
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $sandboxUrl . '/v2/payments/captures/' . $captureId . '/refund');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json',
+        'Authorization: Bearer ' . $accessToken
+    ]);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($refundData));
+    $response = curl_exec($ch);
+    if (curl_errno($ch)) {
+        die('Error:' . curl_error($ch));
+    }
+    curl_close($ch);
+
+    // Verwerk de response van PayPal
+    $refundResponse = json_decode($response);
+
+    if (isset($refundResponse->status) && $refundResponse->status == 'COMPLETED') {
+        echo "Refund succesvol!";
+    } else {
+        echo "Refund mislukt: " . $refundResponse->message;
+    }
+}
 
 // Functie om de Stripe betaling te verwerken
 
 function processStripePayment($amount)
 {
    include 'connect.php';
+   session_start();
+   $_SESSION['betaalmethode'] = "Stripe"; 
    require_once('stripe-php/init.php');
 
    $amount = str_replace(',', '', $amount);
@@ -144,6 +202,37 @@ function processStripePayment($amount)
    } catch (Exception $e) {
 
       echo 'Caught exception: ',  $e->getMessage(), "\n";
+   }
+}
+function processStripeRefund($paymentIntentId)
+{
+   include 'connect.php';
+   session_start();
+   
+   // Haal de Stripe secret key uit de database
+   $sql = "SELECT * FROM tblbetaalmethodes where methodenaam = 'Stripe'";
+   $result = $mysqli->query($sql);
+   $row = $result->fetch_assoc();
+   $stripe_secret_key = $row['sleutel'];
+
+   try {
+      \Stripe\Stripe::setApiKey($stripe_secret_key);
+
+      // Voer de terugbetaling uit
+      $refund = \Stripe\Refund::create([
+         'payment_intent' => $paymentIntentId, // Gebruik het Payment Intent ID dat je van de betaling hebt ontvangen
+      ]);
+
+      if ($refund->status == 'succeeded') {
+         // Terugbetaling is gelukt
+         echo 'Refund succesvol verwerkt!';
+      } else {
+         // Terugbetaling is niet geslaagd
+         echo 'Er is een probleem met de terugbetaling.';
+      }
+   } catch (\Stripe\Exception\ApiErrorException $e) {
+      // Foutafhandelingscode
+      echo 'Fout bij het verwerken van de terugbetaling: ' . $e->getMessage();
    }
 }
 

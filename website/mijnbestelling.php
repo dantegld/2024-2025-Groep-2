@@ -110,14 +110,77 @@ include 'functies/functies.php';
 controleerKlant();
 onderhoudsModus();
 include 'functies/mySideNav.php';
-echo '<br><span class="toggle_icon1" onclick="openNav()"><img width="44px" src="images/icon/Hamburger_icon.svg.png"></span>'; ?>
-<?php
+echo '<br><span class="toggle_icon1" onclick="openNav()"><img width="44px" src="images/icon/Hamburger_icon.svg.png"></span>'; 
+
+// Retourverwerking (met 'isset' en knopnaam via POST)
+if (isset($_POST['retour'])) {
+    // Verkrijg de POST-gegevens van de knop
+    $verkoop_id = $_POST['verkoop_id'];
+    $artikel_id = $_POST['artikel_id'];
+    $klant_id = $_SESSION['klant_id'];  // Verondersteld dat de klant is ingelogd
+
+    // Verkrijg de ontvangstdatum van de bestelling
+    $query = "SELECT ontvangstdatum FROM tblaankoop WHERE verkoop_id = '$verkoop_id' AND klant_id = '$klant_id'";
+    $result = mysqli_query($mysqli, $query);
+    $row = mysqli_fetch_array($result);
+    $ontvangstdatum = $row['ontvangstdatum'];
+
+    // Bereken het aantal dagen sinds de ontvangst
+    $huidige_datum = date('Y-m-d');
+    $verschil = (strtotime($huidige_datum) - strtotime($ontvangstdatum)) / (60 * 60 * 24);
+
+    // Controleer of het binnen de 3 dagen valt
+    
+        // Retour is geldig
+        // Voeg het retourverzoek toe aan de tblGeretourneerdeProducten tabel
+        $queryInsert = "INSERT INTO tblGeretourneerdeProducten (verkoop_id, artikel_id, klant_id) VALUES ('$verkoop_id', '$artikel_id', '$klant_id')";
+        $resultInsert = mysqli_query($mysqli, $queryInsert);
+
+        if ($resultInsert) {
+            // Succesvolle invoer
+            echo "<div class='alert alert-success'>Retour is succesvol aangevraagd!</div>";
+        } else {
+            // Fout bij invoer
+            echo "<div class='alert alert-danger'>Er is een fout opgetreden bij het aanvragen van het retour.</div>";
+        }
+        // PHPMailer
+        $mail = new PHPMailer(true);
+
+        try {
+            // Host, wachtwoord, gebruikersnaam, etc.
+            $mail->isSMTP();
+            $mail->Host = 'smtp.hostinger.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'myshoes@zoobagogo.com';
+            $mail->Password = 'ShoesMy123!';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+
+            // zender en ontvanger
+            $mail->setFrom('myshoes@zoobagogo.com', 'Myshoes');
+            $mail->addAddress($email);
+
+            // inhoud van de email
+            $mail->isHTML(true);
+            $mail->Subject = 'Return Request Confirmation';
+            $mail->Body    = 'Dear customer,<br><br>We have received your return request. Our team will review the request and provide further instructions shortly.<br><br>Best regards,<br>Your Company';
+            $mail->AltBody = 'Dear customer,\n\nWe have received your return request. Our team will review the request and provide further instructions shortly.\n\nBest regards,\nYour Company';
+
+            // verzend de email
+            $mail->send();
+            echo 'Return request successfully received. A confirmation email has been sent to your email address.';
+        } catch (Exception $e) {
+            echo "Return request successfully received. However, we could not send a confirmation email. Mailer Error: {$mail->ErrorInfo}";
+        }
+
+}
+
+// Bestellingen ophalen en weergeven
 $query = "SELECT * FROM tblaankoop WHERE klant_id = '".$_SESSION['klant_id']."'";
 $result = mysqli_query($mysqli, $query);
-for($i = 0; $i < mysqli_num_rows($result); $i++){
-    $row = mysqli_fetch_array($result);
-    echo '<div class="container">
-    <div class="row">
+
+while ($row = mysqli_fetch_array($result)) {
+    echo '<div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
@@ -131,26 +194,36 @@ for($i = 0; $i < mysqli_num_rows($result); $i++){
                                 <th>Quantity</th>
                                 <th>Price</th>
                                 <th>Total</th>
+                                <th>Return Package</th>
                             </tr>
                         </thead>
                         <tbody>';
-                        $query2 = "SELECT * FROM tblartikels WHERE artikel_id = '".$row['artikel_id']."'";
-                        $result2 = mysqli_query($mysqli, $query2);
-                        $row2 = mysqli_fetch_array($result2); 
-                        $totaal = $row2['prijs'] * $row['aantal'];
-                        echo '<tr>
-                                <td>'.$row2['artikelnaam'].'</td>
-                                <td>'.$row['aantal'].'</td>
-                                <td>€'.$row2['prijs'].'</td>
-                                <td>€'. $totaal.'</td>
-                            </tr>';
-                        echo '</tbody>
+                        
+    $query2 = "SELECT * FROM tblartikels WHERE artikel_id = '".$row['artikel_id']."'";
+    $result2 = mysqli_query($mysqli, $query2);
+    $row2 = mysqli_fetch_array($result2); 
+    $totaal = $row2['prijs'] * $row['aantal'];
+
+    echo '<tr>
+            <td>'.$row2['artikelnaam'].'</td>
+            <td>'.$row['aantal'].'</td>
+            <td>€'.$row2['prijs'].'</td>
+            <td>€'. $totaal.'</td>
+            <td>
+                <form method="POST" action="">
+                    <input type="hidden" name="verkoop_id" value="'.$row['verkoop_id'].'">
+                    <input type="hidden" name="artikel_id" value="'.$row['artikel_id'].'">
+                    <button type="submit" name="retour" class="btn btn-danger">Retour aanvragen</button>
+                </form>
+            </td>
+        </tr>';
+                        
+    echo '</tbody>
                     </table>
                 </div>
                 <div class="card-footer">
                     <h3>Total: €'.$totaal.'</h3>
                 </div>
-
             </div>
         </div>
     </div>';
@@ -159,6 +232,3 @@ for($i = 0; $i < mysqli_num_rows($result); $i++){
 </div>
 </body>
 </html>
-
-
-

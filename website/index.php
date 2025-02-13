@@ -298,36 +298,76 @@
                echo '<h1>Recommended Shoes For YOU ONLY</h1>';
              
 
-
-$query = "SELECT a.merk_id 
-          FROM tblartikels a 
-          JOIN tblaankoop b ON a.artikel_id = b.artikel_id 
-          WHERE b.klant_id = {$_SESSION['klant_id']} 
-          GROUP BY a.merk_id 
-          ORDER BY a.merk_id DESC 
-          LIMIT 1";
-          $result = mysqli_query($mysqli, $query);
-          $row = mysqli_fetch_assoc($result);
-          $merk_id = $row['merk_id'];
-
-          $query2 = "SELECT * FROM tblvariatie INNER JOIN tblartikels ON tblvariatie.artikel_id = tblartikels.artikel_id WHERE tblartikels.merk_id = $merk_id ORDER BY RAND() LIMIT 3"; 
+               $query = "SELECT a.merk_id 
+               FROM tblartikels a 
+               JOIN tblaankoop b ON a.artikel_id = b.artikel_id 
+               WHERE b.klant_id = {$_SESSION['klant_id']} 
+               GROUP BY a.merk_id 
+               ORDER BY a.merk_id DESC 
+               LIMIT 1";
+     $result = mysqli_query($mysqli, $query);
+     
+     if ($result && mysqli_num_rows($result) > 0) {
+         $row = mysqli_fetch_assoc($result);
+         $merk_id = $row['merk_id'];
+     
+         // Voer de tweede query uit als $merk_id geldig is
+         if (isset($merk_id) && !empty($merk_id)) {
+             $query2 = "SELECT * 
+                        FROM tblvariatie 
+                        INNER JOIN tblartikels ON tblvariatie.artikel_id = tblartikels.artikel_id 
+                        WHERE tblartikels.merk_id = $merk_id 
+                        ORDER BY RAND() 
+                        LIMIT 3"; 
+             $result2 = mysqli_query($mysqli, $query2);
+     
+             if ($result2 && mysqli_num_rows($result2) > 0) {
+                 echo '<div class="row">'; // Start een nieuwe rij
+                 while($row2 = mysqli_fetch_assoc($result2)) {
+                     // Toon de aanbevolen schoenen
+                 }
+                 echo '</div>'; // Sluit de rij
+             } else {
+                 echo '<p>No recommended shoes found.</p>';
+             }
+         } else {
+             echo '<p>No brand preference found.</p>';
+         }
+     } else {
+         echo '<p>No purchase history found.</p>';
+     }
+          if (isset($merk_id) && !empty($merk_id)) {
+            $query2 = "SELECT * 
+                       FROM tblvariatie 
+                       INNER JOIN tblartikels ON tblvariatie.artikel_id = tblartikels.artikel_id 
+                       WHERE tblartikels.merk_id = $merk_id 
+                       ORDER BY RAND() 
+                       LIMIT 3"; 
             $result2 = mysqli_query($mysqli, $query2);
-            echo '<div class="row">'; // Add this line to start a new row
-            while($row2 = mysqli_fetch_assoc($result2)){
-               echo '<div class="col-lg-4 col-sm-4">';
-               echo '   <div class="box_main">';
-               echo '      <h4 class="shirt_text">' . htmlspecialchars($row2["artikelnaam"]) . '</h4>';
-               echo '      <p class="price_text">Price:  <span style="color: #262626;">$' . htmlspecialchars($row2["prijs"]) . '</span></p>';
-               echo '      <div class="tshirt_img"><img src="' . htmlspecialchars($row2["directory"]) . '"></div>';
-               echo '      <div class="btn_main">';
-               echo '         <div class="wishlist_bt"><a href="wishlistCalc?id='. $row2['artikel_id'].'"><i class="fa fa-heart-o" aria-hidden="true"></i></a></div>';
-               echo '         <div class="buy_bt"><a href="cartcalc.php?id='.$row2['artikel_id'].'">Add to cart</a></div>';
-               echo '         <div class="seemore_bt"><a href="productpagina?id='.$row2['artikel_id'].'">See More</a></div>';
-               echo '      </div>';
-               echo '   </div>';
-               echo '</div>';
+        
+            if ($result2 && mysqli_num_rows($result2) > 0) {
+                echo '<div class="row">'; // Start een nieuwe rij
+                while($row2 = mysqli_fetch_assoc($result2)) {
+                    echo '<div class="col-lg-4 col-sm-4">';
+                    echo '   <div class="box_main">';
+                    echo '      <h4 class="shirt_text">' . htmlspecialchars($row2["artikelnaam"]) . '</h4>';
+                    echo '      <p class="price_text">Price:  <span style="color: #262626;">$' . htmlspecialchars($row2["prijs"]) . '</span></p>';
+                    echo '      <div class="tshirt_img"><img src="' . htmlspecialchars($row2["directory"]) . '"></div>';
+                    echo '      <div class="btn_main">';
+                    echo '         <div class="wishlist_bt"><a href="wishlistCalc?id='. $row2['artikel_id'].'"><i class="fa fa-heart-o" aria-hidden="true"></i></a></div>';
+                    echo '         <div class="buy_bt"><a href="cartcalc.php?id='.$row2['artikel_id'].'">Add to cart</a></div>';
+                    echo '         <div class="seemore_bt"><a href="productpagina?id='.$row2['artikel_id'].'">See More</a></div>';
+                    echo '      </div>';
+                    echo '   </div>';
+                    echo '</div>';
+                }
+                echo '</div>'; // Sluit de rij
+            } else {
+                echo '<p>No recommended shoes found.</p>';
             }
-            echo '</div>'; // Add this line to close the row
+        } else {
+            echo '<p>No brand preference found.</p>';
+        } 
 
          }
                 ?>
