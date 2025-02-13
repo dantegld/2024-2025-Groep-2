@@ -18,24 +18,24 @@
 
     include 'connect.php';
     session_start();
-    print_r($_SESSION);
 
     include 'functies/functies.php';
     onderhoudsModus();
     controleerKlant();
+    
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
     require 'vendor/autoload.php';
 
-    // Voeg de bezorgkosten toe aan het totaalbedrag
-    $totaal = addDeliveryCostToToatallPrice($_SESSION['total_price'], $_SESSION['delivery_option']);
+    // Haal totaalbedrag op uit de sessie
+    $totaal = $_SESSION['total_price'];
 
     echo '
     <div class="loginFormLocatie">
         <div class="loginForm">';
 
     // Verwijder de komma's en zet de waarde om naar een float
-   
+    $totaal = (float) str_replace(',', '', $totaal);
 
     // Als de betaling is gedaan
     if (isset($_POST['betalen'])) {
@@ -50,9 +50,10 @@
         } else if ($payment_method == 'stripe') {
             processStripePayment($totaal);
         } else {
-            echo "Invalid payment method selected.";
+            echo "Ongeldige betalingsmethode geselecteerd.";
             die;
         }
+
 
         // Neem email van de klant
         $sql = "SELECT email FROM tblklant WHERE klant_id = ?";
@@ -63,14 +64,12 @@
         $row = $result->fetch_assoc();
         $email = $row['email'];
         $stmt->close();
-  
-    
 
         // PHPMailer
         $mail = new PHPMailer(true);
 
         try {
-            // Host, wachtwoord, gebruikersnaam, etc.
+            // SMTP-configuratie voor PHPMailer
             $mail->isSMTP();
             $mail->Host = 'smtp.hostinger.com';
             $mail->SMTPAuth = true;
@@ -79,17 +78,17 @@
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
 
-            // zender en ontvanger
+            // Zender en ontvanger
             $mail->setFrom('myshoes@zoobagogo.com', 'Myshoes');
             $mail->addAddress($email);
 
-            // inhoud van de email
+            // Inhoud van de email
             $mail->isHTML(true);
             $mail->Subject = 'Payment Confirmation';
             $mail->Body    = 'Dear customer,<br><br>Thank you for your payment of €' . number_format($totaal, 2) . '.<br><br>Best regards,<br>Your Company';
             $mail->AltBody = 'Dear customer,\n\nThank you for your payment of €' . number_format($totaal, 2) . '.\n\nBest regards,\nYour Company';
 
-            // verzend de email
+            // Verstuur de email
             $mail->send();
             echo 'Payment successful. A confirmation email has been sent to your email address.';
         } catch (Exception $e) {
@@ -116,11 +115,13 @@
                         <input type='radio' name='payment_method' value='" . $row['methodenaam'] . "'> " . $row['methodenaam'] . "
                       </div>";
             }
-            /*<h4>Add a personal message to your order:</h4>
-            <textarea name='personal_message' rows='4' cols='50' placeholder='Write your personal message here...'></textarea>
+
             // Persoonlijk bericht toevoegen
-           */ echo "
+            echo "
             <br>
+            <h4>Add a personal message to your order:</h4>
+            <textarea name='personal_message' rows='4' cols='50' placeholder='Write your personal message here...'></textarea>
+            <br><br>
             <input type='submit' value='Pay now' name='betalen' class='btn btn-primary'>
             ";
         }
