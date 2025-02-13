@@ -44,11 +44,12 @@
 <div class="loginFormLocatie">
 <div class='loginForm'>
     <?php
+        session_start();
     include 'connect.php';
     include 'functies/functies.php';
     require 'vendor/autoload.php';
     include 'config.php';
-    session_start();
+    
 
     //NOG TE MAKEN: if the user is already logged in, redirect to the my profile page
 

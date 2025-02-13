@@ -18,6 +18,7 @@
 
     include 'connect.php';
     session_start();
+    print_r($_SESSION);
 
     include 'functies/functies.php';
     onderhoudsModus();
@@ -34,7 +35,7 @@
         <div class="loginForm">';
 
     // Verwijder de komma's en zet de waarde om naar een float
-    $totaal = (float) str_replace(',', '', $totaal);
+   
 
     // Als de betaling is gedaan
     if (isset($_POST['betalen'])) {

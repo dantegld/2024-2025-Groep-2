@@ -465,61 +465,70 @@ function getAllOrders()
 
 
 function checkStock()
-    {
-        include 'connect.php';
-        //list of wich stock id is below 2
-        $sql = "SELECT * FROM tblstock WHERE stock < 2";
-        $result = $mysqli->query($sql);
+{
+   include 'connect.php';
+   //list of wich stock id is below 2
+   $sql = "SELECT * FROM tblstock WHERE stock < 2";
+   $result = $mysqli->query($sql);
 
-        if ($result->num_rows == 0) {
-            echo '<h4 style="color:green;">Alle stock is boven 2</h4>';
-        } else {
-            echo '<div class="alert alert-danger" role="alert">The following products are out of stock:<br>';
-            echo '<table border="1">';
-            echo '<tr>';
-            echo '<th>Stock_id</th><th>Artikel</th><th>Schoenmaat</th><th>Stock</th>';
-            echo '</tr>';
-            while ($row = $result->fetch_assoc()) {
-                $stock_id = $row['stock_id'];
-                $sql = "SELECT * FROM tblkleur k,tblvariatie v,tblstock s, tblartikels 
+   if ($result->num_rows == 0) {
+      echo '<h4 style="color:green;">Alle stock is boven 2</h4>';
+   } else {
+      echo '<div class="alert alert-danger" role="alert">The following products are out of stock:<br>';
+      echo '<table border="1">';
+      echo '<tr>';
+      echo '<th>Stock_id</th><th>Artikel</th><th>Schoenmaat</th><th>Stock</th>';
+      echo '</tr>';
+      while ($row = $result->fetch_assoc()) {
+         $stock_id = $row['stock_id'];
+         $sql = "SELECT * FROM tblkleur k,tblvariatie v,tblstock s, tblartikels 
         WHERE s.stock_id = $stock_id and v.variatie_id = s.variatie_id and v.artikel_id = s.artikel_id 
         and v.artikel_id = tblartikels.artikel_id and k.kleur_id = v.kleur_id";
-                $result2 = $mysqli->query($sql);
-                while ($row2 = $result2->fetch_assoc()) {
-                    echo '<tr>';
-                    echo '<td>' . $row2['stock_id'] . '</td>';
-                    echo '<td>' . $row2['artikelnaam'] . ' ' . $row2['kleur'] . '</td>';
-                    echo '<td>' . $row2['schoenmaat'] . '</td>';
-                    echo '<td style="color:red;">' . $row2['stock'] . '</td>';
-                    echo '</tr>';
-                }
-            }
-            echo '</table>';
-        }
-    }
+         $result2 = $mysqli->query($sql);
+         while ($row2 = $result2->fetch_assoc()) {
+            echo '<tr>';
+            echo '<td>' . $row2['stock_id'] . '</td>';
+            echo '<td>' . $row2['artikelnaam'] . ' ' . $row2['kleur'] . '</td>';
+            echo '<td>' . $row2['schoenmaat'] . '</td>';
+            echo '<td style="color:red;">' . $row2['stock'] . '</td>';
+            echo '</tr>';
+         }
+      }
+      echo '</table>';
+   }
+}
 
-?>
-function addDeliveryCostToToatallPrice($totalPrice, $deliveryOption) {
+
+function addDeliveryCostToToatallPrice($totalPrice, $deliveryOption)
+{
    include 'connect.php';
    $sql = "SELECT * FROM tblbezorgopties WHERE methode_id = ?";
    $stmt = $mysqli->prepare($sql);
    $stmt->bind_param("i", $deliveryOption);
    $stmt->execute();
-   
+
    $result = $stmt->get_result();
    $row = $result->fetch_assoc();
-   $deliveryCost = $row['kost'];
-   return $totalPrice + $deliveryCost;
+   $deliveryCost = floatval($row['kost']);
+
+   $totalPrice = (float) str_replace(',', '', $totalPrice);
+
+   $result = floatval($totalPrice) + $deliveryCost;
+   print("<script>console.log('deliverycost: " . $deliveryCost . "');</script>");
+   print("<script>console.log('totalprice: " . $totalPrice . "');</script>");
+   print("<script>console.log('totalprice + deliverycost: " . $result . "');</script>");
+   return $result;
 }
 
-function addLoyaltyPoints($klant_id) {
+function addLoyaltyPoints($klant_id)
+{
    include 'connect.php';
 
    // Fetch current loyalty points
    $sql = "SELECT klantloyaliteitsPunten FROM tblklant WHERE klant_id = ?";
    $stmt = $mysqli->prepare($sql);
    if (!$stmt) {
-       die("Fout bij voorbereiden van statement: " . $mysqli->error);
+      die("Fout bij voorbereiden van statement: " . $mysqli->error);
    }
    $stmt->bind_param("i", $klant_id);
    $stmt->execute();
@@ -527,14 +536,14 @@ function addLoyaltyPoints($klant_id) {
    $row = $result->fetch_assoc();
    $points = $row['klantloyaliteitsPunten'];
 
-   echo "<script>console.log('Loyalty points before adding ". $points ." ');</script>";
+   echo "<script>console.log('Loyalty points before adding " . $points . " ');</script>";
 
    // Fetch points to add
    $programa_id = 1; // Define the variable to be passed by reference
    $sql2 = "SELECT Aantal FROM tblLoyaliteits WHERE programa_id = ?";
    $stmt2 = $mysqli->prepare($sql2);
    if (!$stmt2) {
-       die("Fout bij voorbereiden van statement: " . $mysqli->error);
+      die("Fout bij voorbereiden van statement: " . $mysqli->error);
    }
    $stmt2->bind_param("i", $programa_id);
    $stmt2->execute();
@@ -547,18 +556,17 @@ function addLoyaltyPoints($klant_id) {
    $stmt->close();
    $stmt2->close();
 
-   echo "<script>console.log('Loyalty points to add ". $pointsToAdd ." ');</script>";
+   echo "<script>console.log('Loyalty points to add " . $pointsToAdd . " ');</script>";
 
    // Update loyalty points
    $sql3 = "UPDATE tblklant SET klantloyaliteitsPunten = ? WHERE klant_id = ?";
    $stmt3 = $mysqli->prepare($sql3);
    if (!$stmt3) {
-       die("Fout bij voorbereiden van statement: " . $mysqli->error);
+      die("Fout bij voorbereiden van statement: " . $mysqli->error);
    }
    $stmt3->bind_param("ii", $points, $klant_id);
    $stmt3->execute();
    $stmt3->close();
 
-   echo "<script>console.log('Loyalty points added ". $points ." ');</script>";
+   echo "<script>console.log('Loyalty points added " . $points . " ');</script>";
 }
-?>
