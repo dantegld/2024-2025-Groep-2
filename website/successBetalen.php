@@ -48,7 +48,63 @@
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
     require 'vendor/autoload.php';
+    // Verkrijg klant_id uit de sessie
+    $klant_id = $_SESSION['klant_id'];
 
+    // Verkrijg winkelwagentijd gegevens van de klant
+    $sql = "SELECT * FROM tblwinkelwagen WHERE klant_id = ?";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("i", $klant_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Controleer of er artikelen in de winkelwagen zijn
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            // Verkrijg de gegevens van de winkelwagentabellen
+            $artikel_id = $row['artikel_id'];
+            $aantal = $row['aantal'];
+            $variatie_id = $row['variatie_id'];
+
+            // Verkrijg het adres van de klant uit tbladres
+            $sqlAdres = "SELECT * FROM tbladres WHERE klant_id = ?";
+            $stmtAdres = $mysqli->prepare($sqlAdres);
+            $stmtAdres->bind_param("i", $klant_id);
+            $stmtAdres->execute();
+            $resultAdres = $stmtAdres->get_result();
+            $rowAdres = $resultAdres->fetch_assoc();
+
+            if ($rowAdres) {
+                $adres_id = $rowAdres['adres_id'];
+                $adres = $rowAdres['adres']; // Het adres van de klant
+            } else {
+                // Foutmelding als er geen adres gevonden is
+                echo "Er is geen adres gevonden voor de klant.";
+                die;
+            }
+
+            // Verkrijg de ontvangstdatum (2 dagen vanaf nu)
+            $ontvangstdatum = "NOW() + INTERVAL 2 DAY"; // Ontvangstdatum is 2 dagen na de huidige datum
+
+            // Voeg de bestelling toe aan de tblaankoop tabel
+            $status = 'verzonden'; // Stel status in op 'betald' na betaling
+
+            // Voeg bestelling in de tblaankoop tabel
+            $sql = "INSERT INTO tblaankoop (klant_id, artikel_id, variatie_id, aantal, adres_id, totaalbedrag, betaalmethode, status, persoonlijk_bericht, ontvangstdatum) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW() + INTERVAL 2 DAY)";
+
+            $stmt2 = $mysqli->prepare($sql);
+            $stmt2->bind_param("iiiiidssss", $klant_id, $artikel_id, $variatie_id, $aantal, $adres_id, $totaal, $payment_method, $status, $personal_message);
+
+            if ($stmt2->execute()) {
+                echo "Bestelling voor artikel ID: $artikel_id succesvol opgeslagen.<br>";
+            } else {
+                echo "Fout bij het opslaan van bestelling voor artikel ID: $artikel_id - " . $stmt2->error . "<br>";
+            }
+        }
+    } else {
+        echo "Je winkelwagen is leeg.";
+    }
     // Neem email van de klant
     $sql = "SELECT email FROM tblklant WHERE klant_id = ?";
     $stmt = $mysqli->prepare($sql);
@@ -89,63 +145,7 @@
         echo "Payment successful. However, we could not send a confirmation email. Mailer Error: {$mail->ErrorInfo}";
     }
  
-        // Verkrijg klant_id uit de sessie
-        $klant_id = $_SESSION['klant_id'];
 
-        // Verkrijg winkelwagentijd gegevens van de klant
-        $sql = "SELECT * FROM tblwinkelwagen WHERE klant_id = ?";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param("i", $klant_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        // Controleer of er artikelen in de winkelwagen zijn
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                // Verkrijg de gegevens van de winkelwagentabellen
-                $artikel_id = $row['artikel_id'];
-                $aantal = $row['aantal'];
-                $variatie_id = $row['variatie_id'];
-
-                // Verkrijg het adres van de klant uit tbladres
-                $sqlAdres = "SELECT * FROM tbladres WHERE klant_id = ?";
-                $stmtAdres = $mysqli->prepare($sqlAdres);
-                $stmtAdres->bind_param("i", $klant_id);
-                $stmtAdres->execute();
-                $resultAdres = $stmtAdres->get_result();
-                $rowAdres = $resultAdres->fetch_assoc();
-
-                if ($rowAdres) {
-                    $adres_id = $rowAdres['adres_id'];
-                    $adres = $rowAdres['adres']; // Het adres van de klant
-                } else {
-                    // Foutmelding als er geen adres gevonden is
-                    echo "Er is geen adres gevonden voor de klant.";
-                    die;
-                }
-
-                // Verkrijg de ontvangstdatum (2 dagen vanaf nu)
-                $ontvangstdatum = "NOW() + INTERVAL 2 DAY"; // Ontvangstdatum is 2 dagen na de huidige datum
-
-                // Voeg de bestelling toe aan de tblaankoop tabel
-                $status = 'verzonden'; // Stel status in op 'betald' na betaling
-
-                // Voeg bestelling in de tblaankoop tabel
-                $sql = "INSERT INTO tblaankoop (klant_id, artikel_id, variatie_id, aantal, adres_id, totaalbedrag, betaalmethode, status, persoonlijk_bericht, ontvangstdatum) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW() + INTERVAL 2 DAY)";
-
-                $stmt2 = $mysqli->prepare($sql);
-                $stmt2->bind_param("iiiiidssss", $klant_id, $artikel_id, $variatie_id, $aantal, $adres_id, $totaal, $payment_method, $status, $personal_message);
-
-                if ($stmt2->execute()) {
-                    echo "Bestelling voor artikel ID: $artikel_id succesvol opgeslagen.<br>";
-                } else {
-                    echo "Fout bij het opslaan van bestelling voor artikel ID: $artikel_id - " . $stmt2->error . "<br>";
-                }
-            }
-        } else {
-            echo "Je winkelwagen is leeg.";
-        }
    /*if($_SESSION['betaalmethode'] == 'Stripe') {
         $type = "Stripe";
     } else {

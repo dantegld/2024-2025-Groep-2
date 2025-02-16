@@ -133,6 +133,7 @@ if (isset($_POST['retour'])) {
     
         // Retour is geldig
         // Voeg het retourverzoek toe aan de tblGeretourneerdeProducten tabel
+        
         $queryInsert = "INSERT INTO tblGeretourneerdeProducten (verkoop_id, artikel_id, klant_id) VALUES ('$verkoop_id', '$artikel_id', '$klant_id')";
         $resultInsert = mysqli_query($mysqli, $queryInsert);
 
@@ -213,7 +214,7 @@ while ($row = mysqli_fetch_array($result)) {
                 <form method="POST" action="">
                     <input type="hidden" name="verkoop_id" value="'.$row['verkoop_id'].'">
                     <input type="hidden" name="artikel_id" value="'.$row['artikel_id'].'">
-                    <button type="submit" name="retour" class="btn btn-danger">Retour aanvragen</button>
+                    <button type="submit" name="retour" class="btn btn-danger">Request Return</button>
                 </form>
             </td>
         </tr>';

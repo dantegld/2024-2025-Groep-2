@@ -166,8 +166,8 @@ function processStripePayment($amount)
    $amount = intval($amount);
    $amount = $amount * 100;
 
-   $success_url = "https://groep2.itbusleyden.be/successBetalen.php";
-   $cancel_url = "https://groep2.itbusleyden.be/cancelBetalen.php";
+   $success_url = "http://localhost/victor/2024-2025-Groep-2/website/successBetalen.php";
+   $cancel_url = "http://localhost/victor/2024-2025-Groep-2/website/cancelBetalen.php";
 
 
    //get from database

@@ -130,7 +130,7 @@ if (isset($_POST['approve'])) {
 
     }
 // Haal de retourdatum op uit de database voor de opgegeven verkoop_id
-/*$sql = "SELECT verkoop_id, RetourDatum FROM tblGeretourneerdeProducten WHERE verkoop_id = $verkoop_id LIMIT 1";
+$sql = "SELECT verkoop_id, RetourDatum FROM tblGeretourneerdeProducten WHERE verkoop_id = $verkoop_id LIMIT 1";
 $result = $mysqli->query($sql);
 
 if ($result && $result->num_rows > 0) {
@@ -163,12 +163,14 @@ if ($result && $result->num_rows > 0) {
         }
     } else {
         echo "Het retourtermijn voor terugbetaling is verstreken. Aantal dagen sinds retourdatum: $aantalDagenNaRetour";
-    }*/
+    }
 } else {
     // Als er geen resultaat is voor de opgegeven verkoop_id
     echo "Geen retourdatum gevonden voor de opgegeven verkoop_id: $verkoop_id.";
 }
-//}
+   
+
+}
 
 // ❌ **Retourverzoek afwijzen**
 if (isset($_POST['reject'])) {
