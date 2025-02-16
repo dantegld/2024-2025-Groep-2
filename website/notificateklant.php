@@ -50,10 +50,10 @@
     include 'functies/functies.php';
     controleerAdmin();
     include 'functies/adminSideMenu.php';
-    require 'vendor/autoload.php';
-
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
+
+    require 'vendor/autoload.php';
 
 
     //send email to customer saying order will be arriving soon
@@ -62,11 +62,12 @@
     $stmt->execute();
     $result = $stmt->get_result();
 
-    $mail = new PHPMailer(true);
-
     while ($row = $result->fetch_assoc()) {
+
+        $mail = new PHPMailer(true);
+        $email = $row['email'];
         try {
-            $email = $row['email'];
+
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
@@ -75,33 +76,30 @@
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
 
-            $mail->setFrom('contactmyshoes2800@gmail.com', 'My Shoes');
-            $mail->addBCC($email);
+
+            $mail->setFrom('myshoes@zoobagogo.com', 'Myshoes');
+            $mail->addAddress($email);
             $mail->Subject = 'Je bestelling komt eraan!';
-            $mail->Body    = 'Je bestelling komt eraan!';
-            $mail->Body .= "\n\n Jouw bestelling is onderweg en zal binnenkort aankomen. Bedankt voor het winkelen bij My Shoes! Bestelling ID: " . $_GET['verkoop_id'];
+            $mail->Body    = '\n\n Hey, jouw bestelling is onderweg en zal binnenkort aankomen. Bedankt voor het winkelen bij My Shoes! Bestelling ID: ' . $_GET['verkoop_id'];
 
-            $mail->isHTML(true);    
-            $message = 'Er is een notificatie naar je e-mail gestuurd. Controleer je inbox!';
+
+            
+            $message = 'Er is een mail naar de klants e-mail gestuurd!';
             $message_class = 'success';
-            
-            
-            
-
         } catch (Exception $e) {
             $message = "Er is iets misgegaan bij het verzenden van de e-mail. Mailer Error: {$mail->ErrorInfo}";
             $message_class = 'error';
-            echo $message;
         }
     }
-
+    $mail->send();
+    
     //echo $message with green background and white text
     echo '<div class="message ' . $message_class . '">' . $message . '</div>';
 
-    
 
-    $mail->send();
+
     $stmt->close();
-    $mysqli->close(); // Close the MySQL connection
+    $mysqli->close();// Close the MySQL connection
 
-header("refresh:3;url=orderStatus.php");
+    ?>
+</body>
