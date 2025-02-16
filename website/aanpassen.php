@@ -243,7 +243,7 @@ include 'functies/adminSideMenu.php';
         echo "No products found.";
     }
     require_once 'functies/functies.php';
-    checkStock();
+    stockCheck();
 
     $result->close();
     $mysqli->close(); // Close the MySQL connection
