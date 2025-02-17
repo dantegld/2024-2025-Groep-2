@@ -52,8 +52,8 @@
     include 'functies/adminSideMenu.php';
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
-
-    require 'vendor/autoload.php';
+    
+    require 'vendor/autoload.php'; 
 
 
     //send email to customer saying order will be arriving soon
@@ -69,21 +69,21 @@
         try {
 
             $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
+            $mail->Host = 'smtp.gmail.com';  
             $mail->SMTPAuth = true;
-            $mail->Username = 'contactmyshoes2800@gmail.com';
+            $mail->Username = 'contactmyshoes2800@gmail.com';  
             $mail->Password = 'pztvrfzhcksiqzhq';
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = 587;
+            $mail->Port = 587;  
 
 
-            $mail->setFrom('myshoes@zoobagogo.com', 'Myshoes');
+            $mail->setFrom('myshoes@zoobagogo.com', 'Myshoes');  
             $mail->addAddress($email);
             $mail->Subject = 'Je bestelling komt eraan!';
-            $mail->Body    = '\n\n Hey, jouw bestelling is onderweg en zal binnenkort aankomen. Bedankt voor het winkelen bij My Shoes! Bestelling ID: ' . $_GET['verkoop_id'];
+            $mail->Body    = "\n\n Hey, jouw bestelling is onderweg en zal binnenkort aankomen. Bedankt voor het winkelen bij My Shoes! Bestelling ID: " . $_GET['verkoop_id'];
 
 
-            
+            $mail->send();
             $message = 'Er is een mail naar de klants e-mail gestuurd!';
             $message_class = 'success';
         } catch (Exception $e) {
@@ -91,10 +91,11 @@
             $message_class = 'error';
         }
     }
-    $mail->send();
+    
     
     //echo $message with green background and white text
     echo '<div class="message ' . $message_class . '">' . $message . '</div>';
+    echo '<a href="admin.php" class="btn btn-primary">Terug naar Admin Pagina</a>';
 
 
 
