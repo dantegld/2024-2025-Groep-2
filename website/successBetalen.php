@@ -50,13 +50,36 @@
     require 'vendor/autoload.php';
     // Verkrijg klant_id uit de sessie
     $klant_id = $_SESSION['klant_id'];
+    $personal_message = $_SESSION['personal_message'];
+    $totaal = $_SESSION['total_price'];
+    $payment_method = $_SESSION['payment_method'];
 
+    if (isset($_POST['winkelwagen'])) {
+        $sql = "DELETE FROM tblwinkelwagen WHERE klant_id = ?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param("i", $klant_id);
+        $stmt->execute();
+    
+        if ($stmt->affected_rows > 0) {
+            echo "Shopping cart has been emptied.";
+        } else {
+            echo "There were no items in your cart or an error occurred.";
+        }
+        
+        $stmt->close();
+        
+        // Redirect naar winkelwagenpagina
+        header("Location: winkelwagen.php");
+        exit(); // Zorg ervoor dat het script hier stopt
+    }
+    
+    
     // Verkrijg winkelwagentijd gegevens van de klant
-    $sql = "SELECT * FROM tblwinkelwagen WHERE klant_id = ?";
-    $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("i", $klant_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
+            $sql = "SELECT * FROM tblwinkelwagen WHERE klant_id = ?";
+            $stmt = $mysqli->prepare($sql);
+            $stmt->bind_param("i", $klant_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
 
     // Controleer of er artikelen in de winkelwagen zijn
     if ($result->num_rows > 0) {
@@ -79,10 +102,9 @@
                 $adres = $rowAdres['adres']; // Het adres van de klant
             } else {
                 // Foutmelding als er geen adres gevonden is
-                echo "Er is geen adres gevonden voor de klant.";
+                echo "No address was found for the customer.";
                 die;
             }
-
             // Verkrijg de ontvangstdatum (2 dagen vanaf nu)
             $ontvangstdatum = "NOW() + INTERVAL 2 DAY"; // Ontvangstdatum is 2 dagen na de huidige datum
 
@@ -90,20 +112,29 @@
             $status = 'verzonden'; // Stel status in op 'betald' na betaling
 
             // Voeg bestelling in de tblaankoop tabel
-            $sql = "INSERT INTO tblaankoop (klant_id, artikel_id, variatie_id, aantal, adres_id, totaalbedrag, betaalmethode, status, persoonlijk_bericht, ontvangstdatum) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW() + INTERVAL 2 DAY)";
-
+            $sql = "INSERT INTO tblaankoop 
+            (klant_id, artikel_id, variatie_id, aantal, adres_id, totaalbedrag, betaalmethode, status, persoonlijk_bericht, ontvangstdatum) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW() + INTERVAL 2 DAY)";
+    
             $stmt2 = $mysqli->prepare($sql);
-            $stmt2->bind_param("iiiiidssss", $klant_id, $artikel_id, $variatie_id, $aantal, $adres_id, $totaal, $payment_method, $status, $personal_message);
+            $stmt2->bind_param("iiiiidsss", $klant_id, $artikel_id, $variatie_id, $aantal, $adres_id, $totaal, $payment_method, $status, $personal_message);
+    
 
             if ($stmt2->execute()) {
-                echo "Bestelling voor artikel ID: $artikel_id succesvol opgeslagen.<br>";
+                echo "Order for item ID: $artikel_id has been successfully saved.<br>";
             } else {
-                echo "Fout bij het opslaan van bestelling voor artikel ID: $artikel_id - " . $stmt2->error . "<br>";
+                echo "Error saving order for item ID: $artikel_id - " . $stmt2->error . "<br>";
             }
+
+            $sql = "SELECT verkoop_id FROM tblaankoop WHERE klant_id = $klant_id ORDER BY verkoop_id DESC LIMIT 1";
+            $result = mysqli_query($mysqli, $sql);
+            $row = mysqli_fetch_array($result);
+            $verkoop_id = $row['verkoop_id'];
+            $_SESSION['verkoop_id'] = $verkoop_id;
+        
         }
     } else {
-        echo "Je winkelwagen is leeg.";
+        echo "Your shopping cart is empty.";
     }
     // Neem email van de klant
     $sql = "SELECT email FROM tblklant WHERE klant_id = ?";
@@ -144,13 +175,8 @@
     } catch (Exception $e) {
         echo "Payment successful. However, we could not send a confirmation email. Mailer Error: {$mail->ErrorInfo}";
     }
+   
  
-
-   /*if($_SESSION['betaalmethode'] == 'Stripe') {
-        $type = "Stripe";
-    } else {
-        $type = "Paypal";
-    }   */
 
 
     
@@ -167,8 +193,10 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="titlepage">
-                        <h3>Uw betaling is succesvol verwerkt</h3>
-                        <a href="winkelwagen" class="btn btn-primary">Terug naar de winkelwagen</a>
+                        <h3>Your payment has been processed successfully</h3>
+                        <form method="POST" action="">
+                        <button type="submit" name="winkelwagen" class="btn btn-primary">Go back</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -176,8 +204,8 @@
                 <div class="col-md-12">
                     <div class="titlepage">
                         <h3>Track your order</h3>
-                        <p>Your order number is: <?php echo $_SESSION['order_id']; ?></p>
-                        <a href="trackOrder.php?order_id=<?php echo $_SESSION['order_id']; ?>" class="btn btn-primary">Track Order</a>
+                        <p>Your order number is: <?php echo $_SESSION['verkoop_id']; ?></p>
+                        <a href="trackOrder.php?order_id=<?php echo $_SESSION['verkoop_id']; ?>" class="btn btn-primary">Track Order</a>
                     </div>
                 </div>
             </div>

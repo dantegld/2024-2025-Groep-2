@@ -39,11 +39,15 @@
 
     // Als de betaling is gedaan
     if (isset($_POST['betalen'])) {
+        
         $payment_method = $_POST['payment_method'];
         $payment_method = strtolower($payment_method);
-
+        $_SESSION['payment_method'] = $payment_method;
+        echo $_SESSION['payment_method'];
         // Haal het persoonlijke bericht op
-        $personal_message = isset($_POST['personal_message']) ? trim($_POST['personal_message']) : null;
+        $personal_message = $_POST['personal_message'];
+        $_SESSION['personal_message'] = $personal_message;
+        echo $_SESSION['personal_message'];
 
         if ($payment_method == 'paypal') {
             processPayPalPayment($totaal);

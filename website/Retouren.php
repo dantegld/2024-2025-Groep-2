@@ -148,7 +148,7 @@ if ($result && $result->num_rows > 0) {
 
     // Bereken het aantal dagen tussen de retourdatum en de huidige datum
     $aantalDagenNaRetour = ($huidigeTimestamp - $retourTimestamp) / (60 * 60 * 24);
-
+/*
     // Controleer of de terugbetaling binnen 30 dagen na de retourdatum kan plaatsvinden
     if ($aantalDagenNaRetour <= 30) {
         $sql = "SELECT verkoop_id, betaalmethode FROM tblaankoop  WHERE verkoop_id = $verkoop_id AND klant_id = $klant_id";
@@ -164,6 +164,7 @@ if ($result && $result->num_rows > 0) {
     } else {
         echo "Het retourtermijn voor terugbetaling is verstreken. Aantal dagen sinds retourdatum: $aantalDagenNaRetour";
     }
+    */
 } else {
     // Als er geen resultaat is voor de opgegeven verkoop_id
     echo "Geen retourdatum gevonden voor de opgegeven verkoop_id: $verkoop_id.";
