@@ -1,4 +1,3 @@
-
 </html>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,6 +39,7 @@
    <body>
       <?php
          session_start();
+         echo $_SESSION['klant_id'];;
          include 'functies/functies.php';
          include 'connect.php';
          
@@ -58,6 +58,17 @@
          onderhoudsModus();
          announcement();
       ?>
+      <script>
+             function toggleChatWindow() {
+        var chatWindow = document.getElementById("chatWindow");
+        if (chatWindow.style.display === "none" || chatWindow.style.display === "") {
+            chatWindow.style.display = "block";
+        } else {
+            chatWindow.style.display = "none";
+        }
+    }
+      </script>
+      
 
 
 

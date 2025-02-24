@@ -29,7 +29,7 @@
         let ws;
         const guestName = <?php
             include 'connect.php';
-            $klantid = 4;
+            $klantid = $_SESSION['klant_id'];
             $sqluser = "SELECT klantnaam FROM tblklant WHERE klant_id = ?";
             $stmt = $mysqli->prepare($sqluser);
             $stmt->bind_param('i', $klantid);
