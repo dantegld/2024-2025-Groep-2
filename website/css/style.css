@@ -1352,3 +1352,160 @@ select.selectTable {
     background-color: #f9f9f9;
     width: 50%;
 }
+.chat-bubble {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #f26522;
+    color: white;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.chat-window {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 300px;
+    height: 400px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    display: none;
+    flex-direction: column;
+}
+
+.chat-header {
+    background-color: #f26522;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.chat-body {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.chat-footer {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+}
+
+.chat-footer input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.chat-footer button {
+    background-color: #f26522;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.chat-header button {
+    background-color: #f26522;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.chat-header button:hover {
+    background-color: #e94e2a;
+}
+
+/* Admin Chat Styles */
+#chat {
+    display: flex;
+    width: 80%;
+    height: 80%;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#guestList {
+    width: 30%;
+    background-color: #007BFF;
+    color: white;
+    overflow-y: auto;
+}
+
+#guestList h2 {
+    width: fit-content;
+    margin: auto;
+    padding: 5px;
+}
+
+#guestList div {
+    padding: 15px;
+    cursor: pointer;
+}
+
+#guestList div:hover, #guestList .selected {
+    background-color: #0056b3;
+}
+
+.chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #f1f1f1;
+}
+
+#chatBar {
+    display: none;
+    padding: 10px;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+}
+
+#messageInput {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+#sendButton {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#sendButton:hover {
+    background-color: #0056b3;
+}

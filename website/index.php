@@ -636,6 +636,10 @@
             document.getElementById("maxPriceValue").innerText = value;
          }
       </script>
+            <?php 
+       if(type() == "customer"){
+         include 'chat.php';
+       }?>
    </body>
 </html>
    </body>

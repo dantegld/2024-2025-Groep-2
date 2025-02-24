@@ -5,6 +5,8 @@ echo '
 <div class="sidemenu">
 <a href="index">Home</a>
 <a href="admin">Admin Page</a>
+<a href="admingroupchat">Admin Group Chat</a>
+<a href="adminSupport">Customer Service</a>
 <a href="adminonderhoud">Maintance Mode</a>
 <a href="aanpassen">Products</a>
 <a href="deactiveerKlantaccounts">Customers</a>
