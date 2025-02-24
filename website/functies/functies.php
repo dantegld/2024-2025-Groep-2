@@ -91,7 +91,7 @@ function processPayPalPayment($amount)
 
 
    // Redirect to PayPal with required fields NOG VERRANDEREN VOOR LIVE SERVER
-   header("Location: $paypalUrl?cmd=_xclick&business=$businessEmail&amount=$amount&currency_code=$currency&return=https://groep2.itbusleyden.be/successBetalen.php&cancel_return=https://groep2.itbusleyden.be/cancelBetalen.php");
+   header("Location: $paypalUrl?cmd=_xclick&business=$businessEmail&amount=$amount&currency_code=$currency&return=http://localhost/victor/2024-2025-Groep-2/website/successBetalen&cancel_return=http://localhost/victor/2024-2025-Groep-2/website/cancelBetalen");
    exit();
 }
 function refundPayPalPayment($captureId, $amount)
@@ -166,8 +166,8 @@ function processStripePayment($amount)
    $amount = intval($amount);
    $amount = $amount * 100;
 
-   $success_url = "http://localhost/victor/2024-2025-Groep-2/website/successBetalen.php";
-   $cancel_url = "http://localhost/victor/2024-2025-Groep-2/website/cancelBetalen.php";
+   $success_url = "http://localhost/victor/2024-2025-Groep-2/website/successBetalen";
+   $cancel_url = "http://localhost/victor/2024-2025-Groep-2/website/cancelBetalen";
 
 
    //get from database
