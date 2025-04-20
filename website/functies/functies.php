@@ -577,15 +577,15 @@ function updateBestellingStatus($verkoop_id, $nieuw_status) {
 }
 
 function getAlleBestellingen() {
-  include 'connect.php';
-  $sql = "SELECT * FROM tblbestellingen";
-  $resultaat = $mysqli->query($sql);
-  $bestellingen = [];
-  while ($row = $resultaat->fetch_assoc()) {
-      $bestellingen[] = $row;
-  }
-  $mysqli->close();
-  return $bestellingen;
+   include 'connect.php';
+    $sql = "SELECT verkoop_id AS bestelling_id, klant_id, status FROM tblaankoop";
+    $result = $mysqli->query($sql);
+    $bestellingen = [];
+    while ($row = $result->fetch_assoc()) {
+        $bestellingen[] = $row;
+    }
+    $mysqli->close();
+    return $bestellingen;
 }
 
 function getUsername($klant_id, $mysqli)
@@ -812,5 +812,21 @@ function sluitFactuur($factuur_id) {
    $stmt->execute();
    $stmt->close();
    $mysqli->close();
+}
+
+function getBestellingenKlant($klant_id) {
+   include 'connect.php';
+   $sql = "SELECT verkoop_id AS bestelling_id, status, ontvangstdatum AS leveringsdatum 
+           FROM tblaankoop 
+           WHERE klant_id = ? AND status != 'afgeleverd' 
+           ORDER BY ontvangstdatum DESC";
+   $stmt = $mysqli->prepare($sql);
+   $stmt->bind_param("i", $klant_id);
+   $stmt->execute();
+   $result = $stmt->get_result();
+   $orders = $result->fetch_all(MYSQLI_ASSOC);
+   $stmt->close();
+   $mysqli->close();
+   return $orders;
 }
 ?>
