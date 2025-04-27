@@ -51,38 +51,30 @@
     controleerAdmin();
     include 'functies/adminSideMenu.php';
     ?>
+    <div class='tableContainer'>
+        <h1>International Sales</h1>
+        <table border='1' class='adminTable'>
+            <tr>
+                <th>Land</th>
+                <th>Totaal prijs in euro per land </th>
+            </tr>
+            <?php
+            $query = "SELECT SUM(a . aantal  * b . prijs) AS 'Totaal', d . landNaam 
+                      FROM tblaankoop a 
+                      INNER JOIN tbladres c ON c . adres_id = a . adres_id 
+                      INNER JOIN tblartikels b ON a . artikel_id = b . artikel_id 
+                      INNER JOIN tblLand d ON c . landID = d . landID 
+                      WHERE d . landID != 1 GROUP BY d . landNaam";
+            
+            $result = $mysqli->query($query);
 
-
-<h1>International Sales</h1>
-
-<?php
-
-$query = "SELECT SUM(a . aantal  * b . prijs) AS 'Totaal', d . landNaam 
-          FROM tblaankoop a 
-          INNER JOIN tbladres c ON c . adres_id = a . adres_id 
-          INNER JOIN tblartikels b ON a . artikel_id = b . artikel_id 
-          INNER JOIN tblLand d ON c . landID = d . landID 
-          WHERE d . landID != 1 GROUP BY d . landNaam";
-        
-$result = $mysqli->query($query);
-
-echo "<table border='1'>
-<tr>
-<th>Land</th>
-<th>Totaal</th>
-</tr>";
-
-while ($row = $result->fetch_assoc()) {
-    echo "<tr>";
-    echo "<td>" . $row['landNaam'] . "</td>";
-    echo "<td>" . $row['Totaal'] . "</td>";
-    echo "</tr>";
-}
-
-echo "</table>";
-
-
-
-
-?>
+            while ($row = $result->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>" . $row['landNaam'] . "</td>";
+                echo "<td>" . $row['Totaal'] . "</td>";
+                echo "</tr>";
+            }
+            ?>
+        </table>
+    </div>
 </body>
