@@ -20,10 +20,8 @@ echo '
 <a href="lopendPromotieOverzicht">Active Promotions Overview</a>
 <a href="interverkoop">International Sales</a>
 <a href="websiteFeedback">Customer Feedback</a>
-<a href="Retouren">Returns</a>
 <a href="orderStatus">Order Status</a>
 <a href="klantloyaliteitsprogramma">Loyalty Options</a>
-<a href="openstaandeFacturen">Invoices And Payments</a>
 <a href="rapporten.php">Reports</a>
 <a href="klantLoyaliteit">Customer Loyalty Database</a>
 </div>';

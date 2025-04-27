@@ -642,9 +642,10 @@ function generererMaandelijksRapport($maand, $jaar, $mysqli) {
    ];
 }
 
-function genereerJaarliksRapport($jaar, $mysqli) {
+function genereerJaarliksRapport($jaar) {
    
    // Fetch costs from tblaankoop
+   include 'connect.php';
    $sqlCostAankoop = "SELECT verkoop_id, klant_id, totaalbedrag AS cost, ontvangstdatum, status FROM tblaankoop 
                       WHERE status = 'closed' AND YEAR(ontvangstdatum) = ?";
    $stmtCostAankoop = $mysqli->prepare($sqlCostAankoop);

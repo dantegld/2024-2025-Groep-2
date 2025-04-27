@@ -96,7 +96,7 @@ $result = $mysqli->query("SELECT * FROM tblkortingscodes");
 </form>
 
 <h2>Existing Promo Codes</h2>
-<table border="1">
+<table border="1" class='adminTable'>
     <tr>
         <th>Promo Code</th>
         <th>Discount in Euros</th>

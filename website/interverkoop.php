@@ -49,6 +49,7 @@
     include 'functies/functies.php';
     controleerAdmin($mysqli);
     include 'functies/adminSideMenu.php';
+    echo "<div class='adminpageCenter'>";
     ?>
 
 
@@ -65,7 +66,9 @@ $query = "SELECT SUM(a . aantal  * b . prijs) AS 'Totaal', d . landNaam
         
 $result = $mysqli->query($query);
 
-echo "<table border='1'>
+
+echo "<div class= 'tableContainer'>";
+echo "<table border='1' class='adminTable'>
 <tr>
 <th>Country</th>
 <th>Total</th>
@@ -79,6 +82,8 @@ while ($row = $result->fetch_assoc()) {
 }
 
 echo "</table>";
+echo "</div>";
+echo "</div>";
 
 ?>
 </body>
