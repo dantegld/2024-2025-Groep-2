@@ -174,7 +174,7 @@ include 'functies/adminSideMenu.php';
     $result = $mysqli->query($query);
     if ($result->num_rows > 0) {
         echo "<table border='1'>";
-        echo "<tr><th>Product ID</th><th>Product name</th><th class='price-column'>Price</th><th>Purchase price</th><th>Profit Margin per Product</th><th>Total sales</th><th>Total Views</th><th>Added To Cart</th><th>Bought Count</th><th>Brand</th><th>Category</th><th>Action</th><th>Variations</th><th>Delete</th></tr>";
+        echo "<tr><th>Product ID</th><th>Product name</th><th class='price-column'>Price</th><th>Purchase price</th><th>Profit Margin per Product</th><th>Total sales</th><th>Total Views</th><th>Added To Cart</th><th>Brand</th><th>Category</th><th>Action</th><th>Variations</th><th>Delete</th></tr>";
         while ($row = $result->fetch_assoc()) {
             // Fetch all brands
             $brandQuery = "SELECT * FROM tblmerk";
@@ -201,12 +201,7 @@ include 'functies/adminSideMenu.php';
 
             echo '<td>' . $row4['addedCart'] . '</td>';
 
-            //bought count
-            $sql5 = "SELECT boughtCount FROM tblartikels WHERE artikel_id = " . $row['artikel_id'];
-            $result5 = $mysqli->query($sql5);
-            $row5 = $result5->fetch_assoc();
 
-            echo '<td>' . $row5['boughtCount'] . '</td>';
 
 
 

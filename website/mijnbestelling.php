@@ -195,7 +195,7 @@ while ($row = mysqli_fetch_array($result)) {
                                 <th>Quantity</th>
                                 <th>Price</th>
                                 <th>Total</th>
-                                <th>Return Package</th>
+                                <th>Order Status</th>
                             </tr>
                         </thead>
                         <tbody>';
@@ -209,15 +209,14 @@ while ($row = mysqli_fetch_array($result)) {
             <td>'.$row2['artikelnaam'].'</td>
             <td>'.$row['aantal'].'</td>
             <td>€'.$row2['prijs'].'</td>
-            <td>€'. $totaal.'</td>
-            <td>
-                <form method="POST" action="">
-                    <input type="hidden" name="verkoop_id" value="'.$row['verkoop_id'].'">
-                    <input type="hidden" name="artikel_id" value="'.$row['artikel_id'].'">
-                    <button type="submit" name="retour" class="btn btn-danger">Request Return</button>
-                </form>
-            </td>
-        </tr>';
+            <td>€'. $totaal.'</td>';
+            $statusSql = "SELECT status FROM tblaankoop WHERE verkoop_id = '".$row['verkoop_id']."'";
+            $statusResult = mysqli_query($mysqli, $statusSql);
+            $statusRow = mysqli_fetch_array($statusResult);
+            echo '<td>'.$statusRow['status'].'</td>';
+            
+
+    echo '</tr>';
                         
     echo '</tbody>
                     </table>

@@ -77,9 +77,6 @@
              font-size: 14px;
              transition: background-color 0.3s ease;
          }
-         input:hover {
-             background-color: #e60000;
-         }
          .message {
              text-align: center;
              font-size: 18px;
