@@ -647,10 +647,12 @@
             document.getElementById("maxPriceValue").innerText = value;
          }
       </script>
-            <?php 
-       if(type() == "customer"){
-         include 'chat.php';
-       }?>
+            <?php
+if ($_SESSION['type'] != "guest") {
+   if ($_SESSION['type'] == "customer") {
+       include 'chat.php';
+   }
+}?>
    </body>
 </html>
    </body>
