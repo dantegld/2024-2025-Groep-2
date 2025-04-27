@@ -5,7 +5,7 @@
       include 'connect.php';
       session_start();
          include 'functies/functies.php';
-         onderhoudsModus();
+         onderhoudsModus($mysqli);
 
          $id = $_GET['id'];
          if (!(isset($_SESSION["klant"]))) {
@@ -200,7 +200,7 @@ select:disabled {
     <h1 class="product-title"><?php echo $row['artikelnaam']; ?></h1>
     <p class="product-price">&euro; <?php echo $row['prijs']; ?></p>
     <p class="product-stock">
-        <?php echo getStockStatus($id); ?>
+        <?php echo getStockStatus($id, $mysqli); ?>
     </p>
     <form id="colorForm" action="" method="GET">
         <div class="color-selector">
@@ -257,7 +257,7 @@ foreach ($_GET as $key => $value) {
     <a href="recenciesToevoegen.php?artikel_id=<?php echo $id; ?>" class="btn btn-secondary">Leave a Review</a>
     <?php
 
-         if(type() == "admin"){
+         if(type($mysqli) == "admin"){
             echo '<a href="recensieGoedkeuren.php?admin_view=1" class="btn btn-warning">Approve Reviews</a>';
          }
         ?>

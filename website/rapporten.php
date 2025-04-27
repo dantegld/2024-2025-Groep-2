@@ -24,14 +24,14 @@
     include 'connect.php';
     session_start();
     include 'functies/functies.php';
-    controleerAdmin();
+    controleerAdmin($mysqli);
     include 'functies/adminSideMenu.php';
 
     $maand = isset($_GET['maand']) ? intval($_GET['maand']) : date('m');
     $jaar = isset($_GET['jaar']) ? intval($_GET['jaar']) : date('Y');
 
-    $maandelijkeRapportData = generererMaandelijksRapport($maand, $jaar);
-    $jaarlijkeRapportData = genereerJaarliksRapport($jaar);
+    $maandelijkeRapportData = generererMaandelijksRapport($maand, $jaar, $mysqli);
+    $jaarlijkeRapportData = genereerJaarliksRapport($jaar, $mysqli);
 
     $maandelijkeRapport = $maandelijkeRapportData['report'];
     $maandTotalRevenue = $maandelijkeRapportData['totalRevenue'];

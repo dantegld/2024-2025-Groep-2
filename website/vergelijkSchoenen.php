@@ -73,13 +73,13 @@
                     </tr>
                     <tr>
                         <td>Brand</td>
-                        <td><?php echo getMerkNaam($schoenen[0]['merk_id']); ?></td>
-                        <td><?php echo getMerkNaam($schoenen[1]['merk_id']); ?></td>
+                        <td><?php echo getMerkNaam($schoenen[0]['merk_id'], $mysqli); ?></td>
+                        <td><?php echo getMerkNaam($schoenen[1]['merk_id'], $mysqli); ?></td>
                     </tr>
                     <tr>
                         <td>Category</td>
-                        <td><?php echo getCategorieNaam($schoenen[0]['categorie_id']); ?></td>
-                        <td><?php echo getCategorieNaam($schoenen[1]['categorie_id']); ?></td>
+                        <td><?php echo getCategorieNaam($schoenen[0]['categorie_id'], $mysqli); ?></td>
+                        <td><?php echo getCategorieNaam($schoenen[1]['categorie_id'], $mysqli); ?></td>
                     </tr>
                     <tr>
                         <td>Viewcount</td>

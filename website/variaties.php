@@ -115,8 +115,8 @@
     include 'connect.php';
     session_start();
     include 'functies/functies.php';
-    controleerKlant();
-    controleerAdmin();
+    controleerKlant($mysqli);
+    controleerAdmin($mysqli);
     include 'functies/adminSideMenu.php';
 
     echo '<div class="adminpage">';

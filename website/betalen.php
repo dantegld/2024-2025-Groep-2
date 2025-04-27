@@ -20,8 +20,8 @@
     session_start();
 
     include 'functies/functies.php';
-    onderhoudsModus();
-    controleerKlant();
+    onderhoudsModus($mysqli);
+    controleerKlant($mysqli);
     
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
@@ -52,7 +52,7 @@
         if ($payment_method == 'paypal') {
             processPayPalPayment($totaal);
         } else if ($payment_method == 'stripe') {
-            processStripePayment($totaal);
+            processStripePayment($totaal, $mysqli);
         } else {
             echo "Ongeldige betalingsmethode geselecteerd.";
             die;

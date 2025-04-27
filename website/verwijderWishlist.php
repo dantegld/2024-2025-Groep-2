@@ -2,7 +2,7 @@
 include("connect.php");
 include 'functies/functies.php';
 session_start();
-controleerKlant();
+controleerKlant($mysqli);
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];

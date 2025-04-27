@@ -24,7 +24,7 @@
     include 'connect.php';
     include 'functies/functies.php';
     session_start();
-    controleerAdmin();
+    controleerAdmin($mysqli);
     include 'functies/adminSideMenu.php';
 
     if (!isset($_SESSION['type']) || $_SESSION['type'] != 'admin') {
@@ -34,11 +34,11 @@
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['bestelling_id']) && isset($_POST['nieuw_status'])) {
         $bestelling_id = $_POST['bestelling_id'];
         $nieuw_status = $_POST['nieuw_status'];
-        updateBestellingStatus($bestelling_id, $nieuw_status);
+        updateBestellingStatus($bestelling_id, $nieuw_status, $mysqli);
         $message = "Order status updated successfully.";
     }
 
-    $orders = getAlleBestellingen();
+    $orders = getAlleBestellingen($mysqli);
     ?>
     <div class="container">
         <div class="row">

@@ -55,8 +55,8 @@
          }else{
          $_SESSION['type'] = "guest";
          }
-         onderhoudsModus();
-         announcement();
+         onderhoudsModus($mysqli);
+         announcement($mysqli);
       ?>
       <script>
              function toggleChatWindow() {
@@ -573,7 +573,7 @@
 
             <div class="location_main">Help Line  Number : +32 41 23 45 97 80
             <?php
-            socialmedia();
+            socialmedia($mysqli);
             ?>
          </div>
          </div>

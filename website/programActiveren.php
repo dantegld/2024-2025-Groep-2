@@ -44,7 +44,7 @@
     // check if the user is logged in
     session_start();
     include 'functies/functies.php';
-    controleerAdmin();
+    controleerAdmin($mysqli);
     include 'functies/adminSideMenu.php';
     ?>
     <div class="adminpage">
