@@ -239,7 +239,7 @@ while ($row = mysqli_fetch_array($result)) {
                                         <td>
                                             <form method="POST" action="">
                                                 <input type="hidden" name="retour_id" value="'.$row['retour_id'].'">
-                                                <button type="submit" name="approve" class="btn btn-success">Approve</button>
+                                                
                                                 <button type="submit" name="reject" class="btn btn-danger">Reject</button>
                                             </form>
                                         </td>

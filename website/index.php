@@ -39,7 +39,7 @@
    <body>
       <?php
          session_start();
-         echo $_SESSION['klant_id'];;
+         // echo $_SESSION['klant_id'];;
          include 'functies/functies.php';
          include 'connect.php';
          
