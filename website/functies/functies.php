@@ -86,7 +86,7 @@ function processPayPalPayment($amount)
 
 
    // Redirect to PayPal with required fields NOG VERRANDEREN VOOR LIVE SERVER
-   header("Location: $paypalUrl?cmd=_xclick&business=$businessEmail&amount=$amount&currency_code=$currency&return=http://localhost/victor/2024-2025-Groep-2/website/successBetalen&cancel_return=http://localhost/victor/2024-2025-Groep-2/website/cancelBetalen");
+   header("Location: $paypalUrl?cmd=_xclick&business=$businessEmail&amount=$amount&currency_code=$currency&return=https://myshoes.zoobagogo.com/successBetalen&cancel_return=https://myshoes.zoobagogo.com/cancelBetalen");
    exit();
 }
 // function refundPayPalPayment($captureId, $amount)
@@ -160,8 +160,8 @@ function processStripePayment($amount, $mysqli)
    $amount = intval($amount);
    $amount = $amount * 100;
 
-   $success_url = "http://localhost/victor/2024-2025-Groep-2/website/successBetalen";
-   $cancel_url = "http://localhost/victor/2024-2025-Groep-2/website/cancelBetalen";
+   $success_url = "https://myshoes.zoobagogo.com/successBetalen";
+   $cancel_url = "https://myshoes.zoobagogo.com/cancelBetalen";
 
 
    //get from database

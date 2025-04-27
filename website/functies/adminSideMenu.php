@@ -25,7 +25,6 @@ echo '
 <a href="Retouren">Returns</a>
 <a href="orderStatus">Order Status</a>
 <a href="klantloyaliteitsprogramma">Loyalty options</a>
-<a href="veranderBestellingsStatus">Change Order Status</a>
 <a href="openstaandeFacturen">Invoices and Payments</a>
 <a href="rapporten.php">Reports</a>
 <a href="klantLoyaliteit">Customer loyalty database</a>

@@ -109,7 +109,7 @@
             $ontvangstdatum = "NOW() + INTERVAL 2 DAY"; // Ontvangstdatum is 2 dagen na de huidige datum
 
             // Voeg de bestelling toe aan de tblaankoop tabel
-            $status = 'verzonden'; // Stel status in op 'betald' na betaling
+            $status = 'Sent'; // Stel status in op 'betald' na betaling
 
             // Voeg bestelling in de tblaankoop tabel
             $sql = "INSERT INTO tblaankoop 

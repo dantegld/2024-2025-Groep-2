@@ -82,15 +82,12 @@
         . '<td>' . $row['status'] . '</td>'
         . '<td><form action="orderStatus.php" method="post">'
         . '<input type="hidden" name="verkoop_id" value="' . $row['verkoop_id'] . '">'
-        . '<select name="status">'
-        . '<option value="verwerkt">Verwerkt</option>'
-        . '<option value="verzonden">Verzonden</option>'
-        . '<option value="afgeleverd">Afgeleverd</option>'
+        . '<select class="selectTable" name="status">'
+        . '<option value="verwerkt">Processed</option>'
+        . '<option value="verzonden">Sent</option>'
+        . '<option value="afgeleverd">Delivered</option>'
         . '</select><br>'
-        . '<input type="submit" name="submit" value="Change Status">';
-        if ($row['status'] == 'afgeleverd') {
-            echo '<button><a href="notificateklant.php?verkoop_id=' . $row['verkoop_id'] . '">Notificate Customer</a></button>';
-        }
+        . '<input class="btn btn-primary" type="submit" name="submit" value="Change Status">';
         echo '</form></td>'
         . '</tr>';
     }
