@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <!-- site metas -->
-    <title>Delivery options</title>
+    <title>Delivery Options</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -48,26 +48,24 @@
     include 'functies/adminSideMenu.php';
     ?>
     <div class="adminpage">
-        <h3>Delivery options</h3>
+        <h3>Delivery Options</h3>
         <?php
-        //deactivet the one from the id that you get from $_GET
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
             $sql = "UPDATE tblbezorgopties SET actief = 1 WHERE methode_id = " . $id . "";
             $mysqli->query($sql);
-
 
             $sql2 = 'SELECT * FROM tblbezorgopties WHERE methode_id = ' . $id . '';
             $result = $mysqli->query($sql2);
             $row2 = $result->fetch_assoc();
             $naam = $row2['methodenaam'];
 
-            $mysqli->close(); // Close the MySQL connection
+            $mysqli->close(); 
             header('Location: bezorgopties');
         } else {
-            echo '<h4>Er is iets fout gegaan</h4>';
-            echo '<a href="betaalmethodes">Terug naar bezorgopties</a>';
-            $mysqli->close(); // Close the MySQL connection
+            echo '<h4>Something went wrong</h4>';
+            echo '<a href="bezorgopties">Back to delivery options</a>';
+            $mysqli->close();
         }
         ?>
     </div>

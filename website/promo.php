@@ -9,7 +9,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>PromoCodes</title>
+      <title>Promo Codes</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -31,11 +31,10 @@
       <!-- owl stylesheets -->
       <link href="https://fonts.googleapis.com/css?family=Great+Vibes|Poppins:400,700&display=swap&subset=latin-ext" rel="stylesheet">
       <link rel="stylesheet" href="css/owl.carousel.min.css">
-      <link rel="stylesoeet" href="css/owl.theme.default.min.css">
+      <link rel="stylesheet" href="css/owl.theme.default.min.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
       <link rel="stylesheet" href="css/adminpage.css">
    <link rel="icon" href="images/icon/favicon.png">
-   
    </head>
    <?php
 include 'connect.php';
@@ -58,7 +57,7 @@ if (isset($_POST['add'])) {
     $stmt->execute();
     $stmt->close();
 
-    // code voor het toevoegen van een announcement in verband met een nieuwe kortingscode
+    // Code for adding an announcement about a new promo code
     $sql = "INSERT INTO tblannouncement (announcement) VALUES ('There is a new promo code!')";
     $result = $mysqli->query($sql);
     
@@ -81,29 +80,29 @@ if (isset($_POST['add'])) {
     $stmt->close();
 }
 
-// Haal alle kortingscodes op
+// Fetch all promo codes
 $result = $mysqli->query("SELECT * FROM tblkortingscodes");
 ?>
 
-<h1>Beheer Kortingscodes</h1>
+<h1>Manage Promo Codes</h1>
 
-<!-- Formulier om een nieuwe kortingscode toe te voegen -->
+<!-- Form to add a new promo code -->
 <form method="POST" action="">
-    <h2>Voeg nieuwe kortingscode toe</h2>
-    <input type="text" name="kortingscode" placeholder="Kortingscode" required>
-    <input type="number" step="0.01" name="korting_euro" placeholder="Korting in procent" required>
-    <input type="date" name="einddatum" placeholder="Einddatum" required min="<?php echo date('Y-m-d'); ?>">
-    <input class="btn btn-primary" type="submit" name="add" value="Toevoegen">
+    <h2>Add New Promo Code</h2>
+    <input type="text" name="kortingscode" placeholder="Promo Code" required>
+    <input type="number" step="0.01" name="korting_euro" placeholder="Discount in Euros" required>
+    <input type="date" name="einddatum" placeholder="End Date" required min="<?php echo date('Y-m-d'); ?>">
+    <input class="btn btn-primary" type="submit" name="add" value="Add">
 </form>
 
-<h2>Bestaande kortingscodes</h2>
+<h2>Existing Promo Codes</h2>
 <table border="1">
     <tr>
-        <th>Kortingscode</th>
-        <th>Korting in Euro</th>
-        <th>Einddatum</th>
-        <th>Gebruik Aantal</th>
-        <th>Acties</th>
+        <th>Promo Code</th>
+        <th>Discount in Euros</th>
+        <th>End Date</th>
+        <th>Usage Count</th>
+        <th>Actions</th>
     </tr>
     <?php while ($row = $result->fetch_assoc()) { ?>
         <tr>
@@ -113,8 +112,8 @@ $result = $mysqli->query("SELECT * FROM tblkortingscodes");
                 <td><input type="date" name="einddatum" value="<?php echo htmlspecialchars($row['einddatum']); ?>" required min="<?php echo date('Y-m-d'); ?>"></td>
                 <td><?php echo htmlspecialchars($row['gebruik_aantal']); ?></td>
                 <td>
-                    <input class="btn btn-primary" type="submit" name="update" value="Wijzigen">
-                    <input class="btn btn-danger" type="submit" name="delete" value="Verwijderen">
+                    <input class="btn btn-primary" type="submit" name="update" value="Update">
+                    <input class="btn btn-danger" type="submit" name="delete" value="Delete">
                 </td>
             </form>
         </tr>
@@ -122,7 +121,7 @@ $result = $mysqli->query("SELECT * FROM tblkortingscodes");
 </table>
 
 <?php
-// Sluit de databaseverbinding
+// Close the database connection
 $result->close();
 $mysqli->close();
 ?>

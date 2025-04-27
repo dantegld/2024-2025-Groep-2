@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <!-- site metas -->
-    <title>Betaalmethodes</title>
+    <title>Payment Methods</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -48,14 +48,13 @@
     include 'functies/adminSideMenu.php';
     ?>
     <div class="adminpage">
-        <h3>Betaalmethodes Activeren</h3>
+        <h3>Activate Payment Methods</h3>
         <?php
-        //deactivet the one from the id that you get from $_GET
+        // Activate the one from the ID that you get from $_GET
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
             $sql = "UPDATE tblbetaalmethodes SET actief = 1 WHERE methode_id = " . $id . "";
             $mysqli->query($sql);
-
 
             $sql2 = 'SELECT * FROM tblbetaalmethodes WHERE methode_id = ' . $id . '';
             $result = $mysqli->query($sql2);
@@ -67,8 +66,8 @@
 
             header('Location: betaalmethodes');
         } else {
-            echo '<h4>Er is iets fout gegaan</h4>';
-            echo '<a href="betaalmethodes">Terug naar betaalmethodes</a>';
+            echo '<h4>Something went wrong</h4>';
+            echo '<a href="betaalmethodes">Back to payment methods</a>';
         }
         ?>
     </div>

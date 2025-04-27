@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en"><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ERROR BETALING</title>
+    <title>Payment Error</title>
     <!-- basic -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -46,14 +45,14 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="titlepage">
-                    <h2>Uw betaling is geannuleerd</h2>
+                    <h2>Your payment has been canceled</h2>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="titlepage">
-                    <a href="winkelwagen" class="btn btn-primary">Terug naar de winkelwagen</a>
+                    <a href="winkelwagen" class="btn btn-primary">Back to cart</a>
                 </div>
             </div>
         </div>

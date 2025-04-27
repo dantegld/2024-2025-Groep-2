@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,15 +49,15 @@
     include 'functies/adminSideMenu.php';
     ?>
 
-    <!-- Lopende promoties overzicht pagina -->
+    <!-- Active Promotions Overview Page -->
     <div class="adminpageCenter">
         <h1>Active Promotions Overview</h1>
         <?php
-        //sql query om alle actieve promotiecodes te selecteren
+        // SQL query to select all active promotion codes
         $sql = "SELECT kortingscode, korting_euro, einddatum, gebruik_aantal FROM tblkortingscodes WHERE einddatum >= CURDATE()";
         $resultaat = $mysqli->query($sql);
 
-        //printen van de promoties
+        // Printing the promotions
         if ($resultaat->num_rows > 0) {
             echo '<table border="1">';
             echo '<tr><th>Promotion Code</th><th>Discount (€)</th><th>End Date</th><th>Usage Count</th></tr>';
@@ -72,7 +71,7 @@
             }
             echo '</table>';
         } else {
-            echo '<p>No active promotions found.</p>';
+            echo '<p>No Active Promotions Found.</p>';
         }
 
         $resultaat->close();

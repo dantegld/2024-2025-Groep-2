@@ -28,7 +28,7 @@
                 echo '<div class="alreadyExists" style="color: red; margin-top: 10px;">' . $error . '</div>';
             }
             echo '</form><br>';
-            echo '<div>Al een account? <a href="login">Log in</a></div>';
+            echo '<div>Already have an account? <a href="login">Log in</a></div>';
         }
 
         // Register form
@@ -43,7 +43,7 @@
             $stmt->execute();
             $result = $stmt->get_result();
             if ($result->num_rows > 0) {
-                displayForm("Gebruikersnaam of email bestaat al.");
+                displayForm("Username or email already exists.");
             } else {
                 // Insert new user with type 'klant'
                 $sql = "INSERT INTO tblklant (klantnaam, wachtwoord, email, type_id) VALUES (?, ?, ?, '2')";
@@ -57,8 +57,8 @@
                 $stmtType->close();
                 $mysqli->close();
 
-                echo '<h2>Registratie succesvol!</h2>';
-                echo '<div>Ga terug naar de <a href="login">loginpagina</a>.</div>';
+                echo '<h2>Registration successful!</h2>';
+                echo '<div>Return to the <a href="login">login page</a>.</div>';
             }
         } else {
             displayForm();

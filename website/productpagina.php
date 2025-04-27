@@ -131,7 +131,7 @@ select:disabled {
                               <span class="padding_5">Cart</span></a>
                            </li>
                            <?php
-                           //Als de klant is ingelogd, laat de knop "My Profile" zien, anders laat de knop "Log-In" zien
+                           // If the customer is logged in, show the "My Profile" button, otherwise show the "Log-In" button
                            if ($_SESSION["klant"]){
                               echo '<li><a class="black" href="profile">
                                     <i class="fa fa-user" aria-hidden="true"></i>
@@ -251,7 +251,7 @@ foreach ($_GET as $key => $value) {
     </div>
 </div>
 </div>
-    <!-- recensies-->
+    <!-- reviews-->
 <div class="review-buttons">
     <a href="recenciesBekijken.php?artikel_id=<?php echo $id; ?>" class="btn btn-primary">View Reviews</a>
     <a href="recenciesToevoegen.php?artikel_id=<?php echo $id; ?>" class="btn btn-secondary">Leave a Review</a>

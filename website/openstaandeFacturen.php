@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Openstaande Facturen en Betalingen</title>
+    <title>Outstanding Invoices and Payments</title>
     <!-- Include your CSS files here -->
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -41,10 +41,10 @@
     ?>
 
     <div class="container">
-        <h1>Invoices to pay</h1>
+        <h1>Outstanding Invoices</h1>
         <div class="tableContainer">
             <table border="1" class="adminTable">
-                <tr><th>Invoice ID</th><th>Amount</th><th>Status</th><th>expiration date</th><th>Action</th></tr>
+                <tr><th>Invoice ID</th><th>Amount</th><th>Status</th><th>Expiration Date</th><th>Action</th></tr>
                 <?php while ($row = $result->fetch_assoc()) { ?>
                     <tr>
                         <td><?php echo $row['factuur_id']; ?></td>

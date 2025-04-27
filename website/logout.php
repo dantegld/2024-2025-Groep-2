@@ -14,7 +14,5 @@ header("Location: login");
 
 ?>
 
-
-    
 </body>
 </html>

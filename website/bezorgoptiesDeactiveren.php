@@ -48,7 +48,7 @@
     include 'functies/adminSideMenu.php';
     ?>
     <div class="adminpage">
-        <h3>Delivery options</h3>
+        <h3>Delivery Options</h3>
         <?php
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
@@ -62,8 +62,8 @@
 
             header('Location: bezorgopties');
         } else {
-            echo '<h4>Er is iets fout gegaan</h4>';
-            echo '<a href="betaalmethodes">Terug naar betaalmethodes</a>';
+            echo '<h4>Something went wrong</h4>';
+            echo '<a href="bezorgopties">Back to delivery options</a>';
         }
         $mysqli->close();
         ?>

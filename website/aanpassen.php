@@ -134,7 +134,7 @@ include 'functies/adminSideMenu.php';
             $artikel_id = $_POST['artikel_id'];
             $artikelnaam = $_POST['artikelnaam'];
             $prijs = $_POST['prijs'];
-            $aankoopprijs = $_POST['aankoopprijs'];  $aankoopprijs = $_POST['aankoopprijs'];
+            $aankoopprijs = $_POST['aankoopprijs'];
             $merk_id = $_POST['merk_id'];
             $categorie_id = $_POST['categorie_id'];
             // Calculate margin per product in PHP
@@ -174,7 +174,7 @@ include 'functies/adminSideMenu.php';
     $result = $mysqli->query($query);
     if ($result->num_rows > 0) {
         echo "<table border='1'>";
-        echo "<tr><th>Product ID</th><th>Product name</th><th class='price-column'>Price</th><th>Purchase price</th><th>Profit Margin per Product</th><th>Total sales</th><th>Total Views</th><th>Added To Cart</th><th>Brand</th><th>Category</th><th>Action</th><th>Variations</th><th>Delete</th></tr>";
+        echo "<tr><th>Product ID</th><th>Product Name</th><th class='price-column'>Price</th><th>Purchase Price</th><th>Profit Margin Per Product</th><th>Total Sales</th><th>Total Views</th><th>Added To Cart</th><th>Brand</th><th>Category</th><th>Action</th><th>Variations</th><th>Delete</th></tr>";
         while ($row = $result->fetch_assoc()) {
             // Fetch all brands
             $brandQuery = "SELECT * FROM tblmerk";
@@ -200,10 +200,6 @@ include 'functies/adminSideMenu.php';
             $row4 = $result4->fetch_assoc();
 
             echo '<td>' . $row4['addedCart'] . '</td>';
-
-
-
-
 
             // Brand dropdown
             echo "<td><select name='merk_id'>";

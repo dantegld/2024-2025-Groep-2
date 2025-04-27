@@ -45,12 +45,10 @@
 <body>
     <?php
     include 'connect.php';
-    // check if the user is logged in
     session_start();
     include 'functies/functies.php';
     controleerAdmin($mysqli);
     include 'functies/adminSideMenu.php';
-    
     
     if (isset($_POST['submit'])) {
         $status = $_POST['status'];
@@ -59,8 +57,7 @@
         $mysqli->query($sql);
     }
 
-
-    //table with all orders from tblaankop with klant id and klant name from tblklant
+    // Table with all orders from tblaankoop with customer ID and customer name from tblklant
     $sql = "SELECT * FROM tblaankoop INNER JOIN tblklant ON tblaankoop.klant_id = tblklant.klant_id";
     $result = $mysqli->query($sql);
 
@@ -83,9 +80,9 @@
         . '<td><form action="orderStatus.php" method="post">'
         . '<input type="hidden" name="verkoop_id" value="' . $row['verkoop_id'] . '">'
         . '<select class="selectTable" name="status">'
-        . '<option value="verwerkt">Processed</option>'
-        . '<option value="verzonden">Sent</option>'
-        . '<option value="afgeleverd">Delivered</option>'
+        . '<option value="processed">Processed</option>'
+        . '<option value="sent">Sent</option>'
+        . '<option value="delivered">Delivered</option>'
         . '</select><br>'
         . '<input class="btn btn-primary" type="submit" name="submit" value="Change Status">';
         echo '</form></td>'

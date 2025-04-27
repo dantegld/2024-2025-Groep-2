@@ -14,16 +14,16 @@
                <div class="contact-form" id="cont-form"data-aos="fade-up">
            
            <form action="send_mail.php" method="POST" id="contact-form">
-       <label for="name">Naam:</label><br>
+       <label for="name">Name:</label><br>
        <input type="text" id="name" name="name" required><br><br>
 
-       <label for="email">E-mailadres:</label><br>
+       <label for="email">Email Address:</label><br>
        <input type="email" id="email" name="email" required><br><br>
 
-       <label for="message">Bericht:</label><br>
+       <label for="message">Message:</label><br>
        <textarea id="message" name="message" rows="5" required placeholder=""></textarea><br><br>
 
-       <button type="submit">Verstuur</button>
+       <button type="submit">Send</button>
    </form>
            </div>
        </section>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Pagina</title>
+    <title>Admin Page</title>
     <!-- basic -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -59,9 +59,6 @@ use PHPMailer\PHPMailer\Exception;
         color: #ffffff;
     }
 </style>
-
-
-
 <?php
 if (isset($_POST['add_variatie'])) {
     $artikel_id = $_POST['artikel_id'];
@@ -118,13 +115,14 @@ if (isset($_POST['add_variatie'])) {
                         $mail->setFrom('contactmyshoes2800@gmail.com', 'My Shoes');  
                         $mail->addBCC($email);  
                         $mail->Subject = 'Nieuw Artikel Online';
-                        $mail->Body    = 'Er is een nieuw artikel online, https://myshoes.zoobagogo.com/productpagina?id=' . $artikel_id;
-                        $mail->Body .= "\n\nAls je geen e-mails meer wilt ontvangen, klik dan hier: https://myshoes.zoobagogo.com/unsubscribe.php?email=" . $email;
+                        $mail->Body    = 'A new product is online, https://myshoes.zoobagogo.com/productpagina?id=' . $artikel_id;
+                        $mail->Body .= "\n\nIf you no longer wish to receive emails, click here: https://myshoes.zoobagogo.com/unsubscribe.php?email=" . $email;
                         
 
 
                   
-                        $message = 'Er is een notificatie naar je e-mail gestuurd. Controleer je inbox!';
+
+                        $message = 'A notification has been sent to your email. Check your inbox!';
                         $message_class = 'success';
                     } catch (Exception $e) {
                         $message = "Er is iets misgegaan bij het verzenden van de e-mail. Mailer Error: {$mail->ErrorInfo}";
@@ -137,16 +135,15 @@ if (isset($_POST['add_variatie'])) {
                 header("Location: aanpassen");
             }
         } else {
-            echo "Er was een probleem met het uploaden van de afbeelding.";
+            echo "There was an issue uploading the image.";
             $mysqli->close(); // Close the MySQL connection
         }
     } else {
-        echo "Er was een probleem met het toevoegen van de variatie.";
+        echo "There was an issue adding the variant.";
         $mysqli->close(); // Close the MySQL connection
     }
 }
 ?>
-
 <div class="adminpage">
     <h2>Add New Variant</h2>
     <?php
@@ -158,7 +155,7 @@ if (isset($_POST['add_variatie'])) {
     ?>
     <form action="add_variant?artikel_id=<?php echo $artikel_id ?> " method="POST" enctype="multipart/form-data">
         <input type="hidden" name="artikel_id" value="<?php echo $artikel_id; ?>">
-        <label for="kleur_id">Kleur:</label>
+        <label for="kleur_id">Color:</label>
         <select name="kleur_id" required>
             <?php
             $kleur_sql = "SELECT * FROM tblkleur";
@@ -168,8 +165,10 @@ if (isset($_POST['add_variatie'])) {
             }
             ?>
         </select><br>
-        <label for="image">Foto:</label>
+        <label for="image">Photo:</label>
         <input type="file" name="image" required><br>
         <input class="btn btn-primary" type="submit" name="add_variatie" value="Add">
     </form>
 </div>
+</body>
+</html>

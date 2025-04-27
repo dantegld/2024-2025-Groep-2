@@ -10,5 +10,5 @@
     $result = $mysqli->query($sql);
     $sql="DELETE FROM tblstock WHERE variatie_id = $variatie_id and artikel_id = $artikel_id";
     $result = $mysqli->query($sql);
-    $mysqli->close(); // Close the MySQL connection
+    $mysqli->close();
     header("Location: variaties?artikel_id=$artikel_id");

@@ -54,16 +54,15 @@
     ?>
     
     <div class="adminpageCenter">
-    <h2 class="titel1">Maintance mode</h2><br>
-    <?php
-    //knop that turns on the maintenance mode
+    <h2 class="titel1">Maintenance Mode</h2><br>
+   <?php
 
     $sql1 = "SELECT * FROM tbladmin WHERE functienaam = 'onderhoudmodus' and functiewaarde = 1";
     $result1 = $mysqli->query($sql1);
     if ($result1->num_rows > 0) {
-        echo "Maintance mode is enabled<br>";
+        echo "Maintenance mode is enabled<br>";
             echo "<form action='adminonderhoud' method='post'>
-        <input type='submit' name='off' value='Disable maintance mode'><br>
+        <input type='submit' name='off' value='Disable maintenance mode'><br>
             </form>";
 
     } else {
@@ -73,7 +72,7 @@
             </form>";
     }
 
-    // check if the form is submitted
+    
 
     if (isset($_POST['on'])) {
         $sql = "UPDATE tbladmin SET functiewaarde = 1 WHERE functienaam = 'onderhoudmodus'";
@@ -94,9 +93,6 @@
         }
         $mysqli->close(); // Close the MySQL connection
     }
-
-
-
     ?>
     </div>
 </body>

@@ -107,8 +107,8 @@
 include("connect.php");
 session_start();
 include 'functies/functies.php';
-controleerKlant($mysqli); // Controleer of klant is ingelogd
-onderhoudsModus($mysqli);
+controleerKlant($mysqli); // Check if the customer is logged in
+onderhoudsModus($mysqli); // Maintenance mode check
 include 'functies/mySideNav.php';
 echo '<br><span class="toggle_icon1" onclick="openNav()"><img width="44px" src="images/icon/Hamburger_icon.svg.png"></span>';
 
@@ -183,7 +183,7 @@ if (isset($_POST['reject'])) {
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 
-    echo "<div class='alert alert-warning'>Retour afgewezen.</div>";
+    echo "<div class='alert alert-warning'>Return request rejected.</div>";
 }
 
 // ✅ **Haal alle retourverzoeken op**
@@ -214,7 +214,7 @@ while ($row = mysqli_fetch_array($result)) {
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Retour #'.$row['retour_id'].'</h4>
+                            <h4>Return Request #'.$row['retour_id'].'</h4>
                         </div>
                         <div class="card-body">
                             <table class="table">
@@ -224,7 +224,7 @@ while ($row = mysqli_fetch_array($result)) {
                                         <th>Price</th>
                                         <th>Customer ID</th>
                                         <th>Order ID</th>
-                                        <th>Date of Reciept</th>
+                                        <th>Date of Receipt</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>

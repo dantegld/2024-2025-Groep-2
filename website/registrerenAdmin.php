@@ -11,7 +11,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>Register</title>
+      <title>Admin Registration</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -54,7 +54,7 @@ controleerAdmin($mysqli);
 
 
 function displayForm($error = '') {
-    echo '<h2>Register</h2>';
+    echo '<h2>Admin Registration</h2>';
     echo '<form action="registrerenAdmin" method="post">
             <label>Username</label>
             <input type="text" name="username" class="form-control" required><br>
@@ -69,7 +69,7 @@ function displayForm($error = '') {
     echo '</form><br>';
 }
 function displayForm1($msg = '') {
-    echo '<h2>Register</h2>';
+    echo '<h2>Admin Registration</h2>';
     echo '<form action="registrerenAdmin" method="post">
             <label>Username</label>
             <input type="text" name="username" class="form-control" required><br>
@@ -123,7 +123,7 @@ if (isset($_POST['submit'])) {
         $result = $stmt->execute();
 
         if ($result) {
-            displayForm1('Succes.');
+            displayForm1('Success.');
             exit(); // Ensure no further code is executed after the redirect
         } else {
             echo "Error: " . $stmt->error;

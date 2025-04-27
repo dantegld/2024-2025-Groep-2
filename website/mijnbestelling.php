@@ -9,7 +9,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>My orders</title>
+      <title>My Orders</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -112,71 +112,41 @@ onderhoudsModus($mysqli);
 include 'functies/mySideNav.php';
 echo '<br><span class="toggle_icon1" onclick="openNav()"><img width="44px" src="images/icon/Hamburger_icon.svg.png"></span>'; 
 
-// Retourverwerking (met 'isset' en knopnaam via POST)
+// Return processing (with 'isset' and button name via POST)
 if (isset($_POST['retour'])) {
-    // Verkrijg de POST-gegevens van de knop
+    // Get the POST data from the button
     $verkoop_id = $_POST['verkoop_id'];
     $artikel_id = $_POST['artikel_id'];
-    $klant_id = $_SESSION['klant_id'];  // Verondersteld dat de klant is ingelogd
+    $klant_id = $_SESSION['klant_id'];  // Assumes the customer is logged in
 
-    // Verkrijg de ontvangstdatum van de bestelling
+    // Get the receipt date of the order
     $query = "SELECT ontvangstdatum FROM tblaankoop WHERE verkoop_id = '$verkoop_id' AND klant_id = '$klant_id'";
     $result = mysqli_query($mysqli, $query);
     $row = mysqli_fetch_array($result);
     $ontvangstdatum = $row['ontvangstdatum'];
 
-    // Bereken het aantal dagen sinds de ontvangst
+    // Calculate the number of days since receipt
     $huidige_datum = date('Y-m-d');
     $verschil = (strtotime($huidige_datum) - strtotime($ontvangstdatum)) / (60 * 60 * 24);
 
-    // Controleer of het binnen de 3 dagen valt
+    // Check if it falls within 3 days
     
-        // Retour is geldig
-        // Voeg het retourverzoek toe aan de tblGeretourneerdeProducten tabel
+        // Return is valid
+        // Add the return request to the tblGeretourneerdeProducten table
         
         $queryInsert = "INSERT INTO tblGeretourneerdeProducten (verkoop_id, artikel_id, klant_id) VALUES ('$verkoop_id', '$artikel_id', '$klant_id')";
         $resultInsert = mysqli_query($mysqli, $queryInsert);
 
         if ($resultInsert) {
-            // Succesvolle invoer
-            echo "<div class='alert alert-success'>Retour is succesvol aangevraagd!</div>";
+            // Successful entry
+            echo "<div class='alert alert-success'>Return request successfully submitted!</div>";
         } else {
-            // Fout bij invoer
-            echo "<div class='alert alert-danger'>Er is een fout opgetreden bij het aanvragen van het retour.</div>";
+            // Error during entry
+            echo "<div class='alert alert-danger'>An error occurred while submitting the return request.</div>";
         }
-        // PHPMailer
-    /*    $mail = new PHPMailer(true);
-
-        try {
-            // Host, wachtwoord, gebruikersnaam, etc.
-            $mail->isSMTP();
-            $mail->Host = 'smtp.hostinger.com';
-            $mail->SMTPAuth = true;
-            $mail->Username = 'myshoes@zoobagogo.com';
-            $mail->Password = 'ShoesMy123!';
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = 587;
-
-            // zender en ontvanger
-            $mail->setFrom('myshoes@zoobagogo.com', 'Myshoes');
-            $mail->addAddress($email);
-
-            // inhoud van de email
-            $mail->isHTML(true);
-            $mail->Subject = 'Return Request Confirmation';
-            $mail->Body    = 'Dear customer,<br><br>We have received your return request. Our team will review the request and provide further instructions shortly.<br><br>Best regards,<br>Your Company';
-            $mail->AltBody = 'Dear customer,\n\nWe have received your return request. Our team will review the request and provide further instructions shortly.\n\nBest regards,\nYour Company';
-
-            // verzend de email
-            $mail->send();
-            echo 'Return request successfully received. A confirmation email has been sent to your email address.';
-        } catch (Exception $e) {
-            echo "Return request successfully received. However, we could not send a confirmation email. Mailer Error: {$mail->ErrorInfo}";
-        }*/
-
 }
 
-// Bestellingen ophalen en weergeven
+// Fetch and display orders
 $query = "SELECT * FROM tblaankoop WHERE klant_id = '".$_SESSION['klant_id']."'";
 $result = mysqli_query($mysqli, $query);
 

@@ -140,9 +140,9 @@
         $stock = $_POST['stock'];
         $sql = "UPDATE tblstock SET stock = $stock WHERE stock_id = $stock_id";
         if ($mysqli->query($sql)) {
-            echo '<div class="message success">Stock is aangepast</div>';
+            echo '<div class="message success">Stock has been edited</div>';
         } else {
-            echo '<div class="message error">Er is iets fout gegaan</div>';
+            echo '<div class="message error">Something went wrong</div>';
         }
     }
 
@@ -155,7 +155,7 @@
     $result = $mysqli->query($sql);
     echo '<table border="1">';
     echo '<tr>';
-    echo '<th>Stock_id</th><th>Artikel</th><th>Schoenmaat</th><th>Stock</th><th>Actie</th>';
+    echo '<th>Stock_id</th><th>Product</th><th>Shoe size</th><th>Stock</th><th>Action</th>';
     echo '</tr>';
     while ($row = $result->fetch_assoc()) {
         echo '<tr>';

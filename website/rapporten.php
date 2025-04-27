@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rapporten</title>
+    <title>Reports</title>
     <!-- Include your CSS files here -->
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -45,7 +45,7 @@
     ?>
 
     <div class="container">
-        <h1>Rapporten</h1>
+        <h1>Reports</h1>
         <form method="GET" action="rapporten.php">
             <label for="maand">Select Month:</label>
             <select name="maand" id="maand">
@@ -65,12 +65,12 @@
         <p>Total Revenue: €<?php echo number_format($maandTotalRevenue, 2); ?></p>
         <p>Total Cost: €<?php echo number_format($maandTotalCost, 2); ?></p>
         <p>Profit: €<?php echo number_format($maandProfit, 2); ?></p>
-        
+
         <h2>Yearly Report for <?php echo $jaar; ?></h2>
         <p>Total Revenue: €<?php echo number_format($jaarTotalRevenue, 2); ?></p>
         <p>Total Cost: €<?php echo number_format($jaarTotalCost, 2); ?></p>
         <p>Profit: €<?php echo number_format($jaarProfit, 2); ?></p>
-        
+
     </div>
 
     <style>
@@ -84,7 +84,8 @@
 
         .container {
             flex: 1;
-            margin-left: 250px; /* Adjust this value based on the width of your side menu */
+            margin-left: 250px;
+            /* Adjust this value based on the width of your side menu */
             padding: 20px;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -102,7 +103,8 @@
             margin-bottom: 20px;
         }
 
-        .adminTable th, .adminTable td {
+        .adminTable th,
+        .adminTable td {
             padding: 10px;
             text-align: left;
             border: 1px solid #ddd;
@@ -117,7 +119,8 @@
             background-color: #f9f9f9;
         }
 
-        h1, h2 {
+        h1,
+        h2 {
             text-align: center;
             margin-top: 20px;
             color: #333;
@@ -130,7 +133,9 @@
             margin-bottom: 20px;
         }
 
-        form label, form select, form input {
+        form label,
+        form select,
+        form input {
             margin-right: 10px;
         }
     </style>

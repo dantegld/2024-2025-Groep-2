@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Page</title>
+    <title>Categories and Brands</title>
     <!-- basic -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -52,11 +52,12 @@
     include 'functies/adminSideMenu.php';
     ?>
     <div class="adminpageCenter">
-        <a href="brands">Brands</a>
-        <a href="categories">Categories</a>
+        <a href="brands">Manage Brands</a>
+        <a href="categories">Manage Categories</a>
     </div>
     <?php
-    // ...existing code...
+
+
     $mysqli->close();
     ?>
 </body>

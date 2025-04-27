@@ -111,7 +111,7 @@
     include 'functies/functies.php';
     controleerAdmin($mysqli);
     include 'functies/adminSideMenu.php';
-    
+
 
     
 

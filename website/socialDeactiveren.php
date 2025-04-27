@@ -65,7 +65,7 @@
 
             header('Location: socials');
         } else {
-            echo '<h4>Er is iets fout gegaan</h4>';
+            echo '<h4>Something went wrong</h4>';
             echo '<a href="socials">Go back to Socials</a>';
         }
         ?>

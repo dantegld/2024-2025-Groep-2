@@ -57,7 +57,7 @@
         $sql = "SELECT * FROM tblklant WHERE klant_id = '$_SESSION[klant_id]'";
         $result = $mysqli->query($sql);
         while ($row = $result->fetch_assoc()) {
-            echo '<h2>Adminpage Myshoes</h2>';
+            echo '<h2>Admin Page MyShoes</h2>';
             echo '<h4>Welcome, ' . $row['klantnaam'] . '.</h4>';
         }
         $result->close();
