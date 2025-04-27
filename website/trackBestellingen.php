@@ -3,11 +3,11 @@ include 'connect.php';
 include 'functies/functies.php';
 session_start();
 
-if (!isset($_GET['order_id']) || empty($_GET['order_id'])) {
-    $error_message = "Order ID is not set or is empty.";
+if (!isset($_SESSION['klant_id'])) {
+    $error_message = "You need to log in to view your orders.";
 } else {
-    $order_id = $_GET['order_id'];
-    $status = getOrderStatus($order_id);
+    $klant_id = $_SESSION['klant_id'];
+    $orders = getBestellingenKlant($klant_id);
 }
 ?>
 <!DOCTYPE html>
@@ -15,7 +15,7 @@ if (!isset($_GET['order_id']) || empty($_GET['order_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Track Order</title>
+    <title>Track Orders</title>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" href="css/responsive.css">
@@ -26,7 +26,7 @@ if (!isset($_GET['order_id']) || empty($_GET['order_id'])) {
         <div class="row">
             <div class="col-md-12">
                 <div class="titlepage">
-                    <h2>Track Your Order</h2>
+                    <h2>Track Your Orders</h2>
                 </div>
             </div>
         </div>
@@ -37,11 +37,27 @@ if (!isset($_GET['order_id']) || empty($_GET['order_id'])) {
                         <div class="alert alert-danger" role="alert">
                             <?php echo htmlspecialchars($error_message); ?>
                         </div>
-                    <?php } elseif ($status === 'Unknown') { ?>
+                    <?php } elseif (empty($orders)) { ?>
                         <p>No orders have been placed yet.</p>
                     <?php } else { ?>
-                        <p>Order Number: <?php echo htmlspecialchars($order_id); ?></p>
-                        <p>Status: <?php echo htmlspecialchars($status); ?></p>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Order Number</th>
+                                    <th>Status</th>
+                                    <th>Delivery Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($orders as $order) { ?>
+                                    <tr>
+                                        <td><?php echo htmlspecialchars($order['bestelling_id']); ?></td>
+                                        <td><?php echo htmlspecialchars($order['status']); ?></td>
+                                        <td><?php echo htmlspecialchars($order['leveringsdatum']); ?></td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
                     <?php } ?>
                 </div>
             </div>
