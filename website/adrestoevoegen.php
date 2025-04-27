@@ -37,59 +37,63 @@
    </head>
    <body>
    <?php
-    include 'connect.php';
-    session_start();
-    include 'functies/functies.php';
-    controleerKlant();
-    onderhoudsModus();
+include 'connect.php';
+session_start();
+include 'functies/functies.php';
+controleerKlant();
+onderhoudsModus();
 
-    ?>
+$klant_id = $_SESSION['klant_id'];
 
-               <div style="position: absolute; top: 10px; left: 10px;">
-                  <a href="profile"><img src="images/shoes/goback.png" style="width: 50px; height: auto;"></a>
-               </div>
-                  <h2 class="title3">Add new address</h2>
-                    <?php
-                    $klant_id = $_SESSION['klant_id'];
-                    $sql = "SELECT * FROM tbladres WHERE klant_id = '$klant_id'";
-                    $result = $mysqli->query($sql);
-                    $adres_id = $result->num_rows + 1;
-                    if(isset($_POST['adresbtn'])){
-                        $klant_id = $_SESSION['klant_id'];
-                        $postcode = $_POST['postcode'];
-                        $sql1 = "SELECT * FROM tblpostcode WHERE postcode = '$postcode'";
-                        $result1 = $mysqli->query($sql1);
-                        while ($row = $result1->fetch_assoc()) {
-                            $postcode_id = $row['postcode_id'];
-                        }
-                        $adres = $_POST['adres'];
-                        $nation = $_POST['nation'];
-                        $sql2 = "INSERT INTO tbladres (adres_id, klant_id, adres, postcode_id, landID) VALUES ('$adres_id', '$klant_id', '$adres', '$postcode_id','$nation')";
-                        $mysqli->query($sql2);
-                        Header("Location: profile");
-                        $mysqli->close(); // Close the MySQL connection
-                    } else {
-                        //php form  
-                        ?>
-                        <div class='loginForm'>
-                        <?php
-                                            echo' <form action="adrestoevoegen" method="post">
-                                            <label>Address:</label><br>
-                                            <input type="text"  class="form-control" name="adres" id="adres" required><br>
-                                            <label>City code:</label><br>
-                                            <input type="text"  class="form-control" name="postcode" id="postcode" required><br>
-                                          <label>Nation:</label><br>
-                                            <select class="form-control" name="nation" id="nation" required>';
-                                              
-                                              $sql3 = "SELECT * FROM tblLand";
-                                              $result3 = $mysqli->query($sql3);
-                                              while ($row = $result3->fetch_assoc()) {
-                                                 echo '<option value="' . $row['landID'] . '">' . $row['landNaam'] . '</option>';
-                                              }
-                                          
-                                           echo '</select><br>
-                                            <input class="btn btn-primary" type="submit" value = "Add new adress" name="adresbtn"><br>
-                                            </form><br>';
+
+$sql = "SELECT MAX(adres_id) AS max_adres_id FROM tbladres WHERE klant_id = '$klant_id'";
+$result = $mysqli->query($sql);
+$row = $result->fetch_assoc();
+$next_adres_id = $row['max_adres_id'] ? $row['max_adres_id'] + 1 : 1;
+
+if (isset($_POST['adresbtn'])) {
+    $postcode = $_POST['postcode'];
+    $adres = $_POST['adres'];
+    $country = $_POST['country'];
+
+
+    $sql1 = "SELECT * FROM tblpostcode WHERE postcode = '$postcode'";
+    $result1 = $mysqli->query($sql1);
+
+    if ($result1->num_rows > 0) {
+        $row1 = $result1->fetch_assoc();
+        $postcode_id = $row1['postcode_id'];
+
+        $sql2 = "INSERT INTO tbladres (adres_id, klant_id, adres, postcode_id, landID) 
+                 VALUES ('$next_adres_id', '$klant_id', '$adres', '$postcode_id', '$country')";
+        $mysqli->query($sql2);
+
+        header("Location: profile");
+        $mysqli->close();
+    } else {
+        echo "<p class='error-msg'>Invalid postcode!</p>";
+    }
+} else {
+   ?>
+      <div class='loginForm'>
+      <?php
+                           echo' <form action="adrestoevoegen" method="post">
+                           <label>Address:</label><br>
+                           <input type="text"  class="form-control" name="adres" id="adres" required><br>
+                           <label>City code:</label><br>
+                           <input type="text"  class="form-control" name="postcode" id="postcode" required><br>
+                        <label>Country:</label><br>
+                           <select class="form-control" name="country" id="country" required>';
+                              
+                              $sql3 = "SELECT * FROM tblLand";
+                              $result3 = $mysqli->query($sql3);
+                              while ($row = $result3->fetch_assoc()) {
+                                 echo '<option value="' . $row['landID'] . '">' . $row['landNaam'] . '</option>';
+                              }
+                        
+                           echo '</select><br>
+                           <input class="btn btn-primary" type="submit" value = "Add new adress" name="adresbtn"><br>
+                           </form><br>';
 
                     }
                     

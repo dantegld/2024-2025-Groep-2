@@ -39,7 +39,6 @@
    <body>
       <?php
          session_start();
-         echo $_SESSION['klant_id'];;
          include 'functies/functies.php';
          include 'connect.php';
          
@@ -647,10 +646,12 @@
             document.getElementById("maxPriceValue").innerText = value;
          }
       </script>
-            <?php 
-       if(type() == "customer"){
-         include 'chat.php';
-       }?>
+            <?php
+if ($_SESSION['type'] != "guest") {
+   if ($_SESSION['type'] == "customer") {
+       include 'chat.php';
+   }
+}?>
    </body>
 </html>
    </body>
