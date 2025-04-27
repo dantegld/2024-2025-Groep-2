@@ -47,11 +47,11 @@
         margin-top: 50px;
    }
    table {
-       width: 70%; /* Maak de tabel breder naar 70% */
+       width: 70%;
        border-collapse: collapse;
        background-color: #fff;
        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-       margin: 0 auto; /* Centreer de tabel */
+       margin: 0 auto;
        margin-top: 50px;
    }
    th, td {
@@ -139,21 +139,20 @@ include 'functies/adminSideMenu.php';
 <h1>Customers</h1>
     <?php
         if (isset($_POST['verwijderen'])) {
-            if (!empty($_POST['klant_id'])) { // Only check for klant_id
+            if (!empty($_POST['klant_id'])) {
                 $klant_id = $_POST['klant_id'];
     
     
-                // Verwijder query uitvoeren
                 $deleteQuery = "DELETE FROM tblklant WHERE klant_id = '$klant_id'";
                 $deleteResult = $mysqli->query($deleteQuery);
                 
                 if ($deleteResult) {
-                    echo "<div class='message success'>The customer with ID $klant_id has been successfully deleted.</div>";
+                    echo "<div class='message success'>The Customer With ID $klant_id Has Been Successfully Deleted.</div>";
                 } else {
-                    echo "<div class='message error'>An error occurred while deleting the customer.</div>";
+                    echo "<div class='message error'>An Error Occurred While Deleting The Customer.</div>";
                 }
             } else {
-                echo "<div class='message error'>Not all data has been provided</div>";
+                echo "<div class='message error'>Not All Data Has Been Provided</div>";
             }
         }
 
@@ -170,12 +169,12 @@ include 'functies/adminSideMenu.php';
                 $updateTypeQuery = "UPDATE tblklant SET type_id = '$type' WHERE klant_id = '$klant_id'";
                 $updateTypeResult = $mysqli->query($updateTypeQuery);
                 if ($updateResult) {
-                    echo "<div class='message success'>The customer with ID $klant_id has been updated successfully.</div>";
+                    echo "<div class='message success'>The Customer With ID $klant_id Has Been Updated Successfully.</div>";
                 } else {
-                    echo "<div class='message error'>An error occurred while updating the customer.</div>";
+                    echo "<div class='message error'>An Error Occurred While Updating The Customer.</div>";
                 }
             } else {
-                echo "<div class='message error'>Not all data has been provided.</div>";
+                echo "<div class='message error'>Not All Data Has Been Provided.</div>";
             }
         }
 
@@ -184,13 +183,12 @@ include 'functies/adminSideMenu.php';
     $result = $mysqli->query($query);
     if ($result->num_rows > 0) {
         echo "<table border='1'>";
-        echo "<tr><th>Customer ID</th><th>Customer name</th><th>E-mail</th><th>Phone number</th><th>Shoe size</th><th>Type</th><th>Action</th><th>Delete</th></tr>";
+        echo "<tr><th>Customer ID</th><th>Customer Name</th><th>E-Mail</th><th>Phone Number</th><th>Shoe Size</th><th>Type</th><th>Action</th><th>Delete</th></tr>";
         while ($row = $result->fetch_assoc()) {
-            // Start the form here
             $typesql = "SELECT * FROM tbltypes";
             $typeresult = $mysqli->query($typesql);
             echo "<tr>";
-            echo "<form method='POST' action='deactiveerKlantaccounts.php'>"; // Make sure action is set correctly
+            echo "<form method='POST' action='deactiveerKlantaccounts.php'>";
 
          
             echo "<td>" . $row['klant_id'] . "</td>";
@@ -215,12 +213,12 @@ include 'functies/adminSideMenu.php';
                           <input type='hidden' name='klant_id' value='" . $row['klant_id'] . "' />
                           <input class='delete' type='submit' name='verwijderen' value='Delete' />
                       </td>";
-            echo "</form>"; // End the form here
+            echo "</form>";
             echo "</tr>";
         }
         echo "</table>";
     } else {
-        echo "No Customers found";
+        echo "No Customers Found";
     }
     echo "<br>";
     

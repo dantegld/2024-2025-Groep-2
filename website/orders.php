@@ -96,7 +96,7 @@ include 'functies/adminSideMenu.php';
     $result = $mysqli->query($query);
     if ($result->num_rows > 0) {
         echo "<table border='1'>";
-        echo "<tr><th>Order ID</th><th>Costumer ID</th><th>Product ID</th><th>Variation ID</th><th>Number</th><th>Adres_ID</th><th class='price-column'>Price</th></tr>";
+        echo "<tr><th>Order ID</th><th>Customer ID</th><th>Product ID</th><th>Variation ID</th><th>Quantity</th><th>Address ID</th><th class='price-column'>Price</th></tr>";
         while ($row = $result->fetch_assoc()) {
         
 
@@ -113,7 +113,7 @@ include 'functies/adminSideMenu.php';
         }
         echo "</table>";
     } else {
-        echo "No products found.";
+        echo "No orders found.";
     }
     $result->close();
     $mysqli->close(); // Close the MySQL connection

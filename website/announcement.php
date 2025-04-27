@@ -48,7 +48,7 @@
     // check if the user is logged in
     session_start();
     include 'functies/functies.php';
-    controleerAdmin();
+    controleerAdmin($mysqli);
     include 'functies/adminSideMenu.php';
 
 
@@ -101,7 +101,7 @@
             while ($row = $result->fetch_assoc()) {
             echo 
             '<form method="post" action="announcement.php">
-            <label for="announcement">Announcement text updaten:</label>
+            <label for="announcement">Update Announcement Text:</label>
             <textarea name="announcement" class="form-control" rows="10">' . $row['announcement'] . '</textarea><br>
             <input type="submit" name="submit" value="Update" class="btn btn-primary">
             <input type="submit" name="delete" value="Delete" class="btn btn-danger">

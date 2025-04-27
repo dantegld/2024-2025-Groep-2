@@ -124,19 +124,18 @@
     $sql = "SELECT * from tblvariatie,tblartikels,tblkleur where tblvariatie.artikel_id = tblartikels.artikel_id and tblvariatie.artikel_id = $artikel_id and tblvariatie.kleur_id = tblkleur.kleur_id group by tblvariatie.variatie_id";
     $result = $mysqli->query($sql);
     echo '<table border="1">';
-    echo '<tr><th>Variation ID</th><th>Article</th><th>Photo</th><th>Stock</th><th>Delete</th></tr>';
+    echo '<tr><th>Variation ID</th><th>Article</th><th>Stock</th><th>Delete</th></tr>';
     while ($row = $result->fetch_assoc()) {
         echo '<tr>';
         echo '<td>' . $row['variatie_id'] . '</td>';
         echo '<td>' . $row['artikelnaam'] . ' ' . $row['kleur'] . '</td>';
-        echo '<td><a class="btn btn-primary" href="fotos?artikel_id=' . $artikel_id . '&variatie_id='.$row['variatie_id']. '">Adjust Photo</td>';
         echo '<td><a class="btn btn-primary" href="stock?artikel_id=' . $artikel_id . '&variatie_id='.$row['variatie_id']. '">Manage Stock</td>';
         echo '<td><a href="delete_variant?artikel_id=' . $artikel_id . '&variatie_id='.$row['variatie_id']. '"><i class="fa fa-trash lg" aria-hidden="true"></i></td>';
         echo '</tr>';
     }
     echo '</table>';
-    $result->close(); // Close the result set
-    $mysqli->close(); // Close the MySQL connection
+    $result->close(); 
+    $mysqli->close(); 
     echo '<br>';
     echo '<br>';
     echo '<br>';

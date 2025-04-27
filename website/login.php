@@ -11,7 +11,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>Log-in</title>
+      <title>Log-In</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -51,10 +51,6 @@
     include 'config.php';
     
 
-    //NOG TE MAKEN: if the user is already logged in, redirect to the my profile page
-
-
-    
     if (isset($_POST["login"])) {
         $usernameOrEmail = $_POST["username"];
         $password = $_POST["password"];
@@ -82,15 +78,15 @@
     }
     
     echo' <form action="login" method="post">
-    <label>Username or Email</label>
+    <label>Username Or Email</label>
     <input type="username"  class="form-control" name="username" required><br>
     <label>Password</label>
     <input type="password"  class="form-control" name="password" required><br>
     <input class="btn btn-primary" type="submit" name="login"><br> <br>
     </form><br><br> ';
-    echo '<div class = "error"> The entered password or username is incorrect</div> <br>';
-    echo '<div>Dont have an account yet? <a href="register">Register</a></div><br>';
-    echo '<div>Forgot your password? <a href="reset_password">Forgot password?</a></div>';
+    echo '<div class = "error"> The Entered Password Or Username Is Incorrect</div> <br>';
+    echo '<div>Don\'t Have An Account Yet? <a href="register">Register</a></div><br>';
+    echo '<div>Forgot Your Password? <a href="reset_password">Forgot Password?</a></div>';
     
 
     
@@ -100,17 +96,17 @@
     
     else{
         if(isset($_GET['delete'])){
-            echo '<div class = "error"> Account deleted Succesfully</div>';
+            echo '<div class = "error"> Account Deleted Successfully</div>';
         }
         echo' <form action="login" method="post">
-        <label>Username or Email</label>
+        <label>Username Or Email</label>
         <input type="username"  class="form-control" name="username" required><br>
         <label>Password</label>
         <input type="password"  class="form-control" name="password" required><br>
         <input class="btn btn-primary" type="submit" name="login"><br><br>
         </form><br> <br>';
-        echo '<div>Dont have an account yet? <a href="register">Register</a></div> <br>';
-        echo '<div>Forgot your password? <a href="reset_password">Forgot password?</a></div>';
+        echo '<div>Don\'t Have An Account Yet? <a href="register">Register</a></div> <br>';
+        echo '<div>Forgot Your Password? <a href="reset_password">Forgot Password?</a></div>';
 
        
     }
@@ -146,7 +142,7 @@
 echo '
     <a href="' . $client->createAuthUrl() . '" class="google-signin-btn">
         <img src="https://www.svgrepo.com/show/303108/google-icon-logo.svg" alt="Google logo">
-        Sign in with Google
+        Sign In With Google
     </a>';
 ?>
 

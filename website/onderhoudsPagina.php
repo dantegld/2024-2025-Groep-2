@@ -9,7 +9,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>Website Onderhoud</title>
+      <title>Website Maintenance</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -38,8 +38,8 @@
    <link rel="icon" href="images/icon/favicon.png">
    </head>
 <body>
-    <div class="onderhoudsPagina">
-        <div class="onderhoudsPagina_text">
+    <div class="maintenancePage">
+        <div class="maintenancePage_text">
                 <i class="fa fa-cogs fa-5x" aria-hidden="true"></i><br><br>
                 <h1>The website is currently under maintenance</h1>
                 <p>We are currently maintaining the website.

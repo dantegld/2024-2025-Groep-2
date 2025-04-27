@@ -9,7 +9,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>Myshoes</title>
+      <title>View Reviews</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -48,7 +48,7 @@ if (!isset($_SESSION["klant_id"])) {
     exit();
 }
 
-// zien of artikel_id is geset	
+// Check if article_id is set
 if (!isset($_GET['artikel_id'])) {
     echo "No article specified.";
     exit();

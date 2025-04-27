@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <!-- site metas -->
-    <title>Loyalty program</title>
+    <title>Loyalty Program</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -33,7 +33,7 @@
     <!-- owl stylesheets -->
     <link href="https://fonts.googleapis.com/css?family=Great+Vibes|Poppins:400,700&display=swap&subset=latin-ext" rel="stylesheet">
     <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <link rel="stylesoeet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
     <link rel="icon" href="images/icon/favicon.png">
 </head>
@@ -41,7 +41,6 @@
 <body>
     <?php
     include 'connect.php';
-    // check if the user is logged in
     session_start();
     include 'functies/functies.php';
     controleerAdmin($mysqli);
@@ -50,12 +49,11 @@
     <div class="adminpage">
         <h3>Program Options</h3>
         <?php
-        //deactivet the one from the id that you get from $_GET
+        // Deactivate the one from the ID that you get from $_GET
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
             $sql = "UPDATE tblLoyaliteits SET active = 1 WHERE programa_id = " . $id . "";
             $mysqli->query($sql);
-
 
             $sql2 = 'SELECT * FROM tblLoyaliteits WHERE programa_id = ' . $id . '';
             $result = $mysqli->query($sql2);
@@ -65,13 +63,11 @@
             $mysqli->close(); // Close the MySQL connection
             header('Location: klantloyaliteitsprogramma');
         } else {
-            echo '<h4>Er is iets fout gegaan</h4>';
-            echo '<a href="klantloyaliteitsprogramma">Terug naar Program Options</a>';
+            echo '<h4>Something went wrong</h4>';
+            echo '<a href="klantloyaliteitsprogramma">Back to Program Options</a>';
             $mysqli->close(); // Close the MySQL connection
         }
         ?>
     </div>
-    <?php
-    ?>
-    </body>
+</body>
 </html>

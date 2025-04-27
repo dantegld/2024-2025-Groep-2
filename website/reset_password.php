@@ -47,19 +47,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['email'])) {
 
             $mail->setFrom('myshoes@zoobagogo.com', 'Myshoes');  
             $mail->addAddress($email);  
-            $mail->Subject = 'Wachtwoord Reset Verzoek';
-            $mail->Body    = 'Hallo, klik op de volgende link om je wachtwoord te resetten: ' . $reset_link;
+            $mail->Subject = 'Password Reset Request';
+            $mail->Body    = 'Hello, click the following link to reset your password: ' . $reset_link;
 
             
             $mail->send();
-            $message = 'Er is een resetlink naar je e-mail gestuurd. Controleer je inbox!';
+            $message = 'A reset link has been sent to your email. Check your inbox!';
             $message_class = 'success';
         } catch (Exception $e) {
-            $message = "Er is iets misgegaan bij het verzenden van de e-mail. Mailer Error: {$mail->ErrorInfo}";
+            $message = "Something went wrong while sending the email. Mailer Error: {$mail->ErrorInfo}";
             $message_class = 'error';
         }
     } else {
-        $message = "E-mailadres bestaat niet in ons systeem.";
+        $message = "Email address does not exist in our system.";
         $message_class = 'error';
     }
 
@@ -87,7 +87,7 @@ if (isset($_GET['token'])) {
 
                 // Controleer of de wachtwoorden overeenkomen
                 if ($password !== $confirm_password) {
-                    $message = "Wachtwoorden komen niet overeen!";
+                    $message = "Passwords do not match!";
                     $message_class = "error";
                 } else {
                     // Hash het nieuwe wachtwoord
@@ -100,7 +100,7 @@ if (isset($_GET['token'])) {
                     if ($stmt->execute()) {
                         // Zet de form op 'niet zichtbaar' omdat het wachtwoord succesvol is gereset
                         $form_visible = false; 
-                        $message = "Wachtwoord succesvol gereset! Je kunt nu inloggen.";
+                        $message = "Password successfully reset! You can now log in.";
                         $message_class = "success";
                         sleep(1);
                         header("Location: login");
@@ -134,20 +134,20 @@ if (isset($_GET['token'])) {
     
     ?>
     <form method="POST" action="">
-        <input type="email" name="email" placeholder="E-mailadres" required>
-        <input type="submit" value="Verstuur resetlink">
+        <input type="email" name="email" placeholder="Email address" required>
+        <input type="submit" value="Send reset link">
     </form>
 <?php
 
 } else {
     if ($result->num_rows === 0) {
-        echo "Ongeldige resetlink!";
+        echo "Invalid reset link!";
     } else {
         ?>
         <form method="POST" action="">
-            <input type="password" name="password" placeholder="Nieuw wachtwoord" required>
-            <input type="password" name="confirm_password" placeholder="Bevestig wachtwoord" required>
-            <input type="submit" value="Wachtwoord resetten">
+            <input type="password" name="password" placeholder="New password" required>
+            <input type="password" name="confirm_password" placeholder="Confirm password" required>
+            <input type="submit" value="Reset password">
         </form>
         <?php
     }

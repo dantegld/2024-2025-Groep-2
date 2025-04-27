@@ -45,7 +45,6 @@
 <body>
     <?php
     include 'connect.php';
-    // check if the user is logged in
     session_start();
     include 'functies/functies.php';
     controleerAdmin($mysqli);
@@ -68,8 +67,8 @@ $result = $mysqli->query($query);
 
 echo "<table border='1'>
 <tr>
-<th>Land</th>
-<th>Totaal</th>
+<th>Country</th>
+<th>Total</th>
 </tr>";
 
 while ($row = $result->fetch_assoc()) {
@@ -80,9 +79,6 @@ while ($row = $result->fetch_assoc()) {
 }
 
 echo "</table>";
-
-
-
 
 ?>
 </body>

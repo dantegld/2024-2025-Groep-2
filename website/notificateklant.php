@@ -45,7 +45,6 @@
 <body>
     <?php
     include 'connect.php';
-    // check if the user is logged in
     session_start();
     include 'functies/functies.php';
     controleerAdmin($mysqli);
@@ -56,7 +55,7 @@
     require 'vendor/autoload.php'; 
 
 
-    //send email to customer saying order will be arriving soon
+    // Send email to customer saying order will be arriving soon
     $sql = "SELECT * FROM tblklant WHERE klant_id = '$_SESSION[klant_id]'";
     $stmt = $mysqli->prepare($sql);
     $stmt->execute();
@@ -79,28 +78,28 @@
 
             $mail->setFrom('myshoes@zoobagogo.com', 'Myshoes');  
             $mail->addAddress($email);
-            $mail->Subject = 'Je bestelling komt eraan!';
-            $mail->Body    = "\n\n Hey, jouw bestelling is onderweg en zal binnenkort aankomen. Bedankt voor het winkelen bij My Shoes! Bestelling ID: " . $_GET['verkoop_id'];
+            $mail->Subject = 'Your order is on its way!';
+            $mail->Body    = "\n\n Hey, your order is on its way and will arrive soon. Thank you for shopping at My Shoes! Order ID: " . $_GET['verkoop_id'];
 
 
             $mail->send();
-            $message = 'Er is een mail naar de klants e-mail gestuurd!';
+            $message = 'An email has been sent to the customer\'s email address!';
             $message_class = 'success';
         } catch (Exception $e) {
-            $message = "Er is iets misgegaan bij het verzenden van de e-mail. Mailer Error: {$mail->ErrorInfo}";
+            $message = "Something went wrong while sending the email. Mailer Error: {$mail->ErrorInfo}";
             $message_class = 'error';
         }
     }
     
     
-    //echo $message with green background and white text
+    // Display the message with green background and white text
     echo '<div class="message ' . $message_class . '">' . $message . '</div>';
-    echo '<a href="admin.php" class="btn btn-primary">Terug naar Admin Pagina</a>';
+    echo '<a href="admin.php" class="btn btn-primary">Back to Admin Page</a>';
 
 
 
     $stmt->close();
-    $mysqli->close();// Close the MySQL connection
+    $mysqli->close(); // Close the MySQL connection
 
     ?>
 </body>

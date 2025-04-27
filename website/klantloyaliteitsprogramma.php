@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <!-- site metas -->
-    <title>Loyalty program</title>
+    <title>Loyalty Program</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -103,7 +103,6 @@
 
 <?php
     include 'connect.php';
-    // check if the user is logged in
     session_start();
     include 'functies/functies.php';
     controleerAdmin($mysqli);
@@ -112,16 +111,16 @@
 
 <div class="adminpageCenter">
         <br>
-        <h2>Loyalty program options</h2>
+        <h2>Loyalty Program Options</h2>
         <br>
             <?php
                 echo '
                 <table>
             <tr>
-                <th>Naam</th>
+                <th>Name</th>
                 <th>Active</th>
                 <th>Activate/Deactivate</th>
-                <th>Aantal</th>
+                <th>Amount</th>
             </tr>';
             
                 $sql = "SELECT * FROM tblLoyaliteits";
@@ -163,7 +162,6 @@
                     $stmt->execute();
                     $stmt->close();
                     echo '<div class="message success">Delivery option saved successfully.</div>';
-                    //refresh page
                     echo "<meta http-equiv='refresh' content='1'>";
                 }
                 $mysqli->close();

@@ -9,7 +9,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>Myshoes</title>
+      <title>Submit Review</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -40,15 +40,15 @@
 <?php
 include 'functies/functies.php';
 include 'connect.php';
-session_start(); // Start de sessie
+session_start(); // Start the session
 
-// Controleer of de gebruiker is ingelogd
+// Check if the user is logged in
 if (!isset($_SESSION["klant_id"])) {
     header("Location: login.php");
     exit();
 }
 
-// Als het formulier wordt ingediend
+// If the form is submitted
 if (isset($_POST['recensie_indienen'])) {
     $text = $_POST['text'];
     $rating = $_POST['rating'];
@@ -58,12 +58,12 @@ if (isset($_POST['recensie_indienen'])) {
     // Voeg de recensie toe via de functie
     recensieToevoegen($klant_id, $rating, $text, $artikel_id, $mysqli);
 
-    // Doorsturen naar een ander scherm (bijvoorbeeld recensies bekijken)
+    // Redirect to another page (e.g., view reviews)
     header("Location: recenciesBekijken.php?artikel_id=$artikel_id");
     exit();
 }
 
-// HTML-formulier weergeven (alleen als de gebruiker is ingelogd)
+// Display the HTML form (only if the user is logged in)
 if (isset($_SESSION["klant"])) {
     echo "<form action='recenciesToevoegen.php' method='post'>";
     echo "<textarea name='text' required placeholder='Write your review...'></textarea><br>";

@@ -8,7 +8,7 @@ onderhoudsModus($mysqli);
 controleerAdmin($mysqli);
 
 
-    //Klantenlijst weergeven
+    // Display Customer List
     $sql = "SELECT * FROM tblklant";
     $result = $conn->query($sql);
         
@@ -18,11 +18,11 @@ controleerAdmin($mysqli);
     if ($result->num_rows > 0) {
         echo "<table border='1'>
                 <tr>
-                    <th>Klant ID</th>
-                    <th>Klantnaam</th>
-                    <th>Wachtwoord</th>
-                    <th>Schoenmaat</th>
-                    <th>Gebruiker Type</th>
+                    <th>Customer ID</th>
+                    <th>Customer Name</th>
+                    <th>Password</th>
+                    <th>Shoe Size</th>
+                    <th>User Type</th>
                 </tr>";
         while($row = $result->fetch_assoc()) {
             echo "<tr>
@@ -38,10 +38,10 @@ controleerAdmin($mysqli);
         echo "0 results";
     }
 
-    // Toevoegen, bijwerken en verwijderen van klanten
+    // Add, Update, and Delete Customers
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-        //toevoegen
+        // Add
 
         if (isset($_POST['add'])) {
             $klantnaam = $_POST['klantnaam'];
@@ -53,7 +53,7 @@ controleerAdmin($mysqli);
 
         } 
 
-        //wijzigen
+        // Update
 
         elseif (isset($_POST['update'])) {
             $klant_id = $_POST['klant_id'];
@@ -65,7 +65,7 @@ controleerAdmin($mysqli);
             $conn->query($sql);
         }
 
-        //verwijderen
+        // Delete
 
         elseif (isset($_POST['delete'])) {
             $klant_id = $_POST['klant_id'];
@@ -75,27 +75,27 @@ controleerAdmin($mysqli);
     }
 
 
-    // Form voor wijzijgingen
+    // Form for Modifications
 
     echo '<form method="post" action="">
-            <h3>Klant toevoegen</h3>
-            Klantnaam: <input type="text" name="klantnaam"><br>
-            Wachtwoord: <input type="text" name="wachtwoord"><br>
-            Schoenmaat: <input type="text" name="schoenmaat"><br>
+            <h3>Add Customer</h3>
+            Customer Name: <input type="text" name="klantnaam"><br>
+            Password: <input type="text" name="wachtwoord"><br>
+            Shoe Size: <input type="text" name="schoenmaat"><br>
             Type: <input type="text" name="type"><br>
-            <input type="submit" name="add" value="Toevoegen"><br><br>
+            <input type="submit" name="add" value="Add"><br><br>
 
-            <h3>Klant bijwerken</h3>
-            Klant ID: <input type="text" name="klant_id"><br>
-            Klantnaam: <input type="text" name="klantnaam"><br>
-            Wachtwoord: <input type="text" name="wachtwoord"><br>
-            Schoenmaat: <input type="text" name="schoenmaat"><br>
+            <h3>Update Customer</h3>
+            Customer ID: <input type="text" name="klant_id"><br>
+            Customer Name: <input type="text" name="klantnaam"><br>
+            Password: <input type="text" name="wachtwoord"><br>
+            Shoe Size: <input type="text" name="schoenmaat"><br>
             Type: <input type="text" name="type"><br>
-            <input type="submit" name="update" value="Bijwerken"><br><br>
+            <input type="submit" name="update" value="Update"><br><br>
 
-            <h3>Klant verwijderen</h3>
-            Klant ID: <input type="text" name="klant_id"><br>
-            <input type="submit" name="delete" value="Verwijderen"><br><br>
+            <h3>Delete Customer</h3>
+            Customer ID: <input type="text" name="klant_id"><br>
+            <input type="submit" name="delete" value="Delete"><br><br>
           </form>';
 
 $conn->close();

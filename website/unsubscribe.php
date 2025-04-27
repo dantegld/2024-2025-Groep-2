@@ -7,14 +7,14 @@ if (isset($_GET['email'])) {
     $stmt = $mysqli->prepare($sql);
     $stmt->bind_param("s", $email);
     if ($stmt->execute()) {
-        echo "Je bent succesvol uitgeschreven van de e-mails.";
+        echo "You succesfully unsubscribed.";
     } else {
-        echo "Er is een probleem opgetreden bij het uitschrijven.";
+        echo "Something went wrong.";
     }
     $stmt->close();
     $mysqli->close(); // Close the MySQL connection
 } else {
-    echo "Geen e-mailadres opgegeven.";
+    echo "No email.";
     $mysqli->close(); // Close the MySQL connection
 }
 ?>

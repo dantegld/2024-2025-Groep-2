@@ -12,7 +12,7 @@ controleerAdmin($mysqli);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Page</title>
+    <title>Categories Management</title>
     <!-- basic -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -79,7 +79,7 @@ include 'functies/adminSideMenu.php';
         }
         if(isset($_GET["addID"])){
             echo '<form action="categories" method="post">
-            <input type="text" name="categorie" placeholder="categorie">
+            <input type="text" name="categorie" placeholder="category">
             <input type="submit" name="submitadd" value="Add">
             </form>';
         }
@@ -113,8 +113,8 @@ include 'functies/adminSideMenu.php';
             echo '<table class="adminTable">
             <thead>
                 <tr>
-                    <th scope="col">Categorie ID</th>
-                    <th scope="col">Categorie</th>
+                    <th scope="col">Category ID</th>
+                    <th scope="col">Category</th>
                     <th scope="col">Edit</th>
                     <th scope="col">Delete</th>
                 </tr>
@@ -130,7 +130,7 @@ include 'functies/adminSideMenu.php';
             }
             echo '</tbody>
             </table>';
-            echo '<a href="categories?addID=' . true .'">add new categorie</a>';
+            echo '<a href="categories?addID=' . true .'">Add new category</a>';
         }
         $mysqli->close();
         ?>
