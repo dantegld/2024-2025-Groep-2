@@ -7,7 +7,7 @@ if (!isset($_SESSION['klant_id'])) {
     $error_message = "You need to log in to view your orders.";
 } else {
     $klant_id = $_SESSION['klant_id'];
-    $orders = getBestellingenKlant($klant_id);
+    $orders = getBestellingenKlant($klant_id, $mysqli);
 }
 ?>
 <!DOCTYPE html>

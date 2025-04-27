@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $rating = $_POST['rating'];
     $text = $_POST['text'];
 
-    addWebsiteReview($klant_id, $rating, $text);
+    addWebsiteReview($klant_id, $rating, $text, $mysqli);
     header("Location: index.php?review_submitted=true");
     exit();
 } else {

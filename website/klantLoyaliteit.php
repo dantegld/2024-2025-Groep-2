@@ -2,7 +2,7 @@
 include 'connect.php';
 session_start();
 include 'functies/functies.php';
-controleerAdmin();
+controleerAdmin($mysqli);
 
 // Handle loyalty points update
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_points'])) {

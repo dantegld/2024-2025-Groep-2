@@ -84,7 +84,7 @@
 include 'connect.php';
 session_start();
 include 'functies/functies.php';
-controleerAdmin();
+controleerAdmin($mysqli);
 include 'functies/adminSideMenu.php';
 ?>
 <div class="adminpage1">

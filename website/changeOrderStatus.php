@@ -10,11 +10,11 @@ if (!isset($_SESSION['type']) || $_SESSION['type'] != 'admin') {
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['order_id']) && isset($_POST['new_status'])) {
     $order_id = $_POST['order_id'];
     $new_status = $_POST['new_status'];
-    updateOrderStatus($order_id, $new_status);
+    updateOrderStatus($order_id, $new_status, $mysqli);
     $message = "Order status updated successfully.";
 }
 
-$orders = getAllOrders();
+$orders = getAllOrders($mysqli);
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -76,7 +76,7 @@
 session_start();
 include 'connect.php';
 include 'functies/functies.php';
-controleerAdmin();
+controleerAdmin($mysqli);
 include 'functies/adminSideMenu.php';
 
 // Get the admin's username from your helper function:

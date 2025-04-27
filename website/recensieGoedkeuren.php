@@ -41,18 +41,18 @@
 include 'functies/functies.php';
 include 'connect.php';
 session_start();
-controleerAdmin();
+controleerAdmin($mysqli);
 
 if (isset($_GET['approve'])) {
   $recensie_id = intval($_GET['approve']);
-  recensieGoedkeuren($recensie_id);
+  recensieGoedkeuren($recensie_id, $mysqli);
   header("Location: recensieGoedkeuren.php");
   exit();
 }
 
 if (isset($_GET['delete'])) {
   $recensie_id = intval($_GET['delete']);
-  recensieVerwijderen($recensie_id);
+  recensieVerwijderen($recensie_id, $mysqli);
   header("Location: recensieGoedkeuren.php");
   exit();
 }

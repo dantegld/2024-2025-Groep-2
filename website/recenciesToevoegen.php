@@ -56,7 +56,7 @@ if (isset($_POST['recensie_indienen'])) {
     $artikel_id = intval($_POST['artikel_id']);
 
     // Voeg de recensie toe via de functie
-    recensieToevoegen($klant_id, $rating, $text, $artikel_id);
+    recensieToevoegen($klant_id, $rating, $text, $artikel_id, $mysqli);
 
     // Doorsturen naar een ander scherm (bijvoorbeeld recensies bekijken)
     header("Location: recenciesBekijken.php?artikel_id=$artikel_id");

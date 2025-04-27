@@ -88,8 +88,8 @@
     include 'connect.php';
     session_start();
     include 'functies/functies.php';
-    controleerKlant();
-    onderhoudsModus();
+    controleerKlant($mysqli);
+    onderhoudsModus($mysqli);
 
     ?>
 

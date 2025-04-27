@@ -24,12 +24,12 @@
     include 'connect.php';
     session_start();
     include 'functies/functies.php';
-    controleerAdmin();
+    controleerAdmin($mysqli);
 
     // Handle invoice closing
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['close_invoice'])) {
         $factuur_id = $_POST['factuur_id'];
-        sluitFactuur($factuur_id);
+        sluitFactuur($factuur_id, $mysqli);
         header("Location: openstaandeFacturen.php"); // Refresh the page to show updated status
         exit();
     }

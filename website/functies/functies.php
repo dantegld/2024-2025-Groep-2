@@ -2,9 +2,8 @@
 
 // Functies van de website
 // Functie om de onderhoudsmodus te controleren
-function onderhoudsModus()
+function onderhoudsModus($mysqli)
 {
-   include 'connect.php';
 
    $sql = "SELECT functiewaarde FROM tbladmin where functienaam = 'onderhoudmodus'";
    $result = $mysqli->query($sql);
@@ -23,9 +22,8 @@ function onderhoudsModus()
 }
 
 // Functie om de gebruiker te controleren
-function controleerKlant()
+function controleerKlant($mysqli)
 {
-   include 'connect.php';
    $sql = "SELECT k.type_id ,t.type_id,t.type FROM tblklant k,tbltypes t WHERE klant_id = ?  and k.type_id = t.type_id";
    $stmt = $mysqli->prepare($sql);
    $stmt->bind_param("i", $_SESSION['klant_id']);
@@ -40,10 +38,8 @@ function controleerKlant()
    }
 }
 
-function controleerAdmin()
+function controleerAdmin($mysqli)
 {
-
-   include 'connect.php';
    $sql = "SELECT k.type_id ,t.type_id,t.type FROM tblklant k,tbltypes t WHERE klant_id = ?  and k.type_id = t.type_id";
    $stmt = $mysqli->prepare($sql);
    $stmt->bind_param("i", $_SESSION['klant_id']);
@@ -64,10 +60,9 @@ function controleerAdmin()
    }
 }
 
-function type()
+function type($mysqli)
 {
-
-   include 'connect.php';
+   session_start();
    $sql = "SELECT k.type_id ,t.type_id,t.type FROM tblklant k,tbltypes t WHERE klant_id = ?  and k.type_id = t.type_id";
    $stmt = $mysqli->prepare($sql);
    $stmt->bind_param("i", $_SESSION['klant_id']);
@@ -154,9 +149,8 @@ function processPayPalPayment($amount)
 
 // Functie om de Stripe betaling te verwerken
 
-function processStripePayment($amount)
+function processStripePayment($amount, $mysqli)
 {
-   include 'connect.php';
    session_start();
    $_SESSION['betaalmethode'] = "Stripe";
    require_once('stripe-php/init.php');
@@ -236,10 +230,8 @@ function processStripePayment($amount)
 //    }
 // }
 
-function socialmedia()
+function socialmedia($mysqli)
 {
-   include 'connect.php';
-
    $sql = "SELECT * FROM tblsocialmedia WHERE beschikbaar = 1";
    if ($stmt = $mysqli->prepare($sql)) {
       $stmt->execute();
@@ -260,11 +252,8 @@ function socialmedia()
 }
 
 // Functie om aankondigingen te tonen
-function announcement()
+function announcement($mysqli)
 {
-   // Verbind met de database
-   include 'connect.php';
-
    // Haal alle aankondigingen op uit de database
    $sql = "SELECT * FROM tblannouncement WHERE announcement_id = 1";
    $result = $mysqli->query($sql);
@@ -359,10 +348,8 @@ function announcement()
 // Sluit de databaseverbinding
 
 // Functie om een recensie goed te keuren
-function recensieGoedkeuren($recensie_id)
+function recensieGoedkeuren($recensie_id, $mysqli)
 {
-   include 'connect.php'; // Zorg dat connect.php de $mysqli variabele bevat
-   global $mysqli;
 
    // Update-query om een recensie goed te keuren
    $sql = "UPDATE tblrecensies SET goedGekeurd = 1 WHERE recensie_id = ?";
@@ -383,11 +370,8 @@ function recensieGoedkeuren($recensie_id)
 }
 
 // Functie om een recensie te verwijderen
-function recensieVerwijderen($recensie_id)
+function recensieVerwijderen($recensie_id, $mysqli)
 {
-   include 'connect.php'; // Zorg dat connect.php de $mysqli variabele bevat
-   global $mysqli;
-
    // Delete-query om een recensie te verwijderen
    $sql = "DELETE FROM tblrecensies WHERE recensie_id = ?";
    $stmt = $mysqli->prepare($sql);
@@ -407,10 +391,8 @@ function recensieVerwijderen($recensie_id)
 }
 
 // Functie om een recensie toe te voegen
-function recensieToevoegen($klant_id, $rating, $text, $artikel_id)
+function recensieToevoegen($klant_id, $rating, $text, $artikel_id, $mysqli)
 {
-   include 'connect.php'; // Zorg dat $mysqli beschikbaar is
-   global $mysqli;
 
    // De SQL-query aanpassen aan de bestaande kolommen
    $sql = "INSERT INTO tblrecensies (klant_id, rating, text, goedGekeurd, artikel_id) VALUES (?, ?, ?, 0, ?)";
@@ -431,9 +413,9 @@ function recensieToevoegen($klant_id, $rating, $text, $artikel_id)
 }
 
 // Functie om een website recensie toe te voegen
-function addWebsiteReview($klant_id, $rating, $text)
+function addWebsiteReview($klant_id, $rating, $text, $mysqli)
 {
-   include 'connect.php';
+
    $sql = "INSERT INTO tblwebsitefeedback (klant_id, rating, text) VALUES (?, ?, ?)";
    $stmt = $mysqli->prepare($sql);
 
@@ -451,9 +433,8 @@ function addWebsiteReview($klant_id, $rating, $text)
    $mysqli->close();
 }
 
-function getStockStatus($artikel_id)
+function getStockStatus($artikel_id, $mysqli)
 {
-   include 'connect.php';
    $sql = "SELECT stock FROM tblstock WHERE artikel_id = ?";
    $stmt = $mysqli->prepare($sql);
    $stmt->bind_param("i", $artikel_id);
@@ -468,9 +449,8 @@ function getStockStatus($artikel_id)
    return $row['stock'] > 0 ? 'In Stock' : 'Out of Stock';
 }
 
-function getSchoenenVergelijking($schoen1, $schoen2)
+function getSchoenenVergelijking($schoen1, $schoen2, $mysqli)
 {
-   include 'connect.php';
    $sql = "SELECT * FROM tblartikels WHERE artikel_id IN (?, ?)";
    $stmt = $mysqli->prepare($sql);
    $stmt->bind_param("ii", $schoen1, $schoen2);
@@ -486,9 +466,8 @@ function getSchoenenVergelijking($schoen1, $schoen2)
 }
 
 
-function getMerkNaam($merk_id)
+function getMerkNaam($merk_id, $mysqli)
 {
-   include 'connect.php';
    $sql = "SELECT merknaam FROM tblmerk WHERE merk_id = ?";
    $stmt = $mysqli->prepare($sql);
    $stmt->bind_param("i", $merk_id);
@@ -500,9 +479,8 @@ function getMerkNaam($merk_id)
    return $row ? $row['merknaam'] : 'unknown';
 }
 
-function getCategorieNaam($categorie_id)
+function getCategorieNaam($categorie_id, $mysqli)
 {
-   include 'connect.php';
    $sql = "SELECT categorienaam FROM tblcategorie WHERE categorie_id = ?";
    $stmt = $mysqli->prepare($sql);
    $stmt->bind_param("i", $categorie_id);
@@ -515,9 +493,8 @@ function getCategorieNaam($categorie_id)
 }
 
 
-function stockCheck()
+function stockCheck($mysqli)
 {
-   include 'connect.php';
    //list of wich stock id is below 2
    $sql = "SELECT * FROM tblstock WHERE stock < 2";
    $result = $mysqli->query($sql);
@@ -553,8 +530,7 @@ function stockCheck()
 
 
 
-function getBestellingStatus($bestelling_id) {
-   include 'connect.php';
+function getBestellingStatus($bestelling_id, $mysqli) {
    $sql = "SELECT status FROM tblbestellingen WHERE bestelling_id = ?";
    $stmt = $mysqli->prepare($sql);
    $stmt->bind_param("i", $bestelling_id);
@@ -566,8 +542,7 @@ function getBestellingStatus($bestelling_id) {
    return $row ? $row['status'] : 'Unknown';
 }
 
-function updateBestellingStatus($verkoop_id, $nieuw_status) {
-   include 'connect.php';
+function updateBestellingStatus($verkoop_id, $nieuw_status, $mysqli) {
    $sql = "UPDATE tblaankoop SET status = ? WHERE verkoop_id = ?";
    $stmt = $mysqli->prepare($sql);
    $stmt->bind_param("si", $nieuw_status, $verkoop_id);
@@ -576,8 +551,8 @@ function updateBestellingStatus($verkoop_id, $nieuw_status) {
    $mysqli->close();
 }
 
-function getAlleBestellingen() {
-   include 'connect.php';
+function getAlleBestellingen($mysqli) {
+
     $sql = "SELECT verkoop_id AS bestelling_id, klant_id, status FROM tblaankoop";
     $result = $mysqli->query($sql);
     $bestellingen = [];
@@ -602,9 +577,7 @@ function getUsername($klant_id, $mysqli)
 }
 
 
-function generererMaandelijksRapport($maand, $jaar) {
-   include 'connect.php';
-   
+function generererMaandelijksRapport($maand, $jaar, $mysqli) {
    // Fetch costs from tblaankoop
    $sqlCostAankoop = "SELECT verkoop_id, totaalbedrag AS cost, ontvangstdatum, status FROM tblaankoop 
                       WHERE status = 'closed' 
@@ -669,8 +642,7 @@ function generererMaandelijksRapport($maand, $jaar) {
    ];
 }
 
-function genereerJaarliksRapport($jaar) {
-   include 'connect.php';
+function genereerJaarliksRapport($jaar, $mysqli) {
    
    // Fetch costs from tblaankoop
    $sqlCostAankoop = "SELECT verkoop_id, klant_id, totaalbedrag AS cost, ontvangstdatum, status FROM tblaankoop 
@@ -735,8 +707,7 @@ function genereerJaarliksRapport($jaar) {
    ];
 }
 
-function getLeveringsDatum($bestelling_id) {
-   include 'connect.php';
+function getLeveringsDatum($bestelling_id, $mysqli) {
    $sql = "SELECT leveringsdatum FROM tblbestellingen WHERE bestelling_id = ?";
    $stmt = $mysqli->prepare($sql);
    $stmt->bind_param("i", $bestelling_id);
@@ -748,8 +719,7 @@ function getLeveringsDatum($bestelling_id) {
    return $row ? $row['leveringsdatum'] : 'Unknown';
 }
 
-function getBestellingstijd($bestelling_id) {
-   include 'connect.php';
+function getBestellingstijd($bestelling_id, $mysqli) {
    $sql = "SELECT bestellingstijd FROM tblbestellingen WHERE bestelling_id = ?";
    $stmt = $mysqli->prepare($sql);
    $stmt->bind_param("i", $bestelling_id);
@@ -761,8 +731,8 @@ function getBestellingstijd($bestelling_id) {
    return $row ? $row['bestellingstijd'] : 'Unknown';
 }
 
-function getAlleFacturen() {
-   include 'connect.php';
+function getAlleFacturen($mysqli) {
+
    $sql = "SELECT * FROM tblfacturen";
    $resultaat = $mysqli->query($sql);
    $facturen = [];
@@ -773,8 +743,7 @@ function getAlleFacturen() {
    return $facturen;
 }
 
-function getAllOrdersByCustomer($klant_id) {
-   include 'connect.php';
+function getAllOrdersByCustomer($klant_id, $mysqli) {
    $sql = "SELECT bestelling_id, status, bestellingstijd, leveringsdatum 
            FROM tblbestellingen 
            WHERE klant_id = ? AND status != 'delivered' 
@@ -804,8 +773,8 @@ function berekenKlantLevenswaarde($klant_id) {
    return $row['total_spent'];
 }
 
-function sluitFactuur($factuur_id) {
-   include 'connect.php';
+function sluitFactuur($factuur_id, $mysqli) {
+
    $sql = "UPDATE tblfacturen SET status = 'closed' WHERE factuur_id = ?";
    $stmt = $mysqli->prepare($sql);
    $stmt->bind_param("i", $factuur_id);
@@ -814,8 +783,8 @@ function sluitFactuur($factuur_id) {
    $mysqli->close();
 }
 
-function getBestellingenKlant($klant_id) {
-   include 'connect.php';
+function getBestellingenKlant($klant_id, $mysqli) {
+
    $sql = "SELECT verkoop_id AS bestelling_id, status, ontvangstdatum AS leveringsdatum 
            FROM tblaankoop 
            WHERE klant_id = ? AND status != 'afgeleverd' 

@@ -2,7 +2,7 @@
 include 'connect.php';
 session_start();
 include 'functies/functies.php';
-controleerAdmin();
+controleerAdmin($mysqli);
 
 if(isset($_POST["submit"])){
     $image1 = $_FILES['image1'];

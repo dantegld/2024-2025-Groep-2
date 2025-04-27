@@ -121,7 +121,7 @@
 include 'connect.php';
 session_start();
 include 'functies/functies.php';
-controleerAdmin();
+controleerAdmin($mysqli);
 include 'functies/adminSideMenu.php';
 ?>
 <div class="adminpage1">
@@ -243,7 +243,7 @@ include 'functies/adminSideMenu.php';
         echo "No products found.";
     }
     require_once 'functies/functies.php';
-    stockCheck();
+    stockCheck($mysqli);
 
     $result->close();
     $mysqli->close(); // Close the MySQL connection

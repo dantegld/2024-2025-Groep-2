@@ -4,8 +4,8 @@ session_start();
 
 //checkpoint voor onderhoudsmodus
 include 'functies/functies.php';
-onderhoudsModus();
-controleerAdmin();
+onderhoudsModus($mysqli);
+controleerAdmin($mysqli);
 
 
     //Klantenlijst weergeven

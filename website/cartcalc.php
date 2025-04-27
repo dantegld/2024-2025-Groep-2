@@ -2,7 +2,7 @@
 include 'connect.php';
 session_start();
 include 'functies/functies.php';
-controleerKlant();
+controleerKlant($mysqli);
 
 if (!isset($_GET["id"])) {
     header("Location: index.php");

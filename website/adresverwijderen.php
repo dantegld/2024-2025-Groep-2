@@ -2,8 +2,8 @@
 include 'connect.php';
 session_start();
 include 'functies/functies.php';
-controleerKlant();
-onderhoudsModus();
+controleerKlant($mysqli);
+onderhoudsModus($mysqli);
 $klant_id = $_SESSION['klant_id'];
 if (isset($_GET['adres_id'])) {
     $id = $_GET['adres_id'];

@@ -2,7 +2,7 @@
     include 'connect.php';    
     session_start();
     include 'functies/functies.php';
-    controleerAdmin();
+    controleerAdmin($mysqli);
 
     $artikel_id = $_GET['artikel_id'];
     $variatie_id = $_GET['variatie_id'];
