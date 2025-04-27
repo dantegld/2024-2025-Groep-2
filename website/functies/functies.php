@@ -553,12 +553,11 @@ function stockCheck()
 
 
 
-function getOrderStatus($order_id)
-{
+function getBestellingStatus($bestelling_id) {
    include 'connect.php';
-   $sql = "SELECT status FROM tblorders WHERE order_id = ?";
+   $sql = "SELECT status FROM tblbestellingen WHERE bestelling_id = ?";
    $stmt = $mysqli->prepare($sql);
-   $stmt->bind_param("i", $order_id);
+   $stmt->bind_param("i", $bestelling_id);
    $stmt->execute();
    $result = $stmt->get_result();
    $row = $result->fetch_assoc();
@@ -567,28 +566,26 @@ function getOrderStatus($order_id)
    return $row ? $row['status'] : 'Unknown';
 }
 
-function updateOrderStatus($order_id, $new_status)
-{
+function updateBestellingStatus($verkoop_id, $nieuw_status) {
    include 'connect.php';
-   $sql = "UPDATE tblorders SET status = ? WHERE order_id = ?";
+   $sql = "UPDATE tblaankoop SET status = ? WHERE verkoop_id = ?";
    $stmt = $mysqli->prepare($sql);
-   $stmt->bind_param("si", $new_status, $order_id);
+   $stmt->bind_param("si", $nieuw_status, $verkoop_id);
    $stmt->execute();
    $stmt->close();
    $mysqli->close();
 }
 
-function getAllOrders()
-{
+function getAlleBestellingen() {
    include 'connect.php';
-   $sql = "SELECT * FROM tblorders";
-   $result = $mysqli->query($sql);
-   $orders = [];
-   while ($row = $result->fetch_assoc()) {
-      $orders[] = $row;
-   }
-   $mysqli->close();
-   return $orders;
+    $sql = "SELECT verkoop_id AS bestelling_id, klant_id, status FROM tblaankoop";
+    $result = $mysqli->query($sql);
+    $bestellingen = [];
+    while ($row = $result->fetch_assoc()) {
+        $bestellingen[] = $row;
+    }
+    $mysqli->close();
+    return $bestellingen;
 }
 
 function getUsername($klant_id, $mysqli)
@@ -605,4 +602,231 @@ function getUsername($klant_id, $mysqli)
 }
 
 
+function generererMaandelijksRapport($maand, $jaar) {
+   include 'connect.php';
+   
+   // Fetch costs from tblaankoop
+   $sqlCostAankoop = "SELECT verkoop_id, totaalbedrag AS cost, ontvangstdatum, status FROM tblaankoop 
+                      WHERE status = 'closed' 
+                      AND MONTH(ontvangstdatum) = ? AND YEAR(ontvangstdatum) = ?";
+   $stmtCostAankoop = $mysqli->prepare($sqlCostAankoop);
+   $stmtCostAankoop->bind_param("ii", $maand, $jaar);
+   $stmtCostAankoop->execute();
+   $resultCostAankoop = $stmtCostAankoop->get_result();
+   $totalCost = 0;
+   $costDetails = [];
+   while ($row = $resultCostAankoop->fetch_assoc()) {
+       $totalCost += $row['cost'];
+       $costDetails[] = $row;
+   }
+
+   // Fetch costs and revenues from tblfacturen (only closed invoices)
+   $sqlFacturen = "SELECT factuur_id, bedrag, vervaldatum, status FROM tblfacturen 
+                   WHERE status = 'closed' 
+                   AND MONTH(vervaldatum) = ? AND YEAR(vervaldatum) = ?";
+   $stmtFacturen = $mysqli->prepare($sqlFacturen);
+   $stmtFacturen->bind_param("ii", $maand, $jaar);
+   $stmtFacturen->execute();
+   $resultFacturen = $stmtFacturen->get_result();
+   $totalRevenue = 0;
+   $revenueDetails = [];
+   while ($row = $resultFacturen->fetch_assoc()) {
+       if ($row['bedrag'] < 0) {
+           $totalCost += abs($row['bedrag']); // Add absolute value of negative costs
+           $costDetails[] = $row;
+           $totalRevenue += abs($row['bedrag']); // Add negative values to revenue as positive
+       } else {
+           $totalRevenue += $row['bedrag']; // Add positive values to revenues
+           $revenueDetails[] = $row;
+       }
+   }
+
+   // Fetch revenues from tblaankoop
+   $sqlRevenue = "SELECT klant_id, SUM(totaalbedrag) AS revenue FROM tblaankoop 
+                  WHERE MONTH(ontvangstdatum) = ? AND YEAR(ontvangstdatum) = ?
+                  GROUP BY klant_id";
+   $stmtRevenue = $mysqli->prepare($sqlRevenue);
+   $stmtRevenue->bind_param("ii", $maand, $jaar);
+   $stmtRevenue->execute();
+   $resultRevenue = $stmtRevenue->get_result();
+   while ($row = $resultRevenue->fetch_assoc()) {
+       $totalRevenue += $row['revenue'];
+       $revenueDetails[] = $row;
+   }
+   
+   $profit = $totalRevenue - $totalCost;
+   
+   $stmtCostAankoop->close();
+   $stmtFacturen->close();
+   $stmtRevenue->close();
+   $mysqli->close();
+   
+   return [
+       'report' => array_merge($costDetails, $revenueDetails),
+       'totalRevenue' => $totalRevenue,
+       'totalCost' => $totalCost,
+       'profit' => $profit
+   ];
+}
+
+function genereerJaarliksRapport($jaar) {
+   include 'connect.php';
+   
+   // Fetch costs from tblaankoop
+   $sqlCostAankoop = "SELECT verkoop_id, klant_id, totaalbedrag AS cost, ontvangstdatum, status FROM tblaankoop 
+                      WHERE status = 'closed' AND YEAR(ontvangstdatum) = ?";
+   $stmtCostAankoop = $mysqli->prepare($sqlCostAankoop);
+   $stmtCostAankoop->bind_param("i", $jaar);
+   $stmtCostAankoop->execute();
+   $resultCostAankoop = $stmtCostAankoop->get_result();
+   $totalCost = 0;
+   $costDetails = [];
+   while ($row = $resultCostAankoop->fetch_assoc()) {
+       $totalCost += $row['cost'];
+       $costDetails[] = $row;
+   }
+
+   // Fetch costs and revenues from tblfacturen (only closed invoices)
+   $sqlFacturen = "SELECT factuur_id, bedrag, vervaldatum, status FROM tblfacturen 
+                   WHERE status = 'closed' 
+                   AND YEAR(vervaldatum) = ?";
+   $stmtFacturen = $mysqli->prepare($sqlFacturen);
+   $stmtFacturen->bind_param("i", $jaar);
+   $stmtFacturen->execute();
+   $resultFacturen = $stmtFacturen->get_result();
+   $totalRevenue = 0;
+   $revenueDetails = [];
+   while ($row = $resultFacturen->fetch_assoc()) {
+       if ($row['bedrag'] < 0) {
+           $totalCost += abs($row['bedrag']); // Add absolute value of negative costs
+           $costDetails[] = $row;
+           $totalRevenue += abs($row['bedrag']); // Add negative values to revenue as positive
+       } else {
+           $totalRevenue += $row['bedrag']; // Add positive values to revenues
+           $revenueDetails[] = $row;
+       }
+   }
+
+   // Fetch revenues from tblaankoop
+   $sqlRevenue = "SELECT klant_id, SUM(totaalbedrag) AS revenue FROM tblaankoop 
+                  WHERE YEAR(ontvangstdatum) = ?
+                  GROUP BY klant_id";
+   $stmtRevenue = $mysqli->prepare($sqlRevenue);
+   $stmtRevenue->bind_param("i", $jaar);
+   $stmtRevenue->execute();
+   $resultRevenue = $stmtRevenue->get_result();
+   while ($row = $resultRevenue->fetch_assoc()) {
+       $totalRevenue += $row['revenue'];
+       $revenueDetails[] = $row;
+   }
+   
+   $profit = $totalRevenue - $totalCost;
+   
+   $stmtCostAankoop->close();
+   $stmtFacturen->close();
+   $stmtRevenue->close();
+   $mysqli->close();
+   
+   return [
+       'report' => array_merge($costDetails, $revenueDetails),
+       'totalRevenue' => $totalRevenue,
+       'totalCost' => $totalCost,
+       'profit' => $profit
+   ];
+}
+
+function getLeveringsDatum($bestelling_id) {
+   include 'connect.php';
+   $sql = "SELECT leveringsdatum FROM tblbestellingen WHERE bestelling_id = ?";
+   $stmt = $mysqli->prepare($sql);
+   $stmt->bind_param("i", $bestelling_id);
+   $stmt->execute();
+   $result = $stmt->get_result();
+   $row = $result->fetch_assoc();
+   $stmt->close();
+   $mysqli->close();
+   return $row ? $row['leveringsdatum'] : 'Unknown';
+}
+
+function getBestellingstijd($bestelling_id) {
+   include 'connect.php';
+   $sql = "SELECT bestellingstijd FROM tblbestellingen WHERE bestelling_id = ?";
+   $stmt = $mysqli->prepare($sql);
+   $stmt->bind_param("i", $bestelling_id);
+   $stmt->execute();
+   $result = $stmt->get_result();
+   $row = $result->fetch_assoc();
+   $stmt->close();
+   $mysqli->close();
+   return $row ? $row['bestellingstijd'] : 'Unknown';
+}
+
+function getAlleFacturen() {
+   include 'connect.php';
+   $sql = "SELECT * FROM tblfacturen";
+   $resultaat = $mysqli->query($sql);
+   $facturen = [];
+   while ($row = $resultaat->fetch_assoc()) {
+       $facturen[] = $row;
+   }
+   $mysqli->close();
+   return $facturen;
+}
+
+function getAllOrdersByCustomer($klant_id) {
+   include 'connect.php';
+   $sql = "SELECT bestelling_id, status, bestellingstijd, leveringsdatum 
+           FROM tblbestellingen 
+           WHERE klant_id = ? AND status != 'delivered' 
+           ORDER BY bestellingstijd DESC";
+   $stmt = $mysqli->prepare($sql);
+   $stmt->bind_param("i", $klant_id);
+   $stmt->execute();
+   $result = $stmt->get_result();
+   $orders = [];
+   while ($row = $result->fetch_assoc()) {
+       $orders[] = $row;
+   }
+   $stmt->close();
+   $mysqli->close();
+   return $orders;
+}
+
+function berekenKlantLevenswaarde($klant_id) {
+   include 'connect.php';
+   $sql = "SELECT SUM(totaalbedrag) AS total_spent FROM tblaankoop WHERE klant_id = ?";
+   $stmt = $mysqli->prepare($sql);
+   $stmt->bind_param("i", $klant_id);
+   $stmt->execute();
+   $result = $stmt->get_result();
+   $row = $result->fetch_assoc();
+   $stmt->close();
+   return $row['total_spent'];
+}
+
+function sluitFactuur($factuur_id) {
+   include 'connect.php';
+   $sql = "UPDATE tblfacturen SET status = 'closed' WHERE factuur_id = ?";
+   $stmt = $mysqli->prepare($sql);
+   $stmt->bind_param("i", $factuur_id);
+   $stmt->execute();
+   $stmt->close();
+   $mysqli->close();
+}
+
+function getBestellingenKlant($klant_id) {
+   include 'connect.php';
+   $sql = "SELECT verkoop_id AS bestelling_id, status, ontvangstdatum AS leveringsdatum 
+           FROM tblaankoop 
+           WHERE klant_id = ? AND status != 'afgeleverd' 
+           ORDER BY ontvangstdatum DESC";
+   $stmt = $mysqli->prepare($sql);
+   $stmt->bind_param("i", $klant_id);
+   $stmt->execute();
+   $result = $stmt->get_result();
+   $orders = $result->fetch_all(MYSQLI_ASSOC);
+   $stmt->close();
+   $mysqli->close();
+   return $orders;
+}
 ?>
