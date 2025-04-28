@@ -265,6 +265,13 @@
                                     <i class="fa fa-user" aria-hidden="true"></i>
                                     <span class="padding_5">My Profile</span></a>
                                     </li>';
+
+                              echo '<li><a href="trackBestellingen">
+                                    <i class="fa fa-truck" aria-hidden="true"></i>
+                                    <span class="padding_5">Track Order</span></a>
+                                    </li>';
+
+                              
                            }else{
                               echo '<li><a href="login">
                               <i class="fa fa-user" aria-hidden="true"></i>
